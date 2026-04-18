@@ -2441,6 +2441,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
                       <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
                     </div>
                     <div id="missionStreak" class="text-[11px] font-bold text-orange-400 mt-1" aria-live="polite" aria-atomic="true">0 Day Streak</div>
+                    <div id="streakMultiplier" class="text-[9px] font-bold text-amber-300 mt-0.5 hidden"></div>
                   </div>
                 </div>
 
@@ -2451,6 +2452,26 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
                 <button id="logDateBtn" class="w-full text-xs font-semibold py-3 px-3 rounded-xl border border-brand-500/40 bg-brand-500/15 text-brand-400 hover:bg-brand-500/25 transition flex items-center justify-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                   Log tonight's date <span class="opacity-50 font-normal" data-i18n="gamify_log_date_xp">(+50 XP)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Daily Challenge Card -->
+            <div id="dailyChallengeCard" class="hidden lg:block rounded-[32px] p-5 border border-amber-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.4s;">
+              <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-amber-500/10 blur-3xl pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="text-[10px] uppercase tracking-widest font-bold text-amber-400" data-i18n="daily_challenge_title">Daily Challenge</div>
+                  <span id="challengeIcon" class="text-xl">🎨</span>
+                </div>
+                <p id="challengeText" class="text-sm text-white font-medium mb-3" data-i18n="challenge_color_new">Try a new color today</p>
+                <div class="flex items-center gap-2">
+                  <span id="challengeReward" class="text-[10px] text-amber-300 bg-amber-500/10 px-2 py-1 rounded-md font-bold" data-i18n="challenge_reward">+3 PTS +25 XP</span>
+                  <div id="challengeStatus" class="flex-1"></div>
+                </div>
+                <button id="challengeShieldBtn" class="mt-3 w-full text-xs font-semibold py-2.5 px-3 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 transition flex items-center justify-center gap-2 hidden">
+                  <span>🛡️</span>
+                  <span data-i18n="streak_shield_btn">Protect Streak (5 pts)</span>
                 </button>
               </div>
             </div>
@@ -5017,6 +5038,225 @@ function addBonusPoints(amount) {
 }
 window.addBonusPoints = addBonusPoints;
 
+// ============================================================
+// SCAN-BASED STREAK TRACKING
+// ============================================================
+// Separate from the mission-log streak; this tracks consecutive
+// days the user completed at least one scan.
+// Storage: datescan.scanStreak
+//   { count, lastScanDate, shieldUsed, shieldExpiry }
+// ============================================================
+
+const SCAN_STREAK_KEY = 'datescan.scanStreak';
+const DAILY_CHALLENGE_KEY = 'datescan.dailyChallenge';
+
+const DAILY_CHALLENGES = [
+  { id: 'color_new', icon: '🎨' },
+  { id: 'layered', icon: '🧥' },
+  { id: 'accessory', icon: '👔' },
+  { id: 'monochrome', icon: '⬛' },
+  { id: 'bold_pattern', icon: '🔶' },
+  { id: 'favorite', icon: '❤️' },
+  { id: 'formal', icon: '🤵' },
+  { id: 'casual', icon: '👟' },
+  { id: 'texture_mix', icon: '🧶' },
+  { id: 'statement_piece', icon: '💎' }
+];
+
+function _todayStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function _yesterdayStr() {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function _dayOfYear() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now - start;
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
+}
+
+function _readScanStreak() {
+  try {
+    return JSON.parse(localStorage.getItem(SCAN_STREAK_KEY) || '{}');
+  } catch(e) {
+    return {};
+  }
+}
+
+function _writeScanStreak(data) {
+  try {
+    localStorage.setItem(SCAN_STREAK_KEY, JSON.stringify(data));
+  } catch(e) {}
+}
+
+function recordScanStreak() {
+  const today = _todayStr();
+  const yesterday = _yesterdayStr();
+  const data = _readScanStreak();
+
+  // Default values
+  if (!data.count) data.count = 0;
+  if (!data.lastScanDate) data.lastScanDate = '';
+  if (!data.shieldUsed) data.shieldUsed = false;
+  if (!data.shieldExpiry) data.shieldExpiry = 0;
+
+  // Already counted today
+  if (data.lastScanDate === today) return;
+
+  if (data.lastScanDate === yesterday) {
+    // Consecutive day — increment
+    data.count++;
+  } else {
+    // Gap in streak
+    const shieldActive = data.shieldExpiry > Date.now();
+    if (shieldActive && !data.shieldUsed) {
+      // Shield protects the streak
+      data.shieldUsed = true;
+      data.count++;
+      if (typeof window.dsPrivacy?.showToast === 'function') {
+        window.dsPrivacy.showToast(t('streak_protected_toast'));
+      }
+    } else {
+      // Reset
+      data.count = 1;
+    }
+  }
+
+  data.lastScanDate = today;
+  _writeScanStreak(data);
+
+  // Award streak bonus points
+  if (data.count >= 2) {
+    let bonus = 0;
+    let multiplierLabel = '';
+    if (data.count === 2) { bonus = 1; multiplierLabel = ''; }
+    else if (data.count <= 4) { bonus = 2; multiplierLabel = '1.5x'; }
+    else if (data.count <= 6) { bonus = 3; multiplierLabel = '2x'; }
+    else { bonus = 5; multiplierLabel = '3x'; }
+
+    addBonusPoints(bonus);
+    const msg = t('streak_bonus_toast').replace('{bonus}', bonus);
+    if (typeof window.dsPrivacy?.showToast === 'function') {
+      window.dsPrivacy.showToast(msg);
+    }
+  }
+
+  // Auto-complete daily challenge
+  completeDailyChallenge();
+
+  // Update UI
+  updateMissionBadge();
+}
+
+function getScanStreakMultiplier(count) {
+  if (count <= 1) return 1;
+  if (count <= 2) return 1;
+  if (count <= 4) return 1.5;
+  if (count <= 6) return 2;
+  return 3;
+}
+
+function getScanStreakMultiplierLabel(count) {
+  if (count <= 1) return '';
+  if (count === 2) return '1x';
+  if (count <= 4) return '1.5x';
+  if (count <= 6) return '2x';
+  return '3x';
+}
+
+// ============================================================
+// DAILY CHALLENGE SYSTEM
+// ============================================================
+
+function getDailyChallenge() {
+  const today = _todayStr();
+  try {
+    const stored = JSON.parse(localStorage.getItem(DAILY_CHALLENGE_KEY) || '{}');
+    if (stored.date === today) return stored;
+  } catch(e) {}
+
+  // Pick new challenge based on day of year
+  const idx = _dayOfYear() % DAILY_CHALLENGES.length;
+  const challenge = DAILY_CHALLENGES[idx];
+  const newChallenge = {
+    date: today,
+    challengeId: challenge.id,
+    completed: false,
+    completedAt: null
+  };
+  try {
+    localStorage.setItem(DAILY_CHALLENGE_KEY, JSON.stringify(newChallenge));
+  } catch(e) {}
+  return newChallenge;
+}
+
+function completeDailyChallenge() {
+  const challenge = getDailyChallenge();
+  if (challenge.completed) return;
+
+  challenge.completed = true;
+  challenge.completedAt = Date.now();
+  try {
+    localStorage.setItem(DAILY_CHALLENGE_KEY, JSON.stringify(challenge));
+  } catch(e) {}
+
+  // Award rewards
+  addBonusPoints(3);
+  addXP(25);
+
+  const msg = t('challenge_complete_toast');
+  if (typeof window.dsPrivacy?.showToast === 'function') {
+    window.dsPrivacy.showToast(msg);
+  }
+}
+
+function protectStreak() {
+  const state = _readPointsState();
+  if ((state.bonus || 0) < 5) {
+    if (typeof window.dsPrivacy?.showToast === 'function') {
+      window.dsPrivacy.showToast(t('streak_shield_no_points'));
+    }
+    return;
+  }
+
+  // Deduct 5 bonus points
+  const newBonus = (state.bonus || 0) - 5;
+  const newRemaining = Math.max(0, state.remaining - 5);
+  try {
+    localStorage.setItem(POINTS_KEY, JSON.stringify({
+      remaining: newRemaining,
+      firstAt: state.firstAt,
+      bonus: newBonus,
+    }));
+  } catch(e) {}
+
+  // Set shield expiry to 48 hours from now
+  const data = _readScanStreak();
+  data.shieldExpiry = Date.now() + (48 * 60 * 60 * 1000);
+  data.shieldUsed = false; // Allow one shield use
+  _writeScanStreak(data);
+
+  const msg = t('streak_shield_toast');
+  if (typeof window.dsPrivacy?.showToast === 'function') {
+    window.dsPrivacy.showToast(msg);
+  }
+
+  updatePointsBadge();
+  updateMissionBadge();
+}
+
+window.recordScanStreak = recordScanStreak;
+window.getDailyChallenge = getDailyChallenge;
+window.completeDailyChallenge = completeDailyChallenge;
+window.protectStreak = protectStreak;
+
 // Human-readable "Resets in Xh Ym" string for the tooltip / secondary
 // label under the points pill. Empty string if no window is active.
 function formatPointsResetShort() {
@@ -6699,6 +6939,29 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       scan_chip_occasion: 'Formal or casual?',
       scan_chip_layer: 'How to layer this?',
       scan_chip_score: 'Why this score?',
+
+      // Daily Challenge & Streak Shield
+      daily_challenge_title: 'Daily Challenge',
+      challenge_color_new: 'Try a new color today',
+      challenge_layered: 'Wear something layered',
+      challenge_accessory: 'Add an accessory to your outfit',
+      challenge_monochrome: 'Go for a monochrome look',
+      challenge_bold_pattern: 'Try a bold pattern',
+      challenge_favorite: 'Wear your favorite outfit',
+      challenge_formal: 'Dress up formal today',
+      challenge_casual: 'Go casual and comfortable',
+      challenge_texture_mix: 'Mix different textures',
+      challenge_statement_piece: 'Wear a statement piece',
+      challenge_completed: '✅ Completed!',
+      challenge_reward: '+3 PTS +25 XP',
+      streak_shield_btn: 'Protect Streak (5 pts)',
+      streak_shield_active: '🛡️ Shield active',
+      streak_shield_toast: '🛡️ Streak protected for 48h!',
+      streak_shield_no_points: 'Not enough bonus points for shield',
+      streak_bonus_toast: '🔥 Streak bonus: +{bonus} points!',
+      streak_protected_toast: '🛡️ Streak protected!',
+      challenge_complete_toast: '🎯 Challenge completed! +3 PTS +25 XP',
+      streak_multiplier_label: '{multiplier}x multiplier',
     },
     hu: {
       nav_closet: 'Szekrény',
@@ -7937,6 +8200,29 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       scan_chip_occasion: 'Alkali vagy casual?',
       scan_chip_layer: 'Hogyan rétegezzem?',
       scan_chip_score: 'Miért ez a pontszám?',
+
+      // Napi kihívás & Streak védelem
+      daily_challenge_title: 'Napi kihívás',
+      challenge_color_new: 'Próbálj ki egy új színt ma',
+      challenge_layered: 'Viselj valami rétegeset',
+      challenge_accessory: 'Adj egy kiegészítőt a szettezedhez',
+      challenge_monochrome: 'Menj a monokróm look után',
+      challenge_bold_pattern: 'Próbálj ki egy merész mintát',
+      challenge_favorite: 'Viseld a kedvenc szettezed',
+      challenge_formal: 'Öltözz fel formásan ma',
+      challenge_casual: 'Menj laza és kényelmes',
+      challenge_texture_mix: 'Keverj különböző textúrákat',
+      challenge_statement_piece: 'Viselj egy feltűnő darabot',
+      challenge_completed: '✅ Teljesítve!',
+      challenge_reward: '+3 PT +25 XP',
+      streak_shield_btn: 'Streak védelem (5 pont)',
+      streak_shield_active: '🛡️ Védelem aktív',
+      streak_shield_toast: '🛡️ Streak védve 48 órára!',
+      streak_shield_no_points: 'Nincs elég bónusz pont a védelemhez',
+      streak_bonus_toast: '🔥 Streak bónusz: +{bonus} pont!',
+      streak_protected_toast: '🛡️ Streak védve!',
+      challenge_complete_toast: '🎯 Kihívás teljesítve! +3 PT +25 XP',
+      streak_multiplier_label: '{multiplier}x szorzó',
     },
     de: {
       nav_closet: 'Kleiderschrank',
@@ -9175,6 +9461,29 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       scan_chip_occasion: 'Anlass oder casual?',
       scan_chip_layer: 'Wie schichten?',
       scan_chip_score: 'Warum diese Punktzahl?',
+
+      // Tägliche Herausforderung & Streak-Schutz
+      daily_challenge_title: 'Tägliche Herausforderung',
+      challenge_color_new: 'Probier heute eine neue Farbe',
+      challenge_layered: 'Trag etwas Geschichtetes',
+      challenge_accessory: 'Füg ein Accessoire hinzu',
+      challenge_monochrome: 'Geh für einen monochromen Look',
+      challenge_bold_pattern: 'Probier ein kühnes Muster',
+      challenge_favorite: 'Trag dein Lieblingsoutfit',
+      challenge_formal: 'Zieh dich heute schick an',
+      challenge_casual: 'Geh lässig und bequem',
+      challenge_texture_mix: 'Misch verschiedene Texturen',
+      challenge_statement_piece: 'Trag ein Statement-Stück',
+      challenge_completed: '✅ Erledigt!',
+      challenge_reward: '+3 PTS +25 XP',
+      streak_shield_btn: 'Streak schützen (5 Pts)',
+      streak_shield_active: '🛡️ Schutz aktiv',
+      streak_shield_toast: '🛡️ Streak für 48h geschützt!',
+      streak_shield_no_points: 'Nicht genug Bonuspunkte für Schutz',
+      streak_bonus_toast: '🔥 Streak-Bonus: +{bonus} Punkte!',
+      streak_protected_toast: '🛡️ Streak geschützt!',
+      challenge_complete_toast: '🎯 Herausforderung geschafft! +3 PTS +25 XP',
+      streak_multiplier_label: '{multiplier}x Multiplikator',
     },
   };
 
@@ -14338,6 +14647,73 @@ function updateMissionBadge() {
     $("streakFlame").style.opacity = streak > 0 ? 1 : 0.3;
     $("streakFlame").style.filter = streak > 0 ? "drop-shadow(0 0 8px rgba(249, 115, 22, 0.6))" : "none";
 
+    // Update scan streak multiplier display
+    const scanStreak = _readScanStreak();
+    const scanCount = scanStreak.count || 0;
+    const multEl = $("streakMultiplier");
+    if (multEl) {
+      const multLabel = getScanStreakMultiplierLabel(scanCount);
+      if (multLabel && scanCount >= 2) {
+        multEl.textContent = t('streak_multiplier_label').replace('{multiplier}', multLabel);
+        multEl.classList.remove('hidden');
+      } else {
+        multEl.classList.add('hidden');
+      }
+    }
+
+    // Update daily challenge card
+    try {
+      const challenge = getDailyChallenge();
+      const cardEl = document.getElementById('dailyChallengeCard');
+      const iconEl = document.getElementById('challengeIcon');
+      const textEl = document.getElementById('challengeText');
+      const rewardEl = document.getElementById('challengeReward');
+      const statusEl = document.getElementById('challengeStatus');
+      const shieldBtn = document.getElementById('challengeShieldBtn');
+
+      if (cardEl && challenge && challenge.challengeId) {
+        const chDef = DAILY_CHALLENGES.find(c => c.id === challenge.challengeId);
+        if (iconEl && chDef) iconEl.textContent = chDef.icon;
+        if (textEl) {
+          const i18nKey = 'challenge_' + challenge.challengeId;
+          textEl.textContent = t(i18nKey);
+          textEl.setAttribute('data-i18n', i18nKey);
+        }
+        if (statusEl) {
+          if (challenge.completed) {
+            statusEl.innerHTML = '<span class="text-[10px] text-emerald-400 font-bold">' + t('challenge_completed') + '</span>';
+          } else {
+            statusEl.innerHTML = '';
+          }
+        }
+        if (rewardEl) {
+          if (challenge.completed) {
+            rewardEl.classList.add('opacity-50');
+          } else {
+            rewardEl.classList.remove('opacity-50');
+          }
+        }
+      }
+
+      // Update shield button visibility
+      if (shieldBtn) {
+        const shieldActive = (scanStreak.shieldExpiry || 0) > Date.now();
+        if (scanCount >= 2 && !shieldActive) {
+          shieldBtn.classList.remove('hidden');
+        } else {
+          shieldBtn.classList.add('hidden');
+        }
+        // If shield active, show indicator
+        if (shieldActive) {
+          shieldBtn.classList.add('hidden');
+          if (statusEl && challenge && !challenge.completed) {
+            const existing = statusEl.innerHTML;
+            statusEl.innerHTML = '<span class="text-[10px] text-amber-300 font-bold">' + t('streak_shield_active') + '</span>' + existing;
+          }
+        }
+      }
+    } catch(e) {}
+
   } catch(e) {}
 }
 
@@ -15700,6 +16076,7 @@ async function runScan() {
     // consumePoint() is a no-op for Pro users (returns Infinity).
     if (!isLocked && detectedOutfitColor) {
       consumePoint();
+      recordScanStreak();
     }
 
     // Peak-moment trigger: tease an improvement number 1s after the reveal.
@@ -16321,6 +16698,21 @@ $("logDateBtn").addEventListener("click", () => {
   btn.innerHTML = `<span>🎉</span> ${t('logged_xp')}`; btn.classList.add("bg-brand-500/30", "border-brand-500/60");
   setTimeout(() => { btn.innerHTML = original; btn.classList.remove("bg-brand-500/30", "bg-brand-500/60"); }, 2500);
 });
+
+// --- SHIELD BUTTON HANDLER ---
+document.addEventListener('DOMContentLoaded', () => {
+  const shieldBtn = document.getElementById('challengeShieldBtn');
+  if (shieldBtn) {
+    shieldBtn.addEventListener('click', () => {
+      protectStreak();
+    });
+  }
+});
+// Also bind immediately in case DOM is already loaded
+const _shieldBtn = document.getElementById('challengeShieldBtn');
+if (_shieldBtn) {
+  _shieldBtn.addEventListener('click', () => { protectStreak(); });
+}
 
 // --- CAMERA LIFECYCLE ---
 // Without this, the MediaStream tracks stay live when the user backgrounds
