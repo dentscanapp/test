@@ -1532,6 +1532,15 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     color: rgba(255,255,255,0.25);
   }
 
+  /* ── Badge / Achievement ──────────────────────────── */
+  .badge-unlocked {
+    animation: badge-pop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes badge-pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
   /* ── Level Tier Badges ─────────────────────────────── */
   .level-tier-icon {
     width: 56px; height: 56px;
@@ -1907,7 +1916,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     <ul class="dsc-list">
       <li class="dsc-good">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-        <span data-i18n-html="cam_bullet_1"><strong>Live scanner = on-device.</strong> When you use the camera scanner, frames are analysed inside your browser by an on-device AI model. They are <strong>never uploaded</strong> to our servers and we never see them.</span>
+        <span data-i18n-html="cam_bullet_1"><strong>Scanning = local.</strong> Your camera image is analyzed exclusively by your browser, directly on your device. The data <strong>never leaves your device</strong>, so we never see it.</span>
       </li>
       <li class="dsc-good">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
@@ -2219,7 +2228,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
         <span id="langSelectorLabel">EN</span>
         <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
       </button>
-      <div id="langSelectorDropdown" class="hidden absolute right-0 top-full mt-2 z-50 min-w-[160px] bg-dark-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden py-1.5" role="listbox" aria-label="Select language">
+      <div id="langSelectorDropdown" class="hidden fixed z-[200] min-w-[160px] bg-dark-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden py-1.5" role="listbox" aria-label="Select language">
         <!-- Populated by JS from getSupportedLangs() -->
       </div>
     </div>
@@ -2337,8 +2346,8 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
               </div>
 
               <div class="bg-black/30 border border-white/5 rounded-2xl p-3 mb-4 flex items-start gap-3 relative z-10">
-                <div class="text-brand-400 mt-0.5 shrink-0 w-5 h-5">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109 7.5h0V8m6 0v13m0-13V6a2 2 0 112 2h-2z"/></svg>
+                <div class="mt-0.5 shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-brand-500/20 to-purple-500/20 border border-brand-500/20 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-brand-400"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M12 12v4m-2-2h4"/></svg>
                 </div>
                 <p class="text-xs text-gray-300 font-medium leading-relaxed" data-i18n="referral_desc">Share DateScan. You both get +5 points.</p>
               </div>
@@ -2473,6 +2482,70 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
                   <span>🛡️</span>
                   <span data-i18n="streak_shield_btn">Protect Streak (5 pts)</span>
                 </button>
+              </div>
+            </div>
+
+            <!-- Achievements / Badges Card -->
+            <div id="badgeCard" class="rounded-[32px] p-5 border border-emerald-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.5s;">
+              <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="badge_title">Achievements</div>
+                  <span id="badgeCount" class="text-[10px] text-emerald-300 bg-emerald-500/10 px-2 py-1 rounded-md font-bold">0/10</span>
+                </div>
+                <div id="badgeGrid" class="grid grid-cols-5 gap-2 sm:gap-2.5">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Style DNA Card -->
+            <div id="styleDnaCard" class="rounded-[32px] p-5 border border-purple-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.6s;">
+              <div class="absolute -top-6 -left-6 w-24 h-24 rounded-full bg-purple-500/10 blur-3xl pointer-events-none"></div>
+              <div class="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-brand-500/8 blur-2xl pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="text-[10px] uppercase tracking-widest font-bold text-purple-400" data-i18n="styledna_title">Style DNA</div>
+                  <span class="text-[10px] text-purple-300 bg-purple-500/10 px-2 py-1 rounded-md font-bold" id="styleDnaScanCount">0 scans</span>
+                </div>
+                <div id="styleDnaContent">
+                  <div class="text-center py-4">
+                    <div class="w-12 h-12 mx-auto rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-3">
+                      <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.482 1.482a2.25 2.25 0 01-1.591.659H8.073a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V17a2.25 2.25 0 01-2.25 2.25H7.25A2.25 2.25 0 015 17v-2.5"/></svg>
+                    </div>
+                    <p class="text-xs text-gray-400" data-i18n="styledna_no_data">Scan outfits to unlock your Style DNA</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- OOTD Generator Card -->
+            <div id="ootdCard" class="rounded-[32px] p-5 border border-blue-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.7s;">
+              <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-blue-500/10 blur-3xl pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="text-[10px] uppercase tracking-widest font-bold text-blue-400" data-i18n="ootd_title">Outfit of the Day</div>
+                  <span id="ootdTempBadge" class="text-[10px] text-blue-300 bg-blue-500/10 px-2 py-1 rounded-md font-bold hidden"></span>
+                </div>
+                <p class="text-xs text-gray-400 mb-3" data-i18n="ootd_subtitle">Auto-generated outfit suggestion</p>
+                <div id="ootdResult" class="hidden mb-3 p-3 rounded-2xl bg-black/30 border border-white/5 text-sm text-white/90 leading-relaxed"></div>
+                <button id="ootdGenerateBtn" class="w-full text-xs font-semibold py-3 px-3 rounded-xl border border-blue-500/40 bg-blue-500/15 text-blue-400 hover:bg-blue-500/25 transition flex items-center justify-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
+                  <span data-i18n="ootd_generate">Generate Outfit</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Seasonal Recommender Card -->
+            <div id="seasonalCard" class="rounded-[32px] p-5 border border-amber-500/15 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.8s;">
+              <div class="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-amber-500/8 blur-2xl pointer-events-none"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="text-[10px] uppercase tracking-widest font-bold text-amber-400" data-i18n="seasonal_title">Seasonal Tips</div>
+                  <span id="seasonIcon" class="text-lg">🌸</span>
+                </div>
+                <div id="seasonName" class="font-serif text-lg text-white font-semibold mb-1">Spring</div>
+                <p id="seasonTip" class="text-xs text-gray-300 leading-relaxed">Time to pack away the black sweater — try brighter colors!</p>
               </div>
             </div>
           </div>
@@ -3252,17 +3325,17 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
 
       <div class="premium-glass rounded-[32px] p-6 sm:p-8 relative overflow-hidden">
         <div class="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-purple-500/20 mix-blend-screen filter blur-[40px] pointer-events-none"></div>
-        <div class="flex items-center justify-between mb-1 relative z-10">
-          <h2 class="font-serif text-2xl font-semibold flex items-center gap-2">
-            <svg class="w-6 h-6 text-purple-300" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
-            <span data-i18n="chat_with_coach">Chat with Coach</span>
+        <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 mb-1 relative z-10">
+          <h2 class="font-serif text-xl sm:text-2xl font-semibold flex items-center gap-2 min-w-0">
+            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-purple-300 shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+            <span data-i18n="chat_with_coach" class="truncate">Chat with Coach</span>
           </h2>
-          <div class="flex items-center gap-2">
-            <button id="memoryToggleBtn" type="button" class="shrink-0 text-[10px] font-sans font-bold uppercase tracking-widest text-purple-300 border border-purple-500/30 bg-purple-500/10 px-2.5 py-0.5 rounded-full whitespace-nowrap text-center hover:bg-purple-500/20 transition-colors flex items-center gap-1 cursor-pointer" title="Style Memory">
+          <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <button id="memoryToggleBtn" type="button" class="shrink-0 text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-widest text-purple-300 border border-purple-500/30 bg-purple-500/10 px-2 sm:px-2.5 py-0.5 rounded-full whitespace-nowrap text-center hover:bg-purple-500/20 transition-colors flex items-center gap-1 cursor-pointer" title="Style Memory">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
               <span data-i18n="memory_section_title">Style Preferences</span>
             </button>
-            <span class="shrink-0 text-[10px] font-sans font-bold uppercase tracking-widest text-purple-300 border border-purple-500/30 bg-purple-500/10 px-2.5 py-0.5 rounded-full whitespace-nowrap text-center" data-i18n="chat_vision_ai">Vision AI</span>
+            <span class="shrink-0 text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-widest text-purple-300 border border-purple-500/30 bg-purple-500/10 px-2 sm:px-2.5 py-0.5 rounded-full whitespace-nowrap text-center" data-i18n="chat_vision_ai">Vision AI</span>
           </div>
         </div>
         <p class="text-xs text-gray-400 mb-5 relative z-10">
@@ -5257,6 +5330,485 @@ window.getDailyChallenge = getDailyChallenge;
 window.completeDailyChallenge = completeDailyChallenge;
 window.protectStreak = protectStreak;
 
+// ============================================================
+// BADGE / ACHIEVEMENT SYSTEM
+// ============================================================
+
+const BADGE_KEY = 'datescan.badges';
+const CHAT_COUNT_KEY = 'datescan.chatCount';
+const REFERRAL_COUNT_KEY = 'datescan.referralCount';
+
+// Badge definitions: id, icon, i18n name key, i18n desc key, check function
+const BADGE_DEFS = [
+  { id: 'scan_1',   icon: '🏆', nameKey: 'badge_scan_1',   descKey: 'badge_scan_1_desc',   check: function() { var p = _getProfileData(); return (p.scanCount || 0) >= 1; } },
+  { id: 'scan_10',  icon: '🏆', nameKey: 'badge_scan_10',  descKey: 'badge_scan_10_desc',  check: function() { var p = _getProfileData(); return (p.scanCount || 0) >= 10; } },
+  { id: 'scan_50',  icon: '🏆', nameKey: 'badge_scan_50',  descKey: 'badge_scan_50_desc',  check: function() { var p = _getProfileData(); return (p.scanCount || 0) >= 50; } },
+  { id: 'streak_3', icon: '🔥', nameKey: 'badge_streak_3', descKey: 'badge_streak_3_desc', check: function() { var d = _readScanStreak(); return (d.count || 0) >= 3; } },
+  { id: 'streak_7', icon: '🔥', nameKey: 'badge_streak_7', descKey: 'badge_streak_7_desc', check: function() { var d = _readScanStreak(); return (d.count || 0) >= 7; } },
+  { id: 'streak_30',icon: '🔥', nameKey: 'badge_streak_30',descKey: 'badge_streak_30_desc',check: function() { var d = _readScanStreak(); return (d.count || 0) >= 30; } },
+  { id: 'referral_3',icon:'👥', nameKey: 'badge_referral_3',descKey:'badge_referral_3_desc',check: function() { return (_getStoredCount(REFERRAL_COUNT_KEY) || 0) >= 3; } },
+  { id: 'color_all', icon:'🎨', nameKey: 'badge_color_all', descKey: 'badge_color_all_desc', check: function() { var p = _getProfileData(); return (p.uniqueColorCategories || 0) >= 6; } },
+  { id: 'chat_50',  icon: '💬', nameKey: 'badge_chat_50',  descKey: 'badge_chat_50_desc',  check: function() { return (_getStoredCount(CHAT_COUNT_KEY) || 0) >= 50; } },
+  { id: 'score_80', icon: '⭐', nameKey: 'badge_score_80', descKey: 'badge_score_80_desc', check: function() { var p = _getProfileData(); return (p.avgScore || 0) >= 80; } },
+];
+
+function _getProfileData() {
+  try {
+    return JSON.parse(localStorage.getItem('datescan.styleProfile') || '{}');
+  } catch(e) { return {}; }
+}
+
+function _getStoredCount(key) {
+  try {
+    return parseInt(localStorage.getItem(key) || '0', 10);
+  } catch(e) { return 0; }
+}
+
+function _incrementCount(key) {
+  var count = _getStoredCount(key) + 1;
+  try { localStorage.setItem(key, String(count)); } catch(e) {}
+  return count;
+}
+
+function _readBadges() {
+  try {
+    return JSON.parse(localStorage.getItem(BADGE_KEY) || '{}');
+  } catch(e) { return {}; }
+}
+
+function _writeBadges(badges) {
+  try { localStorage.setItem(BADGE_KEY, JSON.stringify(badges)); } catch(e) {}
+}
+
+// Check all badges, unlock new ones, return array of newly unlocked badge ids
+function checkAndUnlockBadges() {
+  var badges = _readBadges();
+  var newlyUnlocked = [];
+
+  BADGE_DEFS.forEach(function(def) {
+    if (!badges[def.id] && def.check()) {
+      badges[def.id] = { unlockedAt: Date.now() };
+      newlyUnlocked.push(def.id);
+    }
+  });
+
+  if (newlyUnlocked.length > 0) {
+    _writeBadges(badges);
+    // Show toast for each newly unlocked badge
+    newlyUnlocked.forEach(function(badgeId) {
+      var def = BADGE_DEFS.find(function(d) { return d.id === badgeId; });
+      if (def && typeof window.dsPrivacy?.showToast === 'function') {
+        var msg = t('badge_unlock_toast').replace('{name}', t(def.nameKey));
+        window.dsPrivacy.showToast(msg, 3500);
+      }
+    });
+  }
+
+  return newlyUnlocked;
+}
+
+// Render badge grid in the UI
+function renderBadges() {
+  var grid = document.getElementById('badgeGrid');
+  var countEl = document.getElementById('badgeCount');
+  if (!grid) return;
+
+  var badges = _readBadges();
+  var unlockedCount = 0;
+
+  var html = '';
+  BADGE_DEFS.forEach(function(def) {
+    var isUnlocked = !!badges[def.id];
+    if (isUnlocked) unlockedCount++;
+
+    html += '<div class="group relative flex flex-col items-center" title="' + (isUnlocked ? t(def.nameKey) : t('badge_locked')) + '">' +
+      '<div class="badge-unlocked w-10 h-10 rounded-xl flex items-center justify-center text-base transition-all ' +
+        (isUnlocked
+          ? 'bg-gradient-to-br from-emerald-500/20 to-brand-500/20 border border-emerald-500/30 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
+          : 'bg-white/5 border border-white/5 opacity-30') +
+      '">' +
+        (isUnlocked ? def.icon : '<svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>') +
+      '</div>' +
+      // Tooltip on hover
+      '<div class="absolute -top-16 left-1/2 -translate-x-1/2 z-50 hidden group-hover:flex flex-col items-center">' +
+        '<div class="bg-dark-900/95 backdrop-blur-xl border border-white/10 rounded-lg px-3 py-2 shadow-2xl shadow-black/50 whitespace-nowrap text-center">' +
+          '<div class="text-[10px] font-bold text-white">' + t(def.nameKey) + '</div>' +
+          '<div class="text-[9px] text-gray-400 mt-0.5">' + t(def.descKey) + '</div>' +
+        '</div>' +
+        '<div class="w-2 h-2 bg-dark-900/95 border-r border-b border-white/10 rotate-45 -mt-1"></div>' +
+      '</div>' +
+    '</div>';
+  });
+
+  grid.innerHTML = html;
+  if (countEl) countEl.textContent = unlockedCount + '/' + BADGE_DEFS.length;
+}
+
+// Increment chat message count and check badges
+function incrementChatCount() {
+  _incrementCount(CHAT_COUNT_KEY);
+  checkAndUnlockBadges();
+  renderBadges();
+}
+
+// Increment referral count and check badges
+function incrementReferralCount() {
+  _incrementCount(REFERRAL_COUNT_KEY);
+  checkAndUnlockBadges();
+  renderBadges();
+}
+
+// Update color categories in profile for badge tracking
+function updateColorCategories(colors) {
+  if (!colors || !colors.length) return;
+  try {
+    var profile = JSON.parse(localStorage.getItem('datescan.styleProfile') || '{}');
+    if (!profile.uniqueColorCategories) profile.uniqueColorCategories = 0;
+
+    // Simple color category detection based on hue ranges
+    var categorySet = profile.colorCategorySet || {};
+    colors.forEach(function(c) {
+      // Normalize color to a category key
+      var cat = _colorToCategory(c);
+      if (cat && !categorySet[cat]) {
+        categorySet[cat] = true;
+      }
+    });
+
+    profile.colorCategorySet = categorySet;
+    profile.uniqueColorCategories = Object.keys(categorySet).length;
+    localStorage.setItem('datescan.styleProfile', JSON.stringify(profile));
+  } catch(e) {}
+}
+
+function _colorToCategory(color) {
+  if (!color) return null;
+  var c = color.toLowerCase().trim();
+  if (/red|piros|rot|crimson|scarlet|bordo|burgundy/.test(c)) return 'red';
+  if (/blue|kék|blau|navy|cobalt|indigo/.test(c)) return 'blue';
+  if (/green|zöld|grün|olive|emerald|sage/.test(c)) return 'green';
+  if (/yellow|sárga|gelb|gold|mustard|amber/.test(c)) return 'yellow';
+  if (/purple|lila|violett|violet|lavender|plum/.test(c)) return 'purple';
+  if (/orange|narancs|orange|coral|peach|rust/.test(c)) return 'orange';
+  if (/pink|rózsaszín|rosa|magenta|fuchsia/.test(c)) return 'pink';
+  if (/brown|barna|braun|tan|khaki|camel/.test(c)) return 'brown';
+  if (/black|fekete|schwarz|noir/.test(c)) return 'black';
+  if (/white|fehér|weiss|ivory|cream/.test(c)) return 'white';
+  if (/gray|grey|szürke|grau|charcoal|slate/.test(c)) return 'gray';
+  // fallback — use the color itself as category
+  return c.replace(/[^a-záéíóöőúüű]/g, '');
+}
+
+window.checkAndUnlockBadges = checkAndUnlockBadges;
+window.renderBadges = renderBadges;
+window.incrementChatCount = incrementChatCount;
+window.incrementReferralCount = incrementReferralCount;
+window.updateColorCategories = updateColorCategories;
+
+// ============================================================
+// 4. STYLE DNA — Style archetype + color palette + shareable card
+// ============================================================
+
+const STYLE_DNA_KEY = 'datescan.styleDna';
+
+// Archetype detection rules based on scan history
+function _detectArchetype(profile) {
+  var scanCount = profile.scanCount || 0;
+  if (scanCount < 1) return null;
+
+  var vibes = profile.styleVibes || [];
+  var colors = profile.colors || [];
+  var formality = profile.formality || '';
+
+  // Count vibe frequencies
+  var vibeCounts = {};
+  vibes.forEach(function(v) { if (v) vibeCounts[v] = (vibeCounts[v] || 0) + 1; });
+  var topVibe = '';
+  var topVibeCount = 0;
+  Object.keys(vibeCounts).forEach(function(k) {
+    if (vibeCounts[k] > topVibeCount) { topVibe = k; topVibeCount = vibeCounts[k]; }
+  });
+
+  // Detect based on vibes and formality
+  var tv = topVibe.toLowerCase();
+  if (/classic|elegant|formal|sophisticated/.test(tv) || formality === 'formal') return 'elegant';
+  if (/street|urban|edgy|bold|rebel/.test(tv)) return 'street';
+  if (/minimal|clean|simple|basic/.test(tv) || formality === 'smart_casual') return 'minimal';
+  if (/boho|bohemian|free|creative|artistic/.test(tv)) return 'boho';
+  if (/sport|athletic|active|casual/.test(tv) || formality === 'casual') return 'sporty';
+  if (/bold|statement|dramatic|glam/.test(tv)) return 'bold';
+
+  // Fallback: color-based guess
+  var colorStr = (colors || []).join(' ').toLowerCase();
+  if (/black|white|gray|grey|navy|beige/.test(colorStr) && !/red|pink|yellow|orange/.test(colorStr)) return 'minimal';
+  if (/neon|red|pink|gold|silver|metallic/.test(colorStr)) return 'bold';
+
+  return 'minimal'; // default
+}
+
+function _getColorDistribution(profile) {
+  var colorCategorySet = profile.colorCategorySet || {};
+  var cats = Object.keys(colorCategorySet);
+  if (cats.length === 0) return [];
+
+  // Sort by name for consistent display
+  var colorMap = {
+    red: { emoji: '🔴', label: 'Red' },
+    blue: { emoji: '🔵', label: 'Blue' },
+    green: { emoji: '🟢', label: 'Green' },
+    yellow: { emoji: '🟡', label: 'Yellow' },
+    purple: { emoji: '🟣', label: 'Purple' },
+    orange: { emoji: '🟠', label: 'Orange' },
+    pink: { emoji: '🩷', label: 'Pink' },
+    brown: { emoji: '🟤', label: 'Brown' },
+    black: { emoji: '⚫', label: 'Black' },
+    white: { emoji: '⚪', label: 'White' },
+    gray: { emoji: '🔘', label: 'Gray' },
+  };
+
+  return cats.map(function(c) {
+    var info = colorMap[c] || { emoji: '🎨', label: c };
+    return { key: c, emoji: info.emoji, label: info.label };
+  });
+}
+
+function renderStyleDNA() {
+  var content = document.getElementById('styleDnaContent');
+  var countEl = document.getElementById('styleDnaScanCount');
+  if (!content) return;
+
+  var profile = _getProfileData();
+  var scanCount = profile.scanCount || 0;
+  var avgScore = profile.avgScore || 0;
+
+  if (countEl) countEl.textContent = scanCount + ' ' + t('styledna_scans_label');
+
+  if (scanCount < 1) {
+    content.innerHTML = '<div class="text-center py-4">' +
+      '<div class="w-12 h-12 mx-auto rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-3">' +
+        '<svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5"/></svg>' +
+      '</div>' +
+      '<p class="text-xs text-gray-400">' + t('styledna_no_data') + '</p></div>';
+    return;
+  }
+
+  var archKey = _detectArchetype(profile);
+  var archName = archKey ? t('styledna_arch_' + archKey) : '—';
+  var archIcons = { minimal: '🧘', street: '🛹', elegant: '👔', boho: '🌻', sporty: '🏃', bold: '💎' };
+  var archIcon = archIcons[archKey] || '✨';
+
+  var colorDist = _getColorDistribution(profile);
+  var colorHtml = '';
+  if (colorDist.length > 0) {
+    colorHtml = '<div class="mt-3 pt-3 border-t border-white/5">' +
+      '<div class="text-[9px] uppercase tracking-widest font-bold text-purple-300/60 mb-2">' + t('styledna_color_palette') + '</div>' +
+      '<div class="flex flex-wrap gap-1.5">';
+    colorDist.forEach(function(c) {
+      colorHtml += '<span class="inline-flex items-center gap-1 text-[10px] bg-white/5 border border-white/5 rounded-lg px-2 py-1">' +
+        c.emoji + ' <span class="text-gray-300">' + c.label + '</span></span>';
+    });
+    colorHtml += '</div></div>';
+  }
+
+  content.innerHTML =
+    '<div class="flex items-center gap-3 p-3 rounded-2xl bg-black/30 border border-white/5">' +
+      '<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500/20 to-brand-500/20 border border-purple-500/30 flex items-center justify-center text-xl shrink-0">' + archIcon + '</div>' +
+      '<div class="min-w-0">' +
+        '<div class="text-[9px] uppercase tracking-widest font-bold text-purple-300/60">' + t('styledna_archetype') + '</div>' +
+        '<div class="font-serif text-base text-white font-semibold truncate">' + archName + '</div>' +
+        '<div class="flex items-center gap-3 mt-0.5">' +
+          '<span class="text-[10px] text-gray-400">' + scanCount + ' ' + t('styledna_scans_label') + '</span>' +
+          '<span class="text-[10px] text-gray-400">' + t('styledna_avg_label') + ' ' + avgScore + '</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    colorHtml +
+    '<button id="shareDnaBtn" class="mt-3 w-full text-xs font-semibold py-2.5 px-3 rounded-xl border border-purple-500/30 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition flex items-center justify-center gap-2">' +
+      '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg>' +
+      '<span data-i18n="styledna_share">' + t('styledna_share') + '</span>' +
+    '</button>';
+
+  // Bind share button
+  var shareBtn = document.getElementById('shareDnaBtn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function() {
+      var shareText = '🧬 ' + t('styledna_title') + ': ' + archName + '\n' +
+        '📊 ' + scanCount + ' ' + t('styledna_scans_label') + ' · ' + t('styledna_avg_label') + ' ' + avgScore + '\n' +
+        '🎨 ' + colorDist.map(function(c) { return c.emoji + ' ' + c.label; }).join(', ') + '\n\n' +
+        'DateScan — AI Style Coach';
+      if (navigator.share) {
+        navigator.share({ title: t('styledna_title'), text: shareText }).catch(function(){});
+      } else {
+        navigator.clipboard.writeText(shareText).then(function() {
+          if (window.dsPrivacy && window.dsPrivacy.showToast) window.dsPrivacy.showToast('📋 Copied!', 2000);
+        }).catch(function(){});
+      }
+    });
+  }
+}
+
+window.renderStyleDNA = renderStyleDNA;
+
+// ============================================================
+// 5. OOTD GENERATOR — Weather + occasion + closet outfit suggestion
+// ============================================================
+
+function generateOOTD() {
+  var resultEl = document.getElementById('ootdResult');
+  var btn = document.getElementById('ootdGenerateBtn');
+  if (!resultEl) return;
+
+  // Show loading state
+  if (btn) {
+    btn.disabled = true;
+    btn.querySelector('span').textContent = t('ootd_generating');
+  }
+
+  // Get weather data
+  var weatherData = null;
+  try { weatherData = JSON.parse(localStorage.getItem('datescan.weather') || 'null'); } catch(e) {}
+
+  // Get closet items
+  var closetItems = [];
+  try {
+    var closet = JSON.parse(localStorage.getItem('datescan.closet') || '{}');
+    if (closet.outfits && closet.outfits.length) {
+      closetItems = closet.outfits.filter(function(o) { return o.source === 'upload'; });
+    }
+  } catch(e) {}
+
+  // Get style DNA
+  var profile = _getProfileData();
+  var archKey = _detectArchetype(profile);
+  var archName = archKey ? t('styledna_arch_' + archKey) : '';
+
+  // Build prompt for OOTD
+  var temp = weatherData && weatherData.temp ? weatherData.temp : null;
+  var condition = weatherData && weatherData.condition ? weatherData.condition : '';
+  var season = _getCurrentSeason();
+
+  var occasionMap = ['casual', 'smart_casual', 'date', 'business'];
+  var todayOccasion = occasionMap[new Date().getDay() % occasionMap.length];
+
+  var promptParts = [];
+  if (temp !== null) promptParts.push(t('ootd_temp').replace('{temp}', temp) + ', ' + condition);
+  promptParts.push(t('seasonal_' + season));
+  if (archName) promptParts.push(archName);
+  if (closetItems.length > 0) {
+    var itemNames = closetItems.slice(0, 8).map(function(i) { return i.type || i.name || 'item'; });
+    promptParts.push('Closet: ' + itemNames.join(', '));
+  }
+
+  // If we have closet items, suggest from them
+  var outfitParts = [];
+  var tops = closetItems.filter(function(i) { return /shirt|top|tshirt|blouse|sweater|pullover|hoodie/i.test(i.type || ''); });
+  var bottoms = closetItems.filter(function(i) { return /pants|jeans|trousers|shorts|skirt/i.test(i.type || ''); });
+  var jackets = closetItems.filter(function(i) { return /jacket|coat|blazer|vest/i.test(i.type || ''); });
+  var shoes = closetItems.filter(function(i) { return /shoes|sneakers|boots|loafers/i.test(i.type || ''); });
+
+  // Generate deterministic outfit suggestion
+  var dayIdx = Math.floor(Date.now() / 86400000);
+  var seasonTips = {
+    spring: { top: ['light button-down', 'cotton tee', 'pastel sweater'], bottom: ['chinos', 'light jeans', 'khakis'], jacket: ['light jacket', 'denim jacket', 'trench coat'], shoes: ['white sneakers', 'loafers', 'canvas shoes'] },
+    summer: { top: ['linen shirt', 'polo', 'tank top'], bottom: ['shorts', 'linen pants', 'light chinos'], jacket: ['none needed', 'light overshirt', 'linen blazer'], shoes: ['sandals', 'espadrilles', 'white sneakers'] },
+    autumn: { top: ['flannel shirt', 'merino sweater', 'henley'], bottom: ['dark jeans', 'corduroy pants', 'wool trousers'], jacket: ['leather jacket', 'wool coat', 'quilted vest'], shoes: ['boots', 'chukkas', 'suede loafers'] },
+    winter: { top: ['turtleneck', 'heavy sweater', 'thermal shirt'], bottom: ['wool trousers', 'dark jeans', 'thick chinos'], jacket: ['overcoat', 'puffer jacket', 'wool blazer'], shoes: ['winter boots', 'leather boots', 'thick soles'] }
+  };
+
+  var tips = seasonTips[season] || seasonTips.spring;
+  var pick = function(arr) { return arr[(dayIdx + Math.floor(Math.random() * 3)) % arr.length]; };
+
+  // Use closet items if available, otherwise suggest
+  var topSuggestion = tops.length > 0 ? (tops[dayIdx % tops.length].type || tops[dayIdx % tops.length].name) : pick(tips.top);
+  var bottomSuggestion = bottoms.length > 0 ? (bottoms[dayIdx % bottoms.length].type || bottoms[dayIdx % bottoms.length].name) : pick(tips.bottom);
+  var jacketSuggestion = jackets.length > 0 ? (jackets[dayIdx % jackets.length].type || jackets[dayIdx % jackets.length].name) : pick(tips.jacket);
+  var shoeSuggestion = shoes.length > 0 ? (shoes[dayIdx % shoes.length].type || shoes[dayIdx % shoes.length].name) : pick(tips.shoes);
+
+  outfitParts.push('👕 ' + topSuggestion);
+  outfitParts.push('👖 ' + bottomSuggestion);
+  if (jacketSuggestion && jacketSuggestion !== 'none needed') outfitParts.push('🧥 ' + jacketSuggestion);
+  outfitParts.push('👟 ' + shoeSuggestion);
+
+  var weatherIntro = temp !== null
+    ? t('ootd_temp').replace('{temp}', temp) + (condition ? ' — ' + condition : '')
+    : t('seasonal_' + season);
+
+  var html = '<div class="text-[10px] uppercase tracking-widest font-bold text-blue-300/60 mb-2">' + weatherIntro + '</div>' +
+    '<div class="space-y-1.5">' +
+    outfitParts.map(function(p) { return '<div class="text-xs">' + p + '</div>'; }).join('') +
+    '</div>';
+
+  setTimeout(function() {
+    resultEl.innerHTML = html;
+    resultEl.classList.remove('hidden');
+    if (btn) {
+      btn.disabled = false;
+      btn.querySelector('span').textContent = t('ootd_generate');
+    }
+  }, 800);
+}
+
+window.generateOOTD = generateOOTD;
+
+// ============================================================
+// 6. SEASONAL RECOMMENDER — Season-specific tips + auto notification
+// ============================================================
+
+const SEASON_KEY = 'datescan.lastSeason';
+
+function _getCurrentSeason() {
+  var month = new Date().getMonth(); // 0-11
+  if (month >= 2 && month <= 4) return 'spring';
+  if (month >= 5 && month <= 7) return 'summer';
+  if (month >= 8 && month <= 10) return 'autumn';
+  return 'winter';
+}
+
+var SEASON_ICONS = { spring: '🌸', summer: '☀️', autumn: '🍂', winter: '❄️' };
+
+function renderSeasonalTips() {
+  var nameEl = document.getElementById('seasonName');
+  var tipEl = document.getElementById('seasonTip');
+  var iconEl = document.getElementById('seasonIcon');
+  if (!nameEl || !tipEl) return;
+
+  var season = _getCurrentSeason();
+  nameEl.textContent = t('seasonal_' + season);
+  tipEl.textContent = t('seasonal_' + season + '_tip');
+  if (iconEl) iconEl.textContent = SEASON_ICONS[season] || '✨';
+
+  // Check for season change notification
+  try {
+    var lastSeason = localStorage.getItem(SEASON_KEY);
+    if (!lastSeason) {
+      localStorage.setItem(SEASON_KEY, season);
+    } else if (lastSeason !== season) {
+      localStorage.setItem(SEASON_KEY, season);
+      // Show season change notification
+      if (typeof window.dsPrivacy?.showToast === 'function') {
+        var msg = t('seasonal_new_season').replace('{season}', t('seasonal_' + season));
+        window.dsPrivacy.showToast('🌿 ' + msg, 4000);
+      }
+    }
+  } catch(e) {}
+}
+
+window.renderSeasonalTips = renderSeasonalTips;
+
+// Update OOTD temp badge if weather is available
+function updateOotdTempBadge() {
+  var badge = document.getElementById('ootdTempBadge');
+  if (!badge) return;
+  try {
+    var w = JSON.parse(localStorage.getItem('datescan.weather') || 'null');
+    if (w && w.temp !== undefined) {
+      badge.textContent = t('ootd_temp').replace('{temp}', w.temp);
+      badge.classList.remove('hidden');
+    }
+  } catch(e) {}
+}
+window.updateOotdTempBadge = updateOotdTempBadge;
+
 // Human-readable "Resets in Xh Ym" string for the tooltip / secondary
 // label under the points pill. Empty string if no window is active.
 function formatPointsResetShort() {
@@ -5725,7 +6277,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       chat_upload: 'Upload photo',
       chat_closet_pick: 'Pick from closet',
       chat_send: 'Send message',
-      chat_thinking: 'Loading AI model...',
+      chat_thinking: 'Start Scan',
       chat_good: 'Good response',
       chat_poor: 'Poor response',
       chat_save_tip: 'Save tip',
@@ -6318,9 +6870,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       hint_chat: 'Ask me anything about your style, or upload a photo from your closet!',
       cam_consent_title: 'Before we turn on your camera',
       cam_consent_lede: 'The live scanner runs entirely on your device. Here\'s what that means.',
-      cam_bullet_1_title: 'Live scanner = on-device.',
-      cam_bullet_1_text: 'When you use the camera scanner, frames are analysed inside your browser. Nothing is sent to any server.',
-      cam_bullet_1: '<strong>Live scanner = on-device.</strong> When you use the camera scanner, frames are analysed inside your browser by an on-device AI model. They are <strong>never uploaded</strong> to our servers and we never see them.',
+      cam_bullet_1_title: 'Scanning = local.',
+      cam_bullet_1_text: 'Your camera image is analyzed exclusively by your browser, directly on your device. The data never leaves your device, so we never see it.',
+      cam_bullet_1: '<strong>Scanning = local.</strong> Your camera image is analyzed exclusively by your browser, directly on your device. The data <strong>never leaves your device</strong>, so we never see it.',
       cam_bullet_2_title: 'Nothing is saved.',
       cam_bullet_2_text: 'Frames live in your device\'s memory for a few seconds and are then automatically discarded.',
       cam_bullet_2: '<strong>Nothing is saved.</strong> Frames live in your device\'s memory for a few seconds while the AI checks outfit, grooming, posture and lighting — then they\'re discarded.',
@@ -6962,6 +7514,70 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       streak_protected_toast: '🛡️ Streak protected!',
       challenge_complete_toast: '🎯 Challenge completed! +3 PTS +25 XP',
       streak_multiplier_label: '{multiplier}x multiplier',
+
+      // Badge / Achievement system
+      badge_title: 'Achievements',
+      badge_locked: 'Locked',
+      badge_unlock_toast: '🏆 Achievement unlocked: {name}!',
+      badge_scan_1: 'First Scan',
+      badge_scan_1_desc: 'Complete your first scan',
+      badge_scan_10: 'Style Explorer',
+      badge_scan_10_desc: 'Complete 10 scans',
+      badge_scan_50: 'Style Veteran',
+      badge_scan_50_desc: 'Complete 50 scans',
+      badge_streak_3: 'On Fire',
+      badge_streak_3_desc: '3-day scanning streak',
+      badge_streak_7: 'Unstoppable',
+      badge_streak_7_desc: '7-day scanning streak',
+      badge_streak_30: 'Legendary',
+      badge_streak_30_desc: '30-day scanning streak',
+      badge_referral_3: 'Social Butterfly',
+      badge_referral_3_desc: 'Invite 3 friends',
+      badge_color_all: 'Color Adventurer',
+      badge_color_all_desc: 'Try all color categories',
+      badge_chat_50: 'Chatterbox',
+      badge_chat_50_desc: 'Send 50 chat messages',
+      badge_score_80: 'Style Icon',
+      badge_score_80_desc: 'Average score above 80',
+
+      // Style DNA
+      styledna_title: 'Style DNA',
+      styledna_subtitle: 'Your style profile based on your scans',
+      styledna_archetype: 'Style Archetype',
+      styledna_color_palette: 'Color Palette',
+      styledna_dominant: 'Dominant',
+      styledna_share: 'Share Style Card',
+      styledna_no_data: 'Scan outfits to unlock your Style DNA',
+      styledna_arch_minimal: 'Minimalist Casual',
+      styledna_arch_street: 'Streetwear Fan',
+      styledna_arch_elegant: 'Elegant Classic',
+      styledna_arch_boho: 'Bohemian Free',
+      styledna_arch_sporty: 'Sporty Active',
+      styledna_arch_bold: 'Bold Statement',
+      styledna_scans_label: 'scans analyzed',
+      styledna_avg_label: 'avg score',
+
+      // OOTD Generator
+      ootd_title: 'Outfit of the Day',
+      ootd_subtitle: 'Auto-generated outfit suggestion',
+      ootd_generate: 'Generate Outfit',
+      ootd_generating: 'Generating...',
+      ootd_no_weather: 'Enable weather for personalized outfits',
+      ootd_no_closet: 'Add items to your closet first',
+      ootd_temp: '{temp}\u00b0C',
+      ootd_share: 'Share OOTD',
+
+      // Seasonal Recommender
+      seasonal_title: 'Seasonal Tips',
+      seasonal_spring: 'Spring',
+      seasonal_summer: 'Summer',
+      seasonal_autumn: 'Autumn',
+      seasonal_winter: 'Winter',
+      seasonal_spring_tip: 'Time to pack away the black sweater \u2014 try brighter colors!',
+      seasonal_summer_tip: 'Light fabrics, open collars, breathable layers \u2014 stay cool and sharp.',
+      seasonal_autumn_tip: 'Earthy tones, layered textures \u2014 embrace the cozy elegance.',
+      seasonal_winter_tip: 'Dark palette, structured coats \u2014 own the cold with confidence.',
+      seasonal_new_season: 'New season! Fresh tips for {season}',
     },
     hu: {
       nav_closet: 'Szekrény',
@@ -7000,7 +7616,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       chat_upload: 'Fénykép feltöltése',
       chat_closet_pick: 'Választás szekrényből',
       chat_send: 'Küldés',
-      chat_thinking: 'Keresés indítása...',
+      chat_thinking: 'Szkennelés indítása',
       chat_good: 'Jó válasz',
       chat_poor: 'Gyenge válasz',
       chat_save_tip: 'Tipp mentése',
@@ -7581,8 +8197,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cam_consent_title: 'Mielőtt bekapcsoljuk a kamerát',
       cam_consent_lede: 'A szkennere teljes egészében az eszközödön fut. Ez mit jelent.',
       cam_bullet_1_title: 'Szkennelés = helyi.',
-      cam_bullet_1_text: 'A kamerával szkennelve a képkockák a böngésződben elemződnek. Semmi nem megy szerverre.',
-      cam_bullet_1: '<strong>Szkennelés = helyi.</strong> A kamerával szkennelve a képkockák a böngésződben elemződnek egy helyi AI modell által. <strong>Soha nem töltődnek fel</strong> a szervereinkre és sosem látjuk őket.',
+      cam_bullet_1_text: 'A kamera képét kizárólag a böngésződ elemzi, közvetlenül az eszközödön. Az adatok soha nem hagyják el a készülékedet, így mi soha nem látjuk őket.',
+      cam_bullet_1: '<strong>Szkennelés = helyi.</strong> A kamera képét kizárólag a böngésződ elemzi, közvetlenül az eszközödön. Az adatok <strong>soha nem hagyják el a készülékedet</strong>, így mi soha nem látjuk őket.',
       cam_bullet_2_title: 'Semmi nem mentődik.',
       cam_bullet_2_text: 'A képkockák pár másodpercig élnek az eszközöd memóriájában, majd automatikusan törlődnek.',
       cam_bullet_2: '<strong>Semmi nem mentődik.</strong> A képkockák pár másodpercig élnek az eszközöd memóriájában, amíg az AI ellenőrzi az öltözéket, ápoltságot, testtartást és világítást — utána automatikusan törlődnek.',
@@ -8223,9 +8839,73 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       streak_protected_toast: '🛡️ Streak védve!',
       challenge_complete_toast: '🎯 Kihívás teljesítve! +3 PT +25 XP',
       streak_multiplier_label: '{multiplier}x szorzó',
+
+      // Badge / Eredmény rendszer
+      badge_title: 'Eredmények',
+      badge_locked: 'Zárolt',
+      badge_unlock_toast: '🏆 Eredmény feloldva: {name}!',
+      badge_scan_1: 'Első szkennelés',
+      badge_scan_1_desc: 'Végezd el az első szkennelésed',
+      badge_scan_10: 'Stílusfelfedező',
+      badge_scan_10_desc: 'Végez el 10 szkennelést',
+      badge_scan_50: 'Stílusveterán',
+      badge_scan_50_desc: 'Végez el 50 szkennelést',
+      badge_streak_3: 'Lángoló',
+      badge_streak_3_desc: '3 napos szkennelési sorozat',
+      badge_streak_7: 'Megállíthatatlan',
+      badge_streak_7_desc: '7 napos szkennelési sorozat',
+      badge_streak_30: 'Legendás',
+      badge_streak_30_desc: '30 napos szkennelési sorozat',
+      badge_referral_3: 'Társasági ember',
+      badge_referral_3_desc: 'Hívj meg 3 barátot',
+      badge_color_all: 'Színeszsernyész',
+      badge_color_all_desc: 'Próbálj ki minden színkategóriát',
+      badge_chat_50: 'Csevegő',
+      badge_chat_50_desc: 'Küldj 50 chat üzenetet',
+      badge_score_80: 'Stílusikon',
+      badge_score_80_desc: 'Átlagpontszám 80 felett',
+
+      // Style DNA
+      styledna_title: 'Stílus DNS',
+      styledna_subtitle: 'A szkenneléseid alapján épülő stílusprofilod',
+      styledna_archetype: 'Stílusarchetípus',
+      styledna_color_palette: 'Színpaletta',
+      styledna_dominant: 'Domináns',
+      styledna_share: 'Stíluskártya megosztása',
+      styledna_no_data: 'Szkennelj öltözékeket a Stílus DNS feloldásához',
+      styledna_arch_minimal: 'Minimalista casual',
+      styledna_arch_street: 'Streetwear rajongó',
+      styledna_arch_elegant: 'Elegáns klasszikus',
+      styledna_arch_boho: 'Bohém szabad',
+      styledna_arch_sporty: 'Sportos aktív',
+      styledna_arch_bold: 'Merész kijelentő',
+      styledna_scans_label: 'szkennelés elemezve',
+      styledna_avg_label: 'átlag pontszám',
+
+      // OOTD Generátor
+      ootd_title: 'Nap Öltözéke',
+      ootd_subtitle: 'Automatikus öltözékjavaslat',
+      ootd_generate: 'Öltözék generálása',
+      ootd_generating: 'Generálás...',
+      ootd_no_weather: 'Engedélyezd az időjárást a személyre szabott öltözékekhez',
+      ootd_no_closet: 'Először adj tárgyakat a szekrényedhez',
+      ootd_temp: '{temp}°C',
+      ootd_share: 'OOTD megosztása',
+
+      // Szezonális ajánló
+      seasonal_title: 'Szezonális tippek',
+      seasonal_spring: 'Tavasz',
+      seasonal_summer: 'Nyár',
+      seasonal_autumn: 'Ősz',
+      seasonal_winter: 'Tél',
+      seasonal_spring_tip: 'Ideje elpakolni a fekete pulcsit — próbálj élénkebb színeket!',
+      seasonal_summer_tip: 'Könnyű szövetek, nyitott gallérok, lélegző rétegek — maradj hűvös és stílusos.',
+      seasonal_autumn_tip: 'Földes tónusok, réteges textúrák — öleld a kellemes eleganciát.',
+      seasonal_winter_tip: 'Sötét paletta, strukturált kabátok — urald a hideget magabiztosan.',
+      seasonal_new_season: 'Új évszak! Friss tippek: {season}',
     },
     de: {
-      nav_closet: 'Kleiderschrank',
+      nav_closet: 'Schrank',
       nav_chat: 'AI Chat',
       nav_story: 'Story',
       nav_scan: 'Scannen',
@@ -8261,7 +8941,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       chat_upload: 'Foto hochladen',
       chat_closet_pick: 'Aus dem Schrank wählen',
       chat_send: 'Senden',
-      chat_thinking: 'AI-Modell laden...',
+      chat_thinking: 'Scan starten',
       chat_good: 'Gute Antwort',
       chat_poor: 'Schlechte Antwort',
       chat_save_tip: 'Tipp speichern',
@@ -8411,9 +9091,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       scan_privacy_note: 'Scan läuft lokal auf deinem Gerät.',
       scan_privacy_link: 'Datenschutz-Details',
       timer_label: 'Date-Vorbereitung',
-      timer_title: 'Countdown',
+      timer_title: 'Rückwärtszähler',
       timer_when: 'Wann ist das große Date?',
-      timer_start: 'Countdown starten',
+      timer_start: 'Rückwärtszähler starten',
       timer_remaining: 'Verbleibend',
       timer_coach_reminder: 'Coach-Erinnerung',
       timer_cancel: 'Abbrechen / Zeit ändern',
@@ -8592,7 +9272,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cal_vibe_saved: 'Vibe gespeichert.',
       vibe_origin_tip: 'Das ist dein Origin-Vibe',
       vibe_origin_baseline: 'die Basis für jeden zukünftigen Scan.',
-      disclaimer_line1: 'KI-GENERIERTE WAHRNEHMUNG · VISUELLE ANALYSE',
+      disclaimer_line1: 'KI-GENERIERTE WAHRNEHMUNG',
       disclaimer_line2: '',
       closet_title: 'Digitaler Schrank',
       closet_subtitle: 'Deine gespeicherten Outfits und persönliches Style-Archiv.',
@@ -8838,12 +9518,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       age_fineprint: 'Mit Fortfahren bestätigst du, 18 Jahre oder älter zu sein. Siehe <a href="/terms.html" class="text-brand-400 underline">AGB</a> und <a href="/privacy.html" class="text-brand-400 underline">Datenschutz</a>.',
       hint_scan: 'Richte die Kamera auf dein Outfit — in Sekunden hast du dein Ergebnis!',
       hint_result: 'Das ist dein Gesamtscore. Scrolle nach unten für detaillierte Tipps je Kategorie.',
-      hint_chat: 'Frag mich alles über deinen Style oder lade ein Foto aus deinem Kleiderschrank hoch!',
+      hint_chat: 'Frag mich alles über deinen Style oder lade ein Foto aus deinem Schrank hoch!',
       cam_consent_title: 'Bevor wir die Kamera einschalten',
       cam_consent_lede: 'Der Scanner läuft komplett auf deinem Gerät. Was das bedeutet.',
-      cam_bullet_1_title: 'Scanner = lokal.',
-      cam_bullet_1_text: 'Frames werden in deinem Browser analysiert. Nichts geht zu Servern.',
-      cam_bullet_1: '<strong>Scanner = lokal.</strong> Wenn du den Kamera-Scanner nutzt, werden Frames in deinem Browser von einem On-Device-AI-Modell analysiert. Sie werden <strong>niemals hochgeladen</strong> auf unsere Server und wir sehen sie nie.',
+      cam_bullet_1_title: 'Scan = lokal.',
+      cam_bullet_1_text: 'Dein Kamerabild wird ausschließlich von deinem Browser analysiert, direkt auf deinem Gerät. Die Daten verlassen niemals dein Gerät, daher sehen wir sie nie.',
+      cam_bullet_1: '<strong>Scan = lokal.</strong> Dein Kamerabild wird ausschließlich von deinem Browser analysiert, direkt auf deinem Gerät. Die Daten <strong>verlassen niemals dein Gerät</strong>, daher sehen wir sie nie.',
       cam_bullet_2_title: 'Nichts wird gespeichert.',
       cam_bullet_2_text: 'Frames leben nur wenige Sekunden im Speicher und werden verworfen.',
       cam_bullet_2: '<strong>Nichts wird gespeichert.</strong> Frames leben nur wenige Sekunden im Speicher deines Geräts, während die AI Outfit, Pflege, Haltung und Beleuchtung prüft — dann werden sie verworfen.',
@@ -9067,7 +9747,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       story_stat_scans: 'Scans',
       streak_max_bonus: 'Max-Streak-Bonus aktiv!',
       streak_days_to_bonus: 'Noch {days} Tage bis {label} Bonus!',
-      share_from_closet: 'Aus meinem Kleiderschrank',
+      share_from_closet: 'Aus meinem Schrank',
       share_built_with: 'Erstellt mit DateScan',
       trend_7d: '7T',
       trend_14d: '14T',
@@ -9484,6 +10164,70 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       streak_protected_toast: '🛡️ Streak geschützt!',
       challenge_complete_toast: '🎯 Herausforderung geschafft! +3 PTS +25 XP',
       streak_multiplier_label: '{multiplier}x Multiplikator',
+
+      // Badge / Achievement-System
+      badge_title: 'Erfolge',
+      badge_locked: 'Gesperrt',
+      badge_unlock_toast: '🏆 Erfolg freigeschaltet: {name}!',
+      badge_scan_1: 'Erster Scan',
+      badge_scan_1_desc: 'Schliesse deinen ersten Scan ab',
+      badge_scan_10: 'Style-Entdecker',
+      badge_scan_10_desc: 'Schliesse 10 Scans ab',
+      badge_scan_50: 'Style-Veteran',
+      badge_scan_50_desc: 'Schliesse 50 Scans ab',
+      badge_streak_3: 'Heiss',
+      badge_streak_3_desc: '3 Tage Scan-Streak',
+      badge_streak_7: 'Unaufhaltsam',
+      badge_streak_7_desc: '7 Tage Scan-Streak',
+      badge_streak_30: 'Legendär',
+      badge_streak_30_desc: '30 Tage Scan-Streak',
+      badge_referral_3: 'Netzwerker',
+      badge_referral_3_desc: 'Lade 3 Freunde ein',
+      badge_color_all: 'Farbabenteurer',
+      badge_color_all_desc: 'Probiere alle Farbkategorien',
+      badge_chat_50: 'Plauderbaum',
+      badge_chat_50_desc: 'Sende 50 Chat-Nachrichten',
+      badge_score_80: 'Style-Ikone',
+      badge_score_80_desc: 'Durchschnittspunktzahl über 80',
+
+      // Style DNA
+      styledna_title: 'Style DNA',
+      styledna_subtitle: 'Dein Style-Profil basierend auf deinen Scans',
+      styledna_archetype: 'Style-Archetyp',
+      styledna_color_palette: 'Farbpalette',
+      styledna_dominant: 'Dominant',
+      styledna_share: 'Style-Karte teilen',
+      styledna_no_data: 'Scanne Outfits, um dein Style DNA freizuschalten',
+      styledna_arch_minimal: 'Minimalist Casual',
+      styledna_arch_street: 'Streetwear Fan',
+      styledna_arch_elegant: 'Elegant Classic',
+      styledna_arch_boho: 'Bohemian Free',
+      styledna_arch_sporty: 'Sporty Active',
+      styledna_arch_bold: 'Bold Statement',
+      styledna_scans_label: 'Scans analysiert',
+      styledna_avg_label: 'Durchschnitt',
+
+      // OOTD Generator
+      ootd_title: 'Outfit des Tages',
+      ootd_subtitle: 'Automatischer Outfit-Vorschlag',
+      ootd_generate: 'Outfit generieren',
+      ootd_generating: 'Generiere...',
+      ootd_no_weather: 'Aktiviere Wetter für personalisierte Outfits',
+      ootd_no_closet: 'Füge zuerst Teile zu deinem Schrank hinzu',
+      ootd_temp: '{temp}°C',
+      ootd_share: 'OOTD teilen',
+
+      // Saisonale Empfehlungen
+      seasonal_title: 'Saisonale Tipps',
+      seasonal_spring: 'Frühling',
+      seasonal_summer: 'Sommer',
+      seasonal_autumn: 'Herbst',
+      seasonal_winter: 'Winter',
+      seasonal_spring_tip: 'Zeit, den schwarzen Pulli wegzupacken — probiere leuchtendere Farben!',
+      seasonal_summer_tip: 'Leichte Stoffe, offene Kragen, atmungsaktive Lagen — bleib cool und sharp.',
+      seasonal_autumn_tip: 'Erdtöne, geschichtete Texturen — geniesse die gemütliche Eleganz.',
+      seasonal_winter_tip: 'Dunkle Palette, strukturierte Mäntel — beherrsche die Kälte mit Selbstvertrauen.',
+      seasonal_new_season: 'Neue Saison! Frische Tipps für {season}',
     },
   };
 
@@ -9701,10 +10445,36 @@ window._tc = function(name) {
     });
   }
 
+  // Position dropdown below the button using fixed positioning
+  function positionDropdown() {
+    var rect = btn.getBoundingClientRect();
+    var dropH = dropdown.offsetHeight || 160;
+    var spaceBelow = window.innerHeight - rect.bottom;
+    // If not enough space below, open upward
+    if (spaceBelow < dropH + 8 && rect.top > dropH + 8) {
+      dropdown.style.top = (rect.top - dropH - 8) + 'px';
+    } else {
+      dropdown.style.top = (rect.bottom + 8) + 'px';
+    }
+    dropdown.style.right = (window.innerWidth - rect.right) + 'px';
+    dropdown.style.left = 'auto';
+  }
+
   // Toggle dropdown on button click
   btn.addEventListener('click', function(e) {
     e.stopPropagation();
-    dropdown.classList.toggle('hidden');
+    var isHidden = dropdown.classList.toggle('hidden');
+    if (!isHidden) {
+      positionDropdown();
+    }
+  });
+
+  // Reposition on scroll/resize while open
+  window.addEventListener('scroll', function() {
+    if (!dropdown.classList.contains('hidden')) positionDropdown();
+  }, { passive: true });
+  window.addEventListener('resize', function() {
+    if (!dropdown.classList.contains('hidden')) positionDropdown();
   });
 
   // Close dropdown on click outside
@@ -14937,6 +15707,22 @@ function renderStyleCoach(colorData, occasion, locked = false, items = null) {
       } catch (e) {}
   }
 
+  // Check badges after scan (scan count, avg score, streak, colors)
+  try {
+    if (typeof window.updateColorCategories === 'function') {
+      window.updateColorCategories(colorData.name ? [colorData.name] : []);
+    }
+    if (typeof window.checkAndUnlockBadges === 'function') {
+      window.checkAndUnlockBadges();
+    }
+    if (typeof window.renderBadges === 'function') {
+      window.renderBadges();
+    }
+    if (typeof window.renderStyleDNA === 'function') {
+      window.renderStyleDNA();
+    }
+  } catch(e) {}
+
   let historyText = t('feedback_first_scan');
   if (hist.length > 1) {
       const current = analysis.score;
@@ -16707,6 +17493,22 @@ document.addEventListener('DOMContentLoaded', () => {
       protectStreak();
     });
   }
+  // Initialize badge system on load
+  try {
+    if (typeof window.checkAndUnlockBadges === 'function') window.checkAndUnlockBadges();
+    if (typeof window.renderBadges === 'function') window.renderBadges();
+    if (typeof window.renderStyleDNA === 'function') window.renderStyleDNA();
+    if (typeof window.renderSeasonalTips === 'function') window.renderSeasonalTips();
+    if (typeof window.updateOotdTempBadge === 'function') window.updateOotdTempBadge();
+  } catch(e) {}
+
+  // OOTD Generate button
+  var ootdBtn = document.getElementById('ootdGenerateBtn');
+  if (ootdBtn) {
+    ootdBtn.addEventListener('click', function() {
+      if (typeof window.generateOOTD === 'function') window.generateOOTD();
+    });
+  }
 });
 // Also bind immediately in case DOM is already loaded
 const _shieldBtn = document.getElementById('challengeShieldBtn');
@@ -16918,6 +17720,8 @@ window.addEventListener('pagehide', stopCameraTracks);
             if (typeof addBonusPoints === 'function') {
               addBonusPoints(data.bonus);
             }
+            // Track referral count for badge
+            try { if (typeof window.incrementReferralCount === 'function') window.incrementReferralCount(); } catch(e) {}
             if (window.dsPrivacy && window.dsPrivacy.showToast) {
               window.dsPrivacy.showToast(t('referral_bonus_toast'), 3500);
             }
@@ -18587,6 +19391,14 @@ function onGoogleMapsLoaded() {
         if (profile.scanCount) parts.push('Total scans: ' + profile.scanCount);
         if (profile.avgScore) parts.push('Average style score: ' + profile.avgScore + '/100');
         if (parts.length) lines.push('User style profile — ' + parts.join('. ') + '.');
+        // Add Style DNA archetype
+        try {
+          if (typeof _detectArchetype === 'function') {
+            var archKey = _detectArchetype(profile);
+            if (archKey) parts.push('Style archetype: ' + archKey);
+            if (profile.uniqueColorCategories) parts.push('Unique color categories tried: ' + profile.uniqueColorCategories);
+          }
+        } catch(e) {}
       }
     } catch(e){}
 
@@ -18925,6 +19737,9 @@ function onGoogleMapsLoaded() {
   });
 
   async function sendMessage(text, attachments) {
+    // Track chat message count for badges
+    try { if (typeof window.incrementChatCount === 'function') window.incrementChatCount(); } catch(e) {}
+
     let userContent;
     if (attachments.length > 0) {
       userContent = [];
