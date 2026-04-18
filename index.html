@@ -5730,16 +5730,45 @@ function generateOOTD() {
   var tips = seasonTips[season] || seasonTips.spring;
   var pick = function(arr) { return arr[(dayIdx + Math.floor(Math.random() * 3)) % arr.length]; };
 
+  // Translate clothing item names via i18n if keys exist
+  var CLOTHING_KEYS = {
+    'light button-down': 'cloth_light_buttondown', 'cotton tee': 'cloth_cotton_tee', 'pastel sweater': 'cloth_pastel_sweater',
+    'chinos': 'cloth_chinos', 'light jeans': 'cloth_light_jeans', 'khakis': 'cloth_khakis',
+    'light jacket': 'cloth_light_jacket', 'denim jacket': 'cloth_denim_jacket', 'trench coat': 'cloth_trench_coat',
+    'white sneakers': 'cloth_white_sneakers', 'loafers': 'cloth_loafers', 'canvas shoes': 'cloth_canvas_shoes',
+    'linen shirt': 'cloth_linen_shirt', 'polo': 'cloth_polo', 'tank top': 'cloth_tank_top',
+    'shorts': 'cloth_shorts', 'linen pants': 'cloth_linen_pants', 'light chinos': 'cloth_light_chinos',
+    'none needed': 'cloth_none_needed', 'light overshirt': 'cloth_light_overshirt', 'linen blazer': 'cloth_linen_blazer',
+    'sandals': 'cloth_sandals', 'espadrilles': 'cloth_espadrilles',
+    'flannel shirt': 'cloth_flannel_shirt', 'merino sweater': 'cloth_merino_sweater', 'henley': 'cloth_henley',
+    'dark jeans': 'cloth_dark_jeans', 'corduroy pants': 'cloth_corduroy_pants', 'wool trousers': 'cloth_wool_trousers',
+    'leather jacket': 'cloth_leather_jacket', 'wool coat': 'cloth_wool_coat', 'quilted vest': 'cloth_quilted_vest',
+    'boots': 'cloth_boots', 'chukkas': 'cloth_chukkas', 'suede loafers': 'cloth_suede_loafers',
+    'turtleneck': 'cloth_turtleneck', 'heavy sweater': 'cloth_heavy_sweater', 'thermal shirt': 'cloth_thermal_shirt',
+    'thick chinos': 'cloth_thick_chinos', 'overcoat': 'cloth_overcoat', 'puffer jacket': 'cloth_puffer_jacket',
+    'wool blazer': 'cloth_wool_blazer', 'winter boots': 'cloth_winter_boots', 'leather boots': 'cloth_leather_boots',
+    'thick soles': 'cloth_thick_soles'
+  };
+  var translateCloth = function(name) {
+    var key = CLOTHING_KEYS[name];
+    if (key) {
+      var tr = t(key);
+      // If no translation found (key returned), fall back to original
+      return (tr !== key) ? tr : name;
+    }
+    return name;
+  };
+
   // Use closet items if available, otherwise suggest
   var topSuggestion = tops.length > 0 ? (tops[dayIdx % tops.length].type || tops[dayIdx % tops.length].name) : pick(tips.top);
   var bottomSuggestion = bottoms.length > 0 ? (bottoms[dayIdx % bottoms.length].type || bottoms[dayIdx % bottoms.length].name) : pick(tips.bottom);
   var jacketSuggestion = jackets.length > 0 ? (jackets[dayIdx % jackets.length].type || jackets[dayIdx % jackets.length].name) : pick(tips.jacket);
   var shoeSuggestion = shoes.length > 0 ? (shoes[dayIdx % shoes.length].type || shoes[dayIdx % shoes.length].name) : pick(tips.shoes);
 
-  outfitParts.push('👕 ' + topSuggestion);
-  outfitParts.push('👖 ' + bottomSuggestion);
-  if (jacketSuggestion && jacketSuggestion !== 'none needed') outfitParts.push('🧥 ' + jacketSuggestion);
-  outfitParts.push('👟 ' + shoeSuggestion);
+  outfitParts.push('👕 ' + translateCloth(topSuggestion));
+  outfitParts.push('👖 ' + translateCloth(bottomSuggestion));
+  if (jacketSuggestion && jacketSuggestion !== 'none needed') outfitParts.push('🧥 ' + translateCloth(jacketSuggestion));
+  outfitParts.push('👟 ' + translateCloth(shoeSuggestion));
 
   var weatherIntro = temp !== null
     ? t('ootd_temp').replace('{temp}', temp) + (condition ? ' — ' + condition : '')
@@ -7574,6 +7603,24 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ootd_title: 'Outfit of the Day',
       ootd_subtitle: 'Auto-generated outfit suggestion',
       ootd_generate: 'Generate Outfit',
+
+      // Clothing item names for OOTD
+      cloth_light_buttondown: 'light button-down', cloth_cotton_tee: 'cotton tee', cloth_pastel_sweater: 'pastel sweater',
+      cloth_chinos: 'chinos', cloth_light_jeans: 'light jeans', cloth_khakis: 'khakis',
+      cloth_light_jacket: 'light jacket', cloth_denim_jacket: 'denim jacket', cloth_trench_coat: 'trench coat',
+      cloth_white_sneakers: 'white sneakers', cloth_loafers: 'loafers', cloth_canvas_shoes: 'canvas shoes',
+      cloth_linen_shirt: 'linen shirt', cloth_polo: 'polo', cloth_tank_top: 'tank top',
+      cloth_shorts: 'shorts', cloth_linen_pants: 'linen pants', cloth_light_chinos: 'light chinos',
+      cloth_none_needed: 'none needed', cloth_light_overshirt: 'light overshirt', cloth_linen_blazer: 'linen blazer',
+      cloth_sandals: 'sandals', cloth_espadrilles: 'espadrilles',
+      cloth_flannel_shirt: 'flannel shirt', cloth_merino_sweater: 'merino sweater', cloth_henley: 'henley',
+      cloth_dark_jeans: 'dark jeans', cloth_corduroy_pants: 'corduroy pants', cloth_wool_trousers: 'wool trousers',
+      cloth_leather_jacket: 'leather jacket', cloth_wool_coat: 'wool coat', cloth_quilted_vest: 'quilted vest',
+      cloth_boots: 'boots', cloth_chukkas: 'chukkas', cloth_suede_loafers: 'suede loafers',
+      cloth_turtleneck: 'turtleneck', cloth_heavy_sweater: 'heavy sweater', cloth_thermal_shirt: 'thermal shirt',
+      cloth_thick_chinos: 'thick chinos', cloth_overcoat: 'overcoat', cloth_puffer_jacket: 'puffer jacket',
+      cloth_wool_blazer: 'wool blazer', cloth_winter_boots: 'winter boots', cloth_leather_boots: 'leather boots',
+      cloth_thick_soles: 'thick soles',
       ootd_generating: 'Generating...',
       ootd_no_weather: 'Enable weather for personalized outfits',
       ootd_no_closet: 'Add items to your closet first',
@@ -8900,6 +8947,24 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ootd_title: 'Nap Öltözéke',
       ootd_subtitle: 'Automatikus öltözékjavaslat',
       ootd_generate: 'Öltözék generálása',
+
+      // Clothing item names for OOTD
+      cloth_light_buttondown: 'vékony ing', cloth_cotton_tee: 'pamut póló', cloth_pastel_sweater: 'pasztell pulóver',
+      cloth_chinos: 'chino nadrág', cloth_light_jeans: 'világos farmer', cloth_khakis: 'kaki nadrág',
+      cloth_light_jacket: 'kabátka', cloth_denim_jacket: 'farmer dzseki', cloth_trench_coat: 'trenchcoat',
+      cloth_white_sneakers: 'fehér sportcipő', cloth_loafers: 'loafer', cloth_canvas_shoes: 'vászonscipő',
+      cloth_linen_shirt: 'vászoning', cloth_polo: 'pólóing', cloth_tank_top: 'pántos felső',
+      cloth_shorts: 'rövidnadrág', cloth_linen_pants: 'vászon nadrág', cloth_light_chinos: 'vékony chino',
+      cloth_none_needed: 'nem kell', cloth_light_overshirt: 'vékony felsőing', cloth_linen_blazer: 'vászon blézer',
+      cloth_sandals: 'szandál', cloth_espadrilles: 'espadrilla',
+      cloth_flannel_shirt: 'flaneling', cloth_merino_sweater: 'merino pulóver', cloth_henley: 'henley póló',
+      cloth_dark_jeans: 'sötét farmer', cloth_corduroy_pants: 'bársony nadrág', cloth_wool_trousers: 'gyapjú nadrág',
+      cloth_leather_jacket: 'bőrdzseki', cloth_wool_coat: 'gyapjúkabát', cloth_quilted_vest: 'steppelt mellény',
+      cloth_boots: 'bakancs', cloth_chukkas: 'chukka cipő', cloth_suede_loafers: 'velúr loafer',
+      cloth_turtleneck: 'galléros pulóver', cloth_heavy_sweater: 'vastag pulóver', cloth_thermal_shirt: 'termoing',
+      cloth_thick_chinos: 'vastag chino', cloth_overcoat: 'kabát', cloth_puffer_jacket: 'pufidzseki',
+      cloth_wool_blazer: 'gyapjú blézer', cloth_winter_boots: 'téli bakancs', cloth_leather_boots: 'bőrcipő',
+      cloth_thick_soles: 'vastag talpú cipő',
       ootd_generating: 'Generálás...',
       ootd_no_weather: 'Engedélyezd az időjárást a személyre szabott öltözékekhez',
       ootd_no_closet: 'Először adj tárgyakat a szekrényedhez',
@@ -10226,6 +10291,24 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ootd_title: 'Outfit des Tages',
       ootd_subtitle: 'Automatischer Outfit-Vorschlag',
       ootd_generate: 'Outfit generieren',
+
+      // Clothing item names for OOTD
+      cloth_light_buttondown: 'Leichtes Hemd', cloth_cotton_tee: 'Baumwoll-T-Shirt', cloth_pastel_sweater: 'Pastellpullover',
+      cloth_chinos: 'Chinos', cloth_light_jeans: 'Helle Jeans', cloth_khakis: 'Khakis',
+      cloth_light_jacket: 'Leichte Jacke', cloth_denim_jacket: 'Jeansjacke', cloth_trench_coat: 'Trenchcoat',
+      cloth_white_sneakers: 'Weisse Sneaker', cloth_loafers: 'Loafer', cloth_canvas_shoes: 'Stoffschuhe',
+      cloth_linen_shirt: 'Leinenhemd', cloth_polo: 'Poloshirt', cloth_tank_top: 'Tanktop',
+      cloth_shorts: 'Shorts', cloth_linen_pants: 'Leinenhose', cloth_light_chinos: 'Leichte Chinos',
+      cloth_none_needed: 'Nicht nötig', cloth_light_overshirt: 'Leichtes Overshirt', cloth_linen_blazer: 'Leinenblazer',
+      cloth_sandals: 'Sandalen', cloth_espadrilles: 'Espadrilles',
+      cloth_flannel_shirt: 'Flanellhemd', cloth_merino_sweater: 'Merinopullover', cloth_henley: 'Henley',
+      cloth_dark_jeans: 'Dunkle Jeans', cloth_corduroy_pants: 'Cordhose', cloth_wool_trousers: 'Wollhose',
+      cloth_leather_jacket: 'Lederjacke', cloth_wool_coat: 'Wollmantel', cloth_quilted_vest: 'Steppweste',
+      cloth_boots: 'Stiefel', cloth_chukkas: 'Chukkas', cloth_suede_loafers: 'Wildleder-Loafer',
+      cloth_turtleneck: 'Rollkragenpullover', cloth_heavy_sweater: 'Dicker Pullover', cloth_thermal_shirt: 'Thermohemd',
+      cloth_thick_chinos: 'Dicke Chinos', cloth_overcoat: 'Mantel', cloth_puffer_jacket: 'Daunenjacke',
+      cloth_wool_blazer: 'Wollblazer', cloth_winter_boots: 'Winterstiefel', cloth_leather_boots: 'Lederstiefel',
+      cloth_thick_soles: 'Dicke Sohlen',
       ootd_generating: 'Generiere...',
       ootd_no_weather: 'Aktiviere Wetter für personalisierte Outfits',
       ootd_no_closet: 'Füge zuerst Teile zu deinem Schrank hinzu',
@@ -10267,14 +10350,15 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
     currentLang = lang;
     try { localStorage.setItem('datescan.lang', lang); } catch(e) {}
     document.documentElement.lang = lang;
-    // Dispatch event so other components can react
-    window.dispatchEvent(new CustomEvent('langchange', { detail: { lang: lang } }));
     // Update SpeechRecognition if active
     if (window._currentRecognition) {
       window._currentRecognition.lang = SPEECH_LANGS[lang] || 'en-US';
     }
-    // Re-translate static DOM elements
+    // Re-translate static DOM elements FIRST (creates new <a> tags via innerHTML)
     applyTranslations();
+    // Dispatch event AFTER translations so that updateSubpageLinks()
+    // can find and update ALL links including freshly created ones.
+    window.dispatchEvent(new CustomEvent('langchange', { detail: { lang: lang } }));
   }
 
   function getLang() { return currentLang; }
@@ -10322,6 +10406,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       var key = el.getAttribute('data-i18n-html');
       el.innerHTML = t(key);
     });
+    // After innerHTML replacement, new <a> tags may have bare subpage hrefs.
+    // Update them so they carry the current language via ?lang=XX.
+    if (typeof updateSubpageLinks === 'function') updateSubpageLinks();
   }
 
 
@@ -10592,8 +10679,15 @@ window.addEventListener('langchange', function() {
     // pick up the new language. Without this, switching to German after a
     // scan in Hungarian keeps showing Hungarian result text.
     var s = (typeof store !== 'undefined' && store.get) ? store.get() : {};
-    if (s.lastItems && typeof renderActionPlan === 'function') {
-      renderActionPlan(s.lastItems, false);
+    if (s.lastItems) {
+      // Re-translate each item using its stored i18n keys
+      s.lastItems.forEach(function(it) {
+        if (it._titleKey && typeof window.t === 'function') it.title = window.t(it._titleKey);
+        if (it._textKey && typeof window.t === 'function') it.text = window.t(it._textKey);
+        if (it._actionKey && typeof window.t === 'function') it.action = window.t(it._actionKey);
+      });
+      store.set({ lastItems: s.lastItems });
+      if (typeof renderActionPlan === 'function') renderActionPlan(s.lastItems, false);
     }
     if (s.lastColor && typeof renderStyleCoach === 'function') {
       renderStyleCoach(s.lastColor, s.occasion || 'casual', false, s.lastItems);
@@ -10601,6 +10695,44 @@ window.addEventListener('langchange', function() {
     if (typeof window.renderBadges === 'function') window.renderBadges();
   } catch(e) { console.warn('[langchange] re-render failed:', e); }
 });
+
+// ===== Update subpage links with current language param =====
+function updateSubpageLinks() {
+  try {
+    var currentLang = (typeof window.getLang === 'function') ? window.getLang() : (localStorage.getItem('datescan.lang') || 'en');
+    // Handle auto:XX format
+    if (currentLang && currentLang.indexOf('auto:') === 0) currentLang = currentLang.substring(5);
+    var supported = ['en','hu','de'];
+    if (supported.indexOf(currentLang) === -1) currentLang = 'en';
+    var subpages = ['privacy.html','contact.html','terms.html','refund.html','delete-account.html'];
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      var href = a.getAttribute('href') || '';
+      for (var i = 0; i < subpages.length; i++) {
+        if (href.indexOf(subpages[i]) !== -1) {
+          // Remove existing lang param, add current one
+          var base = subpages[i];
+          var hash = '';
+          var hashIdx = href.indexOf('#');
+          if (hashIdx !== -1) { hash = href.substring(hashIdx); base = href.substring(0, hashIdx); }
+          else { base = href; }
+          // Remove any existing ?lang= param
+          var qIdx = base.indexOf('?');
+          if (qIdx !== -1) {
+            var params = base.substring(qIdx + 1).split('&').filter(function(p) { return p.indexOf('lang=') !== 0; });
+            base = base.substring(0, qIdx) + (params.length ? '?' + params.join('&') : '');
+          }
+          // Append lang param
+          var sep = base.indexOf('?') !== -1 ? '&' : '?';
+          a.setAttribute('href', base + sep + 'lang=' + currentLang + hash);
+          break;
+        }
+      }
+    });
+  } catch(e) {}
+}
+// Run on load and on language change
+updateSubpageLinks();
+window.addEventListener('langchange', updateSubpageLinks);
 
 
 const closetDB = (function () {
@@ -16769,6 +16901,70 @@ async function runScan() {
       return item;
     }
 
+    // Helper: add i18n keys to an item so langchange can re-translate it.
+    // Called after pushing the item (which uses t() for immediate translation).
+    function withKeys(item, titleKey, textKey, actionKey) {
+      item._titleKey = titleKey;
+      item._textKey = textKey;
+      item._actionKey = actionKey;
+      return item;
+    }
+
+    // Helper: wrap an analyzer result to add i18n keys.
+    // Analyzers like analyzePosture return { title: t("key"), ... }
+    // We add _titleKey, _textKey, _actionKey from a lookup table.
+    var ANALYZER_KEY_MAP = {
+      // posture
+      fb_posture_title: 'fb_posture_text', fb_posture_text: 'fb_posture_action', fb_posture_action: null,
+      fb_head_tilt_title: 'fb_head_tilt_text', fb_head_tilt_text: 'fb_head_tilt_action', fb_head_tilt_action: null,
+      fb_strong_body_title: 'fb_strong_body_text', fb_strong_body_text: 'fb_strong_body_action', fb_strong_body_action: null,
+      // camera angle
+      fb_camera_high_title: 'fb_camera_high_text', fb_camera_high_text: 'fb_camera_high_action', fb_camera_high_action: null,
+      fb_camera_low_title: 'fb_camera_low_text', fb_camera_low_text: 'fb_camera_low_action', fb_camera_low_action: null,
+      fb_camera_level_title: 'fb_camera_level_text', fb_camera_level_text: 'fb_camera_level_action', fb_camera_level_action: null,
+      // head yaw
+      fb_yaw_title: 'fb_yaw_text', fb_yaw_text: 'fb_yaw_action', fb_yaw_action: null,
+      // face distance
+      fb_too_close_title: 'fb_too_close_text', fb_too_close_text: 'fb_too_close_action', fb_too_close_action: null,
+      fb_too_far_title: 'fb_too_far_text', fb_too_far_text: 'fb_too_far_action', fb_too_far_action: null,
+      // face centering
+      fb_off_center_title: 'fb_off_center_text', fb_off_center_text: 'fb_off_center_action', fb_off_center_action: null,
+      fb_centered_title: 'fb_centered_text', fb_centered_text: 'fb_centered_action', fb_centered_action: null,
+      // eyes open
+      fb_engaged_gaze_title: 'fb_engaged_gaze_text', fb_engaged_gaze_text: 'fb_engaged_gaze_action', fb_engaged_gaze_action: null,
+      fb_distracted_title: 'fb_distracted_text', fb_distracted_text: 'fb_distracted_action', fb_distracted_action: null,
+      // proportions
+      fb_balanced_title: 'fb_balanced_text', fb_balanced_text: 'fb_balanced_action', fb_balanced_action: null,
+      // symmetry
+      mirror_check: 'small_imbalance', small_imbalance: 'check_hair_collar', check_hair_collar: null,
+    };
+
+    function addKeysToAnalyzerItem(item) {
+      if (!item || item._titleKey) return item;
+      // Try to find the i18n key by looking up the title text in all translations
+      // This is a reverse lookup: find which key produces this title in the current lang
+      try {
+        var trs = (typeof translations !== 'undefined') ? translations : {};
+        var langs = Object.keys(trs);
+        for (var li = 0; li < langs.length; li++) {
+          var langObj = trs[langs[li]];
+          var keys = Object.keys(langObj);
+          for (var ki = 0; ki < keys.length; ki++) {
+            if (langObj[keys[ki]] === item.title) {
+              item._titleKey = keys[ki];
+              // Find text and action keys by following the ANALYZER_KEY_MAP
+              var textKey = ANALYZER_KEY_MAP[keys[ki]];
+              var actionKey = textKey ? ANALYZER_KEY_MAP[textKey] : null;
+              if (textKey) item._textKey = textKey;
+              if (actionKey) item._actionKey = actionKey;
+              return item;
+            }
+          }
+        }
+      } catch(e) {}
+      return item;
+    }
+
     let workerResults;
     try {
       workerResults = await workerPromise;
@@ -16787,20 +16983,20 @@ async function runScan() {
       const brightness = workerResults.brightness;
       if (brightness?.tooDark) {
         triggerHaptic('error');
-        items.push({ category: "env", tone: "alert", icon: "💡", title: t('fb_dark_title'), text: t('feedback_too_dark_text'), action: t('fb_dark_action') });
+        items.push(withKeys({ category: "env", tone: "alert", icon: "💡", title: t('fb_dark_title'), text: t('feedback_too_dark_text'), action: t('fb_dark_action') }, 'fb_dark_title', 'feedback_too_dark_text', 'fb_dark_action'));
         renderActionPlan(items, false);
         return;
       }
-      if (brightness?.dim) items.push({ category: "env", tone: "warn", icon: "💡", title: t('fb_dim_title'), text: t('fb_dim_text'), action: t('fb_dim_action') });
+      if (brightness?.dim) items.push(withKeys({ category: "env", tone: "warn", icon: "💡", title: t('fb_dim_title'), text: t('fb_dim_text'), action: t('fb_dim_action') }, 'fb_dim_title', 'fb_dim_text', 'fb_dim_action'));
 
       // Blur warning from worker
       const blurInfo = workerResults.blur;
       if (blurInfo?.isBlurry) {
-        items.push({ category: "env", tone: "warn", icon: "📷", title:t("fb_blurry_title"), text:t("fb_blurry_text"), action:t("fb_blurry_action") });
+        items.push(withKeys({ category: "env", tone: "warn", icon: "📷", title: t("fb_blurry_title"), text: t("fb_blurry_text"), action: t("fb_blurry_action") }, 'fb_blurry_title', 'fb_blurry_text', 'fb_blurry_action'));
       }
 
       if (!result.faceLandmarks?.length) {
-        items.push({ category: "env", tone: "warn", icon: "👤", title: t('fb_no_face_title'), text: t('fb_no_face_text'), action: t('fb_no_face_action') });
+        items.push(withKeys({ category: "env", tone: "warn", icon: "👤", title: t('fb_no_face_title'), text: t('fb_no_face_text'), action: t('fb_no_face_action') }, 'fb_no_face_title', 'fb_no_face_text', 'fb_no_face_action'));
       } else {
         const lm = result.faceLandmarks[0];
 
@@ -16822,14 +17018,14 @@ async function runScan() {
 
         const eyes = workerResults.eyeRedness;
         if (eyes) {
-          if (eyes.tired) items.push({ category: "grooming", tone: "alert", icon: "👁️", title: t('fb_tired_eyes_title'), text: t('fb_tired_eyes_text'), action: t('fb_tired_eyes_action') });
-          else if (eyes.slightly) items.push({ category: "grooming", tone: "warn", icon: "👁️", title: t('fb_slight_redness_title'), text: t('fb_slight_redness_text'), action: t('fb_slight_redness_action') });
+          if (eyes.tired) items.push(withKeys({ category: "grooming", tone: "alert", icon: "👁️", title: t('fb_tired_eyes_title'), text: t('fb_tired_eyes_text'), action: t('fb_tired_eyes_action') }, 'fb_tired_eyes_title', 'fb_tired_eyes_text', 'fb_tired_eyes_action'));
+          else if (eyes.slightly) items.push(withKeys({ category: "grooming", tone: "warn", icon: "👁️", title: t('fb_slight_redness_title'), text: t('fb_slight_redness_text'), action: t('fb_slight_redness_action') }, 'fb_slight_redness_title', 'fb_slight_redness_text', 'fb_slight_redness_action'));
         }
 
         const skin = workerResults.skinShine;
         if (skin) {
-          if (skin.veryShiny) items.push({ category: "grooming", tone: "alert", icon: "💧", title: t('fb_oily_tzone_title'), text: t('fb_oily_tzone_text'), action: t('fb_oily_tzone_action') });
-          else if (skin.shiny) items.push({ category: "grooming", tone: "warn", icon: "✨", title: t('fb_slight_shine_title'), text: t('fb_slight_shine_text'), action: t('fb_slight_shine_action') });
+          if (skin.veryShiny) items.push(withKeys({ category: "grooming", tone: "alert", icon: "💧", title: t('fb_oily_tzone_title'), text: t('fb_oily_tzone_text'), action: t('fb_oily_tzone_action') }, 'fb_oily_tzone_title', 'fb_oily_tzone_text', 'fb_oily_tzone_action'));
+          else if (skin.shiny) items.push(withKeys({ category: "grooming", tone: "warn", icon: "✨", title: t('fb_slight_shine_title'), text: t('fb_slight_shine_text'), action: t('fb_slight_shine_action') }, 'fb_slight_shine_title', 'fb_slight_shine_text', 'fb_slight_shine_action'));
         }
       }
 
@@ -16896,6 +17092,9 @@ async function runScan() {
       if (sh?.possibleLint) items.push({ category: "style", tone: "warn", icon: "🧥", title: t('fb_lint_title'), text: t('fb_lint_text'), action: t('fb_lint_action') });
       await yieldToUI();
     }
+
+    // Add i18n keys to all items so langchange can re-translate them
+    items.forEach(addKeysToAnalyzerItem);
 
     store.set({ lastItems: items, lastColor: detectedOutfitColor });
 

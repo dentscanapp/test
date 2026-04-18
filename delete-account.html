@@ -255,18 +255,38 @@
     }
   };
 
-  // Detect language: localStorage > navigator > fallback
+  // Detect language: URL param > localStorage > navigator > fallback
+  // IMPORTANT: URL param wins absolutely. If user clicks a link with ?lang=en,
+  // we must honor 'en' and NOT fall through to localStorage/navigator (which
+  // would override to Hungarian on a Hungarian device). Uses null sentinel
+  // instead of 'en' default so we can distinguish "explicitly en" from "unset".
   var supported = ['en','hu','de'];
-  var lang = 'en';
+  var lang = null;
+  // 1. Check URL parameter first (?lang=en / ?lang=de / ?lang=hu)
   try {
-    var stored = localStorage.getItem('datescan.lang');
-    if (stored && stored.indexOf('auto:') === 0) {
-      // re-detect from device
-    } else if (stored && supported.indexOf(stored) !== -1) {
-      lang = stored;
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlLang = urlParams.get('lang');
+    if (urlLang && supported.indexOf(urlLang) !== -1) {
+      lang = urlLang;
     }
   } catch(e) {}
-  if (lang === 'en') {
+  // 2. Check localStorage
+  if (!lang) {
+    try {
+      var stored = localStorage.getItem('datescan.lang');
+      if (stored && stored.indexOf('auto:') === 0) {
+        // Extract language code from auto:XX format
+        var autoLang = stored.substring(5);
+        if (supported.indexOf(autoLang) !== -1) {
+          lang = autoLang;
+        }
+      } else if (stored && supported.indexOf(stored) !== -1) {
+        lang = stored;
+      }
+    } catch(e) {}
+  }
+  // 3. Detect from browser/navigator
+  if (!lang) {
     try {
       var navLangs = navigator.languages && navigator.languages.length
         ? Array.prototype.slice.call(navigator.languages)
@@ -278,6 +298,8 @@
       }
     } catch(e) {}
   }
+  // 4. Final fallback
+  if (!lang) lang = 'en';
 
   var strings = translations[lang] || translations.en;
   document.documentElement.lang = lang;
@@ -297,16 +319,52 @@
     });
   }
 
+  // Update all subpage links in this page to include ?lang=XX
+  function updateSubpageLinks() {
+    var subpages = ['privacy.html','contact.html','terms.html','refund.html','delete-account.html'];
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      var href = a.getAttribute('href') || '';
+      for (var i = 0; i < subpages.length; i++) {
+        if (href.indexOf(subpages[i]) !== -1) {
+          var base = href;
+          var hash = '';
+          var hashIdx = href.indexOf('#');
+          if (hashIdx !== -1) { hash = href.substring(hashIdx); base = href.substring(0, hashIdx); }
+          var qIdx = base.indexOf('?');
+          if (qIdx !== -1) {
+            var params = base.substring(qIdx + 1).split('&').filter(function(p) { return p.indexOf('lang=') !== 0; });
+            base = base.substring(0, qIdx) + (params.length ? '?' + params.join('&') : '');
+          }
+          var sep = base.indexOf('?') !== -1 ? '&' : '?';
+          a.setAttribute('href', base + sep + 'lang=' + lang + hash);
+          break;
+        }
+      }
+    });
+    // Also update "Back to app" links to preserve language
+    document.querySelectorAll('a[href*="index.html"]').forEach(function(a) {
+      var href = a.getAttribute('href') || '';
+      if (href.indexOf('lang=') === -1) {
+        var sep = href.indexOf('?') !== -1 ? '&' : '?';
+        a.setAttribute('href', href + sep + 'lang=' + lang);
+      }
+    });
+  }
+
   // Expose for later use (form JS)
   window._deleteAccountLang = lang;
   window._deleteAccountStrings = strings;
   window._deleteAccountApplyI18n = applyI18n;
 
   // Apply on DOMContentLoaded
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', applyI18n);
-  } else {
+  function init() {
     applyI18n();
+    updateSubpageLinks();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();
 </script>
