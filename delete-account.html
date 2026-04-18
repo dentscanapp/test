@@ -114,7 +114,7 @@
       honeypot_label: 'Leave this field blank',
       btn_delete: 'Delete my data',
       btn_deleting: 'Deleting…',
-      agree_terms: 'By submitting, you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.',
+      agree_terms: 'By submitting, you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.',
       success_title: 'Data deleted',
       success_desc: 'All server-side data for account ID <strong id="successUserId" class="text-white font-mono break-all"></strong> has been permanently deleted. To also wipe data stored on your phone, open the DateScan app → Settings → Privacy, or simply uninstall the app.',
       error_title: 'Something went wrong',
@@ -173,7 +173,7 @@
       honeypot_label: 'Hagyd üresen ezt a mezőt',
       btn_delete: 'Adataim törlése',
       btn_deleting: 'Törlés…',
-      agree_terms: 'A beküldéssel elfogadod a <a href="/terms.html">Felhasználási feltételeket</a> és az <a href="/privacy.html">Adatvédelmi tájékoztatót</a>.',
+      agree_terms: 'A beküldéssel elfogadod a <a href="terms.html">Felhasználási feltételeket</a> és az <a href="privacy.html">Adatvédelmi tájékoztatót</a>.',
       success_title: 'Adatok törölve',
       success_desc: 'A <strong id="successUserId" class="text-white font-mono break-all"></strong> fiókazonosítóhoz tartozó összes szerveroldali adat véglegesen törölve. A telefonodon tárolt adatok törléséhez nyisd meg a DateScan alkalmazást → Beállítások → Adatvédelem, vagy egyszerűen távolítsd el az alkalmazást.',
       error_title: 'Valami hiba történt',
@@ -232,7 +232,7 @@
       honeypot_label: 'Dieses Feld leer lassen',
       btn_delete: 'Meine Daten löschen',
       btn_deleting: 'Lösche…',
-      agree_terms: 'Mit dem Absenden stimmst du unseren <a href="/terms.html">Nutzungsbedingungen</a> und der <a href="/privacy.html">Datenschutzerklärung</a> zu.',
+      agree_terms: 'Mit dem Absenden stimmst du unseren <a href="terms.html">Nutzungsbedingungen</a> und der <a href="privacy.html">Datenschutzerklärung</a> zu.',
       success_title: 'Daten gelöscht',
       success_desc: 'Alle serverseitigen Daten für Account-ID <strong id="successUserId" class="text-white font-mono break-all"></strong> wurden dauerhaft gelöscht. Um auch die auf deinem Handy gespeicherten Daten zu löschen, öffne die DateScan-App → Einstellungen → Datenschutz, oder deinstalliere einfach die App.',
       error_title: 'Etwas ist schiefgelaufen',
@@ -313,7 +313,7 @@
 </head>
 <body class="antialiased">
 <div class="ambient-glow"></div>
-<a href="/index.html?desktop=1" data-i18n-attr="aria-label:back_aria" aria-label="Back to app" class="fixed top-10 right-6 z-30 w-11 h-11 flex items-center justify-center rounded-full border border-white/10 bg-[#0f0f14]/80 backdrop-blur-md text-gray-300 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] active:scale-95 transition-all" style="top: calc(env(safe-area-inset-top, 0px) + 2.5rem);">
+<a href="index.html?desktop=1" data-i18n-attr="aria-label:back_aria" aria-label="Back to app" class="fixed top-10 right-6 z-30 w-11 h-11 flex items-center justify-center rounded-full border border-white/10 bg-[#0f0f14]/80 backdrop-blur-md text-gray-300 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] active:scale-95 transition-all" style="top: calc(env(safe-area-inset-top, 0px) + 2.5rem);">
   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
     <path d="M15 18l-6-6 6-6"/>
   </svg>
@@ -321,7 +321,7 @@
 
 
 <header class="relative z-10 max-w-3xl mx-auto px-6 pt-10 pb-8">
-  <a href="/index.html?desktop=1" class="inline-flex items-center gap-3 group">
+  <a href="index.html?desktop=1" class="inline-flex items-center gap-3 group">
     <div class="w-12 h-12 flex items-center justify-center shrink-0">
       <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_0_8px_rgba(236,72,153,0.4)]">
         <defs>
@@ -422,7 +422,7 @@
         Delete my data
       </button>
 
-      <p class="text-[11px] text-gray-500 text-center" data-i18n-html="agree_terms">By submitting, you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+      <p class="text-[11px] text-gray-500 text-center" data-i18n-html="agree_terms">By submitting, you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
     </form>
 
     <!-- Success state -->
@@ -469,7 +469,7 @@
   }
 
   // Update back button aria-label
-  var backBtn = document.querySelector('a[href="/index.html"][aria-label]');
+  var backBtn = document.querySelector('a[href="index.html"][aria-label]');
   if (backBtn && strings.back_aria) {
     backBtn.setAttribute('aria-label', strings.back_aria);
   }
@@ -537,7 +537,7 @@
 
       <!-- Brand column -->
       <div class="col-span-2 lg:col-span-5">
-        <a href="/index.html?desktop=1" class="inline-flex items-center gap-3 group mb-4">
+        <a href="index.html?desktop=1" class="inline-flex items-center gap-3 group mb-4">
           <div class="w-11 h-11 flex items-center justify-center shrink-0">
             <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_0_8px_rgba(236,72,153,0.4)]">
               <defs>
@@ -572,10 +572,10 @@
       <div class="lg:col-span-2 lg:col-start-7">
         <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4" data-i18n="footer_legal">Legal</h3>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="/privacy.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_privacy">Privacy Policy</a></li>
-          <li><a href="/terms.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_terms">Terms of Service</a></li>
-          <li><a href="/refund.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_refund">Refund Policy</a></li>
-          <li><a href="/delete-account.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_delete">Delete Account</a></li>
+          <li><a href="privacy.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_privacy">Privacy Policy</a></li>
+          <li><a href="terms.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_terms">Terms of Service</a></li>
+          <li><a href="refund.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_refund">Refund Policy</a></li>
+          <li><a href="delete-account.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_delete">Delete Account</a></li>
         </ul>
       </div>
 
@@ -583,7 +583,7 @@
       <div class="lg:col-span-2">
         <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4" data-i18n="footer_support">Support</h3>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="/contact.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_contact">Contact Support</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_contact">Contact Support</a></li>
         </ul>
       </div>
 

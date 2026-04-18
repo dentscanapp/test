@@ -16880,7 +16880,7 @@ async function runScan() {
     // Populate the chat suggestion chips with occasion-aware prompts so
     // the user can tap a question instead of typing. Also show scan-result-
     // specific chips (color, shoes, accessories, occasion) right after scan.
-    window._scanJustHappened = true;
+    _scanJustHappened = true;
     renderChips(store.get().occasion);
     // Also re-render the quick reply chips in the chat area
     if (typeof window.renderQuickReplyChips === 'function') {
