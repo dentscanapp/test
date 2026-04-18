@@ -3798,10 +3798,10 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
       <div class="lg:col-span-2 lg:col-start-7">
         <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4" data-i18n="footer_legal">Legal</h3>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="privacy.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_privacy">Privacy Policy</a></li>
-          <li><a href="terms.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_terms">Terms of Service</a></li>
-          <li><a href="refund.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_refund">Refund Policy</a></li>
-          <li><a href="delete-account.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_delete_account">Delete Account</a></li>
+          <li><a href="privacy.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_privacy" data-subpage-link>Privacy Policy</a></li>
+          <li><a href="terms.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_terms" data-subpage-link>Terms of Service</a></li>
+          <li><a href="refund.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_refund" data-subpage-link>Refund Policy</a></li>
+          <li><a href="delete-account.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_delete_account" data-subpage-link>Delete Account</a></li>
         </ul>
       </div>
 
@@ -3809,7 +3809,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
       <div class="lg:col-span-2">
         <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4" data-i18n="footer_support">Support</h3>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="contact.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_contact">Contact Support</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_contact" data-subpage-link>Contact Support</a></li>
         </ul>
       </div>
 
@@ -4292,19 +4292,19 @@ document.addEventListener('DOMContentLoaded', function () {
     <ul class="space-y-3 text-sm text-gray-300 mb-6">
       <li class="flex gap-3">
         <span class="text-emerald-400 shrink-0">●</span>
-        <div><strong class="text-white">Camera scan &amp; analysis.</strong> Runs 100% on your device using MediaPipe + WebAssembly. Your video frames never leave the browser.</div>
+        <div data-i18n-html="privacy_item_camera"><strong class="text-white">Camera scan &amp; analysis.</strong> Runs 100% on your device using MediaPipe + WebAssembly. Your video frames never leave the browser.</div>
       </li>
       <li class="flex gap-3">
         <span class="text-emerald-400 shrink-0">●</span>
-        <div><strong class="text-white">Closet &amp; history.</strong> Stored locally in your browser's IndexedDB. Nothing is sent anywhere.</div>
+        <div data-i18n-html="privacy_item_closet"><strong class="text-white">Closet &amp; history.</strong> Stored locally in your browser's IndexedDB. Nothing is sent anywhere.</div>
       </li>
       <li class="flex gap-3">
         <span class="text-yellow-400 shrink-0">●</span>
-        <div><strong class="text-white">AI Style Coach Chat — text.</strong> Your messages are sent to <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code> and forwarded to a vision-language model so you can get a reply.</div>
+        <div data-i18n-html="privacy_item_chat_text"><strong class="text-white">AI Style Coach Chat — text.</strong> Your messages are sent to <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code> and forwarded to a vision-language model so you can get a reply.</div>
       </li>
       <li class="flex gap-3">
         <span class="text-yellow-400 shrink-0">●</span>
-        <div><strong class="text-white">AI Style Coach Chat — images.</strong> If you attach a photo or pick one from your closet, that image is uploaded with your message for the model to "see". It is processed for that single request and not retained on our server beyond the response. We do not use chat content to train models.</div>
+        <div data-i18n-html="privacy_item_chat_images"><strong class="text-white">AI Style Coach Chat — images.</strong> If you attach a photo or pick one from your closet, that image is uploaded with your message for the model to "see". It is processed for that single request and not retained on our server beyond the response. We do not use chat content to train models.</div>
       </li>
     </ul>
 
@@ -4327,7 +4327,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="rounded-2xl border border-red-500/20 bg-red-500/5 p-4 mb-4">
       <div class="text-sm font-semibold text-white mb-1" data-i18n="privacy_delete_title">Delete my account &amp; data</div>
       <p data-i18n="privacy_delete_desc" class="text-xs text-gray-400 mb-3 leading-relaxed">View your account ID and permanently delete your account &amp; all data (server-side and on this device) on our Privacy page.</p>
-      <a href="privacy.html#delete" class="block text-center w-full py-2.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-sm font-semibold hover:bg-red-500/25 active:scale-[0.98] transition-all">
+      <a href="privacy.html#delete" class="block text-center w-full py-2.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-sm font-semibold hover:bg-red-500/25 active:scale-[0.98] transition-all" data-i18n="privacy_open_page" data-subpage-link>
         Open Privacy &amp; Data page
       </a>
     </div>
@@ -4337,25 +4337,25 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="mt-6 pt-4 border-t border-white/10">
         <label class="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-3" data-i18n="footer_legal">Legal</label>
         <div class="space-y-2">
-          <a href="privacy.html" class="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/[0.03] hover:bg-white/[0.06] hover:border-brand-500/30 transition-all group">
+          <a href="privacy.html" class="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/[0.03] hover:bg-white/[0.06] hover:border-brand-500/30 transition-all group" data-subpage-link>
             <div class="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center shrink-0 group-hover:bg-brand-500/20 transition">
               <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
             </div>
             <span class="text-sm text-gray-300 group-hover:text-white transition-colors" data-i18n="footer_privacy">Privacy Policy</span>
           </a>
-          <a href="terms.html" class="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/[0.03] hover:bg-white/[0.06] hover:border-brand-500/30 transition-all group">
+          <a href="terms.html" class="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/[0.03] hover:bg-white/[0.06] hover:border-brand-500/30 transition-all group" data-subpage-link>
             <div class="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center shrink-0 group-hover:bg-brand-500/20 transition">
               <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
             </div>
             <span class="text-sm text-gray-300 group-hover:text-white transition-colors" data-i18n="footer_terms">Terms of Service</span>
           </a>
-          <a href="refund.html" class="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/[0.03] hover:bg-white/[0.06] hover:border-brand-500/30 transition-all group">
+          <a href="refund.html" class="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/[0.03] hover:bg-white/[0.06] hover:border-brand-500/30 transition-all group" data-subpage-link>
             <div class="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center shrink-0 group-hover:bg-brand-500/20 transition">
               <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/></svg>
             </div>
             <span class="text-sm text-gray-300 group-hover:text-white transition-colors" data-i18n="footer_refund">Refund Policy</span>
           </a>
-          <a href="delete-account.html" class="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/[0.03] hover:bg-white/[0.06] hover:border-brand-500/30 transition-all group">
+          <a href="delete-account.html" class="flex items-center gap-3 p-3 rounded-xl border border-white/5 bg-white/[0.03] hover:bg-white/[0.06] hover:border-brand-500/30 transition-all group" data-subpage-link>
             <div class="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center shrink-0 group-hover:bg-red-500/20 transition">
               <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
             </div>
@@ -4777,6 +4777,9 @@ const store = createStore({
   venueVibe: null,
   lastItems: null,
   lastColor: null,
+  lastFixes: null,
+  lastBoosterIdx: null,
+  lastVibe: null,
   activeView: 'scanner'
 }, appReducer);
 
@@ -4961,7 +4964,7 @@ store.subscribe((s) => {
   if (s.isScanning) return;
   if (!s.lastColor) return;
   try {
-    renderStyleCoach(s.lastColor, s.occasion, false, s.lastItems);
+    renderStyleCoach(s.lastColor, s.occasion, false, s.lastItems, true);
     renderChips(s.occasion);
   } catch (e) {
     console.warn('[occasion-change] re-render failed:', e);
@@ -5565,17 +5568,17 @@ function _getColorDistribution(profile) {
 
   // Sort by name for consistent display
   var colorMap = {
-    red: { emoji: '🔴', label: 'Red' },
-    blue: { emoji: '🔵', label: 'Blue' },
-    green: { emoji: '🟢', label: 'Green' },
-    yellow: { emoji: '🟡', label: 'Yellow' },
-    purple: { emoji: '🟣', label: 'Purple' },
-    orange: { emoji: '🟠', label: 'Orange' },
-    pink: { emoji: '🩷', label: 'Pink' },
-    brown: { emoji: '🟤', label: 'Brown' },
-    black: { emoji: '⚫', label: 'Black' },
-    white: { emoji: '⚪', label: 'White' },
-    gray: { emoji: '🔘', label: 'Gray' },
+    red: { emoji: '🔴', label: t('color_red') },
+    blue: { emoji: '🔵', label: t('color_blue') },
+    green: { emoji: '🟢', label: t('color_green') },
+    yellow: { emoji: '🟡', label: t('color_yellow') },
+    purple: { emoji: '🟣', label: t('color_purple') },
+    orange: { emoji: '🟠', label: t('color_orange') },
+    pink: { emoji: '🩷', label: t('color_pink') },
+    brown: { emoji: '🟤', label: t('color_brown') },
+    black: { emoji: '⚫', label: t('color_black') },
+    white: { emoji: '⚪', label: t('color_white') },
+    gray: { emoji: '🔘', label: t('color_gray') },
   };
 
   return cats.map(function(c) {
@@ -6885,10 +6888,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       paywall_maybe_later: 'Maybe later',
       privacy_label: 'Privacy & Data',
       privacy_title: 'What leaves your device',
-      privacy_item_camera: 'Camera scan & analysis. Runs 100% on your device. No images are uploaded or stored anywhere.',
-      privacy_item_closet: 'Closet & history. Stored locally in your browser\'s IndexedDB. Never synced to any server.',
-      privacy_item_chat_text: 'Your messages are sent to api.datescan.app for AI responses. Standard data handling applies.',
-      privacy_item_chat_images: 'If you attach a photo, it is sent to the vision model for a single request and then discarded.',
+      privacy_item_camera: '<strong class="text-white">Camera scan &amp; analysis.</strong> Runs 100% on your device using MediaPipe + WebAssembly. Your video frames never leave the browser.',
+      privacy_item_closet: '<strong class="text-white">Closet &amp; history.</strong> Stored locally in your browser\'s IndexedDB. Nothing is sent anywhere.',
+      privacy_item_chat_text: '<strong class="text-white">AI Style Coach Chat — text.</strong> Your messages are sent to <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code> and forwarded to a vision-language model so you can get a reply.',
+      privacy_item_chat_images: '<strong class="text-white">AI Style Coach Chat — images.</strong> If you attach a photo or pick one from your closet, that image is uploaded with your message for the model to "see". It is processed for that single request and not retained on our server beyond the response. We do not use chat content to train models.',
       privacy_private_mode: 'Private Mode',
       privacy_private_mode_desc: 'Blocks all image uploads in chat and forces the on-device AI to use the CPU backend.',
       privacy_status_off: 'Status: Off — image uploads in chat are allowed after consent.',
@@ -7064,6 +7067,11 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       color_black: 'Dark / Black',
       color_white: 'Light / White',
       color_gray: 'Gray',
+      color_blue: 'Blue',
+      color_yellow: 'Yellow',
+      color_purple: 'Purple',
+      color_orange: 'Orange',
+      color_brown: 'Brown',
       color_navy: 'Navy Blue',
       color_red: 'Bold Red',
       color_green: 'Emerald',
@@ -7432,6 +7440,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_color_2: 'Introduce one warm neutral to soften cool tones',
       imp_color_3: 'Layer a dark piece to anchor a light outfit',
       imp_color_4: 'Swap in brown leather to warm up navy',
+      rule_color_harmony: 'Color harmony: Max 3 dominant colors detected',
+      rule_context_check: 'Context Check: Tuning rules for {occasion} vibe',
+      rule_contrast_dark: 'Contrast: Dark palette perfect for nightlife',
+      rule_approachability: 'Approachability: Soften any rigid edges',
+      rule_venue_dark_match: 'Venue Match: Dark palette suits dim lighting',
+      rule_venue_dark_mismatch: 'Venue Mismatch: Bright colors may wash out in dim {venue} lighting',
+      rule_venue_light_match: 'Venue Match: Light palette catches natural light beautifully',
+      rule_vibe_sync: 'Vibe Sync: {label} detected — {atmosphere}',
       analysis_palette_label: 'Palette',
       analysis_contrast_label: 'Contrast',
       analysis_composition_label: 'Composition',
@@ -8230,10 +8246,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       paywall_maybe_later: 'Talán később',
       privacy_label: 'Adatvédelem & Adatok',
       privacy_title: 'Mi hagyja el az eszközt',
-      privacy_item_camera: 'Kamera szkennelés & elemzés. 100%-ban az eszközödön fut. Semmilyen kép nem töltődik fel.',
-      privacy_item_closet: 'Szekrény & előzmények. Helyben tárolva a böngésző IndexedDB-jében. Soha nincs szinkronizálva.',
-      privacy_item_chat_text: 'Az üzeneteid az api.datescan.app-ra kerülnek az AI válaszokért.',
-      privacy_item_chat_images: 'Ha csatolsz egy képet, a vizuális modellnek küldjük egyetlen kérésre, majd töröljük.',
+      privacy_item_camera: '<strong class="text-white">Kamera szkennelés &amp; elemzés.</strong> 100%-ban a készülékeden fut MediaPipe + WebAssembly használatával. A videóképek soha nem hagyják el a böngészőt.',
+      privacy_item_closet: '<strong class="text-white">Szekrény &amp; előzmények.</strong> Helyben tárolva a böngésző IndexedDB-jében. Semmi nem kerül elküldésre sehová.',
+      privacy_item_chat_text: '<strong class="text-white">AI Stílusedző Chat — szöveg.</strong> Az üzeneteid az <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code>-ra kerülnek, majd egy vizuális-nyelvi modellnek kerülnek továbbítva, hogy választ kapj.',
+      privacy_item_chat_images: '<strong class="text-white">AI Stílusedző Chat — képek.</strong> Ha csatolsz egy fotót vagy a szekrényedből választasz egyet, az a kép feltöltődik az üzeneteddel együtt, hogy a modell „lássa". Csak az adott kéréshez dolgozzuk fel, és a válasz után nem őrizzük meg a szerverünkön. A chat tartalmát nem használjuk modellek tanítására.',
       privacy_private_mode: 'Privát mód',
       privacy_private_mode_desc: 'Blokkolja a képfeltöltéseket a chatben és CPU backendet kényszerít.',
       privacy_status_off: 'Állapot: Ki — képfeltöltés engedélyezett a chatben beleegyezés után.',
@@ -8265,12 +8281,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cam_bullet_3_title: 'Te irányítasz.',
       cam_bullet_3_text: 'A szkennelőt bármikor leállíthatod a bezárással. Te döntöd el, mikor fut.',
       cam_bullet_3: '<strong>Te irányítasz.</strong> A szkennelőt bármikor leállíthatod a bezárással. A böngésződ is lehetővé teszi a kamera engedély visszavonását bármikor.',
-      cam_bullet_4_title: 'Csak ön-szkennelés.',
-      cam_bullet_4_text: 'A kamerát magadra irányítsd, másokra nem. Mások beleegyezése nélküli szkennelés tilos.',
-      cam_bullet_4: '<strong>Csak ön-szkennelés.</strong> A kamerát <strong>magadra</strong> irányítsd, másokra nem. Mások beleegyezése nélküli szkennelés tilos a Felhasználási Feltételek szerint.',
+      cam_bullet_4_title: 'Kizárólag saját magadat szkenneld.',
+      cam_bullet_4_text: 'A kamerát magad felé fordítsd, ne mások felé. A Felhasználási feltételek értelmében mások beleegyezése nélküli szkennelése tilos.',
+      cam_bullet_4: '<strong>Kizárólag saját magadat szkenneld.</strong> A kamerát <strong>magad felé</strong> fordítsd, ne mások felé. A Felhasználási feltételek értelmében mások beleegyezése nélküli szkennelése tilos.',
       cam_bullet_5_title: 'Megjegyzés:',
-      cam_bullet_5_text: 'Az AI Stílusedző chat más — ha ott képet töltesz fel, az szerverre kerül elemzésre.',
-      cam_bullet_5: '<strong>Megjegyzés:</strong> Az AI Stílusedző <strong>chat</strong> más — ha ott képet töltesz fel, az a vizuális modellünknek kerül elküldésre. Első alkalommal külön tájékoztatást kapsz.',
+      cam_bullet_5_text: 'Az AI Stílusedző funkció máshogy működik – az ott feltöltött képeket a vizuális modellünk dolgozza fel. Az első használatkor erről külön tájékoztatást láthatsz majd.',
+      cam_bullet_5: '<strong>Megjegyzés:</strong> Az AI Stílusedző <strong>funkció</strong> máshogy működik – az ott feltöltött képeket a vizuális modellünk dolgozza fel. Az első használatkor erről külön tájékoztatást láthatsz majd.',
       cam_consent_yes: 'Értem — kamera indítása',
       cam_consent_no: 'Most nem',
       cam_consent_fineprint: 'Részletek az Adatvédelmi Tájékoztatóban és a Felhasználási Feltételekben.',
@@ -8409,6 +8425,11 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       color_black: 'Sötét / Fekete',
       color_white: 'Világos / Fehér',
       color_gray: 'Szürke',
+      color_blue: 'Kék',
+      color_yellow: 'Sárga',
+      color_purple: 'Lila',
+      color_orange: 'Narancs',
+      color_brown: 'Barna',
       color_navy: 'Tengerkék',
       color_red: 'Merész vörös',
       color_green: 'Smaragd',
@@ -8632,7 +8653,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_mid_8: 'rendben. a rendben nem a cél.',
       vibe_low_1: 'még nem randikész',
       vibe_low_2: 'durva. javítsd az alapokat.',
-      vibe_low_3: 'ez nem fogja ma este',
+      vibe_low_3: 'ez nem fogja megoldani ma este',
       vibe_low_4: 'a reménykedés nem elég - javítsd',
       vibe_low_5: 'tudod, hogy ez nem az',
       booster_1: 'Lassíts. Tartsd a szemkontaktust.',
@@ -8738,7 +8759,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       sub_shadow_walker: 'árnyékjáró',
       sub_golden_hour: 'aranynyár',
       sub_sunbleached_wanderer: 'napfakította vándor',
-      sub_understated_refined: 'visszafogott finom',
+      sub_understated_refined: 'Letisztultan kifinomult',
       sub_chromatic_rebel: 'kromatikus lázadó',
       sub_sunlit_maximalist: 'napsütötte maximalista',
       sub_cool_provocateur: 'hűvös provokátor',
@@ -8753,7 +8774,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_lighting_2: 'Kerüld az éles felső fényt — árnyékokat vet',
       imp_lighting_3: 'Nézz az ablak felé, ne állj háttal a fénynek',
       imp_lighting_4: 'Kapcsolj on egy meleg lámpát a bőrtonus puhításához',
-      imp_lighting_5: 'Lépj el a vegyes színhőmérsékletű fényektől',
+      imp_lighting_5: 'Kerüld a kevert színhőmérsékletű fényeket.',
       imp_posture_1: 'Állj egyenesebben, mellkasot kissé emeld',
       imp_posture_2: 'Húzd vissza és le a vállaidat',
       imp_posture_3: 'Fordítsd a törzsed a kamerának',
@@ -8776,19 +8797,27 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_color_2: 'Vegyél be egy meleg semleges színt a hűvös tónusok puhításához',
       imp_color_3: 'Rétegezz egy sötét darabot, hogy megalapozd a világos szettet',
       imp_color_4: 'Cseréld be a barna bőrt, hogy felmelegítsd a tengerészkéket',
-      analysis_palette_label: 'Paletta',
+      rule_color_harmony: 'Színharmonia: Legfeljebb 3 domináns szín észlelve',
+      rule_context_check: 'Kontextus-ellenőrzés: Szabályok hangolása {occasion} vibe-hoz',
+      rule_contrast_dark: 'Kontraszt: Sötét paletta tökéletes az éjszakai élethez',
+      rule_approachability: 'Megközelíthetőség: Lágyítsd a merev éleket',
+      rule_venue_dark_match: 'Helyszín-egyezés: Sötét paletta illik a gyenge fényhez',
+      rule_venue_dark_mismatch: 'Helyszín-eltérés: Világos színek kifakulhatnak a gyenge {venue} fényben',
+      rule_venue_light_match: 'Helyszín-egyezés: Világos paletta gyönyörűen megfogja a természetes fényt',
+      rule_vibe_sync: 'Vibe Szinkron: {label} észlelve — {atmosphere}',
+      analysis_palette_label: 'Színvilág',
       analysis_contrast_label: 'Kontraszt',
-      analysis_composition_label: 'Kompozíció',
-      palette_your_image: 'A képed',
-      palette_with: 'színnel,',
-      palette_tones: 'tónusokkal — ez hat:',
-      contrast_high: 'Magas',
-      contrast_moderate: 'Közepes',
+      analysis_composition_label: 'Elrendezés',
+      palette_your_image: '',
+      palette_with: 'színek,',
+      palette_tones: 'árnyalatok — a végeredmény',
+      contrast_high: 'Erős',
+      contrast_moderate: 'Kiegyensúlyozott',
       contrast_soft: 'Lágy',
-      contrast_tonal: 'tonális kontraszt ad',
-      contrast_edge: 'vizuális jelenlétet és élőt — a teklet ráakad',
-      contrast_depth: 'mélységet, anélkül hogy ordítana',
-      contrast_softness: 'lágysságot és megközelíthetőséget',
+      contrast_tonal: 'kontrasztok adják meg a mélységet',
+      contrast_edge: '— a tekintet azonnal rátapad',
+      contrast_depth: 'de nem „kiabálnak" a képen',
+      contrast_softness: 'lágy és megközelíthető',
       sat_saturated: 'telített',
       sat_balanced: 'kiegyensúlyozott',
       sat_restrained: 'visszafogott',
@@ -8798,11 +8827,11 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       bright_bright: 'fényes',
       bright_lowkey: 'sötét',
       bright_midtone: 'középtónusú',
-      comp_strong_range: 'tér erős tonális tartománnyal — a kompozíción van helye lélegezni.',
-      comp_minimalist: 'tér, alacsony variancia — minimalista természeténél fogva.',
+      comp_strong_range: 'tágas középtónusok és erős karakter — jut hely a képnek lélegezni.',
+      comp_minimalist: 'szűk tartomány, alacsony variancia — csendben hat.',
       mp_flat_composition: 'A kompozíciód túl lapos. Adj hozzá <strong style="color:#fff">egy strukturált sötétebb darabot</strong> — tengerészkék zakó, szénréteg vagy fehet túling — és a kontrasztugrás önmagában új tartományt nyit.',
       mp_cool_restrained: 'A palettád hűvös és visszafogott. <strong style="color:#fff">Egy konyak vagy rozsda kiegészítő</strong> — öv, óraszíj, bőrszíj — felmelegítené és mélyítené az egész szettet.',
-      mp_pure_restraint: 'Tiszta visszafogottság, nélkül horgony. <strong style="color:#fff">Egy ezüst vagy acél éke</strong> — lánc, gyűrű, keret, csat — élessé tenné az egész kompozíciót.',
+      mp_pure_restraint: 'Tiszta visszafogottság, fix pontok nélkül. <strong style="color:#fff">Egy ezüst vagy acél kiegészítő</strong> — legyen az lánc, gyűrű, keret vagy csat — karakteressé tenné az egész látványt.',
       mp_too_much: 'A palettád túl sokat csinál egyszerre. <strong style="color:#fff">Horgonyozz egy semleges darabbal</strong> — krém, taupe, majdnem-fekete — és figyeld a kohézió emelkedését.',
       mp_contrast_statement: 'A kontrasztod a megnyilvánulás. Adj hozzá <strong style="color:#fff">egy tapintható textúrát</strong> — kötés, antil, kefélt len — hogy a szemnek legyen hol pihennie.',
       mp_lowkey_breath: 'A sötét paletta hiányol egy fény-leheletet. <strong style="color:#fff">Egy fehér vagy krém réteg</strong> — póló, sál, gallér — emelné anélkül hogy megtörné a hangulatot.',
@@ -8839,7 +8868,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       contact_faq_title: 'Gyors tipp',
       contact_faq_desc: 'Számlázási problémák esetén először ellenőrizd a vásárlási megerősítő e-mailedet. A legtöbb kérdést 24 órán belül e-mailben megválaszoljuk.',
       contact_done: 'Kész',
-      referral_title: 'Hívj meg egy barátot',
+      referral_title: 'Hívj meg egy barátod',
       referral_desc: 'Oszd meg a DateScan-t. Mindketten +5 pontot kaptok.',
       referral_btn: 'Meghívó link megosztása',
       referral_copied: 'Meghívó link kimásolva!',
@@ -9574,10 +9603,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       paywall_maybe_later: 'Vielleicht später',
       privacy_label: 'Datenschutz & Daten',
       privacy_title: 'Was dein Gerät verlässt',
-      privacy_item_camera: 'Kamera-Scan & Analyse. Läuft 100% lokal. Keine Bilder werden hochgeladen.',
-      privacy_item_closet: 'Schrank & Historie. Lokal in der IndexedDB gespeichert. Nie synchronisiert.',
-      privacy_item_chat_text: 'Deine Nachrichten werden an api.datescan.app für AI-Antworten gesendet.',
-      privacy_item_chat_images: 'Wenn du ein Foto anhängst, wird es für eine einzige Anfrage an das Vision-Modell gesendet.',
+      privacy_item_camera: '<strong class="text-white">Kamera-Scan &amp; Analyse.</strong> Läuft 100% lokal auf deinem Gerät mit MediaPipe + WebAssembly. Deine Videobilder verlassen nie den Browser.',
+      privacy_item_closet: '<strong class="text-white">Schrank &amp; Historie.</strong> Lokal in der IndexedDB deines Browsers gespeichert. Nichts wird irgendwohin gesendet.',
+      privacy_item_chat_text: '<strong class="text-white">AI Style Coach Chat — Text.</strong> Deine Nachrichten werden an <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code> gesendet und an ein Vision-Language-Modell weitergeleitet, damit du eine Antwort erhältst.',
+      privacy_item_chat_images: '<strong class="text-white">AI Style Coach Chat — Bilder.</strong> Wenn du ein Foto anhängst oder aus deinem Schrank wählst, wird das Bild mit deiner Nachricht hochgeladen, damit das Modell es „sehen" kann. Es wird nur für diese eine Anfrage verarbeitet und nach der Antwort nicht auf unserem Server behalten. Wir nutzen Chat-Inhalte nicht zum Trainieren von Modellen.',
       privacy_private_mode: 'Privater Modus',
       privacy_private_mode_desc: 'Blockiert Bild-Uploads im Chat und erzwingt das CPU-Backend.',
       privacy_status_off: 'Status: Aus — Bild-Uploads im Chat nach Zustimmung erlaubt.',
@@ -9753,6 +9782,11 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       color_black: 'Dunkel / Schwarz',
       color_white: 'Hell / Weiß',
       color_gray: 'Grau',
+      color_blue: 'Blau',
+      color_yellow: 'Gelb',
+      color_purple: 'Lila',
+      color_orange: 'Orange',
+      color_brown: 'Braun',
       color_navy: 'Marineblau',
       color_red: 'Kräftig Rot',
       color_green: 'Smaragd',
@@ -9773,16 +9807,16 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_filter_all_items: 'Alle',
       closet_upload_title: 'Vor dem Hochladen',
       closet_upload_lede: 'Kurze Regeln für Schrank-Uploads. Vor dem ersten Upload erforderlich.',
-      closet_upload_rule1: 'Laden Sie nur Fotos <strong class="text-white">Ihrer eigenen Kleidung</strong> hoch. Keine Promi-, Stock- oder urheberrechtlich geschützten Bilder.',
+      closet_upload_rule1: 'Lade nur Fotos <strong class="text-white">deiner eigenen Kleidung</strong> hoch. Keine Promi-, Stock- oder urheberrechtlich geschützten Bilder.',
       closet_upload_rule2: '<strong class="text-white">Keine Personen, keine Gesichter, keine Minderjährigen.</strong> Nur das Kleidungsstück selbst. Fotos von Personen werden abgelehnt.',
-      closet_upload_rule3: 'Nichts <strong class="text-white">Sexuelles, Gewalttätiges oder Illegales.</strong> Ihre Uploads werden lokal auf Ihrem Gerät gespeichert.',
+      closet_upload_rule3: 'Nichts <strong class="text-white">Sexuelles, Gewalttätiges oder Illegales.</strong> Deine Uploads werden lokal auf deinem Gerät gespeichert.',
       closet_upload_rule4: 'Ich bin <strong class="text-white">18+</strong> und besitze oder habe das Recht, das Bild zu verwenden.',
       closet_upload_accept: 'Ich akzeptiere diese Regeln und die <a href="terms.html" class="text-brand-400 underline">AGB</a> und <a href="privacy.html" class="text-brand-400 underline">Datenschutzrichtlinie</a>.',
       coach_scan_hint: 'Tippe oben auf <span class="text-brand-400 font-semibold">Outfit & Gesicht scannen</span> und ich analysiere deinen Look in Sekunden.',
       paywall_feature1: 'Unbegrenztes AI-Coaching',
       paywall_feature2: 'Vollständige Verbesserungsanalyse',
       paywall_feature3: 'Verfolge deinen Fortschritt',
-      on_device_analysis: 'Geräteinterne Analyse · Fotos verlassen nie Ihren Browser',
+      on_device_analysis: 'Geräteinterne Analyse · Fotos verlassen nie deinen Browser',
       privacy_policy: 'Datenschutzerklärung',
       terms_of_service: 'Nutzungsbedingungen',
       scan_outfit_face: 'Outfit & Gesicht scannen',
@@ -10082,7 +10116,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       sub_shadow_walker: 'Schattengänger',
       sub_golden_hour: 'goldene Stunde',
       sub_sunbleached_wanderer: 'sonnengebleichter Wanderer',
-      sub_understated_refined: 'understated verfeinert',
+      sub_understated_refined: 'zurückhaltend verfeinert',
       sub_chromatic_rebel: 'chromatischer Rebell',
       sub_sunlit_maximalist: 'sonnenbeschienener Maximalist',
       sub_cool_provocateur: 'kühler Provokateur',
@@ -10120,6 +10154,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_color_2: 'Einen warmen Neutralton gegen kühle Töne',
       imp_color_3: 'Dunkles Teil schichten als Anker für helles Outfit',
       imp_color_4: 'Braunes Leder gegen Marineblau einsetzen',
+      rule_color_harmony: 'Farbharmonie: Max. 3 dominante Farben erkannt',
+      rule_context_check: 'Kontext-Check: Regeln für {occasion}-Vibe angepasst',
+      rule_contrast_dark: 'Kontrast: Dunkle Palette perfekt für die Nacht',
+      rule_approachability: 'Zugänglichkeit: Weiche harte Kanten auf',
+      rule_venue_dark_match: 'Location-Match: Dunkle Palette passt zu schwacher Beleuchtung',
+      rule_venue_dark_mismatch: 'Location-Missmatch: Helle Farben können bei schwacher {venue}-Beleuchtung verblassen',
+      rule_venue_light_match: 'Location-Match: Helle Palette fängt natürliches Licht schön ein',
+      rule_vibe_sync: 'Vibe-Sync: {label} erkannt — {atmosphere}',
       analysis_palette_label: 'Palette',
       analysis_contrast_label: 'Kontrast',
       analysis_composition_label: 'Komposition',
@@ -10146,7 +10188,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       comp_minimalist: 'Feld, geringe Varianz — minimalistisch von Natur aus.',
       mp_flat_composition: 'Deine Komposition ist zu flach. Füge <strong style="color:#fff">ein strukturiertes dunkleres Teil</strong> hinzu — Marineblazer, Kohleschicht oder schwarzes Overshirt — und der Kontrastsprung allein erschließt neue Breite.',
       mp_cool_restrained: 'Deine Palette ist kühl und zurückhaltend. <strong style="color:#fff">Ein Cognac- oder Rost-Accessoire</strong> — Gürtel, Uhrenriemen, Lederband — würde den ganzen Look wärmen und vertiefen.',
-      mp_pure_restraint: 'Pure Zurückhaltung, kein Anker. <strong style="color:#fff">Ein Silber- oder Stahl-Akzent</strong> — Kette, Ring, Rahmen, Schnalle — würde die gesamte Komposition schärfen.',
+      mp_pure_restraint: 'Reine Zurückhaltung, kein Anker. <strong style="color:#fff">Ein Silber- oder Stahl-Akzent</strong> — Kette, Ring, Rahmen, Schnalle — würde die gesamte Komposition schärfen.',
       mp_too_much: 'Deine Palette macht zu viel auf einmal. <strong style="color:#fff">Mit einem neutralen Teil verankern</strong> — Creme, Taupe, Fast-Schwarz — und die Kohäsion steigt.',
       mp_contrast_statement: 'Dein Kontrast ist das Statement. Füge <strong style="color:#fff">eine taktile Textur</strong> hinzu — Strick, Wildleder, gebürstetes Leinen — damit das Auge ruhen kann.',
       mp_lowkey_breath: 'Gedämpfte Palette vermisst einen Lichthauch. <strong style="color:#fff">Eine weiße oder Creme-Schicht</strong> — T-Shirt, Schal, Kragen — würde heben, ohne die Stimmung zu brechen.',
@@ -10687,12 +10729,14 @@ window.addEventListener('langchange', function() {
         if (it._actionKey && typeof window.t === 'function') it.action = window.t(it._actionKey);
       });
       store.set({ lastItems: s.lastItems });
-      if (typeof renderActionPlan === 'function') renderActionPlan(s.lastItems, false);
+      if (typeof renderActionPlan === 'function') renderActionPlan(s.lastItems, false, true);
     }
     if (s.lastColor && typeof renderStyleCoach === 'function') {
-      renderStyleCoach(s.lastColor, s.occasion || 'casual', false, s.lastItems);
+      renderStyleCoach(s.lastColor, s.occasion || 'casual', false, s.lastItems, true);
     }
     if (typeof window.renderBadges === 'function') window.renderBadges();
+    // Re-render seasonal tips so season name/tip text translate on language switch
+    if (typeof window.renderSeasonalTips === 'function') window.renderSeasonalTips();
   } catch(e) { console.warn('[langchange] re-render failed:', e); }
 });
 
@@ -10732,7 +10776,12 @@ function updateSubpageLinks() {
 }
 // Run on load and on language change
 updateSubpageLinks();
-window.addEventListener('langchange', updateSubpageLinks);
+window.addEventListener('langchange', function() {
+  updateSubpageLinks();
+  // Also run after a micro-delay to catch any late DOM mutations (innerHTML, etc.)
+  setTimeout(updateSubpageLinks, 50);
+  setTimeout(updateSubpageLinks, 200);
+});
 
 
 const closetDB = (function () {
@@ -12211,21 +12260,21 @@ window.saveCurrentOutfit = function() {
 
   // Color options with hex swatches
   const COLOR_OPTIONS = [
-    { name: 'Black', hex: '#1a1a1a' },
-    { name: 'White', hex: '#f5f5f5' },
-    { name: 'Navy', hex: '#1e3a5f' },
-    { name: 'Charcoal', hex: '#36454f' },
-    { name: 'Olive', hex: '#556b2f' },
-    { name: 'Burgundy', hex: '#800020' },
-    { name: 'Camel', hex: '#c19a6b' },
-    { name: 'Beige', hex: '#d4c5a9' },
-    { name: 'Denim', hex: '#4a6fa5' },
-    { name: 'Forest', hex: '#228b22' },
-    { name: 'Rust', hex: '#b7410e' },
-    { name: 'Slate', hex: '#708090' },
-    { name: 'Cream', hex: '#fffdd0' },
-    { name: 'Red', hex: '#c41e3a' },
-    { name: 'Teal', hex: '#008080' }
+    { id: 'black', hex: '#1a1a1a' },
+    { id: 'white', hex: '#f5f5f5' },
+    { id: 'navy', hex: '#1e3a5f' },
+    { id: 'charcoal', hex: '#36454f' },
+    { id: 'olive', hex: '#556b2f' },
+    { id: 'burgundy', hex: '#800020' },
+    { id: 'camel', hex: '#c19a6b' },
+    { id: 'beige', hex: '#d4c5a9' },
+    { id: 'denim', hex: '#4a6fa5' },
+    { id: 'forest', hex: '#228b22' },
+    { id: 'rust', hex: '#b7410e' },
+    { id: 'slate', hex: '#708090' },
+    { id: 'cream', hex: '#fffdd0' },
+    { id: 'red', hex: '#c41e3a' },
+    { id: 'teal', hex: '#008080' }
   ];
 
   const STYLE_VIBES = [
@@ -12375,11 +12424,11 @@ window.saveCurrentOutfit = function() {
     COLOR_OPTIONS.forEach(c => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.dataset.color = c.name;
+      btn.dataset.color = t('color_' + c.id);
       btn.className = 'sp-color-opt relative w-10 h-10 rounded-xl border-2 border-white/10 transition-all duration-200 hover:scale-110 flex items-center justify-center overflow-hidden';
       btn.style.backgroundColor = c.hex;
-      btn.setAttribute('aria-label', window._tc ? window._tc(c.name) : c.name);
-      btn.title = window._tc ? window._tc(c.name) : c.name;
+      btn.setAttribute('aria-label', t('color_' + c.id));
+      btn.title = t('color_' + c.id);
       // Check mark — white with dark shadow for visibility on any color
       const check = document.createElement('svg');
       check.className = 'sp-check w-5 h-5 opacity-0 transition-opacity pointer-events-none relative z-10';
@@ -15188,8 +15237,8 @@ function analyzeCameraAngle(landmarks) {
   const top = landmarks[10], bottom = landmarks[152], nose = landmarks[1];
   if(!top || !bottom || !nose) return null;
   const ratio = (nose.y - top.y) / (Math.abs(bottom.y - nose.y) || 0.001);
-  if (ratio > 1.4) return { category: "env", tone: "warn", icon: "📱", title:t("fb_cam_high_title"), text:t("fb_cam_high_text"), action:t("fb_cam_high_action") };
-  if (ratio < 0.65) return { category: "env", tone: "alert", icon: "📱", title:t("fb_cam_low_title"), text:t("fb_cam_low_text"), action:t("fb_cam_low_action") };
+  if (ratio > 1.4) return { category: "env", tone: "warn", icon: "📱", title:t("fb_cam_high_title"), text:t("fb_cam_high_text"), action:t("fb_cam_high_action"), _titleKey:"fb_cam_high_title", _textKey:"fb_cam_high_text", _actionKey:"fb_cam_high_action" };
+  if (ratio < 0.65) return { category: "env", tone: "alert", icon: "📱", title:t("fb_cam_low_title"), text:t("fb_cam_low_text"), action:t("fb_cam_low_action"), _titleKey:"fb_cam_low_title", _textKey:"fb_cam_low_text", _actionKey:"fb_cam_low_action" };
   return null; 
 }
 
@@ -15197,9 +15246,9 @@ function analyzeProportions(landmarks) {
   const top = landmarks[10], mid = landmarks[9], nose = landmarks[2], chin = landmarks[152]; 
   if(!top || !mid || !nose || !chin) return null;
   const dMid = Math.abs(nose.y - mid.y), dLower = Math.abs(chin.y - nose.y);
-  if (dLower > dMid * 1.25) return { category: "presence", tone: "info", icon: "📐", title:t("fb_jawline_title"), text:t("fb_jawline_text"), action:t("fb_jawline_action") };
-  if (dLower < dMid * 0.8) return { category: "presence", tone: "info", icon: "📐", title:t("fb_compact_title"), text:t("fb_compact_text"), action:t("fb_compact_action") };
-  return { category: "presence", tone: "good", icon: "📐", title:t("fb_balanced_title"), text:t("fb_balanced_text"), action:t("fb_balanced_action") };
+  if (dLower > dMid * 1.25) return { category: "presence", tone: "info", icon: "📐", title:t("fb_jawline_title"), text:t("fb_jawline_text"), action:t("fb_jawline_action"), _titleKey:"fb_jawline_title", _textKey:"fb_jawline_text", _actionKey:"fb_jawline_action" };
+  if (dLower < dMid * 0.8) return { category: "presence", tone: "info", icon: "📐", title:t("fb_compact_title"), text:t("fb_compact_text"), action:t("fb_compact_action"), _titleKey:"fb_compact_title", _textKey:"fb_compact_text", _actionKey:"fb_compact_action" };
+  return { category: "presence", tone: "good", icon: "📐", title:t("fb_balanced_title"), text:t("fb_balanced_text"), action:t("fb_balanced_action"), _titleKey:"fb_balanced_title", _textKey:"fb_balanced_text", _actionKey:"fb_balanced_action" };
 }
 
 function analyzeLightingDirection(landmarks, W, H) {
@@ -15215,7 +15264,7 @@ function analyzeLightingDirection(landmarks, W, H) {
   };
   const lumL = getLum(leftCheek), lumR = getLum(rightCheek);
   if (lumL < 0 || lumR < 0) return null;
-  if (Math.abs(lumL - lumR) > 40) return { category: "env", tone: "warn", icon: "💡", title: t("fb_uneven_light_title"), text: t("fb_uneven_light_text"), action: t("fb_uneven_light_action") };
+  if (Math.abs(lumL - lumR) > 40) return { category: "env", tone: "warn", icon: "💡", title: t("fb_uneven_light_title"), text: t("fb_uneven_light_text"), action: t("fb_uneven_light_action"), _titleKey:"fb_uneven_light_title", _textKey:"fb_uneven_light_text", _actionKey:"fb_uneven_light_action" };
   return null;
 }
 
@@ -15233,7 +15282,7 @@ function analyzeShavingIrritation(landmarks, W, H) {
     }
   }
   if(skinPixels < 50) return null;
-  if (redSpots / skinPixels > 0.08) return { category: "grooming", tone: "warn", icon: "🪒", title:t("fb_skin_irrit_title"), text:t("fb_skin_irrit_text"), action:t("fb_skin_irrit_action") };
+  if (redSpots / skinPixels > 0.08) return { category: "grooming", tone: "warn", icon: "🪒", title:t("fb_skin_irrit_title"), text:t("fb_skin_irrit_text"), action:t("fb_skin_irrit_action"), _titleKey:"fb_skin_irrit_title", _textKey:"fb_skin_irrit_text", _actionKey:"fb_skin_irrit_action" };
   return null;
 }
 
@@ -15242,9 +15291,9 @@ function analyzePosture(landmarks) {
   const angle = Math.abs(Math.atan2(rightEye.y - leftEye.y, rightEye.x - leftEye.x) * 180 / Math.PI);
   const pitchRatio = Math.abs(landmarks[152].y - landmarks[2].y) / (Math.abs(landmarks[2].y - landmarks[10].y) || 0.001); 
 
-  if (pitchRatio < 0.8) return { category: "presence", tone: "alert", icon: "🧍", title:t("fb_posture_title"), text:t("fb_posture_text"), action:t("fb_posture_action") };
-  if (angle > 6) return { category: "presence", tone: "warn", icon: "🧍", title:t("fb_head_tilt_title"), text:t("fb_head_tilt_text"), action:t("fb_head_tilt_action") };
-  return { category: "presence", tone: "good", icon: "🧍", title:t("fb_strong_body_title"), text:t("fb_strong_body_text"), action:t("fb_strong_body_action") };
+  if (pitchRatio < 0.8) return { category: "presence", tone: "alert", icon: "🧍", title:t("fb_posture_title"), text:t("fb_posture_text"), action:t("fb_posture_action"), _titleKey:"fb_posture_title", _textKey:"fb_posture_text", _actionKey:"fb_posture_action" };
+  if (angle > 6) return { category: "presence", tone: "warn", icon: "🧍", title:t("fb_head_tilt_title"), text:t("fb_head_tilt_text"), action:t("fb_head_tilt_action"), _titleKey:"fb_head_tilt_title", _textKey:"fb_head_tilt_text", _actionKey:"fb_head_tilt_action" };
+  return { category: "presence", tone: "good", icon: "🧍", title:t("fb_strong_body_title"), text:t("fb_strong_body_text"), action:t("fb_strong_body_action"), _titleKey:"fb_strong_body_title", _textKey:"fb_strong_body_text", _actionKey:"fb_strong_body_action" };
 }
 
 function analyzeMouth(landmarks, W, H) {
@@ -15349,7 +15398,7 @@ function analyzeHeadYaw(lm) {
   const dl = nose.x - left.x, dr = right.x - nose.x;
   const ratio = dl / (dr || 0.001);
   if (ratio > 1.45 || ratio < 0.69) {
-    return { category:"presence", tone:"warn", icon:"🔄", title:t("fb_face_away_title"), text:t("fb_face_away_text"), action:t("fb_face_away_action") };
+    return { category:"presence", tone:"warn", icon:"🔄", title:t("fb_face_away_title"), text:t("fb_face_away_text"), action:t("fb_face_away_action"), _titleKey:"fb_face_away_title", _textKey:"fb_face_away_text", _actionKey:"fb_face_away_action" };
   }
   return null;
 }
@@ -15358,8 +15407,8 @@ function analyzeFaceDistance(lm) {
   const top = lm[10], bottom = lm[152];
   if (!top || !bottom) return null;
   const h = Math.abs(bottom.y - top.y);
-  if (h < 0.22) return { category:"env", tone:"warn", icon:"📏", title:t("fb_too_far_title"), text:t("fb_too_far_text"), action:t("fb_too_far_action") };
-  if (h > 0.64) return { category:"env", tone:"warn", icon:"📏", title:t("fb_too_close_title"), text:t("fb_too_close_text"), action:t("fb_too_close_action") };
+  if (h < 0.22) return { category:"env", tone:"warn", icon:"📏", title:t("fb_too_far_title"), text:t("fb_too_far_text"), action:t("fb_too_far_action"), _titleKey:"fb_too_far_title", _textKey:"fb_too_far_text", _actionKey:"fb_too_far_action" };
+  if (h > 0.64) return { category:"env", tone:"warn", icon:"📏", title:t("fb_too_close_title"), text:t("fb_too_close_text"), action:t("fb_too_close_action"), _titleKey:"fb_too_close_title", _textKey:"fb_too_close_text", _actionKey:"fb_too_close_action" };
   return null;
 }
 
@@ -15368,7 +15417,7 @@ function analyzeFaceCentering(lm) {
   if (!nose) return null;
   const dx = nose.x - 0.5;
   if (Math.abs(dx) > 0.18) {
-    return { category:"env", tone:"warn", icon:"🎯", title:t("fb_off_center_title"), text:t("fb_off_center_text"), action:t("fb_off_center_action") };
+    return { category:"env", tone:"warn", icon:"🎯", title:t("fb_off_center_title"), text:t("fb_off_center_text"), action:t("fb_off_center_action"), _titleKey:"fb_off_center_title", _textKey:"fb_off_center_text", _actionKey:"fb_off_center_action" };
   }
   return null;
 }
@@ -15380,8 +15429,8 @@ function analyzeEyeOpenness(lm) {
   const lEar = Math.abs(p(159).y - p(145).y) / (Math.abs(p(33).x - p(133).x) || 0.001);
   const rEar = Math.abs(p(386).y - p(374).y) / (Math.abs(p(263).x - p(362).x) || 0.001);
   const ear = (lEar + rEar) / 2;
-  if (ear < 0.19) return { category:"presence", tone:"warn", icon:"😴", title:t("fb_half_closed_title"), text:t("fb_half_closed_text"), action:t("fb_half_closed_action") };
-  if (ear > 0.40) return { category:"presence", tone:"good", icon:"👁️", title:t("fb_engaged_gaze_title"), text:t("fb_engaged_gaze_text"), action:t("fb_engaged_gaze_action") };
+  if (ear < 0.19) return { category:"presence", tone:"warn", icon:"😴", title:t("fb_half_closed_title"), text:t("fb_half_closed_text"), action:t("fb_half_closed_action"), _titleKey:"fb_half_closed_title", _textKey:"fb_half_closed_text", _actionKey:"fb_half_closed_action" };
+  if (ear > 0.40) return { category:"presence", tone:"good", icon:"👁️", title:t("fb_engaged_gaze_title"), text:t("fb_engaged_gaze_text"), action:t("fb_engaged_gaze_action"), _titleKey:"fb_engaged_gaze_title", _textKey:"fb_engaged_gaze_text", _actionKey:"fb_engaged_gaze_action" };
   return null;
 }
 
@@ -15393,8 +15442,8 @@ function analyzeSmile(lm) {
   const mouthWidth = Math.abs(rC.x - lC.x);
   if (mouthWidth < 0.01) return null;
   const curl = (midY - cornersY) / mouthWidth;
-  if (curl > 0.07) return { category:"presence", tone:"good", icon:"😊", title:t("fb_natural_smile_title"), text:t("fb_natural_smile_text"), action:t("fb_natural_smile_action") };
-  if (curl < -0.05) return { category:"presence", tone:"warn", icon:"😐", title:"Tense mouth", text:"Corners pulled down.", action:"Relax your jaw. Soft half-smile." };
+  if (curl > 0.07) return { category:"presence", tone:"good", icon:"😊", title:t("fb_natural_smile_title"), text:t("fb_natural_smile_text"), action:t("fb_natural_smile_action"), _titleKey:"fb_natural_smile_title", _textKey:"fb_natural_smile_text", _actionKey:"fb_natural_smile_action" };
+  if (curl < -0.05) return { category:"presence", tone:"warn", icon:"😐", title:t("fb_tense_mouth_title"), text:t("fb_tense_mouth_text"), action:t("fb_tense_mouth_action"), _titleKey:"fb_tense_mouth_title", _textKey:"fb_tense_mouth_text", _actionKey:"fb_tense_mouth_action" };
   return null;
 }
 
@@ -15421,8 +15470,8 @@ function analyzeBackgroundBusy(lm, W, H) {
   const vals = [topL, topR].filter(v => v !== null);
   if (!vals.length) return null;
   const avgStd = vals.reduce((a,b)=>a+b,0) / vals.length;
-  if (avgStd > 58) return { category:"env", tone:"warn", icon:"🖼️", title:t("fb_busy_bg_title"), text:t("fb_busy_bg_text"), action:t("fb_busy_bg_action") };
-  if (avgStd < 9) return { category:"env", tone:"good", icon:"🖼️", title:t("fb_clean_bg_title"), text:t("fb_clean_bg_text"), action:t("fb_clean_bg_action") };
+  if (avgStd > 58) return { category:"env", tone:"warn", icon:"🖼️", title:t("fb_busy_bg_title"), text:t("fb_busy_bg_text"), action:t("fb_busy_bg_action"), _titleKey:"fb_busy_bg_title", _textKey:"fb_busy_bg_text", _actionKey:"fb_busy_bg_action" };
+  if (avgStd < 9) return { category:"env", tone:"good", icon:"🖼️", title:t("fb_clean_bg_title"), text:t("fb_clean_bg_text"), action:t("fb_clean_bg_action"), _titleKey:"fb_clean_bg_title", _textKey:"fb_clean_bg_text", _actionKey:"fb_clean_bg_action" };
   return null;
 }
 
@@ -15446,15 +15495,17 @@ function analyzeShoulders(W, H) {
 }
 
 const OUTFIT_COLORS = [
-  { id: "black", name: t('color_black'), hex: "#18181b", rgb: [30, 30, 35] },
-  { id: "white", name: t('color_white'), hex: "#f8fafc", rgb: [230, 230, 235] },
-  { id: "navy",  name: t('color_navy'), hex: "#1e3a8a", rgb: [30, 58, 138] },
-  { id: "red",   name: t('color_red'), hex: "#dc2626", rgb: [220, 38, 38] },
-  { id: "green", name: t('color_green'), hex: "#065f46", rgb: [6, 95, 70] },
-  { id: "earth", name: t('color_earth'), hex: "#92400e", rgb: [146, 64, 14] },
-  { id: "pink",  name: t('color_pink'), hex: "#f472b6", rgb: [244, 114, 182] },
-  { id: "gray",  name: t('color_gray'), hex: "#64748b", rgb: [100, 116, 139] }
+  { id: "black", hex: "#18181b", rgb: [30, 30, 35] },
+  { id: "white", hex: "#f8fafc", rgb: [230, 230, 235] },
+  { id: "navy",  hex: "#1e3a8a", rgb: [30, 58, 138] },
+  { id: "red",   hex: "#dc2626", rgb: [220, 38, 38] },
+  { id: "green", hex: "#065f46", rgb: [6, 95, 70] },
+  { id: "earth", hex: "#92400e", rgb: [146, 64, 14] },
+  { id: "pink",  hex: "#f472b6", rgb: [244, 114, 182] },
+  { id: "gray",  hex: "#64748b", rgb: [100, 116, 139] }
 ];
+// Helper: get translated color name for an OUTFIT_COLORS entry
+function getColorName(colorObj) { return colorObj ? t('color_' + colorObj.id) : ''; }
 
 // SoA (struct-of-arrays) view of OUTFIT_COLORS for the hot inner loop of
 // analyzeOutfitColor. Building this once at module load lets the per-pixel
@@ -15765,7 +15816,16 @@ function generateImprovements(items, colorData, occasion) {
 }
 
 function computeScore(items, colorData, occasion) {
-  let score = 72 + Math.random() * 10;
+  // Deterministic base: derive jitter from scan data instead of Math.random()
+  // so the same scan always gets the same score, even after language switch.
+  // Use only i18n keys (_titleKey) which are language-independent.
+  let seed = 0;
+  for (const it of (items || [])) {
+    seed += (it._titleKey || '').length + (it.tone || '').length;
+  }
+  if (colorData) seed += (colorData.id || '').length;
+  const jitter = ((seed * 9301 + 49297) % 233280) / 233280; // deterministic 0–1
+  let score = 72 + jitter * 10;
   const weights = { alert: 7, warn: 4, error: 10, info: 0, good: 0 };
   let warnCount = 0, alertCount = 0, goodCount = 0;
   for (const it of (items || [])) {
@@ -15798,30 +15858,30 @@ function generateStyleAnalysis(colorData, occasion, items) {
     casual: t('occasion_casual'), first_date: t('occasion_first_date'), fancy: t('occasion_fancy'), night_out: t('occasion_night_out')
   };
 
-  rules.push({ passed: true, text: "Color harmony: Max 3 dominant colors detected" });
-  rules.push({ passed: false, text: `Context Check: Tuning rules for ${occMap[occasion]} vibe` });
+  rules.push({ passed: true, text: t('rule_color_harmony') });
+  rules.push({ passed: false, text: t('rule_context_check').replace('{occasion}', occMap[occasion] || occasion) });
   if (occasion === 'night_out' && colorData?.id === 'black') {
-    rules.push({ passed: true, text: "Contrast: Dark palette perfect for nightlife" });
+    rules.push({ passed: true, text: t('rule_contrast_dark') });
   }
   if (occasion === 'first_date') {
-    rules.push({ passed: false, text: "Approachability: Soften any rigid edges" });
+    rules.push({ passed: false, text: t('rule_approachability') });
   }
 
   // ── Vibe Sync venue-aware rules ──
   try {
     const vibe = typeof window.getVenueVibe === 'function' ? window.getVenueVibe() : null;
     if (vibe && vibe.key) {
-      rules.push({ passed: true, text: `Vibe Sync: ${vibe.label} detected — ${vibe.atmosphere}` });
+      rules.push({ passed: true, text: t('rule_vibe_sync').replace('{label}', vibe.label).replace('{atmosphere}', vibe.atmosphere) });
       if (vibe.lighting && vibe.lighting.includes('dim') || vibe.lighting?.includes('low') || vibe.lighting?.includes('candle')) {
         if (colorData?.id === 'black' || colorData?.id === 'navy') {
-          rules.push({ passed: true, text: "Venue Match: Dark palette suits dim lighting" });
+          rules.push({ passed: true, text: t('rule_venue_dark_match') });
         } else if (colorData?.isLight) {
-          rules.push({ passed: false, text: "Venue Mismatch: Bright colors may wash out in dim " + vibe.label.toLowerCase() + " lighting" });
+          rules.push({ passed: false, text: t('rule_venue_dark_mismatch').replace('{venue}', vibe.label.toLowerCase()) });
         }
       }
       if (vibe.lighting && (vibe.lighting.includes('daylight') || vibe.lighting.includes('natural'))) {
         if (colorData?.isLight || colorData?.id === 'white' || colorData?.id === 'cream') {
-          rules.push({ passed: true, text: "Venue Match: Light palette catches natural light beautifully" });
+          rules.push({ passed: true, text: t('rule_venue_light_match') });
         }
       }
     }
@@ -15840,7 +15900,7 @@ function generateStyleAnalysis(colorData, occasion, items) {
   return { score, rules, fixes };
 }
 
-function renderStyleCoach(colorData, occasion, locked = false, items = null) {
+function renderStyleCoach(colorData, occasion, locked = false, items = null, reuseScore = false) {
   const panel = $("styleCoachResult");
   
   if (!colorData) {
@@ -15849,6 +15909,22 @@ function renderStyleCoach(colorData, occasion, locked = false, items = null) {
   }
 
   const analysis = generateStyleAnalysis(colorData, occasion, items || store.get().lastItems);
+  // Reuse saved score and fixes on language-switch re-render — prevents
+  // score changing and random improvements shifting when the user switches
+  // language after a scan. On a fresh scan, computeScore runs normally.
+  if (reuseScore) {
+    const savedScore = store.get().lastScore;
+    if (savedScore !== undefined && savedScore !== null) {
+      analysis.score = savedScore;
+    }
+    const savedFixes = store.get().lastFixes;
+    if (savedFixes && savedFixes.length) {
+      analysis.fixes = savedFixes;
+    }
+  } else {
+    // Fresh scan — persist fixes so langchange can reuse them
+    store.set({ lastFixes: analysis.fixes });
+  }
   const targetScore = Math.min(100, analysis.score + analysis.fixes.reduce((acc, f) => acc + f.points, 0));
   store.set({ lastScore: analysis.score, lastScoreLabel: t('color_' + colorData.id) });
 
@@ -15858,7 +15934,7 @@ function renderStyleCoach(colorData, occasion, locked = false, items = null) {
     if (typeof window.updateStyleProfileFromScan === 'function') {
       window.updateStyleProfileFromScan({
         overallScore: analysis.score,
-        colors: colorData.name ? [colorData.name] : [],
+        colors: colorData.id ? [colorData.id] : [],
         formality: occasion || '',
         styleVibes: analysis.vibe ? [analysis.vibe] : []
       });
@@ -15867,7 +15943,8 @@ function renderStyleCoach(colorData, occasion, locked = false, items = null) {
 
   let hist = JSON.parse(localStorage.getItem('datescan.history') || '[]');
   const lastHist = hist[hist.length - 1];
-  if (!lastHist || (Date.now() - lastHist.time > 5000)) {
+  // Only add to history on a fresh scan, not on language-switch re-render
+  if (!reuseScore && (!lastHist || (Date.now() - lastHist.time > 5000))) {
       hist.push({ score: analysis.score, time: Date.now() });
       if (hist.length > 200) hist = hist.slice(hist.length - 200);
       localStorage.setItem('datescan.history', JSON.stringify(hist));
@@ -15890,7 +15967,7 @@ function renderStyleCoach(colorData, occasion, locked = false, items = null) {
   // Check badges after scan (scan count, avg score, streak, colors)
   try {
     if (typeof window.updateColorCategories === 'function') {
-      window.updateColorCategories(colorData.name ? [colorData.name] : []);
+      window.updateColorCategories(colorData.id ? [colorData.id] : []);
     }
     if (typeof window.checkAndUnlockBadges === 'function') {
       window.checkAndUnlockBadges();
@@ -16078,7 +16155,7 @@ function renderStyleCoach(colorData, occasion, locked = false, items = null) {
           <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-400 mt-3">${scoreLabel}</span>
         </div>
       </div>
-      <div class="font-serif italic text-base text-gray-300 mt-4 text-center">${generateVibe(analysis.score)}</div>
+      <div class="font-serif italic text-base text-gray-300 mt-4 text-center">${(function(){ var v = generateVibe(analysis.score); store.set({lastVibe: v}); return v; })()}</div>
     </div>
 
     <div class="flex items-center justify-between mb-6 gap-2">
@@ -16895,9 +16972,9 @@ async function runScan() {
     // into translated strings (title/text/action) for the UI.
     function translateWorkerItem(item) {
       if (!item) return item;
-      if (item.titleKey) item.title = t(item.titleKey);
-      if (item.textKey) item.text = t(item.textKey);
-      if (item.actionKey) item.action = t(item.actionKey);
+      if (item.titleKey) { item.title = t(item.titleKey); item._titleKey = item.titleKey; }
+      if (item.textKey) { item.text = t(item.textKey); item._textKey = item.textKey; }
+      if (item.actionKey) { item.action = t(item.actionKey); item._actionKey = item.actionKey; }
       return item;
     }
 
@@ -16918,11 +16995,14 @@ async function runScan() {
       fb_posture_title: 'fb_posture_text', fb_posture_text: 'fb_posture_action', fb_posture_action: null,
       fb_head_tilt_title: 'fb_head_tilt_text', fb_head_tilt_text: 'fb_head_tilt_action', fb_head_tilt_action: null,
       fb_strong_body_title: 'fb_strong_body_text', fb_strong_body_text: 'fb_strong_body_action', fb_strong_body_action: null,
-      // camera angle
+      // camera angle (keys match analyzeCameraAngle return values)
+      fb_cam_high_title: 'fb_cam_high_text', fb_cam_high_text: 'fb_cam_high_action', fb_cam_high_action: null,
+      fb_cam_low_title: 'fb_cam_low_text', fb_cam_low_text: 'fb_cam_low_action', fb_cam_low_action: null,
       fb_camera_high_title: 'fb_camera_high_text', fb_camera_high_text: 'fb_camera_high_action', fb_camera_high_action: null,
       fb_camera_low_title: 'fb_camera_low_text', fb_camera_low_text: 'fb_camera_low_action', fb_camera_low_action: null,
       fb_camera_level_title: 'fb_camera_level_text', fb_camera_level_text: 'fb_camera_level_action', fb_camera_level_action: null,
-      // head yaw
+      // head yaw / face away (keys match analyzeHeadYaw return values)
+      fb_face_away_title: 'fb_face_away_text', fb_face_away_text: 'fb_face_away_action', fb_face_away_action: null,
       fb_yaw_title: 'fb_yaw_text', fb_yaw_text: 'fb_yaw_action', fb_yaw_action: null,
       // face distance
       fb_too_close_title: 'fb_too_close_text', fb_too_close_text: 'fb_too_close_action', fb_too_close_action: null,
@@ -16930,13 +17010,41 @@ async function runScan() {
       // face centering
       fb_off_center_title: 'fb_off_center_text', fb_off_center_text: 'fb_off_center_action', fb_off_center_action: null,
       fb_centered_title: 'fb_centered_text', fb_centered_text: 'fb_centered_action', fb_centered_action: null,
-      // eyes open
+      // eyes open / gaze
       fb_engaged_gaze_title: 'fb_engaged_gaze_text', fb_engaged_gaze_text: 'fb_engaged_gaze_action', fb_engaged_gaze_action: null,
+      fb_half_closed_title: 'fb_half_closed_text', fb_half_closed_text: 'fb_half_closed_action', fb_half_closed_action: null,
       fb_distracted_title: 'fb_distracted_text', fb_distracted_text: 'fb_distracted_action', fb_distracted_action: null,
+      // smile
+      fb_natural_smile_title: 'fb_natural_smile_text', fb_natural_smile_text: 'fb_natural_smile_action', fb_natural_smile_action: null,
+      fb_tense_mouth_title: 'fb_tense_mouth_text', fb_tense_mouth_text: 'fb_tense_mouth_action', fb_tense_mouth_action: null,
       // proportions
       fb_balanced_title: 'fb_balanced_text', fb_balanced_text: 'fb_balanced_action', fb_balanced_action: null,
+      fb_jawline_title: 'fb_jawline_text', fb_jawline_text: 'fb_jawline_action', fb_jawline_action: null,
+      fb_compact_title: 'fb_compact_text', fb_compact_text: 'fb_compact_action', fb_compact_action: null,
       // symmetry
       mirror_check: 'small_imbalance', small_imbalance: 'check_hair_collar', check_hair_collar: null,
+      // skin irritation
+      fb_skin_irrit_title: 'fb_skin_irrit_text', fb_skin_irrit_text: 'fb_skin_irrit_action', fb_skin_irrit_action: null,
+      // lighting
+      fb_uneven_light_title: 'fb_uneven_light_text', fb_uneven_light_text: 'fb_uneven_light_action', fb_uneven_light_action: null,
+      // background
+      fb_busy_bg_title: 'fb_busy_bg_text', fb_busy_bg_text: 'fb_busy_bg_action', fb_busy_bg_action: null,
+      fb_clean_bg_title: 'fb_clean_bg_text', fb_clean_bg_text: 'fb_clean_bg_action', fb_clean_bg_action: null,
+      // blur
+      fb_blurry_title: 'fb_blurry_text', fb_blurry_text: 'fb_blurry_action', fb_blurry_action: null,
+      // darkness
+      fb_dark_title: 'feedback_too_dark_text', feedback_too_dark_text: 'fb_dark_action', fb_dark_action: null,
+      fb_dim_title: 'fb_dim_text', fb_dim_text: 'fb_dim_action', fb_dim_action: null,
+      // no face
+      fb_no_face_title: 'fb_no_face_text', fb_no_face_text: 'fb_no_face_action', fb_no_face_action: null,
+      // oily/shine
+      fb_oily_tzone_title: 'fb_oily_tzone_text', fb_oily_tzone_text: 'fb_oily_tzone_action', fb_oily_tzone_action: null,
+      fb_slight_shine_title: 'fb_slight_shine_text', fb_slight_shine_text: 'fb_slight_shine_action', fb_slight_shine_action: null,
+      // eyes
+      fb_tired_eyes_title: 'fb_tired_eyes_text', fb_tired_eyes_text: 'fb_tired_eyes_action', fb_tired_eyes_action: null,
+      fb_slight_redness_title: 'fb_slight_redness_text', fb_slight_redness_text: 'fb_slight_redness_action', fb_slight_redness_action: null,
+      // lint
+      fb_lint_title: 'fb_lint_text', fb_lint_text: 'fb_lint_action', fb_lint_action: null,
     };
 
     function addKeysToAnalyzerItem(item) {
@@ -17009,7 +17117,7 @@ async function runScan() {
         const eyesOpen = analyzeEyeOpenness(lm); if (eyesOpen) items.push(eyesOpen);
         const prop = analyzeProportions(lm); if (prop) items.push(prop);
         const sym = analyzeSymmetry(lm);
-        if (sym.ratio > 0.10) items.push({ category: "grooming", tone: "warn", icon: "✂️", title: t("mirror_check"), text: t("small_imbalance"), action: t("check_hair_collar") });
+        if (sym.ratio > 0.10) items.push(withKeys({ category: "grooming", tone: "warn", icon: "✂️", title: t("mirror_check"), text: t("small_imbalance"), action: t("check_hair_collar") }, 'mirror_check', 'small_imbalance', 'check_hair_collar'));
 
         // Pixel-based analyses come from the worker — translate keys to strings
         const dirLight = workerResults.lightingDirection; if (dirLight) items.push(translateWorkerItem(dirLight));
@@ -17031,7 +17139,7 @@ async function runScan() {
 
       // Shoulders / lint (doesn't need landmarks)
       const sh = workerResults.shoulders;
-      if (sh?.possibleLint) items.push({ category: "style", tone: "warn", icon: "🧥", title: t('fb_lint_title'), text: t('fb_lint_text'), action: t('fb_lint_action') });
+      if (sh?.possibleLint) items.push(withKeys({ category: "style", tone: "warn", icon: "🧥", title: t('fb_lint_title'), text: t('fb_lint_text'), action: t('fb_lint_action') }, 'fb_lint_title', 'fb_lint_text', 'fb_lint_action'));
 
       // Outfit color
       var detectedOutfitColor = workerResults.outfitColor || null;
@@ -17046,16 +17154,16 @@ async function runScan() {
 
       if (lighting?.tooDark) {
         triggerHaptic('error');
-        items.push({ category: "env", tone: "alert", icon: "💡", title: t('fb_dark_title'), text: t('feedback_too_dark_text'), action: t('fb_dark_action') });
+        items.push(withKeys({ category: "env", tone: "alert", icon: "💡", title: t('fb_dark_title'), text: t('feedback_too_dark_text'), action: t('fb_dark_action') }, 'fb_dark_title', 'feedback_too_dark_text', 'fb_dark_action'));
         renderActionPlan(items, false);
         return;
       }
-      if (lighting?.dim) items.push({ category: "env", tone: "warn", icon: "💡", title: t('fb_dim_title'), text: t('fb_dim_text'), action: t('fb_dim_action') });
+      if (lighting?.dim) items.push(withKeys({ category: "env", tone: "warn", icon: "💡", title: t('fb_dim_title'), text: t('fb_dim_text'), action: t('fb_dim_action') }, 'fb_dim_title', 'fb_dim_text', 'fb_dim_action'));
 
       var detectedOutfitColor = null;
 
       if (!result.faceLandmarks?.length) {
-        items.push({ category: "env", tone: "warn", icon: "👤", title: t('fb_no_face_title'), text: t('fb_no_face_text'), action: t('fb_no_face_action') });
+        items.push(withKeys({ category: "env", tone: "warn", icon: "👤", title: t('fb_no_face_title'), text: t('fb_no_face_text'), action: t('fb_no_face_action') }, 'fb_no_face_title', 'fb_no_face_text', 'fb_no_face_action'));
       } else {
         const lm = result.faceLandmarks[0];
         const camAngle = analyzeCameraAngle(lm); if (camAngle) items.push(camAngle);
@@ -17072,24 +17180,24 @@ async function runScan() {
         const shave = analyzeShavingIrritation(lm, cap.w, cap.h); if (shave) items.push(shave);
         await yieldToUI();
         const sym = analyzeSymmetry(lm);
-        if (sym.ratio > 0.10) items.push({ category: "grooming", tone: "warn", icon: "✂️", title: t("mirror_check"), text: t("small_imbalance"), action: t("check_hair_collar") });
+        if (sym.ratio > 0.10) items.push(withKeys({ category: "grooming", tone: "warn", icon: "✂️", title: t("mirror_check"), text: t("small_imbalance"), action: t("check_hair_collar") }, 'mirror_check', 'small_imbalance', 'check_hair_collar'));
         await yieldToUI();
         const eyes = analyzeEyeRedness(lm, cap.w, cap.h);
         if (eyes) {
-          if (eyes.tired) items.push({ category: "grooming", tone: "alert", icon: "👁️", title: t('fb_tired_eyes_title'), text: t('fb_tired_eyes_text'), action: t('fb_tired_eyes_action') });
-          else if (eyes.slightly) items.push({ category: "grooming", tone: "warn", icon: "👁️", title: t('fb_slight_redness_title'), text: t('fb_slight_redness_text'), action: t('fb_slight_redness_action') });
+          if (eyes.tired) items.push(withKeys({ category: "grooming", tone: "alert", icon: "👁️", title: t('fb_tired_eyes_title'), text: t('fb_tired_eyes_text'), action: t('fb_tired_eyes_action') }, 'fb_tired_eyes_title', 'fb_tired_eyes_text', 'fb_tired_eyes_action'));
+          else if (eyes.slightly) items.push(withKeys({ category: "grooming", tone: "warn", icon: "👁️", title: t('fb_slight_redness_title'), text: t('fb_slight_redness_text'), action: t('fb_slight_redness_action') }, 'fb_slight_redness_title', 'fb_slight_redness_text', 'fb_slight_redness_action'));
         }
         const skin = analyzeSkinShine(lm, cap.w, cap.h);
         if (skin) {
-          if (skin.veryShiny) items.push({ category: "grooming", tone: "alert", icon: "💧", title: t('fb_oily_tzone_title'), text: t('fb_oily_tzone_text'), action: t('fb_oily_tzone_action') });
-          else if (skin.shiny) items.push({ category: "grooming", tone: "warn", icon: "✨", title: t('fb_slight_shine_title'), text: t('fb_slight_shine_text'), action: t('fb_slight_shine_action') });
+          if (skin.veryShiny) items.push(withKeys({ category: "grooming", tone: "alert", icon: "💧", title: t('fb_oily_tzone_title'), text: t('fb_oily_tzone_text'), action: t('fb_oily_tzone_action') }, 'fb_oily_tzone_title', 'fb_oily_tzone_text', 'fb_oily_tzone_action'));
+          else if (skin.shiny) items.push(withKeys({ category: "grooming", tone: "warn", icon: "✨", title: t('fb_slight_shine_title'), text: t('fb_slight_shine_text'), action: t('fb_slight_shine_action') }, 'fb_slight_shine_title', 'fb_slight_shine_text', 'fb_slight_shine_action'));
         }
         await yieldToUI();
         detectedOutfitColor = analyzeOutfitColor(lm, cap.w, cap.h);
         await yieldToUI();
       }
       const sh = analyzeShoulders(cap.w, cap.h);
-      if (sh?.possibleLint) items.push({ category: "style", tone: "warn", icon: "🧥", title: t('fb_lint_title'), text: t('fb_lint_text'), action: t('fb_lint_action') });
+      if (sh?.possibleLint) items.push(withKeys({ category: "style", tone: "warn", icon: "🧥", title: t('fb_lint_title'), text: t('fb_lint_text'), action: t('fb_lint_action') }, 'fb_lint_title', 'fb_lint_text', 'fb_lint_action'));
       await yieldToUI();
     }
 
@@ -17240,30 +17348,32 @@ function pickFresh(key, pool, memory = 4) {
   return chosen;
 }
 
-const VIBES_MID = [t('vibe_mid_1'), t('vibe_mid_2'), t('vibe_mid_3'), t('vibe_mid_4'), t('vibe_mid_5'), t('vibe_mid_6'), t('vibe_mid_7'), t('vibe_mid_8')];
-const VIBES_LOW = [t('vibe_low_1'), t('vibe_low_2'), t('vibe_low_3'), t('vibe_low_4'), t('vibe_low_5')];
-const VIBES_HIGH = [t('vibe_high_1'), t('vibe_high_2'), t('vibe_high_3'), t('vibe_high_4'), t('vibe_high_5')];
+function getVibesMid() { return [t('vibe_mid_1'), t('vibe_mid_2'), t('vibe_mid_3'), t('vibe_mid_4'), t('vibe_mid_5'), t('vibe_mid_6'), t('vibe_mid_7'), t('vibe_mid_8')]; }
+function getVibesLow() { return [t('vibe_low_1'), t('vibe_low_2'), t('vibe_low_3'), t('vibe_low_4'), t('vibe_low_5')]; }
+function getVibesHigh() { return [t('vibe_high_1'), t('vibe_high_2'), t('vibe_high_3'), t('vibe_high_4'), t('vibe_high_5')]; }
 function generateVibe(score) {
-  const pool = score >= 82 ? VIBES_HIGH : score >= 66 ? VIBES_MID : VIBES_LOW;
+  const pool = score >= 82 ? getVibesHigh() : score >= 66 ? getVibesMid() : getVibesLow();
   return pickFresh(`vibe_${score >= 82 ? 'hi' : score >= 66 ? 'mid' : 'lo'}`, pool);
 }
 
-const CONFIDENCE_BOOSTERS = [
-  { icon: "🎯", text: t('booster_1') },
-  { icon: "🚪", text: t('booster_2') },
-  { icon: "🧘", text: t('booster_3') },
-  { icon: "⏸️", text: t('booster_4') },
-  { icon: "👂", text: t('booster_5') },
-  { icon: "😌", text: t('booster_6') },
-  { icon: "✋", text: t('booster_7') },
-  { icon: "🔥", text: t('booster_8') },
-  { icon: "💬", text: t('booster_9') },
-  { icon: "🫱", text: t('booster_10') },
-  { icon: "👀", text: t('booster_11') },
-  { icon: "🪞", text: t('booster_12') },
-  { icon: "⚡", text: t('booster_13') }
-];
-function randomBooster() { return pickFresh('booster', CONFIDENCE_BOOSTERS); }
+function getConfidenceBoosters() {
+  return [
+    { icon: "🎯", text: t('booster_1') },
+    { icon: "🚪", text: t('booster_2') },
+    { icon: "🧘", text: t('booster_3') },
+    { icon: "⏸️", text: t('booster_4') },
+    { icon: "👂", text: t('booster_5') },
+    { icon: "😌", text: t('booster_6') },
+    { icon: "✋", text: t('booster_7') },
+    { icon: "🔥", text: t('booster_8') },
+    { icon: "💬", text: t('booster_9') },
+    { icon: "🫱", text: t('booster_10') },
+    { icon: "👀", text: t('booster_11') },
+    { icon: "🪞", text: t('booster_12') },
+    { icon: "⚡", text: t('booster_13') }
+  ];
+}
+function randomBooster() { return pickFresh('booster', getConfidenceBoosters()); }
 
 // Outline SVG icon map for result items. Each entry stores the inner markup;
 // renderIconSvg() wraps it in a consistently-styled <svg> element so every
@@ -17299,9 +17409,21 @@ function renderIconSvg(emoji) {
   return '<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">' + body + '</svg>';
 }
 
-function renderActionPlan(items, locked = false) {
+function renderActionPlan(items, locked, reuseBooster) {
   let html = "";
-  const booster = randomBooster();
+  // On language-switch, reuse the same booster icon so the text
+  // re-translates without picking a random new one.
+  var booster;
+  if (reuseBooster && store.get().lastBoosterIdx != null) {
+    var pool = getConfidenceBoosters();
+    booster = pool[store.get().lastBoosterIdx] || randomBooster();
+  } else {
+    booster = randomBooster();
+    // Remember which booster was used so langchange can re-translate it
+    var pool2 = getConfidenceBoosters();
+    var idx = pool2.findIndex(function(b) { return b.text === booster.text && b.icon === booster.icon; });
+    if (idx >= 0) store.set({ lastBoosterIdx: idx });
+  }
 
   // ${t("coach_pep_talk")} — kept as the introductory card for brand flavor.
   // Always visible, even for locked/free users, because it's flavor
@@ -17511,7 +17633,7 @@ async function verifyProStatus({ poll = false, visible = false } = {}) {
           const s = store.get();
           if (s.lastItems) {
             renderActionPlan(s.lastItems, false);
-            renderStyleCoach(s.lastColor, s.occasion, false);
+            renderStyleCoach(s.lastColor, s.occasion, false, null, true);
             renderChips(s.occasion);
           }
           if (visible) {
@@ -21099,6 +21221,80 @@ function onGoogleMapsLoaded() {
   });
 
   window.addEventListener('pagehide', stopCamera);
+
+  // ============================================================
+  // LANGCHANGE — Re-render VAI panel text when language switches
+  // ============================================================
+  // The VAI panel shows Palette/Contrast/Composition insights,
+  // archetype name, subtype, and Missing Piece advice — all
+  // generated from pixel data but rendered in the current language.
+  // When the user switches language we need to re-render those
+  // strings without re-scanning.  If lastResult is available we
+  // regenerate the archetype/subtype/insights/missing-piece from
+  // the saved features; otherwise we just re-translate the
+  // greeting.
+  window.addEventListener('langchange', function() {
+    try {
+      // Re-apply greeting (archetype name changes with language)
+      applyGreeting();
+      // If we have a last result with features, re-render the VAI panel
+      if (lastResult && lastResult.features) {
+        var c = lastResult;
+        // Re-derive archetype/subtype in new language
+        const f = c.features;
+        const muted = f.avgSat < 0.24;
+        const dark = f.avgLuma < 110;
+        const bright = f.avgLuma > 165;
+        const warm = f.warmth > 10;
+        const cool = f.warmth < -10;
+        const highContrast = f.contrast > 50;
+        let archetypeKey = c.archetypeKey || '';
+        // Re-translate archetype name
+        if (archetypeKey) {
+          var archEl = document.getElementById('vai-vibe-type');
+          if (archEl) archEl.textContent = t(archetypeKey);
+        }
+        // Re-derive and translate subtype
+        let subtypeKey;
+        if (muted && dark && highContrast) subtypeKey = 'sub_monochrome_architect';
+        else if (muted && dark) subtypeKey = 'sub_shadow_walker';
+        else if (muted && bright && warm) subtypeKey = 'sub_golden_hour';
+        else if (muted && bright) subtypeKey = 'sub_sunbleached_wanderer';
+        else if (muted) subtypeKey = 'sub_understated_refined';
+        else if (!muted && f.hueDiversity >= 5) subtypeKey = 'sub_chromatic_rebel';
+        else if (!muted && warm) subtypeKey = 'sub_sunlit_maximalist';
+        else if (!muted && cool) subtypeKey = 'sub_cool_provocateur';
+        else if (warm && dark) subtypeKey = 'sub_earth_tones';
+        else if (cool && dark) subtypeKey = 'sub_midnight_palette';
+        else if (warm) subtypeKey = 'sub_warm_composition';
+        else subtypeKey = 'sub_balanced_composition';
+        var subEl = document.getElementById('vai-vibe-sub');
+        if (subEl) subEl.textContent = t(subtypeKey);
+        // Re-generate insights in new language
+        const insights = generateInsights(c);
+        insightEls.forEach(function(el, i) {
+          if (insights[i]) {
+            el.innerHTML = '<span class="text-brand-400 font-bold">' + insights[i].label + ' —</span> ' + insights[i].html;
+          }
+        });
+        // Re-generate missing piece advice in new language
+        const missing = generateMissingPiece(c);
+        var scoreCurEl = $vai('vai-score-current');
+        var scorePotEl = $vai('vai-score-potential');
+        if (scoreCurEl) scoreCurEl.textContent = missing.current;
+        if (scorePotEl) scorePotEl.textContent = missing.potential;
+        if (tipEl) {
+          if (!originVibe) {
+            tipEl.innerHTML = '<strong style="color:#fb7185">' + t('origin_vibe_title') + '</strong> ' + t('origin_vibe_baseline') + ' ' + missing.advice;
+          } else {
+            tipEl.innerHTML = missing.advice;
+          }
+        }
+        // Re-apply greeting
+        applyGreeting();
+      }
+    } catch(e) { console.warn('[langchange] VAI re-render failed:', e); }
+  });
 })();
 </script>
 
