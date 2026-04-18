@@ -3969,9 +3969,10 @@ document.addEventListener('DOMContentLoaded', function () {
     toggle.classList.toggle('border-white/15', !on);
     if (knob) knob.style.transform = on ? 'translateX(20px)' : 'translateX(0)';
     if (statusEl) {
+      var _t = typeof window.t === 'function' ? window.t : function(k){return k;};
       statusEl.innerHTML = on
-        ? 'Status: <span class="text-brand-400 font-semibold">On</span> — chat image uploads blocked, on-device AI uses CPU backend.'
-        : 'Status: <span class="text-gray-300">Off</span> — image uploads in chat are allowed after consent.';
+        ? _t('privacy_status_on')
+        : _t('privacy_status_off');
     }
   }
   syncToggleUI(window.dsPrivacy.isPrivateMode());
@@ -4281,7 +4282,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <div class="premium-glass border border-brand-500/30 rounded-[28px] p-6 sm:p-7 max-w-md w-full max-h-[90vh] overflow-y-auto fade-up">
     <div class="flex items-start justify-between mb-4">
       <div>
-        <div class="text-[10px] uppercase tracking-widest text-brand-400 font-bold mb-1">Privacy &amp; Data</div>
+        <div class="text-[10px] uppercase tracking-widest text-brand-400 font-bold mb-1" data-i18n="privacy_label">Privacy &amp; Data</div>
         <h3 class="font-serif text-2xl font-semibold text-white" data-i18n="privacy_title">What leaves your device</h3>
       </div>
       <button id="closePrivacyBtn" class="shrink-0 w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 flex items-center justify-center transition" aria-label="Close">
@@ -4780,6 +4781,7 @@ const store = createStore({
   lastFixes: null,
   lastBoosterIdx: null,
   lastVibe: null,
+  lastVibeScore: null,
   activeView: 'scanner'
 }, appReducer);
 
@@ -6894,7 +6896,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       privacy_item_chat_images: '<strong class="text-white">AI Style Coach Chat — images.</strong> If you attach a photo or pick one from your closet, that image is uploaded with your message for the model to "see". It is processed for that single request and not retained on our server beyond the response. We do not use chat content to train models.',
       privacy_private_mode: 'Private Mode',
       privacy_private_mode_desc: 'Blocks all image uploads in chat and forces the on-device AI to use the CPU backend.',
-      privacy_status_off: 'Status: Off — image uploads in chat are allowed after consent.',
+      privacy_status_off: 'Status: <span class="text-gray-300">Off</span> — image uploads in chat are allowed after consent.',
+      privacy_status_on: 'Status: <span class="text-brand-400 font-semibold">On</span> — chat image uploads blocked, on-device AI uses CPU backend.',
       privacy_delete_title: 'Delete my account & data',
       privacy_delete_desc: 'View your account ID and permanently delete your account & all data.',
       privacy_open_page: 'Open Privacy & Data page',
@@ -8252,7 +8255,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       privacy_item_chat_images: '<strong class="text-white">AI Stílusedző Chat — képek.</strong> Ha csatolsz egy fotót vagy a szekrényedből választasz egyet, az a kép feltöltődik az üzeneteddel együtt, hogy a modell „lássa". Csak az adott kéréshez dolgozzuk fel, és a válasz után nem őrizzük meg a szerverünkön. A chat tartalmát nem használjuk modellek tanítására.',
       privacy_private_mode: 'Privát mód',
       privacy_private_mode_desc: 'Blokkolja a képfeltöltéseket a chatben és CPU backendet kényszerít.',
-      privacy_status_off: 'Állapot: Ki — képfeltöltés engedélyezett a chatben beleegyezés után.',
+      privacy_status_off: 'Állapot: <span class="text-gray-300">Ki</span> — képfeltöltés engedélyezett a chatben beleegyezés után.',
+      privacy_status_on: 'Állapot: <span class="text-brand-400 font-semibold">Be</span> — képfeltöltés blokkolva, helyi AI CPU backendet használ.',
       privacy_delete_title: 'Fiók & adatok törlése',
       privacy_delete_desc: 'Tekintsd meg a fiókod azonosítóját és töröld végleg a fiókot és minden adatot.',
       privacy_open_page: 'Adatvédelem oldal megnyitása',
@@ -9609,7 +9613,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       privacy_item_chat_images: '<strong class="text-white">AI Style Coach Chat — Bilder.</strong> Wenn du ein Foto anhängst oder aus deinem Schrank wählst, wird das Bild mit deiner Nachricht hochgeladen, damit das Modell es „sehen" kann. Es wird nur für diese eine Anfrage verarbeitet und nach der Antwort nicht auf unserem Server behalten. Wir nutzen Chat-Inhalte nicht zum Trainieren von Modellen.',
       privacy_private_mode: 'Privater Modus',
       privacy_private_mode_desc: 'Blockiert Bild-Uploads im Chat und erzwingt das CPU-Backend.',
-      privacy_status_off: 'Status: Aus — Bild-Uploads im Chat nach Zustimmung erlaubt.',
+      privacy_status_off: 'Status: <span class="text-gray-300">Aus</span> — Bild-Uploads im Chat nach Zustimmung erlaubt.',
+      privacy_status_on: 'Status: <span class="text-brand-400 font-semibold">An</span> — Chat-Bild-Uploads blockiert, On-Device-AI nutzt CPU-Backend.',
       privacy_delete_title: 'Account & Daten löschen',
       privacy_delete_desc: 'Account-ID anzeigen und alles dauerhaft löschen.',
       privacy_open_page: 'Datenschutz-Seite öffnen',
@@ -10737,6 +10742,15 @@ window.addEventListener('langchange', function() {
     if (typeof window.renderBadges === 'function') window.renderBadges();
     // Re-render seasonal tips so season name/tip text translate on language switch
     if (typeof window.renderSeasonalTips === 'function') window.renderSeasonalTips();
+    // Re-render scan vibe text so it translates on language switch
+    if (s.lastVibeScore != null) {
+      var vibeEl = document.getElementById('scanVibeText');
+      if (vibeEl && typeof generateVibe === 'function') {
+        var newVibe = generateVibe(s.lastVibeScore);
+        vibeEl.textContent = newVibe;
+        store.set({ lastVibe: newVibe });
+      }
+    }
   } catch(e) { console.warn('[langchange] re-render failed:', e); }
 });
 
@@ -16155,7 +16169,7 @@ function renderStyleCoach(colorData, occasion, locked = false, items = null, reu
           <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-400 mt-3">${scoreLabel}</span>
         </div>
       </div>
-      <div class="font-serif italic text-base text-gray-300 mt-4 text-center">${(function(){ var v = generateVibe(analysis.score); store.set({lastVibe: v}); return v; })()}</div>
+      <div id="scanVibeText" class="font-serif italic text-base text-gray-300 mt-4 text-center">${(function(){ var v = generateVibe(analysis.score); store.set({lastVibe: v, lastVibeScore: analysis.score}); return v; })()}</div>
     </div>
 
     <div class="flex items-center justify-between mb-6 gap-2">
