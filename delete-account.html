@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#09090b" />
+<title>Delete Your Account &amp; Data — DateScan</title>
+<meta name="description" content="Request deletion of your DateScan account and all associated data. No login required." />
+<meta name="robots" content="noindex, follow" />
+<link rel="canonical" href="https://datescan.app/delete-account.html" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='40' y2='40' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23ec4899'/%3E%3Cstop offset='1' stop-color='%239333ea'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M10 5 H5 V10' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M30 5 H35 V10' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M10 35 H5 V30' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M30 35 H35 V30' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M20 13.5C20 13.5 16 9 11.5 9C7.5 9 5 12.5 5 16.5C5 22 13 28 20 32C27 28 35 22 35 16.5C35 12.5 32.5 9 28.5 9C24 9 20 13.5 20 13.5Z' fill='url(%23bg)' fill-opacity='0.15' stroke='url(%23bg)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='4' y1='20' x2='36' y2='20' stroke='%23f472b6' stroke-width='1.5' stroke-dasharray='2 2' opacity='0.8'/%3E%3C/svg%3E">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { sans: ['Inter','sans-serif'], serif: ['Playfair Display','serif'] },
+    colors: { brand: { 400:'#f472b6', 500:'#ec4899', 600:'#db2777' }, dark: { 900:'#18181b', 950:'#09090b' } }
+  }}}
+</script>
+<style>
+  body { background:#09090b; color:#fafafa; font-family: Inter, sans-serif; }
+  .prose-custom h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; color:#fff; margin-top: 2rem; margin-bottom: .75rem; }
+  .prose-custom p { color:#d1d5db; line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
+  .prose-custom ul { color:#d1d5db; margin-bottom: 1rem; padding-left: 1.25rem; list-style: disc; }
+  .prose-custom li { margin-bottom: 0.5rem; line-height: 1.65; font-size: 0.95rem; }
+  .prose-custom strong { color:#fff; font-weight: 600; }
+  .prose-custom a { color:#f472b6; text-decoration: underline; text-underline-offset: 3px; }
+  .prose-custom a:hover { color:#ec4899; }
+  .ambient-glow { position: fixed; inset: 0; background:
+    radial-gradient(circle at 15% 10%, rgba(236,72,153,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(139,92,246,0.08) 0%, transparent 40%);
+    pointer-events: none; z-index: 0; }
+  .form-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    color: #fff;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color .15s, background .15s;
+  }
+  .form-input::placeholder { color: #6b7280; }
+  .form-input:focus { border-color: rgba(236,72,153,0.5); background: rgba(255,255,255,0.06); }
+  .form-label { display: block; font-size: 0.8rem; font-weight: 600; color: #e5e7eb; margin-bottom: 0.5rem; }
+  .checkbox-row {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .checkbox-row:hover { background: rgba(255,255,255,0.04); }
+  .checkbox-row input[type="checkbox"] { accent-color: #ec4899; width: 1rem; height: 1rem; margin-top: 0.15rem; flex-shrink: 0; }
+  .btn-danger {
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    color: white;
+    padding: 0.9rem 1.5rem;
+    border-radius: 0.875rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25);
+    transition: all .2s;
+  }
+  .btn-danger:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(220, 38, 38, 0.35); }
+  .btn-danger:active:not(:disabled) { transform: translateY(1px); }
+  .btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
+</style>
+</head>
+<body class="antialiased">
+<div class="ambient-glow"></div>
+<a href="/index.html" aria-label="Back to app" class="lg:hidden fixed top-10 right-6 z-30 w-11 h-11 flex items-center justify-center rounded-full border border-white/10 bg-[#0f0f14]/80 backdrop-blur-md text-gray-300 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] active:scale-95 transition-all" style="top: calc(env(safe-area-inset-top, 0px) + 2.5rem);">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M15 18l-6-6 6-6"/>
+  </svg>
+</a>
+
+
+<header class="relative z-10 max-w-3xl mx-auto px-6 pt-10 pb-8">
+  <a href="/" class="inline-flex items-center gap-3 group">
+    <div class="w-12 h-12 flex items-center justify-center shrink-0">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_0_8px_rgba(236,72,153,0.4)]">
+        <defs>
+          <linearGradient id="logo-brand-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#ec4899"/>
+            <stop offset="1" stop-color="#9333ea"/>
+          </linearGradient>
+        </defs>
+        <path d="M10 5 H5 V10" stroke="url(#logo-brand-grad)" stroke-width="2"/>
+        <path d="M30 5 H35 V10" stroke="url(#logo-brand-grad)" stroke-width="2"/>
+        <path d="M10 35 H5 V30" stroke="url(#logo-brand-grad)" stroke-width="2"/>
+        <path d="M30 35 H35 V30" stroke="url(#logo-brand-grad)" stroke-width="2"/>
+        <path d="M20 13.5C20 13.5 16 9 11.5 9C7.5 9 5 12.5 5 16.5C5 22 13 28 20 32C27 28 35 22 35 16.5C35 12.5 32.5 9 28.5 9C24 9 20 13.5 20 13.5Z" fill="url(#logo-brand-grad)" fill-opacity="0.15" stroke="url(#logo-brand-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="4" y1="20" x2="36" y2="20" stroke="#f472b6" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="flex flex-col">
+      <h1 class="font-bold text-xl md:text-2xl tracking-tight leading-none text-white group-hover:text-brand-400 transition-colors">DateScan<span class="text-brand-500">.</span></h1>
+      <span class="text-[10px] text-gray-400 font-medium uppercase tracking-widest mt-1">Personal Style Coach</span>
+    </div>
+  </a>
+</header>
+
+<main class="relative z-10 max-w-2xl mx-auto px-6 pb-20">
+  <div class="mb-8 pb-8 border-b border-white/10">
+    <div class="text-[10px] uppercase tracking-widest text-red-400 font-bold mb-3">Account &amp; data deletion</div>
+    <h1 class="font-serif text-4xl sm:text-5xl font-medium text-white mb-3">Delete your account</h1>
+    <p class="text-sm text-gray-500">Immediate. No login required. Data is removed from our servers as soon as you submit.</p>
+  </div>
+
+  <article class="prose-custom">
+    <p>This page lets you permanently delete all DateScan data linked to your anonymous account ID. You do <strong>not</strong> need to log in. This is the official account deletion URL we submit to the Google Play Store.</p>
+
+    <h2>What gets deleted</h2>
+    <p>When you submit the form below, we immediately erase from our servers:</p>
+    <ul>
+      <li>Your <strong>AI Style Coach chat history</strong>, including any photos you attached</li>
+      <li>Any <strong>content moderation reports</strong> you submitted</li>
+      <li>Your <strong>subscription and entitlement records</strong> linked to your account ID</li>
+      <li>Server-side <strong>usage logs</strong> keyed to your account</li>
+    </ul>
+
+    <h2>What we can't delete from here</h2>
+    <ul>
+      <li><strong>On-device data</strong> (closet, scan history, local settings) — this lives only on your phone or browser. Open the DateScan app → Privacy → "Delete My Account &amp; Data" to wipe it (that button does both server and local deletion in one go), or simply uninstall the app.</li>
+      <li><strong>Google Play payment records</strong> — handled by Google under their own retention rules. You can cancel your subscription on the <a href="https://play.google.com/store/account/subscriptions" target="_blank" rel="noopener">Google Play subscriptions page</a>. Google keeps billing records as long as required by tax law.</li>
+      <li><strong>Backup snapshots</strong> — we keep encrypted backups for 35 days for disaster recovery. Your data will be purged from backups on the normal rotation schedule and will not be restored to any live system.</li>
+    </ul>
+
+    <h2>Cancel your subscription first</h2>
+    <p class="text-amber-300"><strong>Deleting your account does not cancel an active subscription.</strong> You will keep being charged. Please cancel first:</p>
+    <ul>
+      <li><strong>Google Play subscription:</strong> <a href="https://play.google.com/store/account/subscriptions" target="_blank" rel="noopener">play.google.com/store/account/subscriptions</a></li>
+    </ul>
+  </article>
+
+  <!-- Deletion Request Form -->
+  <section class="mt-10 p-6 sm:p-7 rounded-2xl border border-red-500/20 bg-red-500/5">
+    <h2 class="font-serif text-2xl font-semibold text-white mb-2">Delete my data</h2>
+    <p class="text-sm text-gray-400 mb-6">Paste your DateScan account ID below. We'll permanently delete all server-side data linked to that ID immediately. Action is irreversible.</p>
+
+    <div class="mb-6 p-4 rounded-xl border border-white/10 bg-white/5">
+      <h3 class="text-sm font-semibold text-white mb-2">Where do I find my account ID?</h3>
+      <ol class="text-xs text-gray-400 space-y-1.5 list-decimal pl-4 leading-relaxed">
+        <li>Open the DateScan app on your phone.</li>
+        <li>Go to <strong class="text-gray-200">Privacy</strong>.</li>
+        <li>Find the <strong class="text-gray-200">"Your account ID"</strong> box and tap <strong class="text-gray-200">Copy</strong>.</li>
+        <li>Paste it into the field below.</li>
+      </ol>
+      <p class="text-[11px] text-gray-500 mt-3">It looks like <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">ds_7f3a8b2c…</code></p>
+    </div>
+
+    <form id="deleteForm" class="space-y-5" novalidate>
+      <div>
+        <label class="form-label" for="userId">Account ID <span class="text-red-400">*</span></label>
+        <input type="text" id="userId" name="userId" required class="form-input font-mono" placeholder="ds_..." autocomplete="off" spellcheck="false" />
+        <p class="text-[11px] text-gray-500 mt-1.5">The anonymous identifier we use to match your data. We don't ask for an email — DateScan accounts are not linked to one.</p>
+      </div>
+
+      <div class="space-y-2 pt-2">
+        <label class="checkbox-row">
+          <input type="checkbox" id="confirmDelete" required>
+          <span class="text-sm text-gray-200"><strong class="text-white">I understand this is permanent and irreversible.</strong></span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="confirmCancel" required>
+          <span class="text-sm text-gray-200"><strong class="text-white">I have cancelled any active Pro subscription.</strong> (Deleting data does not cancel Google Play billing.)</span>
+        </label>
+      </div>
+
+      <!-- Honeypot field — hidden from humans, bots fill it in -->
+      <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+        <label for="website">Leave this field blank</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-danger">
+        Delete my data
+      </button>
+
+      <p class="text-[11px] text-gray-500 text-center">By submitting, you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+    </form>
+
+    <!-- Success state -->
+    <div id="successState" class="hidden mt-4 p-5 rounded-xl border border-emerald-500/30 bg-emerald-500/10">
+      <div class="flex items-start gap-3">
+        <svg class="w-6 h-6 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div>
+          <h3 class="text-white font-semibold mb-1">Data deleted</h3>
+          <p class="text-sm text-gray-300 leading-relaxed">All server-side data for account ID <strong id="successUserId" class="text-white font-mono break-all"></strong> has been permanently deleted. To also wipe data stored on your phone, open the DateScan app → Settings → Privacy, or simply uninstall the app.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="errorState" class="hidden mt-4 p-5 rounded-xl border border-red-500/30 bg-red-500/10">
+      <div class="flex items-start gap-3">
+        <svg class="w-6 h-6 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div>
+          <h3 class="text-white font-semibold mb-1">Something went wrong</h3>
+          <p id="errorMessage" class="text-sm text-gray-300 leading-relaxed">Please try again or contact <a href="/contact.html" class="text-brand-400 underline">support</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mt-10 text-center">
+    <p class="text-xs text-gray-500">Need help? <a href="/contact.html" class="text-brand-400 hover:text-brand-500 underline">Contact support</a></p>
+  </div>
+</main>
+
+<script>
+(function () {
+  var form = document.getElementById('deleteForm');
+  var submitBtn = document.getElementById('submitBtn');
+  var successState = document.getElementById('successState');
+  var errorState = document.getElementById('errorState');
+  var successUserId = document.getElementById('successUserId');
+  var errorMessage = document.getElementById('errorMessage');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    errorState.classList.add('hidden');
+
+    // Honeypot — silently "succeed" if filled.
+    var hp = document.getElementById('website').value;
+    if (hp) {
+      form.classList.add('hidden');
+      successUserId.textContent = document.getElementById('userId').value;
+      successState.classList.remove('hidden');
+      return;
+    }
+
+    var userId = document.getElementById('userId').value.trim();
+    if (!userId || userId.length < 6) {
+      showError("Please paste a valid account ID. It usually starts with \"ds_\" and is copied from the DateScan app under Settings → Privacy.");
+      return;
+    }
+    if (!document.getElementById('confirmDelete').checked ||
+        !document.getElementById('confirmCancel').checked) {
+      showError("Please check both confirmation boxes to continue.");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Deleting…';
+
+    try {
+      var res = await fetch('https://core.datescan.app/api/delete-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: userId })
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      form.classList.add('hidden');
+      successUserId.textContent = userId;
+      successState.classList.remove('hidden');
+      successState.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (err) {
+      console.error('[DateScan] delete request failed:', err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Delete my data';
+      showError("We couldn't process your request right now. Please try again in a few minutes, or contact support if the problem persists.");
+    }
+  });
+
+  function showError(msg) {
+    errorMessage.textContent = msg;
+    errorState.classList.remove('hidden');
+    errorState.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+})();
+</script>
+
+<footer class="relative z-20 w-full bg-[#09090b] border-t border-white/10 pt-14 pb-12 mt-8 overflow-hidden">
+  <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-500/40 to-transparent pointer-events-none"></div>
+  <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 sm:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-12 mb-12">
+
+      <!-- Brand column -->
+      <div class="col-span-2 lg:col-span-5">
+        <a href="/" class="inline-flex items-center gap-3 group mb-4">
+          <div class="w-11 h-11 flex items-center justify-center shrink-0">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_0_8px_rgba(236,72,153,0.4)]">
+              <defs>
+                <linearGradient id="footer-logo-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#ec4899"/>
+                  <stop offset="1" stop-color="#9333ea"/>
+                </linearGradient>
+              </defs>
+              <path d="M10 5 H5 V10" stroke="url(#footer-logo-grad)" stroke-width="2"/>
+              <path d="M30 5 H35 V10" stroke="url(#footer-logo-grad)" stroke-width="2"/>
+              <path d="M10 35 H5 V30" stroke="url(#footer-logo-grad)" stroke-width="2"/>
+              <path d="M30 35 H35 V30" stroke="url(#footer-logo-grad)" stroke-width="2"/>
+              <path d="M20 13.5C20 13.5 16 9 11.5 9C7.5 9 5 12.5 5 16.5C5 22 13 28 20 32C27 28 35 22 35 16.5C35 12.5 32.5 9 28.5 9C24 9 20 13.5 20 13.5Z" fill="url(#footer-logo-grad)" fill-opacity="0.15" stroke="url(#footer-logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="4" y1="20" x2="36" y2="20" stroke="#f472b6" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.8"/>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-bold text-xl tracking-tight leading-none text-white group-hover:text-brand-400 transition-colors">DateScan<span class="text-brand-500">.</span></span>
+            <span class="text-[10px] text-gray-500 font-medium uppercase tracking-widest mt-1.5">Personal Style Coach</span>
+          </div>
+        </a>
+        <p class="text-sm text-gray-400 leading-relaxed max-w-sm mb-5">
+          Your AI-powered wingman. Scan your outfit, get instant style and grooming feedback, and walk into your date with confidence.
+        </p>
+        <div class="inline-flex items-center gap-2 text-[10px] text-gray-500 px-3 py-1.5 rounded-full border border-white/10 bg-white/5">
+          <svg class="w-3 h-3 text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span>Camera scans run on-device</span>
+        </div>
+      </div>
+
+      <!-- Legal -->
+      <div class="lg:col-span-2 lg:col-start-7">
+        <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4">Legal</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="/privacy.html" class="text-gray-400 hover:text-brand-400 transition-colors">Privacy Policy</a></li>
+          <li><a href="/terms.html" class="text-gray-400 hover:text-brand-400 transition-colors">Terms of Service</a></li>
+          <li><a href="/refund.html" class="text-gray-400 hover:text-brand-400 transition-colors">Refund Policy</a></li>
+          <li><a href="/delete-account.html" class="text-gray-400 hover:text-brand-400 transition-colors">Delete Account</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div class="lg:col-span-2">
+        <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4">Support</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="/contact.html" class="text-gray-400 hover:text-brand-400 transition-colors">Contact Support</a></li>
+        </ul>
+      </div>
+
+      <!-- Social -->
+      <div class="lg:col-span-3">
+        <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4">Follow</h3>
+        <div class="flex items-center gap-2.5">
+          <a href="https://www.tiktok.com/@datescan" target="_blank" rel="noopener noreferrer" aria-label="DateScan on TikTok" class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] transition-all">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.321 5.562a5.124 5.124 0 0 1-.443-.258 6.228 6.228 0 0 1-1.137-.966c-.849-.971-1.166-1.956-1.282-2.645h.004C16.369 1.104 16.41.5 16.41.5h-3.31v12.789c0 .171 0 .341-.007.508l-.001.064-.003.085v.007a3.535 3.535 0 0 1-1.78 2.801 3.474 3.474 0 0 1-1.724.454c-1.933 0-3.502-1.579-3.502-3.524s1.569-3.524 3.502-3.524c.366 0 .718.057 1.049.162l.004-3.37a6.844 6.844 0 0 0-5.283 1.524A6.842 6.842 0 0 0 3 13.304c0 1.599.503 3.123 1.456 4.4a6.838 6.838 0 0 0 5.475 2.78c3.78 0 6.844-3.064 6.844-6.844V8.168a9.533 9.533 0 0 0 5.565 1.781V6.642c-1.175 0-2.218-.391-3.019-1.08Z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@DateScan" target="_blank" rel="noopener noreferrer" aria-label="DateScan on YouTube" class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] transition-all">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=615732231666977" target="_blank" rel="noopener noreferrer" aria-label="DateScan on Facebook" class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] transition-all">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://x.com/DateS33180" target="_blank" rel="noopener noreferrer" aria-label="DateScan on X" class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] transition-all">
+            <svg class="w-[16px] h-[16px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom strip -->
+    <div class="border-t border-white/5 pt-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <p class="text-[11px] text-gray-600 italic leading-relaxed max-w-2xl">
+        Disclaimer: DateScan is an AI-powered tool designed for entertainment and confidence-boosting purposes only. We do not guarantee dating success or specific social outcomes.
+      </p>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 shrink-0">
+        <span class="text-[11px] text-gray-600">&copy; 2026 DateScan</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
