@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09090b">
+
+<title>DateScan — AI Style Coach for First Dates, Interviews & Nights Out</title>
+<meta name="description" content="18+ AI style coach. Get an instant, on-device AI style and grooming check before a first date, job interview, or night out. Camera scans run on your device.">
+<link rel="canonical" href="https://datescan.app/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://datescan.app/">
+<meta property="og:title" content="DateScan — AI Style Coach in Your Pocket">
+<meta property="og:description" content="Outfit, grooming, posture and lighting analysis in 5 seconds — all on-device. Free to try.">
+<meta property="og:image" content="https://datescan.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DateScan — AI Style Coach in Your Pocket">
+<meta name="twitter:description" content="On-device AI checks your outfit, grooming, posture and lighting in 5 seconds. Nothing uploaded.">
+<meta name="twitter:image" content="https://datescan.app/og.png">
+
+<!-- Favicon (matches index.html) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='40' y2='40' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23ec4899'/%3E%3Cstop offset='1' stop-color='%239333ea'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M10 5 H5 V10' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M30 5 H35 V10' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M10 35 H5 V30' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M30 35 H35 V30' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M20 13.5C20 13.5 16 9 11.5 9C7.5 9 5 12.5 5 16.5C5 22 13 28 20 32C27 28 35 22 35 16.5C35 12.5 32.5 9 28.5 9C24 9 20 13.5 20 13.5Z' fill='url(%23bg)' fill-opacity='0.15' stroke='url(%23bg)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='4' y1='20' x2='36' y2='20' stroke='%23f472b6' stroke-width='1.5' stroke-dasharray='2 2' opacity='0.8'/%3E%3C/svg%3E">
+
+<!-- JSON-LD: SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "DateScan",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Web",
+  "url": "https://datescan.app/",
+  "description": "On-device AI style coach. Analyzes your outfit, grooming, posture and lighting in seconds before a first date, job interview or night out. No data uploaded.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<!-- JSON-LD: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is my camera footage uploaded anywhere?",
+      "acceptedAnswer": {"@type":"Answer","text":"No. The face and outfit analysis runs entirely on your device using MediaPipe and WebAssembly. Your video frames never leave the browser."}
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to install anything?",
+      "acceptedAnswer": {"@type":"Answer","text":"No. DateScan runs in any modern browser. You can also add it to your home screen as a PWA for one-tap launch."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is it free?",
+      "acceptedAnswer": {"@type":"Answer","text":"Yes — the core scanner, action plan and digital closet (up to three saved outfits) are free. Free users get 5 points per day, where each scan or AI Coach message costs 1 point. Pro unlocks unlimited scans, unlimited coaching and an unlimited closet."}
+    },
+    {
+      "@type": "Question",
+      "name": "What devices does it work on?",
+      "acceptedAnswer": {"@type":"Answer","text":"Any modern phone, tablet or laptop with a camera and a recent version of Chrome, Safari, Firefox or Edge."}
+    }
+  ]
+}
+</script>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          serif: ['Playfair Display', 'serif'],
+        },
+        colors: {
+          brand: { 400: '#f472b6', 500: '#ec4899', 600: '#db2777' },
+          dark:  { 900: '#18181b', 950: '#09090b' }
+        }
+      }
+    }
+  }
+</script>
+
+<script>
+// ── i18n for landing.html ──
+(function(){
+  var translations = {
+    en: {
+      page_title: 'DateScan — AI Style Coach for First Dates, Interviews & Nights Out',
+      meta_desc: '18+ AI style coach. Get an instant, on-device AI style and grooming check before a first date, job interview, or night out. Camera scans run on your device.',
+      og_title: 'DateScan — AI Style Coach in Your Pocket',
+      og_desc: 'Outfit, grooming, posture and lighting analysis in 5 seconds — all on-device. Free to try.',
+      tw_title: 'DateScan — AI Style Coach in Your Pocket',
+      tw_desc: 'On-device AI checks your outfit, grooming, posture and lighting in 5 seconds. Nothing uploaded.',
+      subtitle_tag: 'Personal Style Coach',
+      nav_use_cases: 'Use cases',
+      nav_how: 'How it works',
+      nav_privacy: 'Privacy',
+      nav_faq: 'FAQ',
+      header_cta: 'Get the app →',
+      hero_badge: '18+ · Camera scans run on-device',
+      hero_h1: 'Bring your <span class="italic grad-text">A-game</span><br>before you walk in.',
+      hero_desc: 'DateScan is an AI style coach you open right before a first date, job interview or night out. It scans your outfit, grooming, posture and lighting in five seconds — and tells you exactly what to fix. Everything runs on your phone. Nothing is uploaded.',
+      gp_alt: 'Get it on Google Play',
+      hero_cta: 'See how it works',
+      hero_feat_ai: 'On-device AI',
+      hero_feat_5sec: '5-second analysis',
+      hero_feat_free: 'Free to try',
+      phone_preview: 'Live Preview',
+      phone_title: 'First Date<br>Style Check',
+      phone_outfit_label: 'Outfit Color',
+      phone_outfit_desc: 'Navy + cream pairs cleanly. Strong contrast for evening.',
+      phone_lighting_label: 'Lighting',
+      phone_lighting_desc: 'Slight side glare — face the window before you head out.',
+      phone_posture_label: 'Posture',
+      phone_posture_desc: "Shoulders back, head centered. You're ready.",
+      phone_score: 'Score: 87 / 100',
+      trust_5sec: '5 sec',
+      trust_5sec_sub: 'average scan',
+      trust_12plus: '12+',
+      trust_12plus_sub: 'style checks',
+      trust_ondevice: 'On-device',
+      trust_ondevice_sub: 'scan processing',
+      trust_nologin: 'No login',
+      trust_nologin_sub: 'required',
+      uc_badge: 'Built for the moments that matter',
+      uc_heading: 'Three nights. One coach.',
+      uc_desc: "Pick the situation you're getting ready for and DateScan tunes its feedback to it — colors, formality, energy and all.",
+      uc_date_title: 'First Date',
+      uc_date_desc: "You've been overthinking your outfit for an hour. Let an unbiased coach end the spiral in five seconds.",
+      uc_date_b1: 'Outfit color &amp; contrast read for evening lighting',
+      uc_date_b2: 'Grooming check: shine, redness, mirror-symmetry',
+      uc_date_b3: 'Posture &amp; smile cues so the first impression lands',
+      uc_date_cta: 'Prep for a date',
+      uc_job_title: 'Job Interview',
+      uc_job_desc: "Whether it's in-person or on Zoom, DateScan checks the formal-side details a hiring manager will register in three seconds.",
+      uc_job_b1: 'Formal palette + collar / lapel symmetry',
+      uc_job_b2: 'Lint, stray hair, tired-eye and shine detection',
+      uc_job_b3: 'Camera framing and background tidiness for video calls',
+      uc_job_cta: 'Prep for an interview',
+      uc_night_title: 'Night Out',
+      uc_night_desc: "Bar, club, gallery opening — DateScan reads the energy of your fit and tells you if you're hitting the right note.",
+      uc_night_b1: 'Bold-color check: does the palette pop in low light?',
+      uc_night_b2: 'Live weather pairing — do you actually need that jacket?',
+      uc_night_b3: 'Date-prep countdown from "almost ready" to "walk in"',
+      uc_night_cta: 'Prep for a night out',
+      how_badge: 'How it works',
+      how_heading: 'From mirror to verdict in 5 seconds.',
+      how_desc: 'No accounts, no installs, no waiting. Open the link, allow the camera, get an action plan.',
+      how_step1_title: 'Allow the camera',
+      how_step1_desc: 'One permission prompt. Nothing is uploaded — the AI engine loads as WebAssembly straight into your browser.',
+      how_step2_title: 'Stand in good light',
+      how_step2_desc: 'Face a window or a lamp. DateScan tells you if the lighting will sabotage your shot before it even runs the analysis.',
+      how_step3_title: 'Get your action plan',
+      how_step3_desc: 'Specific, ranked fixes — "tuck the back of your collar", "dab the T-zone", "swap the navy for the cream". Then walk in.',
+      priv_badge: 'Privacy by design',
+      priv_heading: 'Your camera never leaves your phone.',
+      priv_p1: 'Most "AI selfie" apps quietly upload your face to a cloud GPU. DateScan doesn\'t. The face landmarker, color analyzer and posture detector all run inside your browser via MediaPipe and WebAssembly. Your saved closet sits in your device\'s IndexedDB.',
+      priv_p2: 'The optional AI Chat is the only feature that talks to a server, and it asks for explicit consent before sending an image. A built-in <em>Private Mode</em> disables even that and forces the on-device AI onto the CPU backend so no GPU fingerprint surface is touched.',
+      priv_cta: 'Read the full privacy summary',
+      faq_badge: 'Questions, answered',
+      faq_heading: 'FAQ',
+      faq_q1: 'Is my camera footage uploaded anywhere?',
+      faq_a1: 'No. The face and outfit analysis runs entirely on your device using MediaPipe and WebAssembly. Your video frames never leave the app. The only feature that interacts with a server is the optional AI Style Coach Chat, and only after you provide explicit consent to process a specific message or image.',
+      faq_q2: 'How do I get DateScan?',
+      faq_a2: 'DateScan is available exclusively as an Android app.',
+      faq_q3: 'Is it free?',
+      faq_a3: 'Yes — the core scanner, action plan, and digital closet (up to three saved outfits) are completely free. Free users receive 5 points per day, where 1 point equals 1 scan or 1 AI Coach message. Pro unlocks unlimited scans, coaching, and closet space via secure Google Play billing.',
+      faq_q4: 'What devices does it work on?',
+      faq_a4: 'DateScan is designed for modern Android phones and tablets equipped with a camera. Simply download the app from the Google Play Store to get started.',
+      faq_q5: 'Can I use it for video-call interviews?',
+      faq_a5: 'Yes. Run DateScan right before you join the call — it specifically checks lighting direction, background tidiness, framing and posture, which is exactly what makes or breaks a Zoom-style first impression.',
+      cta_heading: 'Walk in like you <span class="italic grad-text">own the place</span>.',
+      cta_desc: 'Five seconds. One camera. Zero excuses. Download DateScan from Google Play and get your first action plan now.',
+      footer_subtitle: 'Personal Style Coach',
+      footer_desc: 'Your AI-powered wingman. Scan your outfit, get instant style and grooming feedback, and walk into your date with confidence.',
+      footer_ondevice: 'Camera scans run on-device',
+      footer_legal: 'Legal',
+      footer_privacy: 'Privacy Policy',
+      footer_terms: 'Terms of Service',
+      footer_refund: 'Refund Policy',
+      footer_delete: 'Delete Account',
+      footer_support: 'Support',
+      footer_contact: 'Contact Support',
+      footer_follow: 'Follow',
+      disclaimer: 'Disclaimer: DateScan is an AI-powered tool designed for entertainment and confidence-boosting purposes only. We do not guarantee dating success or specific social outcomes.',
+      copyright: '© 2026 DateScan',
+      cookie_title: 'We respect your privacy.',
+      cookie_desc: 'Camera scans run on your device. 🔒 Messages and photos you send to the AI Style Coach are processed on our server for that request only. We only use essential cookies to secure your Pro experience and payments. By continuing, you accept our <a href="/privacy.html" class="text-brand-400 hover:text-brand-500 underline underline-offset-2">Privacy Policy</a>.',
+      cookie_learn: 'Learn more',
+      cookie_reject: 'Reject',
+      cookie_accept: 'Accept'
+    },
+    hu: {
+      page_title: 'DateScan — AI Stílusedző első randikhoz, interjúkhoz és estélyekhez',
+      meta_desc: '18+ AI stílusedző. Azonnali, eszközön futó AI stílus- és ápoltság-ellenőrzés első randi, állásinterjú vagy este előtt. A kamerás szkennelés a készülékeden fut.',
+      og_title: 'DateScan — AI Stílusedző a zsebedben',
+      og_desc: 'Outfit, ápoltság, testtartás és fényviszonyok elemzése 5 másodperc alatt — mind eszközön. Ingyenes kipróbálás.',
+      tw_title: 'DateScan — AI Stílusedző a zsebedben',
+      tw_desc: 'Eszközön futó AI ellenőrzi az öltözéked, ápoltságod, testtartásod és fényviszonyaidat 5 másodperc alatt. Semmit sem töltünk fel.',
+      subtitle_tag: 'Személyes Stílusedző',
+      nav_use_cases: 'Felhasználás',
+      nav_how: 'Hogyan működik',
+      nav_privacy: 'Adatvédelem',
+      nav_faq: 'GYIK',
+      header_cta: 'Alkalmazás letöltése →',
+      hero_badge: '18+ · A kamera szkennelés az eszközödön fut',
+      hero_h1: 'Hozd a <span class="italic grad-text">legjobb formádat</span>,<br>még mielőtt elindulnál.',
+      hero_desc: 'A DateScan az Te személyes AI stílustanácsadód, aki segít felkészülni az első randira, egy fontos állásinterjúra vagy egy baráti találkozóra. Mindössze öt másodperc alatt elemzi az öltözékedet, az ápoltságodat és a testtartásodat, majd azonnali tippeket ad a megjelenésed finomításához. A teljes folyamat a telefonodon történik, a képeidet nem töltjük fel sehova, így az adataid biztonságban maradnak.',
+      gp_alt: 'Szerezd be a Google Play-en',
+      hero_cta: 'Nézd meg, hogyan működik',
+      hero_feat_ai: 'Eszközön futó AI',
+      hero_feat_5sec: '5 másodperces elemzés',
+      hero_feat_free: 'Ingyenes kipróbálás',
+      phone_preview: 'Élő előnézet',
+      phone_title: 'Első Randi<br>Stílus-ellenőrzés',
+      phone_outfit_label: 'Öltözék színe',
+      phone_outfit_desc: 'A sötétkék + krém tiszta párosítás. Erős kontraszt estére.',
+      phone_lighting_label: 'Fényviszonyok',
+      phone_lighting_desc: 'Enyhe oldalsó csillogás — fordulj az ablak felé, mielőtt elindulsz.',
+      phone_posture_label: 'Testtartás',
+      phone_posture_desc: 'Vállak hátrahúzva, fej középen. Készen állsz.',
+      phone_score: 'Pontszám: 87 / 100',
+      trust_5sec: '5 mp',
+      trust_5sec_sub: 'átlagos szkennelés',
+      trust_12plus: '12+',
+      trust_12plus_sub: 'stílus-ellenőrzés',
+      trust_ondevice: 'Eszközön',
+      trust_ondevice_sub: 'szkennelés feldolgozása',
+      trust_nologin: 'Nincs bejelentkezés',
+      trust_nologin_sub: 'szükséges',
+      uc_badge: 'A pillanatoknak építve, amelyek számítanak',
+      uc_heading: 'Három este. Egy edző.',
+      uc_desc: 'Válaszd ki a helyzetet, amire készülsz, és a DateScan ehhez igazítja a visszajelzését — színek, formalitás, energia, mindenben.',
+      uc_date_title: 'Első Randi',
+      uc_date_desc: 'Egy órája túl sokat gondolkodsz az öltözékeden. Hagyd, hogy egy elfogulatlan edző öt másodperc alatt véget vessen a bizonytalankodásnak.',
+      uc_date_b1: 'Öltözék színének &amp; kontrasztjának elemzése esti fényviszonyokhoz',
+      uc_date_b2: 'Ápoltság-ellenőrzés: ragyogás, pirosság, tükrösszimmetria',
+      uc_date_b3: 'Testtartás &amp; mosoly jelek, hogy az első benyomás találjon',
+      uc_date_cta: 'Készülj a randira',
+      uc_job_title: 'Állásinterjú',
+      uc_job_desc: 'Legyen személyes vagy Zoom-on, a DateScan ellenőrzi azokat a formális részleteket, amelyeket egy HR-es három másodperc alatt észrevesz.',
+      uc_job_b1: 'Formális színpaletta + gallér / hajtóka szimmetria',
+      uc_job_b2: 'Pihéség, kócos haj, fáradt szem és ragyogás észlelés',
+      uc_job_b3: 'Kamerakeretezés és háttér rendje videohívásokhoz',
+      uc_job_cta: 'Készülj az interjúra',
+      uc_night_title: 'Esti Program',
+      uc_night_desc: 'Bár, klub, galéria megnyitó — a DateScan kiolvassa az öltözéked energiáját és megmondja, hogy találod-e a megfelelő hangot.',
+      uc_night_b1: 'Merész szín-ellenőrzés: kitűnik-e a színpaletta gyenge fényben?',
+      uc_night_b2: 'Élő időjárási párosítás — tényleg kell az a kabát?',
+      uc_night_b3: 'Randi-előkészület visszaszámlálás a "majdnem kész"tól a "belépés"ig',
+      uc_night_cta: 'Készülj az estére',
+      how_badge: 'Hogyan működik',
+      how_heading: 'Tükörtől az eredményig 5 másodperc alatt.',
+      how_desc: 'Nincs fiók, nincs telepítés, nincs várakozás. Nyisd meg a linket, engedélyezd a kamerát, kapd meg az akciótervet.',
+      how_step1_title: 'Engedélyezd a kamerát',
+      how_step1_desc: 'Egy engedélykérés. Semmit sem töltünk fel — az AI motor WebAssembly-ként közvetlenül a böngésződben tölt be.',
+      how_step2_title: 'Állj jó fénybe',
+      how_step2_desc: 'Fordulj egy ablak vagy egy lámpa felé. A DateScan megmondja, ha a fényviszonyok rontják a képed, mielőtt még lefuttatná az elemzést.',
+      how_step3_title: 'Kapd meg az akcióterved',
+      how_step3_desc: 'Konkrét, rangsorolt javítások — „húzd be a gallérod hátulját", „itasd le a T-zónát", „cseréld a sötétkéket krémre". Aztán lépj be.',
+      priv_badge: 'Adatvédelem a tervezés alapja',
+      priv_heading: 'A kamerád sosem hagyja el a telefonodat.',
+      priv_p1: 'A legtöbb "AI szelfi" alkalmazás csendben feltölti az arcodat egy felhős GPU-ra. A DateScan nem. Az arcpont-kereső, színelemző és testtartás-érzékelő mind a böngésződben fut MediaPipe és WebAssembly segítségével. A mentett szekrényed az eszközöd IndexedDB-jében tárolódik.',
+      priv_p2: 'Az opcionális AI Chat az egyetlen funkció, amely kommunikál egy szerverrel, és kifejezett hozzájárulást kér egy kép küldése előtt. A beépített <em>Privát mód</em> ezt is letiltja, és az eszközön futó AI-t a CPU háttérprogramra kényszeríti, így semmilyen GPU ujjlenyomat-felület nem érintődik.',
+      priv_cta: 'Olvasd el a teljes adatvédelmi összefoglalót',
+      faq_badge: 'Kérdések, megválaszolva',
+      faq_heading: 'GYIK',
+      faq_q1: 'A kamerás felvételeim feltöltődnek valahová?',
+      faq_a1: 'Nem. Az arc- és öltözékelemzés teljesen az eszközödön fut MediaPipe és WebAssembly segítségével. A videóképeid sosem hagyják el az alkalmazást. Az egyetlen funkció, amely szerverrel kommunikál, az opcionális AI Stílusedző Chat, és csak azután, hogy kifejezett hozzájárulást adtál egy adott üzenet vagy kép feldolgozásához.',
+      faq_q2: 'Hogyan szerezhetem be a DateScan-t?',
+      faq_a2: 'A DateScan kizárólag Android alkalmazásként érhető el.',
+      faq_q3: 'Ingyenes?',
+      faq_a3: 'Igen — az alap szkenner, akcióterv és digitális szekrény (legfeljebb három mentett öltözék) teljesen ingyenes. Az ingyenes felhasználók naponta 5 pontot kapnak, ahol 1 pont = 1 szkennelés vagy 1 AI Edző üzenet. A Pro korlátlan szkennelést, AI edzést és szekrény-helyet biztosít biztonságos Google Play számlázással.',
+      faq_q4: 'Milyen eszközökön működik?',
+      faq_a4: 'A DateScan modern, kamerával felszerelt Android telefonokra és táblagépekre tervezett. Egyszerűen töltsd le az alkalmazást a Google Play Áruházból a kezdéshez.',
+      faq_q5: 'Használhatom videohívásos interjúkra?',
+      faq_a5: 'Igen. Futtasd a DateScan-t közvetlenül a hívás csatlakozása előtt — kifejezetten ellenőrzi a fény irányát, a háttér rendjét, a keretezést és a testtartást, ami pontosan az, ami eldönti egy Zoom-stílusú első benyomás sikerét.',
+      cta_heading: 'Lépj be úgy, mintha <span class="italic grad-text">a tiéd lenne a hely</span>.',
+      cta_desc: 'Öt másodperc. Egy kamera. Zeró kifogás. Töltsd le a DateScan-t a Google Play-ről, és kapd meg az első akcióterved most.',
+      footer_subtitle: 'Személyes Stílusedző',
+      footer_desc: 'Az AI-alapú szárnysegéded. Szkenneld az öltözéked, kapj azonnali stílus- és ápoltsági visszajelzést, és magabiztosan indulj a randira.',
+      footer_ondevice: 'A kamera szkennelés az eszközödön fut',
+      footer_legal: 'Jogi',
+      footer_privacy: 'Adatvédelmi tájékoztató',
+      footer_terms: 'Felhasználási feltételek',
+      footer_refund: 'Visszatérítési szabályzat',
+      footer_delete: 'Fiók törlése',
+      footer_support: 'Támogatás',
+      footer_contact: 'Kapcsolatfelvétel',
+      footer_follow: 'Kövess',
+      disclaimer: 'Nyilatkozat: A DateScan egy AI-alapú eszköz, kizárólag szórakoztatási és önbizalom-növelési célra. Nem garantálunk randi-sikert vagy specifikus társadalmi eredményeket.',
+      copyright: '© 2026 DateScan',
+      cookie_title: 'Tiszteletben tartjuk a magánszférádat.',
+      cookie_desc: 'A kamera szkennelés az eszközödön fut. 🔒 Az AI Stílusedzőnek küldött üzenetek és fotók csak az adott kérés erejéig szerverünkön kerülnek feldolgozásra. Csak alapvető cookie-kat használunk a Pro élményed és fizetéseid biztonságához. A folytatással elfogadod az <a href="/privacy.html" class="text-brand-400 hover:text-brand-500 underline underline-offset-2">Adatvédelmi tájékoztatónkat</a>.',
+      cookie_learn: 'Tudj meg többet',
+      cookie_reject: 'Elutasítom',
+      cookie_accept: 'Elfogadom'
+    },
+    de: {
+      page_title: 'DateScan — KI-Style-Coach für First Dates, Vorstellungsgespräche & Abendte',
+      meta_desc: '18+ KI-Style-Coach. Sofortige, auf dem Gerät laufende KI-Stil- und Pflegeprüfung vor einem ersten Date, Vorstellungsgespräch oder Abendte. Kamera-Scans laufen auf deinem Gerät.',
+      og_title: 'DateScan — KI-Style-Coach in deiner Tasche',
+      og_desc: 'Outfit-, Pflege-, Haltungs- und Lichtanalyse in 5 Sekunden — alles auf dem Gerät. Kostenlos testen.',
+      tw_title: 'DateScan — KI-Style-Coach in deiner Tasche',
+      tw_desc: 'Auf dem Gerät laufende KI prüft dein Outfit, deine Pflege, Haltung und Beleuchtung in 5 Sekunden. Nichts wird hochgeladen.',
+      subtitle_tag: 'Persönlicher Style-Coach',
+      nav_use_cases: 'Anwendungsfälle',
+      nav_how: 'So funktioniert\'s',
+      nav_privacy: 'Datenschutz',
+      nav_faq: 'FAQ',
+      header_cta: 'App holen →',
+      hero_badge: '18+ · Kamera-Scans laufen auf dem Gerät',
+      hero_h1: 'Bring dein <span class="italic grad-text">Bestes</span>,<br>bevor du reingehst.'
+      hero_desc: 'DateScan ist ein KI-Style-Coach, den du direkt vor einem ersten Date, Vorstellungsgespräch oder einem Abendte öffnest. Er scannt dein Outfit, deine Pflege, Haltung und Beleuchtung in fünf Sekunden — und sagt dir genau, was du verbessern kannst. Alles läuft auf deinem Handy. Nichts wird hochgeladen.',
+      gp_alt: 'Jetzt bei Google Play',
+      hero_cta: 'Sieh, wie es funktioniert',
+      hero_feat_ai: 'Auf dem Gerät laufende KI',
+      hero_feat_5sec: '5-Sekunden-Analyse',
+      hero_feat_free: 'Kostenlos testen',
+      phone_preview: 'Live-Vorschau',
+      phone_title: 'First Date<br>Style-Check',
+      phone_outfit_label: 'Outfit-Farbe',
+      phone_outfit_desc: 'Navy + Creme passt sauber. Starker Kontrast für den Abend.',
+      phone_lighting_label: 'Beleuchtung',
+      phone_lighting_desc: 'Leichter seitlicher Blend — dreh dich zum Fenster, bevor du losgehst.',
+      phone_posture_label: 'Haltung',
+      phone_posture_desc: 'Schultern zurück, Kopf zentriert. Du bist bereit.',
+      phone_score: 'Ergebnis: 87 / 100',
+      trust_5sec: '5 Sek',
+      trust_5sec_sub: 'durchschn. Scan',
+      trust_12plus: '12+',
+      trust_12plus_sub: 'Style-Checks',
+      trust_ondevice: 'Auf dem Gerät',
+      trust_ondevice_sub: 'Scan-Verarbeitung',
+      trust_nologin: 'Kein Login',
+      trust_nologin_sub: 'erforderlich',
+      uc_badge: 'Für die Momente, die zählen',
+      uc_heading: 'Drei Abende. Ein Coach.',
+      uc_desc: 'Wähl die Situation, auf die du dich vorbereitest, und DateScan passt sein Feedback darauf an — Farben, Formalität, Energie und alles andere.',
+      uc_date_title: 'First Date',
+      uc_date_desc: 'Du überdenkst dein Outfit schon seit einer Stunde. Lass einen unvoreingenommenen Coach die Spirale in fünf Sekunden beenden.',
+      uc_date_b1: 'Outfit-Farbe &amp; Kontrast-Analyse für Abendbeleuchtung',
+      uc_date_b2: 'Pflege-Check: Glanz, Rötung, Spiegelsymmetrie',
+      uc_date_b3: 'Haltungs- &amp; Lächeln-Hinweise, damit der erste Eindruck sitzt',
+      uc_date_cta: 'Bereit für ein Date',
+      uc_job_title: 'Vorstellungsgespräch',
+      uc_job_desc: 'Ob persönlich oder per Zoom — DateScan prüft die formellen Details, die ein Personalchef in drei Sekunden registriert.',
+      uc_job_b1: 'Formelle Farbpalette + Kragen-/Revers-Symmetrie',
+      uc_job_b2: 'Fussel, falsches Haar, müde Augen und Glanz-Erkennung',
+      uc_job_b3: 'Kamera-Rahmung und Hintergrund-Ordnung für Videoanrufe',
+      uc_job_cta: 'Bereit für ein Interview',
+      uc_night_title: 'Abendte',
+      uc_night_desc: 'Bar, Club, Galerie-Eröffnung — DateScan liest die Energie deines Outfits und sagt dir, ob du den richtigen Ton triffst.',
+      uc_night_b1: 'Kräftige-Farben-Check: poppt die Palette bei schwachem Licht?',
+      uc_night_b2: 'Live-Wetter-Abstimmung — brauchst du die Jacke wirklich?',
+      uc_night_b3: 'Date-Vorbereitungs-Countdown von "fast fertig" bis "reingehen"',
+      uc_night_cta: 'Bereit für den Abend',
+      how_badge: 'So funktioniert\'s',
+      how_heading: 'Vom Spiegel zum Ergebnis in 5 Sekunden.',
+      how_desc: 'Kein Account, keine Installation, kein Warten. Link öffnen, Kamera erlauben, Aktionsplan erhalten.',
+      how_step1_title: 'Kamera erlauben',
+      how_step1_desc: 'Eine Berechtigungsanfrage. Nichts wird hochgeladen — die KI-Engine lädt als WebAssembly direkt in deinen Browser.',
+      how_step2_title: 'Stell dich ins gute Licht',
+      how_step2_desc: 'Stell dich vor ein Fenster oder eine Lampe. DateScan sagt dir, ob die Beleuchtung dein Foto sabotiert, bevor die Analyse überhaupt startet.',
+      how_step3_title: 'Erhalte deinen Aktionsplan',
+      how_step3_desc: 'Konkrete, priorisierte Verbesserungen — „Kragenhinterseite reinstecken", „T-Zone abtupfen", „Navy gegen Creme tauschen". Dann geh rein.',
+      priv_badge: 'Datenschutz by Design',
+      priv_heading: 'Deine Kamera verlässt nie dein Handy.',
+      priv_p1: 'Die meisten "KI-Selfie"-Apps laden dein Gesicht stillschweigend auf eine Cloud-GPU hoch. DateScan nicht. Der Gesichts-Landmarker, Farbanalysator und Haltungs-Detektor laufen alle in deinem Browser über MediaPipe und WebAssembly. Dein gespeicherter Schrank liegt in der IndexedDB deines Geräts.',
+      priv_p2: 'Der optionale KI-Chat ist die einzige Funktion, die mit einem Server kommuniziert, und er bittet um ausdrückliche Zustimmung, bevor ein Bild gesendet wird. Ein eingebauter <em>Privat-Modus</em> deaktiviert sogar das und zwingt die auf dem Gerät laufende KI auf das CPU-Backend, sodass keine GPU-Fingerabdruck-Oberfläche berührt wird.',
+      priv_cta: 'Lies die vollständige Datenschutz-Zusammenfassung',
+      faq_badge: 'Fragen, beantwortet',
+      faq_heading: 'FAQ',
+      faq_q1: 'Werden meine Kameraaufnahmen irgendwohin hochgeladen?',
+      faq_a1: 'Nein. Die Gesichts- und Outfit-Analyse läuft vollständig auf deinem Gerät mit MediaPipe und WebAssembly. Deine Videobilder verlassen nie die App. Die einzige Funktion, die mit einem Server interagiert, ist der optionale KI-Style-Coach-Chat, und auch nur nachdem du ausdrücklich zugestimmt hast, eine bestimmte Nachricht oder ein Bild zu verarbeiten.',
+      faq_q2: 'Wie bekomme ich DateScan?',
+      faq_a2: 'DateScan ist ausschließlich als Android-App verfügbar.',
+      faq_q3: 'Ist es kostenlos?',
+      faq_a3: 'Ja — der Basis-Scanner, Aktionsplan und digitale Schrank (bis zu drei gespeicherte Outfits) sind komplett kostenlos. Kostenlose Nutzer erhalten 5 Punkte pro Tag, wobei 1 Punkt = 1 Scan oder 1 KI-Coach-Nachricht. Pro schaltet unbegrenzte Scans, Coaching und Schrank-Platz über sichere Google Play-Abrechnung frei.',
+      faq_q4: 'Auf welchen Geräten funktioniert es?',
+      faq_a4: 'DateScan ist für moderne Android-Handys und Tablets mit Kamera konzipiert. Lade die App einfach aus dem Google Play Store herunter, um loszulegen.',
+      faq_q5: 'Kann ich es für Video-Interviews nutzen?',
+      faq_a5: 'Ja. Starte DateScan direkt bevor du dem Anruf beitrittst — es prüft speziell die Lichtrichtung, Hintergrund-Ordnung, Rahmung und Haltung, was genau über einen Zoom-artigen ersten Eindruck entscheidet.',
+      cta_heading: 'Geh rein, als würdest du <span class="italic grad-text">den Ort besitzen</span>.',
+      cta_desc: 'Fünf Sekunden. Eine Kamera. Null Ausreden. Lade DateScan aus dem Google Play herunter und erhalte jetzt deinen ersten Aktionsplan.',
+      footer_subtitle: 'Persönlicher Style-Coach',
+      footer_desc: 'Dein KI-gestützter Wingman. Scanne dein Outfit, erhalte sofortiges Stil- und Pflege-Feedback und geh selbstbewusst zum Date.',
+      footer_ondevice: 'Kamera-Scans laufen auf dem Gerät',
+      footer_legal: 'Rechtliches',
+      footer_privacy: 'Datenschutzerklärung',
+      footer_terms: 'Nutzungsbedingungen',
+      footer_refund: 'Erstattungsrichtlinie',
+      footer_delete: 'Account löschen',
+      footer_support: 'Support',
+      footer_contact: 'Support kontaktieren',
+      footer_follow: 'Folgen',
+      disclaimer: 'Haftungsausschluss: DateScan ist ein KI-gestütztes Tool, das ausschließlich der Unterhaltung und Steigerung des Selbstbewusstseins dient. Wir garantieren keinen Dating-Erfolg oder spezifische soziale Ergebnisse.',
+      copyright: '© 2026 DateScan',
+      cookie_title: 'Wir respektieren deine Privatsphäre.',
+      cookie_desc: 'Kamera-Scans laufen auf deinem Gerät. 🔒 Nachrichten und Fotos, die du an den KI-Style-Coach sendest, werden nur für diese Anfrage auf unserem Server verarbeitet. Wir verwenden nur essenzielle Cookies, um dein Pro-Erlebnis und deine Zahlungen abzusichern. Durch Fortfahren akzeptierst du unsere <a href="/privacy.html" class="text-brand-400 hover:text-brand-500 underline underline-offset-2">Datenschutzerklärung</a>.',
+      cookie_learn: 'Mehr erfahren',
+      cookie_reject: 'Ablehnen',
+      cookie_accept: 'Akzeptieren'
+    }
+  };
+
+  // Detect language: localStorage > navigator > fallback
+  var supported = ['en','hu','de'];
+  var lang = 'en';
+  try {
+    var stored = localStorage.getItem('datescan.lang');
+    if (stored && stored.indexOf('auto:') === 0) {
+      // re-detect from device
+    } else if (stored && supported.indexOf(stored) !== -1) {
+      lang = stored;
+    }
+  } catch(e) {}
+  if (lang === 'en') {
+    try {
+      var navLangs = navigator.languages && navigator.languages.length
+        ? Array.prototype.slice.call(navigator.languages)
+        : [navigator.language || navigator.userLanguage || ''];
+      for (var i = 0; i < navLangs.length; i++) {
+        var p = (navLangs[i] || '').split('-')[0].toLowerCase();
+        if (p === 'hu') { lang = 'hu'; break; }
+        if (p === 'de') { lang = 'de'; break; }
+      }
+    } catch(e) {}
+  }
+
+  var strings = translations[lang] || translations.en;
+  document.documentElement.lang = lang;
+  document.title = strings.page_title;
+
+  // Update meta description
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', strings.meta_desc);
+
+  // Update OG meta tags
+  var ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', strings.og_title);
+  var ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', strings.og_desc);
+
+  // Update Twitter meta tags
+  var twTitle = document.querySelector('meta[name="twitter:title"]');
+  if (twTitle) twTitle.setAttribute('content', strings.tw_title);
+  var twDesc = document.querySelector('meta[name="twitter:description"]');
+  if (twDesc) twDesc.setAttribute('content', strings.tw_desc);
+
+  // Helper to set text by data-i18n key
+  function applyI18n() {
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (strings[key] !== undefined) el.textContent = strings[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n-html');
+      if (strings[key] !== undefined) el.innerHTML = strings[key];
+    });
+  }
+
+  // Expose for later use
+  window._landingLang = lang;
+  window._landingStrings = strings;
+  window._landingApplyI18n = applyI18n;
+
+  // Apply on DOMContentLoaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyI18n);
+  } else {
+    applyI18n();
+  }
+})();
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #09090b;
+    color: #fafafa;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .premium-glass {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+  }
+  .ambient-glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .grad-text {
+    background: linear-gradient(135deg, #f472b6 0%, #c084fc 60%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #ec4899 0%, #c026d3 100%);
+    color: white;
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    box-shadow: 0 10px 30px -10px rgba(236,72,153,0.55);
+  }
+  .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.05); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-ghost {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.22); }
+
+  /* Google Play badge */
+  .google-play-badge {
+    transition: transform .15s ease, filter .15s ease, opacity .15s ease;
+    opacity: 0.9;
+    border-radius: 10px;
+  }
+  .google-play-badge:hover {
+    transform: translateY(-1px);
+    opacity: 1;
+    filter: drop-shadow(0 4px 16px rgba(236,72,153,0.25));
+  }
+  .google-play-badge:active { transform: translateY(0); }
+
+  @keyframes floatUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: floatUp .8s ease-out both; }
+
+  /* Phone mockup */
+  .phone {
+    width: 280px;
+    height: 560px;
+    border-radius: 44px;
+    background: linear-gradient(180deg, #18181b, #09090b);
+    border: 2px solid rgba(255,255,255,0.12);
+    box-shadow:
+      0 60px 80px -30px rgba(236,72,153,0.35),
+      0 30px 60px -20px rgba(0,0,0,0.6),
+      inset 0 0 0 6px #000;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone-notch {
+    position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 26px; background: #000; border-radius: 14px; z-index: 5;
+  }
+  .phone-screen {
+    position: absolute; inset: 12px; border-radius: 36px; overflow: hidden;
+    background: radial-gradient(120% 80% at 50% 0%, rgba(236,72,153,0.18), transparent 60%), #0a0a0e;
+    padding: 56px 16px 16px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .scan-line {
+    position: absolute; left: 12px; right: 12px; height: 2px;
+    background: linear-gradient(90deg, transparent, #ec4899, transparent);
+    box-shadow: 0 0 12px #ec4899;
+    border-radius: 2px;
+    animation: scanY 2.6s ease-in-out infinite;
+  }
+  @keyframes scanY {
+    0%,100% { top: 70px; opacity: 0.2; }
+    50%     { top: 65%;  opacity: 1; }
+  }
+
+  /* Number badge for steps */
+  .step-num {
+    width: 44px; height: 44px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700;
+    background: linear-gradient(135deg, rgba(236,72,153,0.18), rgba(192,38,211,0.18));
+    border: 1px solid rgba(236,72,153,0.35);
+    color: #f472b6;
+  }
+
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .faq-chev { transform: rotate(180deg); }
+  .faq-chev { transition: transform .2s ease; }
+
+  /* =========================================================
+     EGYEDI GÖRDÍTŐSÁV (SCROLLBAR) BEÁLLÍTÁSAI
+     Ez megakadályozza, hogy a böngésző automatikusan elrejtse, 
+     és tökéletesen illeszkedik az oldal sötét témájához.
+     ========================================================= */
+  
+  html {
+    overflow-y: scroll !important; /* Kikényszeríti a fix sávot */
+    scrollbar-width: thin !important; /* Firefox */
+    scrollbar-color: #3f3f46 #09090b !important; /* Firefox */
+  }
+
+  /* Webkit böngészők (Chrome, Safari, Edge) */
+  html::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  html::-webkit-scrollbar-track {
+    background: #09090b !important; 
+    border-left: 1px solid rgba(255,255,255,0.05);
+  }
+  html::-webkit-scrollbar-thumb {
+    background: #3f3f46 !important; 
+    border-radius: 10px;
+    border: 3px solid #09090b !important; /* Teret hagy a görgető mellett */
+  }
+  html::-webkit-scrollbar-thumb:hover {
+    background: #52525b !important; 
+  }
+</style>
+</head>
+<body class="relative overflow-x-hidden">
+
+<!-- Ambient background glows -->
+<div aria-hidden="true" class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+  <div class="ambient-glow" style="top:-160px;left:-120px;width:480px;height:480px;background:rgba(236,72,153,0.18);"></div>
+  <div class="ambient-glow" style="top:30%;right:-160px;width:520px;height:520px;background:rgba(147,51,234,0.16);"></div>
+  <div class="ambient-glow" style="bottom:-200px;left:30%;width:560px;height:560px;background:rgba(236,72,153,0.10);"></div>
+</div>
+
+<!-- Header -->
+<header class="sticky top-0 z-50 backdrop-blur-xl bg-dark-950/70 border-b border-white/5">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4">
+    <a href="#" class="flex items-center gap-3 group">
+      <div class="w-11 h-11 flex items-center justify-center shrink-0">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_0_8px_rgba(236,72,153,0.4)]">
+          <defs>
+            <linearGradient id="logo-brand-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#ec4899"/>
+              <stop offset="1" stop-color="#9333ea"/>
+            </linearGradient>
+          </defs>
+          <path d="M10 5 H5 V10" stroke="url(#logo-brand-grad)" stroke-width="2"/>
+          <path d="M30 5 H35 V10" stroke="url(#logo-brand-grad)" stroke-width="2"/>
+          <path d="M10 35 H5 V30" stroke="url(#logo-brand-grad)" stroke-width="2"/>
+          <path d="M30 35 H35 V30" stroke="url(#logo-brand-grad)" stroke-width="2"/>
+          <path d="M20 13.5C20 13.5 16 9 11.5 9C7.5 9 5 12.5 5 16.5C5 22 13 28 20 32C27 28 35 22 35 16.5C35 12.5 32.5 9 28.5 9C24 9 20 13.5 20 13.5Z" fill="url(#logo-brand-grad)" fill-opacity="0.15" stroke="url(#logo-brand-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="4" y1="20" x2="36" y2="20" stroke="#f472b6" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="flex flex-col leading-none">
+        <span class="font-bold text-lg tracking-tight">DateScan<span class="text-brand-500">.</span></span>
+        <span class="text-[10px] text-gray-400 font-medium uppercase tracking-widest mt-0.5" data-i18n="subtitle_tag">Personal Style Coach</span>
+      </div>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm text-gray-300">
+      <a href="#use-cases" class="hover:text-white transition" data-i18n="nav_use_cases">Use cases</a>
+      <a href="#how" class="hover:text-white transition" data-i18n="nav_how">How it works</a>
+      <a href="#privacy" class="hover:text-white transition" data-i18n="nav_privacy">Privacy</a>
+      <a href="#faq" class="hover:text-white transition" data-i18n="nav_faq">FAQ</a>
+    </nav>
+    <a href="https://play.google.com/store/apps/details?id=app.datescan.twa" target="_blank" rel="noopener noreferrer" class="btn-primary text-xs sm:text-sm font-bold px-4 sm:px-5 py-2.5 rounded-full" data-i18n="header_cta">Get the app →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-20 grid lg:grid-cols-12 gap-12 items-center">
+    <div class="lg:col-span-7 fade-up">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] uppercase tracking-widest text-brand-300 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse"></span>
+        <span data-i18n="hero_badge">18+ · Camera scans run on-device</span>
+      </div>
+      <h1 class="font-serif text-[42px] sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight font-medium mb-6" data-i18n-html="hero_h1">
+        Bring your <span class="italic grad-text">A-game</span><br>
+        before you walk in.
+      </h1>
+      <p class="text-gray-400 text-base sm:text-lg max-w-xl leading-relaxed mb-8" data-i18n="hero_desc">
+        DateScan is an AI style coach you open right before a first date, job interview or night out.
+        It scans your outfit, grooming, posture and lighting in five seconds — and tells you exactly
+        what to fix. Everything runs on your phone. Nothing is uploaded.
+      </p>
+      <div class="flex flex-col items-start gap-4 mb-8">
+        <!-- Big Google Play badge -->
+        <a href="https://play.google.com/store/apps/details?id=app.datescan.twa" target="_blank" rel="noopener noreferrer" class="google-play-badge inline-block">
+          <img src="GetItOnGooglePlay_Badge_Web_color_English.svg" data-i18n="gp_alt" alt="Get it on Google Play" style="height: 72px; width: auto;">
+        </a>
+        <a href="#how" class="btn-ghost text-sm font-semibold px-6 py-4 rounded-2xl inline-flex items-center gap-2">
+          <span data-i18n="hero_cta">See how it works</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="flex items-center gap-6 text-xs text-gray-500">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span data-i18n="hero_feat_ai">On-device AI</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span data-i18n="hero_feat_5sec">5-second analysis</span>
+        </div>
+        <div class="hidden sm:flex items-center gap-2">
+          <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6 6.6.95-4.78 4.66 1.13 6.58L12 17.6l-5.85 3.07L7.28 14.1 2.5 9.45l6.6-.95z"/></svg>
+          <span data-i18n="hero_feat_free">Free to try</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone mockup -->
+    <div class="lg:col-span-5 flex justify-center fade-up" style="animation-delay:.2s;">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="scan-line"></div>
+          <div class="text-[9px] uppercase tracking-widest text-brand-400 font-bold" data-i18n="phone_preview">Live Preview</div>
+          <div class="text-white font-serif text-lg leading-tight" data-i18n-html="phone_title">First Date<br>Style Check</div>
+          <div class="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3">
+            <div class="text-[9px] uppercase tracking-widest font-bold text-emerald-400 mb-1" data-i18n="phone_outfit_label">Outfit Color</div>
+            <div class="text-xs text-gray-200" data-i18n="phone_outfit_desc">Navy + cream pairs cleanly. Strong contrast for evening.</div>
+          </div>
+          <div class="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3">
+            <div class="text-[9px] uppercase tracking-widest font-bold text-amber-400 mb-1" data-i18n="phone_lighting_label">Lighting</div>
+            <div class="text-xs text-gray-200" data-i18n="phone_lighting_desc">Slight side glare — face the window before you head out.</div>
+          </div>
+          <div class="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3">
+            <div class="text-[9px] uppercase tracking-widest font-bold text-emerald-400 mb-1" data-i18n="phone_posture_label">Posture</div>
+            <div class="text-xs text-gray-200" data-i18n="phone_posture_desc">Shoulders back, head centered. You're ready.</div>
+          </div>
+          <div class="mt-auto rounded-2xl bg-gradient-to-r from-brand-500 to-purple-600 text-white text-center text-xs font-bold py-3 shadow-lg" data-i18n="phone_score">
+            Score: 87 / 100
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trust strip -->
+  <div class="border-y border-white/5 bg-white/[0.015]">
+    <div class="max-w-6xl mx-auto px-5 sm:px-8 py-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+      <div>
+        <div class="font-serif text-2xl text-white" data-i18n="trust_5sec">5 sec</div>
+        <div class="text-[10px] uppercase tracking-widest text-gray-500 mt-1" data-i18n="trust_5sec_sub">average scan</div>
+      </div>
+      <div>
+        <div class="font-serif text-2xl text-white" data-i18n="trust_12plus">12+</div>
+        <div class="text-[10px] uppercase tracking-widest text-gray-500 mt-1" data-i18n="trust_12plus_sub">style checks</div>
+      </div>
+      <div>
+        <div class="font-serif text-2xl text-white" data-i18n="trust_ondevice">On-device</div>
+        <div class="text-[10px] uppercase tracking-widest text-gray-500 mt-1" data-i18n="trust_ondevice_sub">scan processing</div>
+      </div>
+      <div>
+        <div class="font-serif text-2xl text-white" data-i18n="trust_nologin">No login</div>
+        <div class="text-[10px] uppercase tracking-widest text-gray-500 mt-1" data-i18n="trust_nologin_sub">required</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section id="use-cases" class="relative py-20 sm:py-28">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="text-[11px] uppercase tracking-widest text-brand-400 font-bold mb-3" data-i18n="uc_badge">Built for the moments that matter</div>
+      <h2 class="font-serif text-4xl sm:text-5xl font-medium tracking-tight mb-4" data-i18n="uc_heading">Three nights. One coach.</h2>
+      <p class="text-gray-400" data-i18n="uc_desc">Pick the situation you're getting ready for and DateScan tunes its feedback to it — colors, formality, energy and all.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- First date -->
+      <article class="premium-glass rounded-3xl p-7 relative overflow-hidden group flex flex-col">
+        <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-brand-500/20 blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex-1 flex flex-col">
+          <div class="w-12 h-12 rounded-2xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center text-brand-300 mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h3 class="font-serif text-2xl font-semibold mb-2" data-i18n="uc_date_title">First Date</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="uc_date_desc">You've been overthinking your outfit for an hour. Let an unbiased coach end the spiral in five seconds.</p>
+          <ul class="space-y-2.5 text-sm text-gray-300 mb-6">
+            <li class="flex gap-2.5"><span class="text-brand-400">→</span> <span data-i18n-html="uc_date_b1">Outfit color &amp; contrast read for evening lighting</span></li>
+            <li class="flex gap-2.5"><span class="text-brand-400">→</span> <span data-i18n-html="uc_date_b2">Grooming check: shine, redness, mirror-symmetry</span></li>
+            <li class="flex gap-2.5"><span class="text-brand-400">→</span> <span data-i18n-html="uc_date_b3">Posture &amp; smile cues so the first impression lands</span></li>
+          </ul>
+          <div class="mt-auto">
+            <a href="/index.html?action=scan&amp;occasion=first_date" class="btn-primary inline-flex items-center gap-2 text-sm font-bold px-5 py-3 rounded-xl">
+              <span data-i18n="uc_date_cta">Prep for a date</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Job interview -->
+      <article class="premium-glass rounded-3xl p-7 relative overflow-hidden group flex flex-col">
+        <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-purple-500/20 blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex-1 flex flex-col">
+          <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300 mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>
+          </div>
+          <h3 class="font-serif text-2xl font-semibold mb-2" data-i18n="uc_job_title">Job Interview</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="uc_job_desc">Whether it's in-person or on Zoom, DateScan checks the formal-side details a hiring manager will register in three seconds.</p>
+          <ul class="space-y-2.5 text-sm text-gray-300 mb-6">
+            <li class="flex gap-2.5"><span class="text-purple-300">→</span> <span data-i18n="uc_job_b1">Formal palette + collar / lapel symmetry</span></li>
+            <li class="flex gap-2.5"><span class="text-purple-300">→</span> <span data-i18n="uc_job_b2">Lint, stray hair, tired-eye and shine detection</span></li>
+            <li class="flex gap-2.5"><span class="text-purple-300">→</span> <span data-i18n="uc_job_b3">Camera framing and background tidiness for video calls</span></li>
+          </ul>
+          <div class="mt-auto">
+            <a href="/index.html?action=scan&amp;occasion=fancy" class="btn-primary inline-flex items-center gap-2 text-sm font-bold px-5 py-3 rounded-xl">
+              <span data-i18n="uc_job_cta">Prep for an interview</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Night out -->
+      <article class="premium-glass rounded-3xl p-7 relative overflow-hidden group flex flex-col">
+        <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-amber-500/20 blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex-1 flex flex-col">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-300 mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          </div>
+          <h3 class="font-serif text-2xl font-semibold mb-2" data-i18n="uc_night_title">Night Out</h3>
+          <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="uc_night_desc">Bar, club, gallery opening — DateScan reads the energy of your fit and tells you if you're hitting the right note.</p>
+          <ul class="space-y-2.5 text-sm text-gray-300 mb-6">
+            <li class="flex gap-2.5"><span class="text-amber-300">→</span> <span data-i18n="uc_night_b1">Bold-color check: does the palette pop in low light?</span></li>
+            <li class="flex gap-2.5"><span class="text-amber-300">→</span> <span data-i18n="uc_night_b2">Live weather pairing — do you actually need that jacket?</span></li>
+            <li class="flex gap-2.5"><span class="text-amber-300">→</span> <span data-i18n-html="uc_night_b3">Date-prep countdown from "almost ready" to "walk in"</span></li>
+          </ul>
+          <div class="mt-auto">
+            <a href="/index.html?action=scan&amp;occasion=night_out" class="btn-primary inline-flex items-center gap-2 text-sm font-bold px-5 py-3 rounded-xl">
+              <span data-i18n="uc_night_cta">Prep for a night out</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="relative py-20 sm:py-28 border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="text-[11px] uppercase tracking-widest text-brand-400 font-bold mb-3" data-i18n="how_badge">How it works</div>
+      <h2 class="font-serif text-4xl sm:text-5xl font-medium tracking-tight mb-4" data-i18n="how_heading">From mirror to verdict in 5 seconds.</h2>
+      <p class="text-gray-400" data-i18n="how_desc">No accounts, no installs, no waiting. Open the link, allow the camera, get an action plan.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="premium-glass rounded-3xl p-7 fade-up">
+        <div class="step-num mb-5">1</div>
+        <h3 class="font-serif text-xl font-semibold mb-2" data-i18n="how_step1_title">Allow the camera</h3>
+        <p class="text-sm text-gray-400 leading-relaxed" data-i18n="how_step1_desc">One permission prompt. Nothing is uploaded — the AI engine loads as WebAssembly straight into your browser.</p>
+      </div>
+      <div class="premium-glass rounded-3xl p-7 fade-up" style="animation-delay:.1s;">
+        <div class="step-num mb-5">2</div>
+        <h3 class="font-serif text-xl font-semibold mb-2" data-i18n="how_step2_title">Stand in good light</h3>
+        <p class="text-sm text-gray-400 leading-relaxed" data-i18n="how_step2_desc">Face a window or a lamp. DateScan tells you if the lighting will sabotage your shot before it even runs the analysis.</p>
+      </div>
+      <div class="premium-glass rounded-3xl p-7 fade-up" style="animation-delay:.2s;">
+        <div class="step-num mb-5">3</div>
+        <h3 class="font-serif text-xl font-semibold mb-2" data-i18n="how_step3_title">Get your action plan</h3>
+        <p class="text-sm text-gray-400 leading-relaxed" data-i18n="how_step3_desc">Specific, ranked fixes — "tuck the back of your collar", "dab the T-zone", "swap the navy for the cream". Then walk in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section id="privacy" class="relative py-20 sm:py-28 border-t border-white/5">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8">
+    <div class="premium-glass rounded-[32px] p-8 sm:p-12 relative overflow-hidden">
+      <div class="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-brand-500/15 blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 grid md:grid-cols-5 gap-10 items-center">
+        <div class="md:col-span-2 flex justify-center">
+          <div class="w-32 h-32 rounded-3xl bg-gradient-to-br from-brand-500/20 to-purple-500/20 border border-brand-500/30 flex items-center justify-center text-brand-300 shadow-xl shadow-brand-500/20">
+            <svg class="w-14 h-14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+        </div>
+        <div class="md:col-span-3">
+          <div class="text-[11px] uppercase tracking-widest text-brand-400 font-bold mb-2" data-i18n="priv_badge">Privacy by design</div>
+          <h2 class="font-serif text-3xl sm:text-4xl font-medium tracking-tight mb-4" data-i18n="priv_heading">Your camera never leaves your phone.</h2>
+          <p class="text-gray-300 leading-relaxed mb-5" data-i18n="priv_p1">
+            Most "AI selfie" apps quietly upload your face to a cloud GPU. DateScan doesn't.
+            The face landmarker, color analyzer and posture detector all run inside your browser
+            via MediaPipe and WebAssembly. Your saved closet sits in your device's IndexedDB.
+          </p>
+          <p class="text-gray-400 text-sm leading-relaxed mb-6" data-i18n-html="priv_p2">
+            The optional AI Chat is the only feature that talks to a server, and it asks for
+            explicit consent before sending an image. A built-in <em>Private Mode</em> disables
+            even that and forces the on-device AI onto the CPU backend so no GPU fingerprint
+            surface is touched.
+          </p>
+          <a href="/index.html#privacy" class="btn-ghost text-xs font-bold px-4 py-2.5 rounded-full inline-flex items-center gap-2">
+            <span data-i18n="priv_cta">Read the full privacy summary</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="relative py-20 sm:py-28 border-t border-white/5">
+  <div class="max-w-3xl mx-auto px-5 sm:px-8">
+    <div class="text-center mb-14">
+      <div class="text-[11px] uppercase tracking-widest text-brand-400 font-bold mb-3" data-i18n="faq_badge">Questions, answered</div>
+      <h2 class="font-serif text-4xl sm:text-5xl font-medium tracking-tight" data-i18n="faq_heading">FAQ</h2>
+    </div>
+
+    <div class="space-y-3">
+      <details class="premium-glass rounded-2xl p-5 group">
+        <summary class="flex items-center justify-between text-white font-semibold">
+          <span data-i18n="faq_q1">Is my camera footage uploaded anywhere?</span>
+          <svg class="faq-chev w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed" data-i18n="faq_a1">No. The face and outfit analysis runs entirely on your device using MediaPipe and WebAssembly. Your video frames never leave the app. The only feature that interacts with a server is the optional AI Style Coach Chat, and only after you provide explicit consent to process a specific message or image.</p>
+      </details>
+
+      <details class="premium-glass rounded-2xl p-5 group">
+        <summary class="flex items-center justify-between text-white font-semibold">
+          <span data-i18n="faq_q2">How do I get DateScan?</span>
+          <svg class="faq-chev w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed" data-i18n="faq_a2">DateScan is available exclusively as an Android app.</p>
+      </details>
+
+      <details class="premium-glass rounded-2xl p-5 group">
+        <summary class="flex items-center justify-between text-white font-semibold">
+          <span data-i18n="faq_q3">Is it free?</span>
+          <svg class="faq-chev w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed" data-i18n="faq_a3">Yes — the core scanner, action plan, and digital closet (up to three saved outfits) are completely free. Free users receive 5 points per day, where 1 point equals 1 scan or 1 AI Coach message. Pro unlocks unlimited scans, coaching, and closet space via secure Google Play billing.</p>
+      </details>
+
+      <details class="premium-glass rounded-2xl p-5 group">
+        <summary class="flex items-center justify-between text-white font-semibold">
+          <span data-i18n="faq_q4">What devices does it work on?</span>
+          <svg class="faq-chev w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed" data-i18n="faq_a4">DateScan is designed for modern Android phones and tablets equipped with a camera. Simply download the app from the Google Play Store to get started.</p>
+      </details>
+
+      <details class="premium-glass rounded-2xl p-5 group">
+        <summary class="flex items-center justify-between text-white font-semibold">
+          <span data-i18n="faq_q5">Can I use it for video-call interviews?</span>
+          <svg class="faq-chev w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed" data-i18n="faq_a5">Yes. Run DateScan right before you join the call — it specifically checks lighting direction, background tidiness, framing and posture, which is exactly what makes or breaks a Zoom-style first impression.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="relative py-24 border-t border-white/5">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center">
+    <h2 class="font-serif text-4xl sm:text-6xl font-medium tracking-tight mb-6" data-i18n-html="cta_heading">
+      Walk in like you <span class="italic grad-text">own the place</span>.
+    </h2>
+    <p class="text-gray-400 text-base sm:text-lg max-w-xl mx-auto mb-8" data-i18n="cta_desc">
+      Five seconds. One camera. Zero excuses. Download DateScan from Google Play and get your first action plan now.
+    </p>
+    <div class="flex justify-center">
+      <a href="https://play.google.com/store/apps/details?id=app.datescan.twa" target="_blank" rel="noopener noreferrer" class="google-play-badge inline-block">
+        <img src="GetItOnGooglePlay_Badge_Web_color_English.svg" data-i18n="gp_alt" alt="Get it on Google Play" style="height: 72px; width: auto;">
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="relative z-20 w-full bg-[#09090b] border-t border-white/10 pt-14 pb-12 mt-8 overflow-hidden">
+  <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-500/40 to-transparent pointer-events-none"></div>
+  <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 sm:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-12 mb-12">
+
+      <!-- Brand column -->
+      <div class="col-span-2 lg:col-span-5">
+        <a href="/" class="inline-flex items-center gap-3 group mb-4">
+          <div class="w-11 h-11 flex items-center justify-center shrink-0">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_0_8px_rgba(236,72,153,0.4)]">
+              <defs>
+                <linearGradient id="footer-logo-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#ec4899"/>
+                  <stop offset="1" stop-color="#9333ea"/>
+                </linearGradient>
+              </defs>
+              <path d="M10 5 H5 V10" stroke="url(#footer-logo-grad)" stroke-width="2"/>
+              <path d="M30 5 H35 V10" stroke="url(#footer-logo-grad)" stroke-width="2"/>
+              <path d="M10 35 H5 V30" stroke="url(#footer-logo-grad)" stroke-width="2"/>
+              <path d="M30 35 H35 V30" stroke="url(#footer-logo-grad)" stroke-width="2"/>
+              <path d="M20 13.5C20 13.5 16 9 11.5 9C7.5 9 5 12.5 5 16.5C5 22 13 28 20 32C27 28 35 22 35 16.5C35 12.5 32.5 9 28.5 9C24 9 20 13.5 20 13.5Z" fill="url(#footer-logo-grad)" fill-opacity="0.15" stroke="url(#footer-logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="4" y1="20" x2="36" y2="20" stroke="#f472b6" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.8"/>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-bold text-xl tracking-tight leading-none text-white group-hover:text-brand-400 transition-colors">DateScan<span class="text-brand-500">.</span></span>
+            <span class="text-[10px] text-gray-500 font-medium uppercase tracking-widest mt-1.5" data-i18n="footer_subtitle">Personal Style Coach</span>
+          </div>
+        </a>
+        <p class="text-sm text-gray-400 leading-relaxed max-w-sm mb-5" data-i18n="footer_desc">
+          Your AI-powered wingman. Scan your outfit, get instant style and grooming feedback, and walk into your date with confidence.
+        </p>
+        <div class="inline-flex items-center gap-2 text-[10px] text-gray-500 px-3 py-1.5 rounded-full border border-white/10 bg-white/5">
+          <svg class="w-3 h-3 text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span data-i18n="footer_ondevice">Camera scans run on-device</span>
+        </div>
+        <div class="mt-4">
+          <a href="https://play.google.com/store/apps/details?id=app.datescan.twa" target="_blank" rel="noopener noreferrer" class="google-play-badge inline-block">
+            <img src="GetItOnGooglePlay_Badge_Web_color_English.svg" data-i18n="gp_alt" alt="Get it on Google Play" style="height: 44px; width: auto;">
+          </a>
+        </div>
+      </div>
+
+      <!-- Legal -->
+      <div class="lg:col-span-2 lg:col-start-7">
+        <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4" data-i18n="footer_legal">Legal</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="/privacy.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_privacy">Privacy Policy</a></li>
+          <li><a href="/terms.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_terms">Terms of Service</a></li>
+          <li><a href="/refund.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_refund">Refund Policy</a></li>
+          <li><a href="/delete-account.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_delete">Delete Account</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div class="lg:col-span-2">
+        <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4" data-i18n="footer_support">Support</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="/contact.html" class="text-gray-400 hover:text-brand-400 transition-colors" data-i18n="footer_contact">Contact Support</a></li>
+        </ul>
+      </div>
+
+      <!-- Social -->
+      <div class="lg:col-span-3">
+        <h3 class="text-[11px] font-bold text-white tracking-widest uppercase mb-4" data-i18n="footer_follow">Follow</h3>
+        <div class="flex items-center gap-2.5">
+          <a href="https://www.tiktok.com/@datescan" target="_blank" rel="noopener noreferrer" aria-label="DateScan on TikTok" class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] transition-all">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.321 5.562a5.124 5.124 0 0 1-.443-.258 6.228 6.228 0 0 1-1.137-.966c-.849-.971-1.166-1.956-1.282-2.645h.004C16.369 1.104 16.41.5 16.41.5h-3.31v12.789c0 .171 0 .341-.007.508l-.001.064-.003.085v.007a3.535 3.535 0 0 1-1.78 2.801 3.474 3.474 0 0 1-1.724.454c-1.933 0-3.502-1.579-3.502-3.524s1.569-3.524 3.502-3.524c.366 0 .718.057 1.049.162l.004-3.37a6.844 6.844 0 0 0-5.283 1.524A6.842 6.842 0 0 0 3 13.304c0 1.599.503 3.123 1.456 4.4a6.838 6.838 0 0 0 5.475 2.78c3.78 0 6.844-3.064 6.844-6.844V8.168a9.533 9.533 0 0 0 5.565 1.781V6.642c-1.175 0-2.218-.391-3.019-1.08Z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@DateScan" target="_blank" rel="noopener noreferrer" aria-label="DateScan on YouTube" class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] transition-all">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=615732231666977" target="_blank" rel="noopener noreferrer" aria-label="DateScan on Facebook" class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] transition-all">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://x.com/DateS33180" target="_blank" rel="noopener noreferrer" aria-label="DateScan on X" class="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 hover:text-white hover:border-brand-500/50 hover:bg-brand-500/10 hover:shadow-[0_0_16px_rgba(236,72,153,0.25)] transition-all">
+            <svg class="w-[16px] h-[16px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom strip -->
+    <div class="border-t border-white/5 pt-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <p class="text-[11px] text-gray-600 italic leading-relaxed max-w-2xl" data-i18n="disclaimer">
+        Disclaimer: DateScan is an AI-powered tool designed for entertainment and confidence-boosting purposes only. We do not guarantee dating success or specific social outcomes.
+      </p>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 shrink-0">
+        <span class="text-[11px] text-gray-600" data-i18n="copyright">&copy; 2026 DateScan</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- =========================================================
+     Cookie Consent Banner — shows on first visit only
+     Persists choice in localStorage('cookieConsent')
+     ========================================================= -->
+<div id="cookieBanner" class="hidden fixed inset-x-0 bottom-0 z-[100] px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pointer-events-none">
+  <div class="max-w-3xl mx-auto pointer-events-auto">
+    <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0f0f14]/95 backdrop-blur-xl shadow-2xl shadow-black/50">
+      <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent pointer-events-none"></div>
+      <div class="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+        <div class="shrink-0 w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-500/20 to-purple-500/20 border border-brand-500/30 flex items-center justify-center">
+          <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm text-white font-medium mb-1" data-i18n="cookie_title">We respect your privacy.</p>
+          <p class="text-xs text-gray-400 leading-relaxed" data-i18n-html="cookie_desc">
+            Camera scans run on your device. 🔒 Messages and photos you send to the AI Style Coach are processed on our server for that request only. We only use essential cookies to secure your Pro experience and payments. By continuing, you accept our
+            <a href="/privacy.html" class="text-brand-400 hover:text-brand-500 underline underline-offset-2">Privacy Policy</a>.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="/privacy.html" class="hidden sm:inline-block text-xs text-gray-400 hover:text-white px-3 py-2 transition-colors" data-i18n="cookie_learn">Learn more</a>
+          <button id="cookieRejectBtn" type="button"
+            class="px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 text-sm font-semibold hover:bg-white/10 active:scale-[0.98] transition-all" data-i18n="cookie_reject">
+            Reject
+          </button>
+          <button id="cookieAcceptBtn" type="button"
+            class="px-5 py-2.5 rounded-xl bg-gradient-to-tr from-brand-500 to-purple-500 text-white text-sm font-semibold shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all" data-i18n="cookie_accept">
+            Accept
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes ds-cookie-slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ds-cookie-slide-down {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(20px); }
+  }
+</style>
+
+<script>
+(function () {
+  try {
+    var banner = document.getElementById('cookieBanner');
+    var acceptBtn = document.getElementById('cookieAcceptBtn');
+    var rejectBtn = document.getElementById('cookieRejectBtn');
+    if (!banner || !acceptBtn) return;
+
+    if (!localStorage.getItem('cookieConsent')) {
+      setTimeout(function () {
+        banner.classList.remove('hidden');
+        banner.style.animation = 'ds-cookie-slide-up .4s ease-out forwards';
+      }, 600);
+    }
+
+    function hideBanner() {
+      banner.style.animation = 'ds-cookie-slide-down .3s ease-in forwards';
+      setTimeout(function () { banner.classList.add('hidden'); }, 300);
+    }
+
+    acceptBtn.addEventListener('click', function () {
+      try {
+        localStorage.setItem('cookieConsent', 'accepted');
+        localStorage.setItem('cookieConsentTs', String(Date.now()));
+      } catch (e) {}
+      hideBanner();
+    });
+
+    if (rejectBtn) {
+      rejectBtn.addEventListener('click', function () {
+        try {
+          localStorage.setItem('cookieConsent', 'rejected');
+          localStorage.setItem('cookieConsentTs', String(Date.now()));
+        } catch (e) {}
+        window.dsConsent = { analytics: false, marketing: false };
+        hideBanner();
+      });
+    }
+  } catch (e) {
+    console.warn('[DateScan] cookie banner init failed:', e);
+  }
+})();
+</script>
+
+</body>
+</html>
