@@ -4242,7 +4242,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="text-[10px] uppercase tracking-widest text-gray-500 font-bold" data-i18n="ob_your_items">Your Items</div>
       </div>
       <div id="obPickerTabs" class="flex gap-1.5 mb-3 overflow-x-auto pb-1">
-        <button class="ob-tab text-[10px] font-bold px-3 py-1.5 rounded-lg border transition-colors border-brand-500/40 bg-brand-500/15 text-brand-300" data-pick="all">All</button>
+        <button class="ob-tab text-[10px] font-bold px-3 py-1.5 rounded-lg border transition-colors border-brand-500/40 bg-brand-500/15 text-brand-300" data-pick="all" data-i18n="ob_tab_all">All</button>
         <button class="ob-tab text-[10px] font-bold px-3 py-1.5 rounded-lg border transition-colors border-white/10 bg-white/5 text-gray-400 hover:bg-white/10" data-pick="shirt">👕</button>
         <button class="ob-tab text-[10px] font-bold px-3 py-1.5 rounded-lg border transition-colors border-white/10 bg-white/5 text-gray-400 hover:bg-white/10" data-pick="pants">👖</button>
         <button class="ob-tab text-[10px] font-bold px-3 py-1.5 rounded-lg border transition-colors border-white/10 bg-white/5 text-gray-400 hover:bg-white/10" data-pick="jacket">🧥</button>
@@ -4559,15 +4559,15 @@ document.addEventListener('DOMContentLoaded', function () {
             <!-- Metric breakdown -->
             <div class="grid grid-cols-3 gap-2 mb-4">
               <div class="rounded-xl bg-white/5 border border-white/10 p-2.5 text-center">
-                <div class="text-[9px] text-gray-500 uppercase tracking-wider mb-0.5">Contrast</div>
+                <div class="text-[9px] text-gray-500 uppercase tracking-wider mb-0.5" data-i18n="vibe_metric_contrast">Contrast</div>
                 <div class="text-xs font-mono font-bold text-white" id="duelMetricContrast">— vs —</div>
               </div>
               <div class="rounded-xl bg-white/5 border border-white/10 p-2.5 text-center">
-                <div class="text-[9px] text-gray-500 uppercase tracking-wider mb-0.5">Saturation</div>
+                <div class="text-[9px] text-gray-500 uppercase tracking-wider mb-0.5" data-i18n="vibe_metric_saturation">Saturation</div>
                 <div class="text-xs font-mono font-bold text-white" id="duelMetricSat">— vs —</div>
               </div>
               <div class="rounded-xl bg-white/5 border border-white/10 p-2.5 text-center">
-                <div class="text-[9px] text-gray-500 uppercase tracking-wider mb-0.5">Warmth</div>
+                <div class="text-[9px] text-gray-500 uppercase tracking-wider mb-0.5" data-i18n="vibe_metric_warmth">Warmth</div>
                 <div class="text-xs font-mono font-bold text-white" id="duelMetricWarmth">— vs —</div>
               </div>
             </div>
@@ -4581,8 +4581,8 @@ document.addEventListener('DOMContentLoaded', function () {
             <!-- Ask your friends -->
             <button id="duelShareBtn" type="button" class="w-full mt-4 py-3 rounded-xl text-sm font-bold bg-white/5 border border-white/15 text-gray-200 hover:bg-white/10 hover:border-brand-500/40 active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              Ask your friends
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand-500 text-white">+5 XP</span>
+              <span data-i18n="duel_ask_friends">Ask your friends</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand-500 text-white" data-i18n="xp_bonus_5">+5 XP</span>
             </button>
           </div>
 
@@ -4619,7 +4619,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <button id="shareNativeBtn" class="btn-primary w-full py-3.5 rounded-2xl text-sm font-bold flex justify-center items-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
         <span data-i18n="share_button">Share</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-white/20 text-white/90 ml-1">+5 XP</span>
+        <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-white/20 text-white/90 ml-1" data-i18n="xp_bonus_5">+5 XP</span>
       </button>
       <button id="shareDownloadBtn" class="w-full py-3 rounded-2xl text-sm font-semibold bg-white/5 border border-white/10 text-white hover:bg-white/10 transition flex justify-center items-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -6856,12 +6856,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_metric_warmth: 'Warmth',
       duel_verdict: 'Verdict',
       duel_ask_friends: 'Ask your friends',
+      xp_bonus_5: '+5 XP',
       duel_privacy: 'On-device analysis · photos never leave your browser',
       duel_winner: 'Winner',
       duel_winner_a: 'Option A · +{diff} points',
       duel_winner_b: 'Option B · +{diff} points',
       duel_dead_heat: 'Dead Heat',
       duel_tie: 'Tie · {score} all',
+      duel_tie_msg: "It's a tie. Both looks score the same for this occasion — pick the one that feels more like you tonight.",
       share_tiktok_ready: 'TikTok Ready',
       share_button: 'Share',
       share_download_png: 'Download PNG',
@@ -8215,12 +8217,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_metric_warmth: 'Melegség',
       duel_verdict: 'Ítélet',
       duel_ask_friends: 'Kérdezd a barátaidat',
+      xp_bonus_5: '+5 XP',
       duel_privacy: 'Helyi elemzés · a képek sosem hagyják el a böngészőt',
       duel_winner: 'Győztes',
       duel_winner_a: 'A opció · +{diff} pont',
       duel_winner_b: 'B opció · +{diff} pont',
       duel_dead_heat: 'Holtverseny',
       duel_tie: 'Döntetlen · {score}',
+      duel_tie_msg: 'Döntetlen. Mindkét látvány ugyanazt a pontszámot kapta erre az alkalomra — válaszd azt, amelyik ma este inkább te vagy.',
       share_tiktok_ready: 'TikTok Kész',
       share_button: 'Megosztás',
       share_download_png: 'PNG letöltése',
@@ -8275,7 +8279,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       hint_result: 'Ez az összpontszámod. Görgess le a részletes tippekért minden kategóriában.',
       hint_chat: 'Kérdezz bármit a stílusodról, vagy tölts fel egy képet a szekrényedből!',
       cam_consent_title: 'Mielőtt bekapcsoljuk a kamerát',
-      cam_consent_lede: 'A szkennere teljes egészében az eszközödön fut. Ez mit jelent.',
+      cam_consent_lede: 'A szkenner teljes egészében az eszközödön fut.',
       cam_bullet_1_title: 'Szkennelés = helyi.',
       cam_bullet_1_text: 'A kamera képét kizárólag a böngésződ elemzi, közvetlenül az eszközödön. Az adatok soha nem hagyják el a készülékedet, így mi soha nem látjuk őket.',
       cam_bullet_1: '<strong>Szkennelés = helyi.</strong> A kamera képét kizárólag a böngésződ elemzi, közvetlenül az eszközödön. Az adatok <strong>soha nem hagyják el a készülékedet</strong>, így mi soha nem látjuk őket.',
@@ -9573,12 +9577,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_metric_warmth: 'Wärme',
       duel_verdict: 'Urteil',
       duel_ask_friends: 'Frag deine Freunde',
+      xp_bonus_5: '+5 XP',
       duel_privacy: 'Lokale Analyse · Fotos verlassen nie den Browser',
       duel_winner: 'Gewinner',
       duel_winner_a: 'Option A · +{diff} Punkte',
       duel_winner_b: 'Option B · +{diff} Punkte',
       duel_dead_heat: 'Gleichstand',
       duel_tie: 'Unentschieden · {score}',
+      duel_tie_msg: 'Unentschieden. Beide Looks erzielen dieselbe Punktzahl für diesen Anlass — wähle den, der sich heute Abend mehr wie du anfühlt.',
       share_tiktok_ready: 'TikTok-Fertig',
       share_button: 'Teilen',
       share_download_png: 'PNG herunterladen',
@@ -12291,10 +12297,11 @@ window.saveCurrentOutfit = function() {
     { id: 'teal', hex: '#008080' }
   ];
 
-  const STYLE_VIBES = [
-    'Minimalist', 'Streetwear', 'Classic', 'Preppy', 'Bohemian',
-    'Athleisure', 'Rock', 'Scandinavian', 'Vintage', 'Techwear'
+  const STYLE_VIBE_KEYS = [
+    'sp_vibe_minimalist', 'sp_vibe_streetwear', 'sp_vibe_classic', 'sp_vibe_preppy', 'sp_vibe_bohemian',
+    'sp_vibe_athleisure', 'sp_vibe_rock', 'sp_vibe_scandinavian', 'sp_vibe_vintage', 'sp_vibe_techwear'
   ];
+  function getStyleVibes() { return STYLE_VIBE_KEYS.map(function(k) { return typeof window.t === 'function' ? window.t(k) : k; }); }
 
   // Load / save helpers
   function loadProfile() {
@@ -12470,7 +12477,7 @@ window.saveCurrentOutfit = function() {
 
   // Populate style vibes
   if (vibeEl) {
-    STYLE_VIBES.forEach(vibe => {
+    getStyleVibes().forEach(vibe => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.dataset.vibe = vibe;
@@ -16898,7 +16905,9 @@ async function runScan() {
     const cap = captureFrame();
     if (!cap) {
       triggerHaptic('error');
-      renderActionPlan([{ category: "env", tone: "error", title: t('scan_cam_blocked'), text: t('scan_cam_blocked_msg'), action: t('retry') }], false);
+      var camBlockedItems = [{ category: "env", tone: "error", title: t('scan_cam_blocked'), text: t('scan_cam_blocked_msg'), action: t('retry'), _titleKey: 'scan_cam_blocked', _textKey: 'scan_cam_blocked_msg', _actionKey: 'retry' }];
+      store.set({ lastItems: camBlockedItems });
+      renderActionPlan(camBlockedItems, false);
       return;
     }
 
@@ -16911,14 +16920,21 @@ async function runScan() {
       triggerHaptic('error');
       const iconMap = { too_dark: '💡', too_dim: '💡', overexposed: '☀️', no_contrast: '📷' };
       const toneMap = { too_dark: 'alert', too_dim: 'alert', overexposed: 'warn', no_contrast: 'warn' };
-      renderActionPlan([{
+      const titleKeyMap = { too_dark: 'fb_dark_title', too_dim: 'scan_dim_message', overexposed: 'scan_overexposed_message', no_contrast: 'scan_no_contrast_message' };
+      const actionKeyMap = { too_dark: 'fb_dark_action', too_dim: 'scan_dim_action', overexposed: 'scan_overexposed_action', no_contrast: 'scan_no_contrast_action' };
+      var preCheckItems = [{
         category: "env",
         tone: toneMap[preCheck.reason] || 'warn',
         icon: iconMap[preCheck.reason] || '⚠️',
         title: preCheck.message,
         text: preCheck.action,
-        action: preCheck.action
-      }], false);
+        action: preCheck.action,
+        _titleKey: titleKeyMap[preCheck.reason] || null,
+        _textKey: actionKeyMap[preCheck.reason] || null,
+        _actionKey: actionKeyMap[preCheck.reason] || null
+      }];
+      store.set({ lastItems: preCheckItems });
+      renderActionPlan(preCheckItems, false);
       return;
     }
 
@@ -16937,7 +16953,9 @@ async function runScan() {
     try { result = store.get().faceLandmarker.detect(analysisCanvas); }
     catch (e) {
       triggerHaptic('error');
-      renderActionPlan([{ category: "env", tone: "error", title: t('fb_detection_error'), text: t('feedback_face_not_visible'), action: t('fb_face_visible') }], false);
+      var detectionErrorItems = [{ category: "env", tone: "error", title: t('fb_detection_error'), text: t('feedback_face_not_visible'), action: t('fb_face_visible'), _titleKey: 'fb_detection_error', _textKey: 'feedback_face_not_visible', _actionKey: 'fb_face_visible' }];
+      store.set({ lastItems: detectionErrorItems });
+      renderActionPlan(detectionErrorItems, false);
       return;
     }
 
@@ -17267,7 +17285,9 @@ async function runScan() {
     triggerHaptic('error');
     try {
       var errMsg = (err && err.message) ? err.message : String(err);
-      renderActionPlan([{ category: "env", tone: "error", title: t('fb_scan_failed'), text: errMsg, action: t('fb_scan_error_action') }], false);
+      var scanErrorItems = [{ category: "env", tone: "error", title: t('fb_scan_failed'), text: errMsg, action: t('fb_scan_error_action'), _titleKey: 'fb_scan_failed', _actionKey: 'fb_scan_error_action' }];
+      store.set({ lastItems: scanErrorItems });
+      renderActionPlan(scanErrorItems, false);
     } catch (e2) {
       console.error('[runScan] renderActionPlan also threw:', e2);
     }
@@ -23296,7 +23316,7 @@ function onGoogleMapsLoaded() {
     const lbl = winner === 'A' ? 'A' : 'B';
 
     if (!w || !l) {
-      return `It's a tie. Both looks score the same for this occasion — pick the one that feels more like you tonight.`;
+      return t('duel_tie_msg') || `It's a tie. Both looks score the same for this occasion — pick the one that feels more like you tonight.`;
     }
 
     const dLuma     = w.avgLuma - l.avgLuma;
