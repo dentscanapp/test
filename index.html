@@ -2493,25 +2493,25 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
                   <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="badge_title">Achievements</div>
                   <span id="badgeCount" class="text-[10px] text-emerald-300 bg-emerald-500/10 px-2 py-1 rounded-md font-bold">0/10</span>
                 </div>
-                <div id="badgeGrid" class="grid grid-cols-5 gap-2 sm:gap-2.5">
+                <div id="badgeGrid" class="flex flex-wrap gap-2 sm:gap-2.5">
                   <!-- Populated by JS -->
                 </div>
               </div>
             </div>
 
             <!-- Style DNA Card -->
-            <div id="styleDnaCard" class="rounded-[32px] p-5 border border-purple-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.6s;">
-              <div class="absolute -top-6 -left-6 w-24 h-24 rounded-full bg-purple-500/10 blur-3xl pointer-events-none"></div>
+            <div id="styleDnaCard" class="rounded-[32px] p-5 border border-emerald-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.6s;">
+              <div class="absolute -top-6 -left-6 w-24 h-24 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
               <div class="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-brand-500/8 blur-2xl pointer-events-none"></div>
               <div class="relative z-10">
                 <div class="flex items-center justify-between mb-3">
-                  <div class="text-[10px] uppercase tracking-widest font-bold text-purple-400" data-i18n="styledna_title">Style DNA</div>
-                  <span class="text-[10px] text-purple-300 bg-purple-500/10 px-2 py-1 rounded-md font-bold" id="styleDnaScanCount">0 scans</span>
+                  <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="styledna_title">Style DNA</div>
+                  <span class="text-[10px] text-emerald-300 bg-emerald-500/10 px-2 py-1 rounded-md font-bold" id="styleDnaScanCount">0 scans</span>
                 </div>
                 <div id="styleDnaContent">
                   <div class="text-center py-4">
-                    <div class="w-12 h-12 mx-auto rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-3">
-                      <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.482 1.482a2.25 2.25 0 01-1.591.659H8.073a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V17a2.25 2.25 0 01-2.25 2.25H7.25A2.25 2.25 0 015 17v-2.5"/></svg>
+                    <div class="w-12 h-12 mx-auto rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-3">
+                      <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.482 1.482a2.25 2.25 0 01-1.591.659H8.073a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V17a2.25 2.25 0 01-2.25 2.25H7.25A2.25 2.25 0 015 17v-2.5"/></svg>
                     </div>
                     <p class="text-xs text-gray-400" data-i18n="styledna_no_data">Scan outfits to unlock your Style DNA</p>
                   </div>
@@ -2520,16 +2520,16 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
             </div>
 
             <!-- OOTD Generator Card -->
-            <div id="ootdCard" class="rounded-[32px] p-5 border border-blue-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.7s;">
-              <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-blue-500/10 blur-3xl pointer-events-none"></div>
+            <div id="ootdCard" class="rounded-[32px] p-5 border border-emerald-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.7s;">
+              <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
               <div class="relative z-10">
                 <div class="flex items-center justify-between mb-3">
-                  <div class="text-[10px] uppercase tracking-widest font-bold text-blue-400" data-i18n="ootd_title">Outfit of the Day</div>
-                  <span id="ootdTempBadge" class="text-[10px] text-blue-300 bg-blue-500/10 px-2 py-1 rounded-md font-bold hidden"></span>
+                  <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="ootd_title">Outfit of the Day</div>
+                  <span id="ootdTempBadge" class="text-[10px] text-emerald-300 bg-emerald-500/10 px-2 py-1 rounded-md font-bold hidden"></span>
                 </div>
                 <p class="text-xs text-gray-400 mb-3" data-i18n="ootd_subtitle">Auto-generated outfit suggestion</p>
                 <div id="ootdResult" class="hidden mb-3 p-3 rounded-2xl bg-black/30 border border-white/5 text-sm text-white/90 leading-relaxed"></div>
-                <button id="ootdGenerateBtn" class="w-full text-xs font-semibold py-3 px-3 rounded-xl border border-blue-500/40 bg-blue-500/15 text-blue-400 hover:bg-blue-500/25 transition flex items-center justify-center gap-2">
+                <button id="ootdGenerateBtn" class="w-full text-xs font-semibold py-3 px-3 rounded-xl border border-emerald-500/40 bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 transition flex items-center justify-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
                   <span data-i18n="ootd_generate">Generate Outfit</span>
                 </button>
@@ -2537,11 +2537,11 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
             </div>
 
             <!-- Seasonal Recommender Card -->
-            <div id="seasonalCard" class="rounded-[32px] p-5 border border-amber-500/15 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.8s;">
-              <div class="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-amber-500/8 blur-2xl pointer-events-none"></div>
+            <div id="seasonalCard" class="rounded-[32px] p-5 border border-emerald-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.8s;">
+              <div class="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-emerald-500/8 blur-2xl pointer-events-none"></div>
               <div class="relative z-10">
                 <div class="flex items-center justify-between mb-3">
-                  <div class="text-[10px] uppercase tracking-widest font-bold text-amber-400" data-i18n="seasonal_title">Seasonal Tips</div>
+                  <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="seasonal_title">Seasonal Tips</div>
                   <span id="seasonIcon" class="text-lg">🌸</span>
                 </div>
                 <div id="seasonName" class="font-serif text-lg text-white font-semibold mb-1">Spring</div>
@@ -5407,7 +5407,7 @@ function checkAndUnlockBadges() {
   return newlyUnlocked;
 }
 
-// Render badge grid in the UI
+// Render badge grid in the UI — only show unlocked + next locked goal
 function renderBadges() {
   var grid = document.getElementById('badgeGrid');
   var countEl = document.getElementById('badgeCount');
@@ -5415,19 +5415,31 @@ function renderBadges() {
 
   var badges = _readBadges();
   var unlockedCount = 0;
+  var nextLockedAdded = false;
 
   var html = '';
   BADGE_DEFS.forEach(function(def) {
     var isUnlocked = !!badges[def.id];
-    if (isUnlocked) unlockedCount++;
+    if (isUnlocked) {
+      unlockedCount++;
+    } else if (!nextLockedAdded) {
+      // Show the next locked badge as the "goal" — then stop
+      nextLockedAdded = true;
+    } else {
+      // Skip remaining locked badges — only show unlocked + 1 next goal
+      return;
+    }
 
-    html += '<div class="group relative flex flex-col items-center" title="' + (isUnlocked ? t(def.nameKey) : t('badge_locked')) + '">' +
+    html += '<div class="group relative flex flex-col items-center" title="' + (isUnlocked ? t(def.nameKey) : t(def.nameKey) + ' — ' + t('badge_locked')) + '">' +
       '<div class="badge-unlocked w-10 h-10 rounded-xl flex items-center justify-center text-base transition-all ' +
         (isUnlocked
           ? 'bg-gradient-to-br from-emerald-500/20 to-brand-500/20 border border-emerald-500/30 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
-          : 'bg-white/5 border border-white/5 opacity-30') +
+          : 'bg-white/5 border border-dashed border-emerald-500/20 opacity-50') +
       '">' +
-        (isUnlocked ? def.icon : '<svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>') +
+        (isUnlocked ? def.icon : '<svg class="w-4 h-4 text-emerald-500/40" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>') +
+      '</div>' +
+      '<div class="text-[8px] mt-1 text-center leading-tight ' + (isUnlocked ? 'text-emerald-400/80 font-semibold' : 'text-gray-500') + '">' +
+        (isUnlocked ? t(def.nameKey) : t('badge_next')) +
       '</div>' +
       // Tooltip on hover
       '<div class="absolute -top-16 left-1/2 -translate-x-1/2 z-50 hidden group-hover:flex flex-col items-center">' +
@@ -7518,6 +7530,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       // Badge / Achievement system
       badge_title: 'Achievements',
       badge_locked: 'Locked',
+      badge_next: 'Next',
       badge_unlock_toast: '🏆 Achievement unlocked: {name}!',
       badge_scan_1: 'First Scan',
       badge_scan_1_desc: 'Complete your first scan',
@@ -8580,7 +8593,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       booster_3: 'Hagyd abba az izgágaságot. Minden rándulás kiszivárogtatja az önbizalmadat.',
       booster_4: 'Szünet, mielőtt beszélsz.',
       booster_5: 'Hallgass és figyelj.',
-      booster_6: 'Csak halkan mondd.',
+      booster_6: 'Csak halkan mond.',
       booster_7: 'Kezeket ki a zsebből.',
       booster_8: 'Ne rontsd el azzal, hogy most kételkedsz.',
       booster_9: 'Kérdezz valami váratlant. A kötelességbeszélgetés csapda.',
@@ -8843,6 +8856,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       // Badge / Eredmény rendszer
       badge_title: 'Eredmények',
       badge_locked: 'Zárolt',
+      badge_next: 'Következő',
       badge_unlock_toast: '🏆 Eredmény feloldva: {name}!',
       badge_scan_1: 'Első szkennelés',
       badge_scan_1_desc: 'Végezd el az első szkennelésed',
@@ -10168,6 +10182,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       // Badge / Achievement-System
       badge_title: 'Erfolge',
       badge_locked: 'Gesperrt',
+      badge_next: 'Nächstes',
       badge_unlock_toast: '🏆 Erfolg freigeschaltet: {name}!',
       badge_scan_1: 'Erster Scan',
       badge_scan_1_desc: 'Schliesse deinen ersten Scan ab',
@@ -10573,6 +10588,17 @@ window.addEventListener('langchange', function() {
     if (typeof window.renderClosetItems === 'function') window.renderClosetItems();
     // Re-render checklist so label translations update
     if (typeof renderChecklist === 'function') renderChecklist();
+    // Re-render scan results (style coach, action plan, badges) so they
+    // pick up the new language. Without this, switching to German after a
+    // scan in Hungarian keeps showing Hungarian result text.
+    var s = (typeof store !== 'undefined' && store.get) ? store.get() : {};
+    if (s.lastItems && typeof renderActionPlan === 'function') {
+      renderActionPlan(s.lastItems, false);
+    }
+    if (s.lastColor && typeof renderStyleCoach === 'function') {
+      renderStyleCoach(s.lastColor, s.occasion || 'casual', false, s.lastItems);
+    }
+    if (typeof window.renderBadges === 'function') window.renderBadges();
   } catch(e) { console.warn('[langchange] re-render failed:', e); }
 });
 
@@ -16880,7 +16906,7 @@ async function runScan() {
     // Populate the chat suggestion chips with occasion-aware prompts so
     // the user can tap a question instead of typing. Also show scan-result-
     // specific chips (color, shoes, accessories, occasion) right after scan.
-    _scanJustHappened = true;
+    window._scanJustHappened = true;
     renderChips(store.get().occasion);
     // Also re-render the quick reply chips in the chat area
     if (typeof window.renderQuickReplyChips === 'function') {
@@ -18464,15 +18490,14 @@ function onGoogleMapsLoaded() {
   ];
 
   // Track whether a scan just happened so we can show scan chips
-  var _scanJustHappened = false;
-
+  // Uses window._scanJustHappened because it's set from the module scope (runScan)
   function getChips(occasion, scanFlag) {
     var raw = (CHIP_DEFS_KEY.core || []).concat(CHIP_DEFS_KEY[occasion] || []);
     // After a scan, prepend scan-specific chips for richer suggestions
-    var shouldShowScanChips = scanFlag || _scanJustHappened;
+    var shouldShowScanChips = scanFlag || window._scanJustHappened;
     if (shouldShowScanChips) {
       raw = SCAN_CHIP_DEFS.slice(0, 4).concat(raw);
-      _scanJustHappened = false; // Reset after one render
+      window._scanJustHappened = false; // Reset after one render
     }
     return raw.map(function(c) { return { label: (typeof window.t === 'function' ? window.t(c.labelKey) : c.labelKey), icon: c.icon }; });
   }
