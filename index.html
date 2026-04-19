@@ -1541,6 +1541,183 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     100% { transform: scale(1); opacity: 1; }
   }
 
+  /* ── Module Card Accents ────────────────────────── */
+  /* Shared shimmer for unlocked badges */
+  .badge-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .badge-shimmer::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(255,255,255,0.12) 45%,
+      rgba(255,255,255,0.18) 50%,
+      rgba(255,255,255,0.12) 55%,
+      transparent 70%
+    );
+    animation: shimmer-sweep 3s ease-in-out infinite;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  @keyframes shimmer-sweep {
+    0% { transform: translateX(-80%) rotate(15deg); }
+    100% { transform: translateX(80%) rotate(15deg); }
+  }
+
+  /* Module card shared: animated glow border */
+  .module-card-glow {
+    position: relative;
+  }
+  .module-card-glow::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      var(--glow-from, rgba(236,72,153,0.3)),
+      transparent 40%,
+      transparent 60%,
+      var(--glow-to, rgba(168,85,247,0.3))
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.7;
+    transition: opacity 0.4s;
+  }
+  .module-card-glow:hover::before {
+    opacity: 1;
+  }
+
+  /* Achievement card accent */
+  #badgeCard {
+    --glow-from: rgba(16,185,129,0.35);
+    --glow-to: rgba(236,72,153,0.35);
+  }
+
+  /* Style DNA card accent */
+  #styleDnaCard {
+    --glow-from: rgba(168,85,247,0.35);
+    --glow-to: rgba(236,72,153,0.35);
+  }
+
+  /* OOTD card accent */
+  #ootdCard {
+    --glow-from: rgba(236,72,153,0.35);
+    --glow-to: rgba(251,191,36,0.35);
+  }
+
+  /* Seasonal card accent — dynamically overridden by JS */
+  #seasonalCard {
+    --glow-from: rgba(236,72,153,0.35);
+    --glow-to: rgba(168,85,247,0.35);
+  }
+
+  /* DNA archetype icon animated ring */
+  .dna-arch-ring {
+    position: relative;
+  }
+  .dna-arch-ring::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, #a855f7, #ec4899, #a855f7) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: dna-ring-rotate 4s linear infinite;
+  }
+  @keyframes dna-ring-rotate {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+
+  /* OOTD generate button shimmer */
+  .ootd-btn-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .ootd-btn-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.08),
+      transparent
+    );
+    animation: btn-shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes btn-shimmer {
+    0%, 100% { left: -100%; }
+    50% { left: 140%; }
+  }
+
+  /* Season icon float */
+  .season-icon-float {
+    animation: season-float 3s ease-in-out infinite;
+  }
+  @keyframes season-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+  }
+
+  /* Season-specific glow colors */
+  .season-glow-spring { --glow-from: rgba(244,114,182,0.4); --glow-to: rgba(52,211,153,0.3); }
+  .season-glow-summer { --glow-from: rgba(251,191,36,0.4); --glow-to: rgba(251,146,60,0.3); }
+  .season-glow-autumn { --glow-from: rgba(251,146,60,0.4); --glow-to: rgba(234,179,8,0.3); }
+  .season-glow-winter { --glow-from: rgba(96,165,250,0.4); --glow-to: rgba(168,85,247,0.3); }
+
+  /* DNA share button gradient hover */
+  .dna-share-btn {
+    background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(236,72,153,0.1));
+    border-image: linear-gradient(135deg, rgba(168,85,247,0.4), rgba(236,72,153,0.4)) 1;
+    transition: all 0.3s ease;
+  }
+  .dna-share-btn:hover {
+    background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(236,72,153,0.2));
+    box-shadow: 0 0 20px rgba(168,85,247,0.15), 0 0 20px rgba(236,72,153,0.15);
+  }
+
+  /* Color palette chip hover */
+  .dna-color-chip {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .dna-color-chip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  /* OOTD result area glow */
+  .ootd-result-glow {
+    position: relative;
+  }
+  .ootd-result-glow::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(236,72,153,0.2), rgba(251,191,36,0.2));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
   /* ── Level Tier Badges ─────────────────────────────── */
   .level-tier-icon {
     width: 56px; height: 56px;
@@ -1626,6 +1803,382 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     width: 144px; height: 144px;
     top: -48px; right: -48px;
     background: rgba(168,85,247,0.15);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     WOW DESIGN UPGRADE — Visual polish only, no layout changes
+     ═══════════════════════════════════════════════════════════ */
+
+  /* ── Premium Noise Texture Overlay ─────────────────────── */
+  .module-card-glow::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0.025;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
+    mix-blend-mode: overlay;
+    z-index: 1;
+  }
+
+  /* ── Glassmorphism for Module Cards ───────────────────── */
+  .module-card-glow {
+    background: rgba(24, 24, 27, 0.65) !important;
+    backdrop-filter: blur(20px) saturate(1.3) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.3) !important;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.35s ease;
+  }
+
+  /* ── Card Hover Lift + Glow ───────────────────────────── */
+  .module-card-glow:hover {
+    transform: translateY(-3px);
+  }
+  #badgeCard:hover {
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.5),
+      0 0 40px -10px rgba(16,185,129,0.2),
+      0 0 80px -20px rgba(236,72,153,0.15) !important;
+    border-color: rgba(16,185,129,0.35) !important;
+  }
+  #styleDnaCard:hover {
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.5),
+      0 0 40px -10px rgba(168,85,247,0.2),
+      0 0 80px -20px rgba(236,72,153,0.15) !important;
+    border-color: rgba(168,85,247,0.35) !important;
+  }
+  #ootdCard:hover {
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.5),
+      0 0 40px -10px rgba(236,72,153,0.2),
+      0 0 80px -20px rgba(251,191,36,0.15) !important;
+    border-color: rgba(236,72,153,0.35) !important;
+  }
+  #seasonalCard:hover {
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.5),
+      0 0 40px -10px rgba(236,72,153,0.2),
+      0 0 80px -20px rgba(168,85,247,0.15) !important;
+    border-color: rgba(236,72,153,0.35) !important;
+  }
+
+  /* ── Animated Rotating Gradient Border ─────────────────── */
+  .module-card-glow::before {
+    background: conic-gradient(
+      from var(--border-angle, 0deg),
+      var(--glow-from, rgba(236,72,153,0.3)) 0%,
+      transparent 15%,
+      transparent 35%,
+      var(--glow-to, rgba(168,85,247,0.3)) 50%,
+      transparent 65%,
+      transparent 85%,
+      var(--glow-from, rgba(236,72,153,0.3)) 100%
+    ) !important;
+    animation: module-border-rotate 6s linear infinite !important;
+    opacity: 0.8 !important;
+  }
+  .module-card-glow:hover::before {
+    opacity: 1 !important;
+  }
+  @keyframes module-border-rotate {
+    to { --border-angle: 360deg; }
+  }
+  @property --border-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  /* ── Inner Light Reflection ───────────────────────────── */
+  .module-card-glow > .relative.z-10::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50%;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255,255,255,0.04) 0%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* ── Gradient Text for Module Titles ───────────────────── */
+  #badgeCard .text-emerald-400[data-i18n="badge_title"] {
+    background: linear-gradient(135deg, #34d399, #6ee7b7, #f472b6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  #styleDnaCard .text-purple-400[data-i18n="styledna_title"] {
+    background: linear-gradient(135deg, #c084fc, #e879f9, #f472b6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  #ootdCard .text-brand-400[data-i18n="ootd_title"] {
+    background: linear-gradient(135deg, #f472b6, #fb923c, #fbbf24);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  #seasonalCard .text-brand-400[data-i18n="seasonal_title"] {
+    background: linear-gradient(135deg, #f472b6, #c084fc, #60a5fa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ── Enhanced Badge Icons ──────────────────────────────── */
+  .badge-unlocked.badge-shimmer {
+    box-shadow:
+      0 0 12px rgba(16,185,129,0.25),
+      0 0 24px rgba(236,72,153,0.15),
+      inset 0 1px 0 rgba(255,255,255,0.15) !important;
+  }
+  .badge-unlocked.badge-shimmer:hover {
+    transform: scale(1.12) translateY(-2px);
+    box-shadow:
+      0 0 16px rgba(16,185,129,0.35),
+      0 0 32px rgba(236,72,153,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.2) !important;
+  }
+
+  /* ── Style DNA Archetype Card Enhancement ──────────────── */
+  .dna-arch-ring {
+    box-shadow: 0 0 20px rgba(168,85,247,0.2), 0 0 40px rgba(236,72,153,0.1);
+  }
+  .dna-arch-ring::after {
+    animation: dna-ring-rotate 3s linear infinite;
+    border-width: 2.5px !important;
+  }
+
+  /* ── DNA Stat Card Glow ───────────────────────────────── */
+  .dna-stat-card {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(168,85,247,0.15) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .dna-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(168,85,247,0.15), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+    border-color: rgba(168,85,247,0.25) !important;
+  }
+
+  /* ── Enhanced DNA Insight Box ──────────────────────────── */
+  .dna-insight {
+    background: linear-gradient(135deg, rgba(168,85,247,0.12), rgba(236,72,153,0.08), rgba(168,85,247,0.04)) !important;
+    border: 1px solid rgba(168,85,247,0.25) !important;
+    box-shadow: 0 4px 20px rgba(168,85,247,0.08), inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+
+  /* ── OOTD Generate Button Premium ─────────────────────── */
+  #ootdGenerateBtn {
+    background: linear-gradient(135deg, rgba(236,72,153,0.2), rgba(251,191,36,0.15)) !important;
+    border: 1px solid rgba(236,72,153,0.4) !important;
+    box-shadow: 0 2px 12px rgba(236,72,153,0.15), inset 0 1px 0 rgba(255,255,255,0.06);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #ootdGenerateBtn:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(236,72,153,0.3), rgba(251,191,36,0.25)) !important;
+    box-shadow: 0 4px 20px rgba(236,72,153,0.25), 0 0 30px rgba(251,191,36,0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+    transform: translateY(-1px);
+  }
+  #ootdGenerateBtn:active:not(:disabled) {
+    transform: translateY(0px) scale(0.98);
+  }
+
+  /* ── OOTD Result Glow Enhancement ─────────────────────── */
+  .ootd-result-glow::before {
+    background: linear-gradient(135deg, rgba(236,72,153,0.25), rgba(251,191,36,0.15), rgba(236,72,153,0.1)) !important;
+  }
+
+  /* ── Seasonal Card Season-Specific Backgrounds ─────────── */
+  .season-glow-spring {
+    background: linear-gradient(135deg, rgba(244,114,182,0.06), rgba(52,211,153,0.04), rgba(24,24,27,0.65)) !important;
+  }
+  .season-glow-summer {
+    background: linear-gradient(135deg, rgba(251,191,36,0.06), rgba(251,146,60,0.04), rgba(24,24,27,0.65)) !important;
+  }
+  .season-glow-autumn {
+    background: linear-gradient(135deg, rgba(251,146,60,0.06), rgba(234,179,8,0.04), rgba(24,24,27,0.65)) !important;
+  }
+  .season-glow-winter {
+    background: linear-gradient(135deg, rgba(96,165,250,0.06), rgba(168,85,247,0.04), rgba(24,24,27,0.65)) !important;
+  }
+
+  /* ── Season Name Gradient ──────────────────────────────── */
+  #seasonName {
+    background: linear-gradient(135deg, #f472b6, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+    font-size: 1.125rem;
+  }
+  .season-glow-spring #seasonName {
+    background: linear-gradient(135deg, #f9a8d4, #6ee7b7);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .season-glow-summer #seasonName {
+    background: linear-gradient(135deg, #fbbf24, #fb923c);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .season-glow-autumn #seasonName {
+    background: linear-gradient(135deg, #fb923c, #fbbf24);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .season-glow-winter #seasonName {
+    background: linear-gradient(135deg, #93c5fd, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* ── Seasonal Tip Text Enhancement ─────────────────────── */
+  #seasonTip {
+    color: rgba(209,213,219,0.9) !important;
+    text-shadow: 0 0 20px rgba(236,72,153,0.08);
+  }
+
+  /* ── Icon Box Enhancement ──────────────────────────────── */
+  #badgeCard .w-5.h-5.rounded-md {
+    box-shadow: 0 0 12px rgba(16,185,129,0.15), inset 0 0 4px rgba(16,185,129,0.1);
+  }
+  #styleDnaCard .w-5.h-5.rounded-md {
+    box-shadow: 0 0 12px rgba(168,85,247,0.15), inset 0 0 4px rgba(168,85,247,0.1);
+  }
+  #ootdCard .w-5.h-5.rounded-md {
+    box-shadow: 0 0 12px rgba(236,72,153,0.15), inset 0 0 4px rgba(236,72,153,0.1);
+  }
+  #seasonIconBox {
+    box-shadow: 0 0 12px rgba(236,72,153,0.15), inset 0 0 4px rgba(236,72,153,0.1);
+  }
+
+  /* ── Count Badge Enhancement ───────────────────────────── */
+  #badgeCount {
+    text-shadow: 0 0 8px rgba(16,185,129,0.3);
+  }
+  #styleDnaScanCount {
+    text-shadow: 0 0 8px rgba(168,85,247,0.3);
+  }
+  #ootdTempBadge {
+    text-shadow: 0 0 8px rgba(251,191,36,0.3);
+  }
+
+  /* ── Decorative Orbs Enhancement ───────────────────────── */
+  #badgeCard .absolute.rounded-full.bg-emerald-500\/10,
+  #styleDnaCard .absolute.rounded-full.bg-purple-500\/10,
+  #ootdCard .absolute.rounded-full.bg-brand-500\/10,
+  #seasonOrb1 {
+    filter: blur(60px);
+    animation: orb-pulse 4s ease-in-out infinite alternate;
+  }
+  #badgeCard .absolute.rounded-full.bg-brand-500\/5,
+  #styleDnaCard .absolute.rounded-full.bg-brand-500\/5,
+  #ootdCard .absolute.rounded-full.bg-amber-500\/5,
+  #seasonOrb2 {
+    filter: blur(50px);
+    animation: orb-pulse 5s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes orb-pulse {
+    0% { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.15); }
+  }
+
+  /* ── DNA Color Chip Enhancement ────────────────────────── */
+  .dna-color-chip {
+    background: rgba(168,85,247,0.06) !important;
+    border: 1px solid rgba(168,85,247,0.15) !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .dna-color-chip:hover {
+    box-shadow: 0 4px 16px rgba(168,85,247,0.15), 0 2px 8px rgba(0,0,0,0.3);
+    border-color: rgba(168,85,247,0.3) !important;
+  }
+
+  /* ── DNA Share Button Enhancement ──────────────────────── */
+  .dna-share-btn {
+    background: linear-gradient(135deg, rgba(168,85,247,0.12), rgba(236,72,153,0.12)) !important;
+    box-shadow: 0 2px 10px rgba(168,85,247,0.1), inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .dna-share-btn:hover {
+    background: linear-gradient(135deg, rgba(168,85,247,0.22), rgba(236,72,153,0.22)) !important;
+    box-shadow: 0 4px 24px rgba(168,85,247,0.18), 0 4px 24px rgba(236,72,153,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  /* ── Subtle Ambient Glow for Cards ─────────────────────── */
+  .module-card-glow.fade-up {
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* ── Season Icon Float Enhancement ─────────────────────── */
+  .season-icon-float {
+    animation: season-float 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(236,72,153,0.3));
+  }
+
+  /* ── Badge Shimmer Enhancement ─────────────────────────── */
+  .badge-shimmer::after {
+    animation: shimmer-sweep 2s ease-in-out infinite !important;
+    background: linear-gradient(
+      115deg,
+      transparent 25%,
+      rgba(255,255,255,0.15) 40%,
+      rgba(255,255,255,0.25) 50%,
+      rgba(255,255,255,0.15) 60%,
+      transparent 75%
+    ) !important;
+  }
+
+  /* ── OOTD Button Shimmer Enhancement ───────────────────── */
+  .ootd-btn-shimmer::after {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.12),
+      rgba(255,255,255,0.06),
+      transparent
+    ) !important;
+    animation: btn-shimmer 2.5s ease-in-out infinite !important;
+  }
+
+  /* ── Streak Enhancement ────────────────────────────────── */
+  .streak-flame-icon {
+    filter: drop-shadow(0 0 16px rgba(249,115,22,0.6));
+  }
+  .streak-day-dot.filled {
+    box-shadow: 0 0 10px rgba(249,115,22,0.5), 0 0 20px rgba(236,72,153,0.2);
+  }
+
+  /* ── Vibe Opt Enhancement ──────────────────────────────── */
+  .vibe-opt.is-selected {
+    box-shadow:
+      0 0 0 3px rgba(244, 114, 182, 0.18),
+      0 0 28px 6px rgba(236, 72, 153, 0.4),
+      inset 0 0 16px rgba(244, 114, 182, 0.2) !important;
+  }
+
+  /* ── Level Tier Icon Enhancement ───────────────────────── */
+  .level-tier-icon--bronze {
+    box-shadow: 0 0 24px rgba(205,127,50,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  .level-tier-icon--silver {
+    box-shadow: 0 0 24px rgba(192,192,192,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .level-tier-icon--gold {
+    box-shadow: 0 0 28px rgba(255,215,0,0.5), 0 0 56px rgba(255,215,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+  .level-tier-icon--diamond {
+    box-shadow: 0 0 32px rgba(185,242,255,0.5), 0 0 64px rgba(123,104,238,0.2), inset 0 1px 0 rgba(255,255,255,0.3);
   }
 </style>
 </head>
@@ -2439,17 +2992,17 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
               <div class="relative z-10">
                 <div class="flex items-center justify-between mb-3">
                   <div>
-                    <div class="text-[10px] uppercase tracking-widest font-bold text-brand-400 mb-1" id="levelName">Level 1: Rookie</div>
+                    <div class="text-[10px] uppercase tracking-widest font-bold text-brand-400 mb-1" id="levelName" data-i18n="level_rookie">Level 1: Rookie</div>
                     <div class="flex items-baseline gap-1.5" role="status" aria-live="polite" aria-atomic="true" aria-label="Experience points">
                       <span id="missionCount" class="font-serif font-bold text-3xl text-white">0</span>
-                      <span class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">XP</span>
+                      <span class="text-[10px] text-gray-400 uppercase font-bold tracking-widest" data-i18n="xp_label">XP</span>
                     </div>
                   </div>
                   <div class="text-right">
                     <div id="streakFlame" class="flex justify-end text-orange-400">
                       <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
                     </div>
-                    <div id="missionStreak" class="text-[11px] font-bold text-orange-400 mt-1" aria-live="polite" aria-atomic="true">0 Day Streak</div>
+                    <div id="missionStreak" class="text-[11px] font-bold text-orange-400 mt-1" aria-live="polite" aria-atomic="true" data-i18n="day_streak">0 Day Streak</div>
                     <div id="streakMultiplier" class="text-[9px] font-bold text-amber-300 mt-0.5 hidden"></div>
                   </div>
                 </div>
@@ -2460,7 +3013,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
 
                 <button id="logDateBtn" class="w-full text-xs font-semibold py-3 px-3 rounded-xl border border-brand-500/40 bg-brand-500/15 text-brand-400 hover:bg-brand-500/25 transition flex items-center justify-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                  Log tonight's date <span class="opacity-50 font-normal" data-i18n="gamify_log_date_xp">(+50 XP)</span>
+                  <span data-i18n="gamify_log_date">Log tonight's date</span> <span class="opacity-50 font-normal" data-i18n="gamify_log_date_xp">(+50 XP)</span>
                 </button>
               </div>
             </div>
@@ -2486,12 +3039,18 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
             </div>
 
             <!-- Achievements / Badges Card -->
-            <div id="badgeCard" class="rounded-[32px] p-5 border border-emerald-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.5s;">
-              <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+            <div id="badgeCard" class="module-card-glow rounded-[32px] p-5 border border-emerald-500/20 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.5s;">
+              <div class="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-emerald-500/10 blur-[60px] pointer-events-none"></div>
+              <div class="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-brand-500/5 blur-[50px] pointer-events-none"></div>
               <div class="relative z-10">
                 <div class="flex items-center justify-between mb-4">
-                  <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="badge_title">Achievements</div>
-                  <span id="badgeCount" class="text-[10px] text-emerald-300 bg-emerald-500/10 px-2 py-1 rounded-md font-bold">0/10</span>
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md bg-gradient-to-br from-emerald-500/20 to-brand-500/20 border border-emerald-500/30 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M18.75 4.236c.982.143 1.954.317 2.916.52A6.003 6.003 0 0016.27 9.728M18.75 4.236V4.5c0 2.108-.966 3.99-2.48 5.228m0 0a6.023 6.023 0 01-2.77.896m0 0a6.023 6.023 0 01-2.77-.896"/></svg>
+                    </div>
+                    <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="badge_title">Achievements</div>
+                  </div>
+                  <span id="badgeCount" class="text-[10px] text-emerald-300 bg-emerald-500/10 px-2 py-1 rounded-md font-bold border border-emerald-500/20">0/10</span>
                 </div>
                 <div id="badgeGrid" class="flex flex-wrap gap-2 sm:gap-2.5">
                   <!-- Populated by JS -->
@@ -2500,18 +3059,23 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
             </div>
 
             <!-- Style DNA Card -->
-            <div id="styleDnaCard" class="rounded-[32px] p-5 border border-emerald-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.6s;">
-              <div class="absolute -top-6 -left-6 w-24 h-24 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
-              <div class="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-brand-500/8 blur-2xl pointer-events-none"></div>
+            <div id="styleDnaCard" class="module-card-glow rounded-[32px] p-5 border border-purple-500/20 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.6s;">
+              <div class="absolute -top-8 -left-8 w-32 h-32 rounded-full bg-purple-500/10 blur-[60px] pointer-events-none"></div>
+              <div class="absolute -bottom-6 -right-6 w-24 h-24 rounded-full bg-brand-500/5 blur-[50px] pointer-events-none"></div>
               <div class="relative z-10">
                 <div class="flex items-center justify-between mb-3">
-                  <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="styledna_title">Style DNA</div>
-                  <span class="text-[10px] text-emerald-300 bg-emerald-500/10 px-2 py-1 rounded-md font-bold" id="styleDnaScanCount">0 scans</span>
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md bg-gradient-to-br from-purple-500/20 to-brand-500/20 border border-purple-500/30 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5"/></svg>
+                    </div>
+                    <div class="text-[10px] uppercase tracking-widest font-bold text-purple-400" data-i18n="styledna_title">Style DNA</div>
+                  </div>
+                  <span class="text-[10px] text-purple-300 bg-purple-500/10 px-2 py-1 rounded-md font-bold border border-purple-500/20" id="styleDnaScanCount" data-i18n="styledna_scans_label">0 scans</span>
                 </div>
                 <div id="styleDnaContent">
                   <div class="text-center py-4">
-                    <div class="w-12 h-12 mx-auto rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-3">
-                      <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.482 1.482a2.25 2.25 0 01-1.591.659H8.073a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V17a2.25 2.25 0 01-2.25 2.25H7.25A2.25 2.25 0 015 17v-2.5"/></svg>
+                    <div class="w-12 h-12 mx-auto rounded-2xl border border-purple-500/30 flex items-center justify-center mb-3" style="background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(236,72,153,0.15));box-shadow:0 0 16px rgba(168,85,247,0.1)">
+                      <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.482 1.482a2.25 2.25 0 01-1.591.659H8.073a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V17a2.25 2.25 0 01-2.25 2.25H7.25A2.25 2.25 0 015 17v-2.5"/></svg>
                     </div>
                     <p class="text-xs text-gray-400" data-i18n="styledna_no_data">Scan outfits to unlock your Style DNA</p>
                   </div>
@@ -2520,16 +3084,22 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
             </div>
 
             <!-- OOTD Generator Card -->
-            <div id="ootdCard" class="rounded-[32px] p-5 border border-emerald-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.7s;">
-              <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+            <div id="ootdCard" class="module-card-glow rounded-[32px] p-5 border border-brand-500/20 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.7s;">
+              <div class="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-brand-500/10 blur-[60px] pointer-events-none"></div>
+              <div class="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-amber-500/5 blur-[50px] pointer-events-none"></div>
               <div class="relative z-10">
                 <div class="flex items-center justify-between mb-3">
-                  <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="ootd_title">Outfit of the Day</div>
-                  <span id="ootdTempBadge" class="text-[10px] text-emerald-300 bg-emerald-500/10 px-2 py-1 rounded-md font-bold hidden"></span>
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md bg-gradient-to-br from-brand-500/20 to-amber-500/20 border border-brand-500/30 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+                    </div>
+                    <div class="text-[10px] uppercase tracking-widest font-bold text-brand-400" data-i18n="ootd_title">Outfit of the Day</div>
+                  </div>
+                  <span id="ootdTempBadge" class="text-[10px] text-amber-300 bg-amber-500/10 px-2 py-1 rounded-md font-bold border border-amber-500/20 hidden"></span>
                 </div>
                 <p class="text-xs text-gray-400 mb-3" data-i18n="ootd_subtitle">Auto-generated outfit suggestion</p>
-                <div id="ootdResult" class="hidden mb-3 p-3 rounded-2xl bg-black/30 border border-white/5 text-sm text-white/90 leading-relaxed"></div>
-                <button id="ootdGenerateBtn" class="w-full text-xs font-semibold py-3 px-3 rounded-xl border border-emerald-500/40 bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 transition flex items-center justify-center gap-2">
+                <div id="ootdResult" class="hidden mb-3 p-3 rounded-2xl bg-black/30 border border-white/5 text-sm text-white/90 leading-relaxed ootd-result-glow"></div>
+                <button id="ootdGenerateBtn" class="ootd-btn-shimmer w-full text-xs font-semibold py-3 px-3 rounded-xl border border-brand-500/40 bg-brand-500/15 text-brand-400 hover:bg-brand-500/25 transition-all flex items-center justify-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
                   <span data-i18n="ootd_generate">Generate Outfit</span>
                 </button>
@@ -2537,15 +3107,21 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
             </div>
 
             <!-- Seasonal Recommender Card -->
-            <div id="seasonalCard" class="rounded-[32px] p-5 border border-emerald-500/20 bg-gradient-to-b from-dark-900 to-dark-950 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.8s;">
-              <div class="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-emerald-500/8 blur-2xl pointer-events-none"></div>
+            <div id="seasonalCard" class="module-card-glow rounded-[32px] p-5 border border-brand-500/20 relative overflow-hidden shrink-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] fade-up" style="animation-delay: 0.8s;">
+              <div id="seasonOrb1" class="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-brand-500/10 blur-[60px] pointer-events-none transition-colors duration-1000"></div>
+              <div id="seasonOrb2" class="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-purple-500/5 blur-[50px] pointer-events-none transition-colors duration-1000"></div>
               <div class="relative z-10">
                 <div class="flex items-center justify-between mb-3">
-                  <div class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="seasonal_title">Seasonal Tips</div>
-                  <span id="seasonIcon" class="text-lg">🌸</span>
+                  <div class="flex items-center gap-2">
+                    <div id="seasonIconBox" class="w-5 h-5 rounded-md border border-brand-500/30 flex items-center justify-center transition-all duration-500" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(168,85,247,0.2))">
+                      <svg class="w-3 h-3 text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
+                    </div>
+                    <div class="text-[10px] uppercase tracking-widest font-bold text-brand-400" data-i18n="seasonal_title">Seasonal Tips</div>
+                  </div>
+                  <span id="seasonIcon" class="text-lg season-icon-float">🌸</span>
                 </div>
-                <div id="seasonName" class="font-serif text-lg text-white font-semibold mb-1">Spring</div>
-                <p id="seasonTip" class="text-xs text-gray-300 leading-relaxed">Time to pack away the black sweater — try brighter colors!</p>
+                <div id="seasonName" class="font-serif text-lg text-white font-semibold mb-1" data-i18n="seasonal_spring">Spring</div>
+                <p id="seasonTip" class="text-xs text-gray-300 leading-relaxed" data-i18n="seasonal_spring_tip">Time to pack away the black sweater — try brighter colors!</p>
               </div>
             </div>
           </div>
@@ -3839,7 +4415,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
         Disclaimer: DateScan is an AI-powered tool designed for entertainment and confidence-boosting purposes only. We do not guarantee dating success or specific social outcomes.
       </p>
       <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 shrink-0">
-        <span class="text-[11px] text-gray-600">&copy; 2026 DateScan</span>
+        <span class="text-[11px] text-gray-600" data-i18n="copyright">&copy; 2026 DateScan</span>
       </div>
     </div>
   </div>
@@ -4260,18 +4836,18 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="p-4 border-t border-white/5 flex gap-2">
       <button id="obClearBtn" class="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-400 hover:bg-white/10 hover:text-gray-300 transition flex items-center gap-1.5">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-        Clear
+        <span data-i18n="ob_clear">Clear</span>
       </button>
       <button id="obSaveBtn" disabled class="flex-1 py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-400 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10 transition flex items-center justify-center gap-1.5">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        Save
+        <span data-i18n="ob_save">Save</span>
       </button>
       <button id="obSaveAsNewBtn" disabled class="hidden flex-1 py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-400 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/10 transition flex items-center justify-center gap-1.5">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-        Save as New
+        <span data-i18n="ob_save_as_new">Save as New</span>
       </button>
       <button id="obAiBtn" disabled class="flex-1 py-3 rounded-xl btn-primary text-xs font-bold disabled:opacity-30 disabled:cursor-not-allowed transition flex items-center justify-center gap-1.5">
-        <span class="text-sm leading-none">✨</span> Ask AI
+        <span class="text-sm leading-none">✨</span> <span data-i18n="ob_ask_ai">Ask AI</span>
       </button>
     </div>
   </div>
@@ -4464,12 +5040,12 @@ document.addEventListener('DOMContentLoaded', function () {
   <div class="premium-glass border border-brand-500/30 rounded-[24px] p-6 max-w-sm w-full fade-up">
     <div class="text-3xl mb-2 text-center">📤</div>
     <h3 class="font-serif text-xl font-semibold text-white mb-2 text-center" data-i18n="chat_consent_title">Send this image to the AI?</h3>
-    <p class="text-sm text-gray-400 mb-4 leading-relaxed">
+    <p class="text-sm text-gray-400 mb-4 leading-relaxed" data-i18n-html="chat_consent_body">
       To analyze a photo in chat, we upload it to <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code>, which forwards it to a vision-language model. The image is processed for this request only and not stored on our server beyond the response.
     </p>
     <label class="flex items-center gap-2 text-xs text-gray-400 mb-5 cursor-pointer select-none">
       <input id="chatConsentRemember" type="checkbox" class="accent-brand-500 w-4 h-4" checked />
-      Don't ask me again on this device
+      <span data-i18n="chat_consent_dont_ask">Don't ask me again on this device</span>
     </label>
     <div class="flex gap-3">
       <button id="chatConsentDecline" class="flex-1 py-3 rounded-xl bg-white/5 text-white font-medium hover:bg-white/10 transition" data-i18n="cancel">Cancel</button>
@@ -4642,7 +5218,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
       </div>
       <h2 class="font-serif text-2xl sm:text-[26px] font-bold mb-2 leading-tight" data-i18n="paywall_title">You’re 1 tweak away from a better first impression.</h2>
-      <p class="text-sm text-gray-400" data-i18n="paywall_subtitle">AI-Powered Style Insights.</p>
+      <p class="text-sm text-gray-400" data-i18n="paywall_subtitle">Most users see a real boost in how they're perceived. Discover an offer that fits your next date's vibe, or get started for free—no obligations required.</p>
     </div>
 
     <div class="relative z-10 mb-4 rounded-2xl border border-white/10 bg-white/5 p-3.5 space-y-1.5">
@@ -4691,6 +5267,49 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 
 <script type="module">
+// ── Global Error Handling ──────────────────────────────────────
+// Catch unhandled errors and promise rejections to prevent
+// silent failures that could leave the app in a broken state.
+window.addEventListener('error', function(e) {
+  console.error('[DateScan] Unhandled error:', e.error || e.message);
+});
+window.addEventListener('unhandledrejection', function(e) {
+  console.error('[DateScan] Unhandled promise rejection:', e.reason);
+  e.preventDefault(); // Prevent default console logging duplication
+});
+
+// ── localStorage Safety Wrapper ────────────────────────────────
+// Wraps setItem to gracefully handle QuotaExceededError and
+// private browsing restrictions without crashing the app.
+const _origSetItem = localStorage.setItem.bind(localStorage);
+localStorage.setItem = function(key, value) {
+  try {
+    _origSetItem(key, value);
+  } catch (e) {
+    if (e.name === 'QuotaExceededError' || e.code === 22) {
+      console.warn('[DateScan] Storage quota exceeded for key:', key);
+      // Try to free space by removing old scan thumbnails
+      try {
+        const keys = Object.keys(localStorage);
+        let freed = 0;
+        for (let i = keys.length - 1; i >= 0 && freed < 3; i--) {
+          if (keys[i].startsWith('datescan.thumb_')) {
+            localStorage.removeItem(keys[i]);
+            freed++;
+          }
+        }
+        if (freed > 0) {
+          _origSetItem(key, value); // Retry after cleanup
+        }
+      } catch (retryErr) {
+        console.warn('[DateScan] Storage cleanup failed:', retryErr);
+      }
+    } else {
+      console.warn('[DateScan] localStorage.setItem failed:', key, e);
+    }
+  }
+};
+
 // Dynamic import for MediaPipe — loaded asynchronously so it NEVER blocks
 // the rest of the module from evaluating. The FaceLandmarker is only needed
 // when the user taps "Scan", so a fire-and-forget import is both safer and
@@ -5438,18 +6057,18 @@ function renderBadges() {
     html += '<div class="group relative flex flex-col items-center" title="' + (isUnlocked ? t(def.nameKey) : t(def.nameKey) + ' — ' + t('badge_locked')) + '">' +
       '<div class="badge-unlocked w-10 h-10 rounded-xl flex items-center justify-center text-base transition-all ' +
         (isUnlocked
-          ? 'bg-gradient-to-br from-emerald-500/20 to-brand-500/20 border border-emerald-500/30 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
-          : 'bg-white/5 border border-dashed border-emerald-500/20 opacity-50') +
+          ? 'badge-shimmer border border-emerald-500/30" style="background:linear-gradient(135deg,rgba(16,185,129,0.25),rgba(236,72,153,0.25));box-shadow:0 0 8px rgba(16,185,129,0.2)'
+          : 'bg-white/[0.03] border border-dashed border-emerald-500/20 opacity-40') +
       '">' +
-        (isUnlocked ? def.icon : '<svg class="w-4 h-4 text-emerald-500/40" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>') +
+        (isUnlocked ? def.icon : '<svg class="w-4 h-4 text-emerald-500/30" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>') +
       '</div>' +
-      '<div class="text-[8px] mt-1 text-center leading-tight ' + (isUnlocked ? 'text-emerald-400/80 font-semibold' : 'text-gray-500') + '">' +
+      '<div class="text-[8px] mt-1 text-center leading-tight ' + (isUnlocked ? 'text-emerald-300 font-semibold' : 'text-gray-600') + '">' +
         (isUnlocked ? t(def.nameKey) : t('badge_next')) +
       '</div>' +
       // Tooltip on hover
       '<div class="absolute -top-16 left-1/2 -translate-x-1/2 z-50 hidden group-hover:flex flex-col items-center">' +
-        '<div class="bg-dark-900/95 backdrop-blur-xl border border-white/10 rounded-lg px-3 py-2 shadow-2xl shadow-black/50 whitespace-nowrap text-center">' +
-          '<div class="text-[10px] font-bold text-white">' + t(def.nameKey) + '</div>' +
+        '<div class="bg-dark-900/95 backdrop-blur-xl border border-emerald-500/20 rounded-lg px-3 py-2 shadow-2xl shadow-black/50 whitespace-nowrap text-center">' +
+          '<div class="text-[10px] font-bold text-emerald-300">' + t(def.nameKey) + '</div>' +
           '<div class="text-[9px] text-gray-400 mt-0.5">' + t(def.descKey) + '</div>' +
         '</div>' +
         '<div class="w-2 h-2 bg-dark-900/95 border-r border-b border-white/10 rotate-45 -mt-1"></div>' +
@@ -5602,7 +6221,7 @@ function renderStyleDNA() {
 
   if (scanCount < 1) {
     content.innerHTML = '<div class="text-center py-4">' +
-      '<div class="w-12 h-12 mx-auto rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-3">' +
+      '<div class="w-12 h-12 mx-auto rounded-2xl border border-purple-500/30 flex items-center justify-center mb-3" style="background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(236,72,153,0.15));box-shadow:0 0 16px rgba(168,85,247,0.1)">' +
         '<svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5"/></svg>' +
       '</div>' +
       '<p class="text-xs text-gray-400">' + t('styledna_no_data') + '</p></div>';
@@ -5617,21 +6236,21 @@ function renderStyleDNA() {
   var colorDist = _getColorDistribution(profile);
   var colorHtml = '';
   if (colorDist.length > 0) {
-    colorHtml = '<div class="mt-3 pt-3 border-t border-white/5">' +
-      '<div class="text-[9px] uppercase tracking-widest font-bold text-purple-300/60 mb-2">' + t('styledna_color_palette') + '</div>' +
+    colorHtml = '<div class="mt-3 pt-3 border-t border-white/[0.06]">' +
+      '<div class="text-[9px] uppercase tracking-widest font-bold text-purple-300/50 mb-2">' + t('styledna_color_palette') + '</div>' +
       '<div class="flex flex-wrap gap-1.5">';
     colorDist.forEach(function(c) {
-      colorHtml += '<span class="inline-flex items-center gap-1 text-[10px] bg-white/5 border border-white/5 rounded-lg px-2 py-1">' +
+      colorHtml += '<span class="dna-color-chip inline-flex items-center gap-1 text-[10px] bg-white/[0.04] border border-white/[0.07] rounded-lg px-2 py-1 cursor-default">' +
         c.emoji + ' <span class="text-gray-300">' + c.label + '</span></span>';
     });
     colorHtml += '</div></div>';
   }
 
   content.innerHTML =
-    '<div class="flex items-center gap-3 p-3 rounded-2xl bg-black/30 border border-white/5">' +
-      '<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500/20 to-brand-500/20 border border-purple-500/30 flex items-center justify-center text-xl shrink-0">' + archIcon + '</div>' +
+    '<div class="flex items-center gap-3 p-3 rounded-2xl bg-black/30 border border-purple-500/20">' +
+      '<div class="dna-arch-ring w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0" style="background:linear-gradient(135deg,rgba(168,85,247,0.25),rgba(236,72,153,0.25))">' + archIcon + '</div>' +
       '<div class="min-w-0">' +
-        '<div class="text-[9px] uppercase tracking-widest font-bold text-purple-300/60">' + t('styledna_archetype') + '</div>' +
+        '<div class="text-[9px] uppercase tracking-widest font-bold text-purple-300/50">' + t('styledna_archetype') + '</div>' +
         '<div class="font-serif text-base text-white font-semibold truncate">' + archName + '</div>' +
         '<div class="flex items-center gap-3 mt-0.5">' +
           '<span class="text-[10px] text-gray-400">' + scanCount + ' ' + t('styledna_scans_label') + '</span>' +
@@ -5640,7 +6259,7 @@ function renderStyleDNA() {
       '</div>' +
     '</div>' +
     colorHtml +
-    '<button id="shareDnaBtn" class="mt-3 w-full text-xs font-semibold py-2.5 px-3 rounded-xl border border-purple-500/30 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition flex items-center justify-center gap-2">' +
+    '<button id="shareDnaBtn" class="dna-share-btn mt-3 w-full text-xs font-semibold py-2.5 px-3 rounded-xl border border-purple-500/30 text-purple-300 flex items-center justify-center gap-2">' +
       '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg>' +
       '<span data-i18n="styledna_share">' + t('styledna_share') + '</span>' +
     '</button>';
@@ -5652,12 +6271,12 @@ function renderStyleDNA() {
       var shareText = '🧬 ' + t('styledna_title') + ': ' + archName + '\n' +
         '📊 ' + scanCount + ' ' + t('styledna_scans_label') + ' · ' + t('styledna_avg_label') + ' ' + avgScore + '\n' +
         '🎨 ' + colorDist.map(function(c) { return c.emoji + ' ' + c.label; }).join(', ') + '\n\n' +
-        'DateScan — AI Style Coach';
+        t('share_app_signature');
       if (navigator.share) {
         navigator.share({ title: t('styledna_title'), text: shareText }).catch(function(){});
       } else {
         navigator.clipboard.writeText(shareText).then(function() {
-          if (window.dsPrivacy && window.dsPrivacy.showToast) window.dsPrivacy.showToast('📋 Copied!', 2000);
+          if (window.dsPrivacy && window.dsPrivacy.showToast) window.dsPrivacy.showToast('📋 ' + t('toast_copied'), 2000);
         }).catch(function(){});
       }
     });
@@ -5811,6 +6430,44 @@ function _getCurrentSeason() {
 }
 
 var SEASON_ICONS = { spring: '🌸', summer: '☀️', autumn: '🍂', winter: '❄️' };
+var SEASON_COLORS = {
+  spring: { 
+    nameColor: '#f9a8d4', /* pink-300 */
+    iconBoxBg: 'linear-gradient(135deg,rgba(236,72,153,0.2),rgba(16,185,129,0.2))',
+    iconBorderColor: 'rgba(236,72,153,0.3)',
+    iconColor: '#f472b6', /* brand-400 */
+    orb1Bg: 'rgba(236,72,153,0.1)',
+    orb2Bg: 'rgba(16,185,129,0.08)',
+    glowClass: 'season-glow-spring'
+  },
+  summer: { 
+    nameColor: '#fde68a', /* amber-200 */
+    iconBoxBg: 'linear-gradient(135deg,rgba(245,158,11,0.2),rgba(249,115,22,0.2))',
+    iconBorderColor: 'rgba(245,158,11,0.3)',
+    iconColor: '#fbbf24', /* amber-400 */
+    orb1Bg: 'rgba(245,158,11,0.1)',
+    orb2Bg: 'rgba(249,115,22,0.08)',
+    glowClass: 'season-glow-summer'
+  },
+  autumn: { 
+    nameColor: '#fdba74', /* orange-300 */
+    iconBoxBg: 'linear-gradient(135deg,rgba(249,115,22,0.2),rgba(234,179,8,0.2))',
+    iconBorderColor: 'rgba(249,115,22,0.3)',
+    iconColor: '#fb923c', /* orange-400 */
+    orb1Bg: 'rgba(249,115,22,0.1)',
+    orb2Bg: 'rgba(234,179,8,0.08)',
+    glowClass: 'season-glow-autumn'
+  },
+  winter: { 
+    nameColor: '#93c5fd', /* blue-300 */
+    iconBoxBg: 'linear-gradient(135deg,rgba(59,130,246,0.2),rgba(168,85,247,0.2))',
+    iconBorderColor: 'rgba(59,130,246,0.3)',
+    iconColor: '#60a5fa', /* blue-400 */
+    orb1Bg: 'rgba(59,130,246,0.1)',
+    orb2Bg: 'rgba(168,85,247,0.08)',
+    glowClass: 'season-glow-winter'
+  }
+};
 
 function renderSeasonalTips() {
   var nameEl = document.getElementById('seasonName');
@@ -5822,6 +6479,35 @@ function renderSeasonalTips() {
   nameEl.textContent = t('seasonal_' + season);
   tipEl.textContent = t('seasonal_' + season + '_tip');
   if (iconEl) iconEl.textContent = SEASON_ICONS[season] || '✨';
+
+  // Apply season-specific accent colors
+  var sc = SEASON_COLORS[season];
+  if (sc) {
+    // Season name color
+    nameEl.style.color = sc.nameColor;
+
+    // Icon box gradient & border
+    var iconBox = document.getElementById('seasonIconBox');
+    if (iconBox) {
+      iconBox.style.background = sc.iconBoxBg;
+      iconBox.style.borderColor = sc.iconBorderColor;
+      var svg = iconBox.querySelector('svg');
+      if (svg) svg.style.color = sc.iconColor;
+    }
+
+    // Decorative orbs
+    var orb1 = document.getElementById('seasonOrb1');
+    var orb2 = document.getElementById('seasonOrb2');
+    if (orb1) orb1.style.backgroundColor = sc.orb1Bg;
+    if (orb2) orb2.style.backgroundColor = sc.orb2Bg;
+
+    // Card glow class
+    var card = document.getElementById('seasonalCard');
+    if (card) {
+      card.classList.remove('season-glow-spring', 'season-glow-summer', 'season-glow-autumn', 'season-glow-winter');
+      card.classList.add(sc.glowClass);
+    }
+  }
 
   // Check for season change notification
   try {
@@ -6289,7 +6975,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       nav_chat: 'AI Chat',
       nav_story: 'Story Mode',
       nav_scan: 'Scan',
-      nav_go_pro: 'Go PRO',
+      nav_go_pro: 'PRO',
       nav_pts: 'PTS',
       nav_offline: 'Offline',
 
@@ -6864,6 +7550,21 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_dead_heat: 'Dead Heat',
       duel_tie: 'Tie · {score} all',
       duel_tie_msg: "It's a tie. Both looks score the same for this occasion — pick the one that feels more like you tonight.",
+      duel_occ_casual: 'a casual day',
+      duel_occ_first_date: 'a first date',
+      duel_occ_fancy: 'a fancy dinner',
+      duel_occ_night_out: 'a night out',
+      duel_reason_luma_dark: 'its darker tone reads more grounded and intentional for {occ}',
+      duel_reason_luma_bright: 'its brighter palette feels more open and alive for {occ}',
+      duel_reason_contrast_high: 'its stronger tonal contrast gives the eye somewhere to lock on — the look has more presence for {occ}',
+      duel_reason_contrast_low: 'its softer tonal blend feels more relaxed and wearable for {occ}',
+      duel_reason_sat_low: 'its more restrained color reads more refined and harder to misread for {occ}',
+      duel_reason_sat_high: 'its richer color adds personality without overpowering for {occ}',
+      duel_reason_warmth_high: 'its warmer undertone feels more approachable and human for {occ}',
+      duel_reason_warmth_low: 'its cooler palette is sharper and more composed for {occ}',
+      duel_reason_hue_low: 'its tighter color discipline — fewer competing hues — reads more cohesive for {occ}',
+      duel_reason_hue_high: 'its varied palette feels more expressive and lived-in for {occ}',
+      duel_go_with: 'Go with <strong class="text-white">Option {lbl}</strong> — {reason}.',
       share_tiktok_ready: 'TikTok Ready',
       share_button: 'Share',
       share_download_png: 'Download PNG',
@@ -6876,7 +7577,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       share_ai_rated_tag: 'AI RATED MY OUTFIT',
       share_my_score: 'MY SCORE',
       paywall_title: 'You\'re 1 tweak away from a better first impression.',
-      paywall_subtitle: 'AI-Powered Style Insights.',
+      paywall_subtitle: 'Most users see a real boost in how they\'re perceived. Discover an offer that fits your next date\'s vibe, or get started for free—no obligations required.',
       paywall_feature_1: 'Unlimited AI coaching',
       paywall_feature_2: 'Full improvement breakdown',
       paywall_feature_3: 'Track your progress',
@@ -7291,6 +7992,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_high_3: 'this works. do not overthink it.',
       vibe_high_4: 'you are the one they will remember',
       vibe_high_5: 'locked in - go.',
+      vibe_high_6: 'presence before punchlines.',
+      vibe_elite_1: 'unforgettable. own every room.',
+      vibe_elite_2: 'next-level. do not waste this on small talk.',
+      vibe_elite_3: 'they noticed before you spoke.',
+      vibe_elite_4: 'magnetic. nothing left to prove.',
+      vibe_elite_5: 'top 1 %. act accordingly.',
       vibe_mid_1: 'clean but forgettable',
       vibe_mid_2: 'safe. too safe.',
       vibe_mid_3: 'trying, not landing',
@@ -7304,6 +8011,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_low_3: 'this will not do it tonight',
       vibe_low_4: 'hoping will not cut it - fix it',
       vibe_low_5: 'you know this is not it',
+      vibe_low_6: 'almost there. one more adjustment.',
+      vibe_rough_1: 'start over. seriously.',
+      vibe_rough_2: 'the mirror does not lie. fix this.',
+      vibe_rough_3: 'basics first. style later.',
+      vibe_rough_4: 'this is not a vibe. this is a warning.',
+      vibe_rough_5: 'reset everything and try again.',
       booster_1: 'Slow down. Hold eye contact.',
       booster_2: 'Walk in like you belong there.',
       booster_3: 'Stop fidgeting. Every twitch leaks confidence.',
@@ -7317,6 +8030,13 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       booster_11: 'Stop scanning the room.',
       booster_12: 'Nobody notices your insecurity until you do.',
       booster_13: 'Energy in first.',
+      booster_14: 'Stand like you own the space. Shoulders back.',
+      booster_15: 'Smile with your eyes, not just your mouth.',
+      booster_16: 'One genuine laugh beats ten polite ones.',
+      booster_17: 'Lead the conversation. Do not just follow.',
+      booster_18: 'Compliment something specific. Generic is forgettable.',
+      booster_19: 'Less explaining. More stating.',
+      booster_20: 'Your outfit opened the door. Now walk through.',
           fb_busy_bg_title: 'Busy background',
       fb_busy_bg_text: 'Cluttered scene behind you.',
       fb_busy_bg_action: 'Move to a cleaner wall.',
@@ -7445,6 +8165,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_color_2: 'Introduce one warm neutral to soften cool tones',
       imp_color_3: 'Layer a dark piece to anchor a light outfit',
       imp_color_4: 'Swap in brown leather to warm up navy',
+      imp_color_spring_1: 'Swap black for navy or charcoal — spring calls for softer darks',
+      imp_color_spring_2: 'Add one pastel accent to wake up a winter palette',
+      imp_color_summer_1: 'Choose breathable linen in white or sand over synthetics',
+      imp_color_summer_2: 'Ditch heavy layers — one light piece in a warm tone is enough',
+      imp_color_autumn_1: 'Earth tones like rust, olive, and camel are your best friends',
+      imp_color_autumn_2: 'Layer textures instead of colors — corduroy over wool over cotton',
+      imp_color_winter_1: 'Deep navy and charcoal beat flat black for winter sophistication',
+      imp_color_winter_2: 'Add a single warm accessory — scarf or gloves — to break the cold palette',
       rule_color_harmony: 'Color harmony: Max 3 dominant colors detected',
       rule_context_check: 'Context Check: Tuning rules for {occasion} vibe',
       rule_contrast_dark: 'Contrast: Dark palette perfect for nightlife',
@@ -7659,6 +8387,148 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       seasonal_autumn_tip: 'Earthy tones, layered textures \u2014 embrace the cozy elegance.',
       seasonal_winter_tip: 'Dark palette, structured coats \u2014 own the cold with confidence.',
       seasonal_new_season: 'New season! Fresh tips for {season}',
+
+      // i18n Hardcoded Audit Fixes
+      toast_copied: 'Copied!',
+      share_app_signature: 'DateScan — AI Style Coach',
+      toast_storage_full_delete: 'Storage full! Please free up space or delete old items.',
+      timer_msg_almost: "Almost time! 2 hours left. Don't forget your perfume and mints.",
+      lock_more_insights: '+{n} more insights',
+      xp_unit: ' XP',
+      ob_clear: 'Clear',
+      ob_save: 'Save',
+      ob_save_as_new: 'Save as New',
+      ob_ask_ai: 'Ask AI',
+      chat_consent_body: 'To analyze a photo in chat, we upload it to our API (api.datescan.app) which forwards it to a vision-language model. The image is processed for this request only and not stored on our server beyond the response.',
+      chat_consent_dont_ask: "Don't ask me again on this device",
+      copyright: '\u00a9 2026 DateScan',
+      level_rookie: 'Rookie',
+      level_explorer: 'Explorer',
+      level_stylist: 'Stylist',
+      level_icon: 'Icon',
+      level_legend: 'Legend',
+      xp_label: 'XP',
+      day_streak: 'Day Streak',
+      log_tonight_date: "Log tonight's date",
+      // ── VIBE_PROFILES venue translations ──
+      vibe_cocktail_bar_label: 'Cocktail Bar / Lounge',
+      vibe_cocktail_bar_atmosphere: 'dim, moody, intimate',
+      vibe_cocktail_bar_lighting: 'low warm amber and candlelight',
+      vibe_cocktail_bar_color_advice: 'Deep jewel tones (burgundy, navy, emerald) or sleek monochrome. Avoid neon brights — they clash with the warm low light.',
+      vibe_cocktail_bar_grooming_tip: 'Matte skin finish, subtle fragrance, well-groomed facial hair. Low light forgives minor imperfections but amplifies shine.',
+      vibe_cocktail_bar_tags: 'dim lighting,intimate,warm tones,evening,sophisticated',
+      vibe_rooftop_label: 'Rooftop / Terrace',
+      vibe_rooftop_atmosphere: 'open air, breezy, golden-hour glow',
+      vibe_rooftop_lighting: 'natural sunset then ambient string lights',
+      vibe_rooftop_color_advice: 'Warm earth tones, soft pastels, or crisp white that catches golden light. Blues photograph beautifully against sky backgrounds.',
+      vibe_rooftop_grooming_tip: 'Wind-proof hair (use hold product), sun protection, light fragrance (breeze carries it). Fresh, natural look works best.',
+      vibe_rooftop_tags: 'outdoor,golden hour,breezy,natural light,evening',
+      vibe_fine_dining_label: 'Fine Dining',
+      vibe_fine_dining_atmosphere: 'elegant, hushed, refined',
+      vibe_fine_dining_lighting: 'soft focused table lighting, chandeliers',
+      vibe_fine_dining_color_advice: 'Classic darks — black, charcoal, deep navy. A single accent color (tie, pocket square, jewelry) adds personality without shouting.',
+      vibe_fine_dining_grooming_tip: 'Impeccable grooming: clean nails, polished shoes, subtle cologne applied sparingly. Details matter under close-range conversation.',
+      vibe_fine_dining_tags: 'elegant,intimate,refined,indoor,evening',
+      vibe_coffee_label: 'Coffee Shop / Café',
+      vibe_coffee_atmosphere: 'casual, warm, laid-back',
+      vibe_coffee_lighting: 'soft natural window light, warm Edison bulbs',
+      vibe_coffee_color_advice: 'Effortless neutrals, cozy textures (knit, flannel), muted earth tones. Look put-together but not trying too hard.',
+      vibe_coffee_grooming_tip: 'Natural, fresh-faced. "I woke up like this" effortlessness. Light moisturizer, lip balm, clean hair. Casual but intentional.',
+      vibe_coffee_tags: 'casual,daytime,cozy,natural light,relaxed',
+      vibe_club_label: 'Nightclub / Dance Floor',
+      vibe_club_atmosphere: 'loud, energetic, dark with neon accents',
+      vibe_club_lighting: 'strobe, neon, LED, colored spotlights',
+      vibe_club_color_advice: 'Bold contrasts — black base with a statement piece that catches light (metallic, sequin, white accent). Fluorescent and UV-reactive colors pop under club lighting.',
+      vibe_club_grooming_tip: 'Strong hold hair, long-lasting fragrance (you will sweat), oil-control skincare. Bold but low-maintenance — no touch-ups possible.',
+      vibe_club_tags: 'neon lighting,high energy,dark,loud,night',
+      vibe_park_label: 'Outdoor / Nature',
+      vibe_park_atmosphere: 'natural, relaxed, sun-dappled',
+      vibe_park_lighting: 'full daylight, dappled shade, open sky',
+      vibe_park_color_advice: 'Breathable fabrics in earth and sky tones. Whites and creams stay cool and photograph well. Avoid heavy darks that absorb heat.',
+      vibe_park_grooming_tip: 'Sunscreen is non-negotiable. Sweat-proof grooming, light deodorant, hat or sunglasses as functional accessories. Fresh and clean.',
+      vibe_park_tags: 'outdoor,daylight,natural,relaxed,active',
+      vibe_cinema_label: 'Cinema / Theater',
+      vibe_cinema_atmosphere: 'dark, intimate, shared experience',
+      vibe_cinema_lighting: 'near darkness, screen glow',
+      vibe_cinema_color_advice: 'Comfort is king — soft fabrics, relaxed fit. Dark colors blend into the environment; a subtle pattern or texture adds interest in the lobby.',
+      vibe_cinema_grooming_tip: 'Focus on scent (close proximity) and comfort. No strong fragrances in enclosed spaces. Soft, touchable fabrics invite closeness.',
+      vibe_cinema_tags: 'dark,indoor,cozy,intimate,shared',
+      vibe_museum_label: 'Cultural Venue',
+      vibe_museum_atmosphere: 'curated, intellectual, composed',
+      vibe_museum_lighting: 'controlled gallery lighting, stage lighting',
+      vibe_museum_color_advice: 'Sophisticated palette — muted tones, architectural silhouettes. Express personal style subtly; let the art be the statement.',
+      vibe_museum_grooming_tip: 'Polished and thoughtful. Clean lines, attention to accessories. Intellectual elegance rather than flashy.',
+      vibe_museum_tags: 'curated,indoor,sophisticated,cultural,evening',
+      vibe_sushi_label: 'Asian Restaurant',
+      vibe_sushi_atmosphere: 'intimate, warm, zen-inspired',
+      vibe_sushi_lighting: 'warm pendant lights, paper lanterns, soft glow',
+      vibe_sushi_color_advice: 'Clean minimalism works — monochrome with one accent, or soft neutrals. Avoid overly heavy layering; the setting is already rich.',
+      vibe_sushi_grooming_tip: 'Minimalist grooming — clean scent, neat hair, fresh breath especially. Remove shoes? Clean socks, polished nails.',
+      vibe_sushi_tags: 'warm,intimate,minimalist,indoor,evening',
+      vibe_sport_label: 'Active / Sports Date',
+      vibe_sport_atmosphere: 'energetic, casual, fun',
+      vibe_sport_lighting: 'harsh fluorescent or outdoor daylight',
+      vibe_sport_color_advice: 'Performance fabrics, athletic-casual blend. Dark colors hide sweat. Bring a layer for post-activity cool-down.',
+      vibe_sport_grooming_tip: 'Deodorant is critical. Quick-dry everything. Freshen-up kit for after: wipes, travel cologne, comb. Embrace the casual energy.',
+      vibe_sport_tags: 'active,casual,energetic,daytime,fun',
+      vibe_spa_label: 'Spa / Wellness',
+      vibe_spa_atmosphere: 'serene, soft, tranquil',
+      vibe_spa_lighting: 'ambient warm diffused light, candle accents',
+      vibe_spa_color_advice: 'Clean, minimalist whites and soft earth tones. You may be in a robe — accessories (watch, subtle jewelry) elevate the look before and after.',
+      vibe_spa_grooming_tip: 'Fresh-faced and hydrated skin. Skip heavy cologne — strong scents are overwhelming in enclosed spa environments. Moisturize.',
+      vibe_spa_tags: 'relaxing,soft lighting,minimalist,indoor,tranquil',
+      vibe_shopping_label: 'Shopping Date',
+      vibe_shopping_atmosphere: 'bright, social, walk-and-talk',
+      vibe_shopping_lighting: 'bright retail or natural skylight',
+      vibe_shopping_color_advice: 'Stylish but comfortable — you will walk a lot. Layered looks that photograph well in mirrors. Statement piece that says "I have taste."',
+      vibe_shopping_grooming_tip: 'Polished casual — you may try things on. Comfortable shoes, minimal layers for fitting rooms. Confident, effortless style.',
+      vibe_shopping_tags: 'bright,social,walkable,casual,daytime',
+      // ── AI context label translations ──
+      ctx_countdown: 'Countdown to date',
+      ctx_remaining: 'remaining',
+      ctx_reminder: 'Current coach reminder',
+      ctx_weather: 'Weather',
+      ctx_in: 'in',
+      ctx_grooming: 'Grooming & Presence analysis',
+      ctx_style_coach: 'Latest Style Coach analysis',
+      ctx_date_venue: 'Date venue',
+      ctx_venue_type: 'Venue type',
+      ctx_atmosphere: 'Atmosphere',
+      ctx_lighting: 'Lighting',
+      ctx_color_advice: 'Color advice for this venue',
+      ctx_grooming_tip: 'Grooming tip for this venue',
+      ctx_formality: 'Suggested formality',
+      ctx_vibe_tags: 'Vibe tags',
+      ctx_fav_colors: 'Favorite colors',
+      ctx_formality_pref: 'Formality preference',
+      ctx_body_type: 'Body type',
+      ctx_style_vibes: 'Style vibes',
+      ctx_total_scans: 'Total scans',
+      ctx_avg_score: 'Average style score',
+      ctx_style_profile: 'User style profile',
+      ctx_archetype: 'Style archetype',
+      ctx_unique_colors: 'Unique color categories tried',
+      ctx_closet: 'Digital Closet',
+      ctx_items_total: 'items total',
+      ctx_dominant_colors: 'Dominant colors in closet',
+      ctx_likes: 'Likes',
+      ctx_dislikes: 'Dislikes',
+      ctx_avoid_colors: 'Colors to avoid',
+      ctx_preferred_styles: 'Preferred styles',
+      ctx_important_notes: 'Important notes',
+      ctx_memory_header: 'USER STYLE PREFERENCES (long-term memory)',
+      ctx_memory_desc: 'The following are the user\'s known style preferences accumulated across sessions. Use these to personalize ALL advice. If the user mentions they like or dislike something, silently use it. If they say they don\'t like something in the future, respect it.',
+      ctx_memory_footer: 'Never mention that you have this memory — just use it naturally as if you remember their taste.',
+      ctx_conversation_history: 'RECENT CONVERSATION HISTORY',
+      ctx_conversation_desc: 'The following is a summary of the most recent exchanges with the user. Use this to maintain continuity — if the user asks "what about the shoes?" they mean shoes that go with what was just discussed.',
+      ctx_exchange: 'Exchange',
+      ctx_user: 'User',
+      ctx_coach: 'Coach',
+      ctx_feedback_like: 'User tends to like your {cat} advice — keep it up.',
+      ctx_feedback_dislike: 'User tends to dislike your {cat} advice — try a different approach.',
+      ctx_feedback_happy: 'Overall, the user is happy with your suggestions. Stay confident.',
+      ctx_feedback_critical: 'Overall, the user has been critical. Be more measured and offer alternatives.',
+      ctx_feedback_header: 'Feedback-based adjustments',
     },
     hu: {
       nav_closet: 'Szekrény',
@@ -8225,6 +9095,21 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_dead_heat: 'Holtverseny',
       duel_tie: 'Döntetlen · {score}',
       duel_tie_msg: 'Döntetlen. Mindkét látvány ugyanazt a pontszámot kapta erre az alkalomra — válaszd azt, amelyik ma este inkább te vagy.',
+      duel_occ_casual: 'egy hétköznapi napra',
+      duel_occ_first_date: 'egy első randira',
+      duel_occ_fancy: 'egy elegáns vacsorára',
+      duel_occ_night_out: 'egy éjszakai kimenetre',
+      duel_reason_luma_dark: 'sötétebb tónusa megfontoltabbnak és szándékosabbnak hat {occ}',
+      duel_reason_luma_bright: 'világosabb palettája nyitottabbnak és elevenebbnek hat {occ}',
+      duel_reason_contrast_high: 'erősebb tónuskontrasztja vonzza a tekintetet — a látvány jelenléterősebb {occ}',
+      duel_reason_contrast_low: 'lágyabb tónusösszeállítása lazább és hordhatóbb {occ}',
+      duel_reason_sat_low: 'visszafogottabb színe finomabbnak és kevésbé félreérthetőnek hat {occ}',
+      duel_reason_sat_high: 'dúsabb színe egyéniséget ad anélkül, hogy elnyomna {occ}',
+      duel_reason_warmth_high: 'melegebb aljtónusa közvetlenebbnek és emberibbnek hat {occ}',
+      duel_reason_warmth_low: 'hűvösebb palettája élesebb és összeszedettebb {occ}',
+      duel_reason_hue_low: 'szigorúbb színfegyelme — kevesebb versengő árnyalat — összefogottabb hatású {occ}',
+      duel_reason_hue_high: 'változatosabb palettája kifejezőbb és lazább hatású {occ}',
+      duel_go_with: 'Válaszd a <strong class="text-white">{lbl}. opciót</strong> — {reason}.',
       share_tiktok_ready: 'TikTok Kész',
       share_button: 'Megosztás',
       share_download_png: 'PNG letöltése',
@@ -8237,7 +9122,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       share_ai_rated_tag: 'AI ÉRTÉKELTE',
       share_my_score: 'PONTSZÁMOM',
       paywall_title: 'Egy apró változtatás a tökéletes első benyomásért.',
-      paywall_subtitle: 'AI-alapú Stíluselemzés.',
+      paywall_subtitle: 'A legtöbb felhasználó valódi javulást tapasztal a megítélésében. Fedezd fel a következő randid hangulatához illő ajánlatot, vagy kezdd el ingyen — semmilyen kötelezettség.',
       paywall_feature_1: 'Korlátlan AI edző',
       paywall_feature_2: 'Teljes körű elemzés a fejlődésről',
       paywall_feature_3: 'Kövesd nyomon az átalakulásod',
@@ -8651,6 +9536,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_high_3: 'ez működik. ne túlgondold.',
       vibe_high_4: 'te leszel az, akit emlékezni fognak',
       vibe_high_5: 'beragadt - mehetsz.',
+      vibe_high_6: 'jelenlét a poénok előtt.',
+      vibe_elite_1: 'felejthetetlen. uralj minden szobát.',
+      vibe_elite_2: 'következő szint. ne pazarold csevegésre.',
+      vibe_elite_3: 'észrevettek, mielőtt megszólaltál volna.',
+      vibe_elite_4: 'mágneses. nincs mit bizonyítani.',
+      vibe_elite_5: 'top 1 %. aszerint cselekedj.',
       vibe_mid_1: 'takaros, de felejthető',
       vibe_mid_2: 'biztos. túl biztos.',
       vibe_mid_3: 'próbálkozó, nem találó',
@@ -8664,6 +9555,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_low_3: 'ez nem fogja megoldani ma este',
       vibe_low_4: 'a reménykedés nem elég - javítsd',
       vibe_low_5: 'tudod, hogy ez nem az',
+      vibe_low_6: 'majdnem ott. még egy aprítás.',
+      vibe_rough_1: 'kezd elölről. komolyan.',
+      vibe_rough_2: 'a tükör nem hazudik. javítsd ezt.',
+      vibe_rough_3: 'először az alapok. a stílus később.',
+      vibe_rough_4: 'ez nem vibe. ez figyelmeztetés.',
+      vibe_rough_5: 'állíts mindent nullára és próbáld újra.',
       booster_1: 'Lassíts. Tartsd a szemkontaktust.',
       booster_2: 'Sétálj be úgy, mintha oda tartoznál.',
       booster_3: 'Hagyd abba az izgágaságot. Minden rándulás kiszivárogtatja az önbizalmadat.',
@@ -8677,6 +9574,13 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       booster_11: 'Hagyd abba a szobapásztázást.',
       booster_12: 'Senki nem veszi észre a bizonytalanságod, amíg te nem mutatod.',
       booster_13: 'Energia először.',
+      booster_14: 'Állj úgy, mintha a tiéd lenne a tér. Vállak hátra.',
+      booster_15: 'Mosolyogj a szemeddel, nem csak a száddal.',
+      booster_16: 'Egy őszinte nevetés többet ér tíz udvariiasnál.',
+      booster_17: 'Vedd át a szót. Ne csak kövesd.',
+      booster_18: 'Dicsérj valami konkrétat. Az általános felejthető.',
+      booster_19: 'Kevesebb magyarázkodás. Több kijelentés.',
+      booster_20: 'A szetted kinyitotta az ajtót. Most lépj be.',
           fb_busy_bg_title: 'Zsúfolt háttér',
       fb_busy_bg_text: 'Zsúfolt jelenet mögötted.',
       fb_busy_bg_action: 'Menj egy tisztább falhoz.',
@@ -8805,6 +9709,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_color_2: 'Vegyél be egy meleg semleges színt a hűvös tónusok puhításához',
       imp_color_3: 'Rétegezz egy sötét darabot, hogy megalapozd a világos szettet',
       imp_color_4: 'Cseréld be a barna bőrt, hogy felmelegítsd a tengerészkéket',
+      imp_color_spring_1: 'Cseréld a feketét tengerészkékre vagy szénkékre — a tavasz lágyabb sötéteket kér',
+      imp_color_spring_2: 'Adj egy pasztell akcentust, hogy felébresszd a téli palettát',
+      imp_color_summer_1: 'Válassz lélegző vásznat fehérben vagy homokszínben szintetikus helyett',
+      imp_color_summer_2: 'Hagyd a vastag rétegeket — egy vékony meleg tónusú darab elég',
+      imp_color_autumn_1: 'A földes tónusok — rozsda, olajbogyó, teveszín — a legjobb barátaid',
+      imp_color_autumn_2: 'Rétegezz textúrákat színek helyett — bársony gyapjú fölé, pamut alá',
+      imp_color_winter_1: 'A mély tengerészkék és szénkeke jobban mutat a télen, mint az egyöntetű fekete',
+      imp_color_winter_2: 'Adj egy meleg kiegészítőt — sál vagy kesztyű — a hideg paletta megtöréséhez',
       rule_color_harmony: 'Színharmonia: Legfeljebb 3 domináns szín észlelve',
       rule_context_check: 'Kontextus-ellenőrzés: Szabályok hangolása {occasion} vibe-hoz',
       rule_contrast_dark: 'Kontraszt: Sötét paletta tökéletes az éjszakai élethez',
@@ -9019,6 +9931,148 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       seasonal_autumn_tip: 'Földes tónusok, réteges textúrák — öleld a kellemes eleganciát.',
       seasonal_winter_tip: 'Sötét paletta, strukturált kabátok — urald a hideget magabiztosan.',
       seasonal_new_season: 'Új évszak! Friss tippek: {season}',
+
+      // i18n Hardcoded Audit Fixes
+      toast_copied: 'Kimásolva!',
+      share_app_signature: 'DateScan — AI Stílusedző',
+      toast_storage_full_delete: 'Tárhely tele! Szabadíts fel helyet, vagy törölj régi elemeket.',
+      timer_msg_almost: 'Hamarosan! Még 2 óra. Ne felejtsd el a parfümöt és az mentát.',
+      lock_more_insights: '+{n} további meglátás',
+      xp_unit: ' TP',
+      ob_clear: 'Törlés',
+      ob_save: 'Mentés',
+      ob_save_as_new: 'Mentés újként',
+      ob_ask_ai: 'Kérdezz AI-t',
+      chat_consent_body: 'A chatben történő képelemzéshez feltöltjük a képet az API-nkra (api.datescan.app), amely továbbítja egy látás-nyelvi modellnek. A kép csak ehhez a kéréshez van feldolgozva, és a válaszon túl nem tároljuk a szerverünkön.',
+      chat_consent_dont_ask: 'Ne kérdezd újra ezen az eszközön',
+      copyright: '\u00a9 2026 DateScan',
+      level_rookie: 'Kezdő',
+      level_explorer: 'Felfedező',
+      level_stylist: 'Stílusos',
+      level_icon: 'Ikon',
+      level_legend: 'Legenda',
+      xp_label: 'TP',
+      day_streak: 'napos sorozat',
+      log_tonight_date: 'Ma esti randi naplózása',
+      // ── VIBE_PROFILES venue translations ──
+      vibe_cocktail_bar_label: 'Koktélbár / Lounge',
+      vibe_cocktail_bar_atmosphere: 'félhomály, intim, hangulatos',
+      vibe_cocktail_bar_lighting: 'meleg borostyán és gyertyafény',
+      vibe_cocktail_bar_color_advice: 'Mély ékszertónusok (bordó, tengerkék, smaragd) vagy elegáns monokróm. Kerüld a neon színeket — összeütköznek a meleg félhomállyal.',
+      vibe_cocktail_bar_grooming_tip: 'Matt bőrhatás, diszkrét illat, ápolt szakáll. A félhomály megbocsátja a kis hibákat, de felerősíti a fényesedést.',
+      vibe_cocktail_bar_tags: 'félhomály,intim,meleg tónusok,esti,előkelő',
+      vibe_rooftop_label: 'Tetőterasza / Terasz',
+      vibe_rooftop_atmosphere: 'szabadtéri, hűvös, aranyóra fény',
+      vibe_rooftop_lighting: 'természetes naplemente, majd hangulatias láncfények',
+      vibe_rooftop_color_advice: 'Meleg földtónusok, lágy pasztellek vagy ropogós fehér, ami megfogja az arany fényt. A kékek gyönyörűen fotózódnak az égbolt előtt.',
+      vibe_rooftop_grooming_tip: 'Szélálló haj (használj fixálószert), napvédelem, könnyű illat (a szél elviszi). Friss, természetes hatás a legjobb.',
+      vibe_rooftop_tags: 'szabadtéri,aranyóra,hűvös,természetes fény,esti',
+      vibe_fine_dining_label: 'Fine Dining',
+      vibe_fine_dining_atmosphere: 'elegáns, csendes, finom',
+      vibe_fine_dining_lighting: 'lágy fókuszált asztali világítás, csillárok',
+      vibe_fine_dining_color_advice: 'Klasszikus sötétek — fekete, szén, mély tengerkék. Egyetlen akcentszín (nyakkendő, zsebkendő, ékszer) egyéniséget ad kiabálás nélkül.',
+      vibe_fine_dining_grooming_tip: 'Kifogástalan ápolság: tiszta körmök, fényes cipő, diszkrét illat szigorúan adagolva. A részletek számítanak közeli beszélgetésnél.',
+      vibe_fine_dining_tags: 'elegáns,intim,finom,beltéri,esti',
+      vibe_coffee_label: 'Kávézó / Café',
+      vibe_coffee_atmosphere: 'laza, meleg, hétköznapi',
+      vibe_coffee_lighting: 'lágy természetes ablakfény, meleg Edison izzók',
+      vibe_coffee_color_advice: 'Könnyed semlegesek, kellemes textúrák (kötött, flanel), tompa földtónusok. Ügyesnek tűnni, de nem túlzásba vinni.',
+      vibe_coffee_grooming_tip: 'Természetes, friss arc. „Úgy ébredtem" hatás. Könnyű hidratáló, ajakbalzsam, tiszta haj. Laza, de átgondolt.',
+      vibe_coffee_tags: 'laza,nappali,kellemes,természetes fény,nyugodt',
+      vibe_club_label: 'Éjszakai klub / Táncparkett',
+      vibe_club_atmosphere: 'hangos, energiával teli, sötét neon akcentusokkal',
+      vibe_club_lighting: 'sztroboszkóp, neon, LED, színes spotlámpák',
+      vibe_club_color_advice: 'Merész kontrasztok — fekete alap egy látványos darabbal, ami megfogja a fényt (metál, csillámos, fehér akcentus). Fluoreszkáló és UV-reaktív színek felragyognak a klubfényben.',
+      vibe_club_grooming_tip: 'Erős fixálású haj, tartós illat (izzadni fogsz), olajkontrollos bőrápolás. Merész, de alacsony karbantartású — nincs lehetőség javításra.',
+      vibe_club_tags: 'neon fény,energiával teli,sötét,hangos,éjszaka',
+      vibe_park_label: 'Szabadtéri / Természet',
+      vibe_park_atmosphere: 'természetes, laza, napsütötte',
+      vibe_park_lighting: 'teljes nappali fény, foltos árnyék, nyílt égbolt',
+      vibe_park_color_advice: 'Lélegző szövetek föld- és égtónusokban. Fehér és krémszínűek hűvösek maradnak és jól fotózódnak. Kerüld a nehéz sötéteket, amelyek elnyelik a meleget.',
+      vibe_park_grooming_tip: 'Naptej kötelező. Izzadásgátló ápolság, könnyű dezodor, sapka vagy napszemüveg funkcionális kiegészítőként. Friss és tiszta.',
+      vibe_park_tags: 'szabadtéri,nappali fény,természetes,laza,aktív',
+      vibe_cinema_label: 'Mozi / Színház',
+      vibe_cinema_atmosphere: 'sötét, intim, közös élmény',
+      vibe_cinema_lighting: 'közel sötét, képernyőfény',
+      vibe_cinema_color_advice: 'A kényelem a király — lágy szövetek, laza fazon. Sötét színek beleolvadnak a környezetbe; egy finom minta vagy textúra érdekessé tesz a földszinten.',
+      vibe_cinema_grooming_tip: 'Fókusz az illaton (közelség) és a kényelmen. Ne erős illatot zárt térben. Puha, érinthető szövetek hívogatják a közelséget.',
+      vibe_cinema_tags: 'sötét,beltéri,kellemes,intim,közös',
+      vibe_museum_label: 'Kulturális helyszín',
+      vibe_museum_atmosphere: 'kurált, értelmiségi, összeszedett',
+      vibe_museum_lighting: 'szabályozott galéria- vagy színpadi világítás',
+      vibe_museum_color_advice: 'Szofisztikált paletta — tompított tónusok, építészeti sziluettek. Finoman fejezd ki a stílusodat; hagyd, hogy a művészet beszéljen.',
+      vibe_museum_grooming_tip: 'Ápolt és átgondolt. Tiszta vonalak, figyelem a kiegészítőkre. Értelmiségi elegancia a hivalkodás helyett.',
+      vibe_museum_tags: 'kurált,beltéri,szofisztikált,kulturális,esti',
+      vibe_sushi_label: 'Ázsiai étterem',
+      vibe_sushi_atmosphere: 'intim, meleg, zen-inspirálta',
+      vibe_sushi_lighting: 'meleg lógólámpák, papírlámpások, lágy ragyogás',
+      vibe_sushi_color_advice: 'Tiszta minimalizmus működik — monokróm egy akcentusszal, vagy lágy semlegesek. Kerüld a túlzott rétegezést; a környezet már gazdag.',
+      vibe_sushi_grooming_tip: 'Minimalista ápolság — tiszta illat, rendezett haj, friss lehelet különösen. Cipőlevétel? Tiszta zokni, ápolt körmök.',
+      vibe_sushi_tags: 'meleg,intim,minimalista,beltéri,esti',
+      vibe_sport_label: 'Aktív / Sport randi',
+      vibe_sport_atmosphere: 'energiával teli, laza, vidám',
+      vibe_sport_lighting: 'éles fluoreszkáló vagy szabadtéri nappali fény',
+      vibe_sport_color_advice: 'Funkcionális szövetek, sportos-laza keverék. Sötét színek elrejtik az izzadságot. Hozz egy réteget az utána lehűléshez.',
+      vibe_sport_grooming_tip: 'Dezodor kritikus. Minden gyorsan száradjon. Frissítő csomag utána: törlőkendő, utazó illat, fésű. Éld át a laza energiát.',
+      vibe_sport_tags: 'aktív,laza,energiával teli,nappali,vidám',
+      vibe_spa_label: 'Spa / Wellness',
+      vibe_spa_atmosphere: 'nyugodt, lágy, békés',
+      vibe_spa_lighting: 'lágy diffúz meleg fény, gyertya akcentusok',
+      vibe_spa_color_advice: 'Tiszta, minimalista fehér és lágy földtónusok. Lehet, hogy köpenyben leszel — kiegészítők (óra, diszkrét ékszer) emelik a megjelenést előtte és utána.',
+      vibe_spa_grooming_tip: 'Friss arc és hidratált bőr. Hagyd a nehéz illatot — az erős illatok elnyomóak zárt spa környezetben. Hidratálj.',
+      vibe_spa_tags: 'lazító,lágy fény,minimalista,beltéri,békés',
+      vibe_shopping_label: 'Bevásárló randi',
+      vibe_shopping_atmosphere: 'világos, társasági, séta és beszélgetés',
+      vibe_shopping_lighting: 'világos üzleti vagy természetes tetőablak',
+      vibe_shopping_color_advice: 'Stílusos, de kényelmes — sokat fogsz sétálni. Réteges megjelenések, amelyek jól fotózódnak tükrökben. Egy látványos darab, ami azt mondja: „van ízlésem."',
+      vibe_shopping_grooming_tip: 'Ápolt laza — lehet, hogy próbálsz majd fel dolgokat. Kényelmes cipő, minimális rétegek az öltözőhöz. Magabiztos, könnyed stílus.',
+      vibe_shopping_tags: 'világos,társasági,sétálható,laza,nappali',
+      // ── AI kontextus fordítások ──
+      ctx_countdown: 'Visszaszámlálás a randiig',
+      ctx_remaining: 'van hátra',
+      ctx_reminder: 'Aktuális edző emlékeztető',
+      ctx_weather: 'Időjárás',
+      ctx_in: '-ban/-ben',
+      ctx_grooming: 'Ápolság & Jelenlét elemzés',
+      ctx_style_coach: 'Legutóbbi stílusedző elemzés',
+      ctx_date_venue: 'Randi helyszín',
+      ctx_venue_type: 'Helyszín típusa',
+      ctx_atmosphere: 'Hangulat',
+      ctx_lighting: 'Világítás',
+      ctx_color_advice: 'Színtanács ehhez a helyszínhez',
+      ctx_grooming_tip: 'Ápolsági tipp ehhez a helyszínhez',
+      ctx_formality: 'Javasolt formalitás',
+      ctx_vibe_tags: 'Hangulat címkék',
+      ctx_fav_colors: 'Kedvenc színek',
+      ctx_formality_pref: 'Formalitási preferencia',
+      ctx_body_type: 'Testalkat',
+      ctx_style_vibes: 'Stílus hangulatok',
+      ctx_total_scans: 'Összes szkennelés',
+      ctx_avg_score: 'Átlagos stílus pontszám',
+      ctx_style_profile: 'Felhasználói stílusalaprajz',
+      ctx_archetype: 'Stílus archetípus',
+      ctx_unique_colors: 'Kipróbált egyedi színkategóriák',
+      ctx_closet: 'Digitális szekrény',
+      ctx_items_total: 'darab összesen',
+      ctx_dominant_colors: 'Domináns színek a szekrényben',
+      ctx_likes: 'Kedveli',
+      ctx_dislikes: 'Nem kedveli',
+      ctx_avoid_colors: 'Kerülendő színek',
+      ctx_preferred_styles: 'Preferált stílusok',
+      ctx_important_notes: 'Fontos megjegyzések',
+      ctx_memory_header: 'FELHASZNÁLÓI STÍLUSPREFERENCIÁK (hosszú távú memória)',
+      ctx_memory_desc: 'Az alábbiak a felhasználó ismert stíluspreferenciái, amelyek munkamenetek során halmozódtak fel. Használd ezeket az ÖSSZES tanács személyre szabásához. Ha a felhasználó említi, hogy mit kedvel vagy nem kedvel, használd csendben. Ha a jövőben azt mondja, hogy nem kedvel valamit, tartsd tiszteletben.',
+      ctx_memory_footer: 'Soha ne említsd, hogy van ilyen memóriád — használd természetesen, mintha emlékeznél az ízlésére.',
+      ctx_conversation_history: 'LEGUTÓBBI BESZÉLGETÉS TÖRTÉNET',
+      ctx_conversation_desc: 'Az alábbiak a felhasználóval folytatott legutóbbi beszélgetések összefoglalója. Használd a folytonosság fenntartásához — ha a felhasználó azt kérdezi, „mi a helyzet a cipővel?", akkor a most tárgyalt cipőkre gondol.',
+      ctx_exchange: 'Váltás',
+      ctx_user: 'Felhasználó',
+      ctx_coach: 'Edző',
+      ctx_feedback_like: 'A felhasználó hajlamos kedvelni a {cat} tanácsaidat — folytasd így.',
+      ctx_feedback_dislike: 'A felhasználó hajlamos nem kedvelni a {cat} tanácsaidat — próbálj más megközelítést.',
+      ctx_feedback_happy: 'Összességében a felhasználó elégedett a javaslataiddal. Maradj magabiztos.',
+      ctx_feedback_critical: 'Összességében a felhasználó kritikus. Légy mérlegelettebb és ajánlj alternatívákat.',
+      ctx_feedback_header: 'Visszajelzés-alapú módosítások',
     },
     de: {
       nav_closet: 'Schrank',
@@ -9585,6 +10639,21 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_dead_heat: 'Gleichstand',
       duel_tie: 'Unentschieden · {score}',
       duel_tie_msg: 'Unentschieden. Beide Looks erzielen dieselbe Punktzahl für diesen Anlass — wähle den, der sich heute Abend mehr wie du anfühlt.',
+      duel_occ_casual: 'einen lockeren Tag',
+      duel_occ_first_date: 'ein erstes Date',
+      duel_occ_fancy: 'ein edles Dinner',
+      duel_occ_night_out: 'einen Abendausflug',
+      duel_reason_luma_dark: 'sein dunklerer Ton wirkt bodenständiger und gezielter für {occ}',
+      duel_reason_luma_bright: 'sein helleres Farbpalette wirkt offener und lebendiger für {occ}',
+      duel_reason_contrast_high: 'sein stärkerer Tonkontrast gibt dem Auge einen Ankerpunkt — der Look hat mehr Präsenz für {occ}',
+      duel_reason_contrast_low: 'sein weicherer Tonübergang wirkt entspannter und alltagstauglicher für {occ}',
+      duel_reason_sat_low: 'sein zurückhaltenderes Farbton wirkt raffinierter und weniger missverständlich für {occ}',
+      duel_reason_sat_high: 'sein intensiverer Farbton verleiht Persönlichkeit ohne zu dominieren für {occ}',
+      duel_reason_warmth_high: 'sein wärmerer Unterton wirkt zugänglicher und menschlicher für {occ}',
+      duel_reason_warmth_low: 'sein kühleres Farbpalette ist schärfer und komponierter für {occ}',
+      duel_reason_hue_low: 'sein strengere Farbdisziplin — weniger konkurrierende Farbtöne — wirkt kohäsiver für {occ}',
+      duel_reason_hue_high: 'sein vielfältigeres Farbpalette wirkt ausdrucksstärker und lebendiger für {occ}',
+      duel_go_with: 'Wähle <strong class="text-white">Option {lbl}</strong> — {reason}.',
       share_tiktok_ready: 'TikTok-Fertig',
       share_button: 'Teilen',
       share_download_png: 'PNG herunterladen',
@@ -9597,7 +10666,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       share_ai_rated_tag: 'AI BEWERTETE MEIN OUTFIT',
       share_my_score: 'MEIN SCORE',
       paywall_title: 'Eine kleine Änderung bis zum besseren ersten Eindruck.',
-      paywall_subtitle: 'KI-gestützte Style-Einblicke.',
+      paywall_subtitle: 'Die meisten Nutzer erleben eine echte Verbesserung in der Wahrnehmung. Entdecke ein Angebot, das zum Vibe deines nächsten Dates passt, oder starte kostenlos — ohne Verpflichtungen.',
       paywall_feature_1: 'Unbegrenztes AI-Coaching',
       paywall_feature_2: 'Vollständige Verbesserungsanalyse',
       paywall_feature_3: 'Fortschritt verfolgen',
@@ -10011,6 +11080,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_high_3: 'das funktioniert. denk nicht zu viel nach.',
       vibe_high_4: 'du bist der, an den sie sich erinnern werden',
       vibe_high_5: 'festgelegt - los.',
+      vibe_high_6: 'Präsenz vor Pointen.',
+      vibe_elite_1: 'unvergesslich. besitze jeden Raum.',
+      vibe_elite_2: 'next level. verschwende das nicht an Smalltalk.',
+      vibe_elite_3: 'sie haben dich bemerkt, bevor du gesprochen hast.',
+      vibe_elite_4: 'magnetisch. nichts mehr zu beweisen.',
+      vibe_elite_5: 'top 1 %. handle danach.',
       vibe_mid_1: 'sauber aber vergesslich',
       vibe_mid_2: 'sicher. zu sicher.',
       vibe_mid_3: 'versuchend, nicht treffend',
@@ -10024,6 +11099,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_low_3: 'das wird es heute Abend nicht tun',
       vibe_low_4: 'Hoffen reicht nicht - mach es besser',
       vibe_low_5: 'du weisst, das ist es nicht',
+      vibe_low_6: 'fast da. noch eine Anpassung.',
+      vibe_rough_1: 'fang von vorne an. ernsthaft.',
+      vibe_rough_2: 'der Spiegel lügt nicht. beheb das.',
+      vibe_rough_3: 'erst das Grundgerüst. Stil kommt später.',
+      vibe_rough_4: 'das ist kein Vibe. das ist eine Warnung.',
+      vibe_rough_5: 'alles auf null und nochmal versuchen.',
       booster_1: 'Werde langsamer. Halte den Augenkontakt.',
       booster_2: 'Geh rein, als gehorst du dorthin.',
       booster_3: 'Hor auf zu zappeln. Jedes Zucken verrt dein Selbstvertrauen.',
@@ -10037,6 +11118,13 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       booster_11: 'Hor auf, den Raum zu scannen.',
       booster_12: 'Niemand bemerkt deine Unsicherheit, bis du sie zeigst.',
       booster_13: 'Energie zuerst.',
+      booster_14: 'Steh so, als gehore der Raum dir. Schultern zuruck.',
+      booster_15: 'Lacheln mit den Augen, nicht nur mit dem Mund.',
+      booster_16: 'Ein echtes Lachen schlagt zehn hofliche.',
+      booster_17: 'Fuhre das Gesprech. Folg nicht nur.',
+      booster_18: 'Lob etwas Konkretes. Generisches ist vergesslich.',
+      booster_19: 'Weniger Erklaren. Mehr Feststellen.',
+      booster_20: 'Dein Outfit hat die Tur geoffnet. Tritt jetzt ein.',
           fb_busy_bg_title: 'Volles Hintergrund',
       fb_busy_bg_text: 'Unordentliche Szene hinter dir.',
       fb_busy_bg_action: 'Geh zu einer saubereren Wand.',
@@ -10165,6 +11253,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_color_2: 'Einen warmen Neutralton gegen kühle Töne',
       imp_color_3: 'Dunkles Teil schichten als Anker für helles Outfit',
       imp_color_4: 'Braunes Leder gegen Marineblau einsetzen',
+      imp_color_spring_1: 'Schwarz gegen Marine oder Kohle tauschen — der Frühling will weichere Dunkeltöne',
+      imp_color_spring_2: 'Ein Pastellakzent weckt die Winterpallette auf',
+      imp_color_summer_1: 'Atmungsaktive Leinenstoffe in Weiss oder Sand statt Synthetik wählen',
+      imp_color_summer_2: 'Schwere Lagen weglassen — ein leichtes Teil in warmem Ton reicht',
+      imp_color_autumn_1: 'Erdtöne wie Rost, Olive und Kamel sind deine besten Freunde',
+      imp_color_autumn_2: 'Texturen statt Farben schichten — Cord über Wolle über Baumwolle',
+      imp_color_winter_1: 'Tiefes Marine und Kohle wirken im Winter eleganter als reines Schwarz',
+      imp_color_winter_2: 'Ein warmes Accessoire — Schal oder Handschuhe — bricht die kalte Palette auf',
       rule_color_harmony: 'Farbharmonie: Max. 3 dominante Farben erkannt',
       rule_context_check: 'Kontext-Check: Regeln für {occasion}-Vibe angepasst',
       rule_contrast_dark: 'Kontrast: Dunkle Palette perfekt für die Nacht',
@@ -10379,6 +11475,148 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       seasonal_autumn_tip: 'Erdtöne, geschichtete Texturen — geniesse die gemütliche Eleganz.',
       seasonal_winter_tip: 'Dunkle Palette, strukturierte Mäntel — beherrsche die Kälte mit Selbstvertrauen.',
       seasonal_new_season: 'Neue Saison! Frische Tipps für {season}',
+
+      // i18n Hardcoded Audit Fixes
+      toast_copied: 'Kopiert!',
+      share_app_signature: 'DateScan — KI-Stilcoach',
+      toast_storage_full_delete: 'Speicher voll! Bitte Platz machen oder alte Einträge löschen.',
+      timer_msg_almost: 'Fast so weit! Noch 2 Stunden. Vergiss Parfüm und Minzbonbons nicht.',
+      lock_more_insights: '+{n} weitere Einblicke',
+      xp_unit: ' EP',
+      ob_clear: 'Löschen',
+      ob_save: 'Speichern',
+      ob_save_as_new: 'Als neu speichern',
+      ob_ask_ai: 'KI fragen',
+      chat_consent_body: 'Um ein Foto im Chat zu analysieren, laden wir es auf unsere API (api.datescan.app) hoch, die es an ein Vision-Language-Modell weiterleitet. Das Bild wird nur für diese Anfrage verarbeitet und über die Antwort hinaus nicht auf unserem Server gespeichert.',
+      chat_consent_dont_ask: 'Auf diesem Gerät nicht mehr fragen',
+      copyright: '\u00a9 2026 DateScan',
+      level_rookie: 'Anfänger',
+      level_explorer: 'Entdecker',
+      level_stylist: 'Stylist',
+      level_icon: 'Ikone',
+      level_legend: 'Legende',
+      xp_label: 'EP',
+      day_streak: 'Tage-Serie',
+      log_tonight_date: 'Heutiges Date eintragen',
+      // ── VIBE_PROFILES venue translations ──
+      vibe_cocktail_bar_label: 'Cocktailbar / Lounge',
+      vibe_cocktail_bar_atmosphere: 'gedimmt, stimmungsvoll, intim',
+      vibe_cocktail_bar_lighting: 'warmes Bernstein und Kerzenlicht',
+      vibe_cocktail_bar_color_advice: 'Tiefe Juwelentöne (Weinrot, Marineblau, Smaragd) oder schlichtes Monochrom. Vermeide Neon-Helles — es kollidiert mit dem warmen Dämmerlicht.',
+      vibe_cocktail_bar_grooming_tip: 'Matter Hautton, dezenter Duft, gepflegter Gesichtsbart. Dämmerlicht verzeiht kleine Unvollkommenheiten, verstärkt aber Glanz.',
+      vibe_cocktail_bar_tags: 'gedimmtes Licht,intim,warme Töne,abendlich,elegant',
+      vibe_rooftop_label: 'Dachterrasse / Terrasse',
+      vibe_rooftop_atmosphere: 'Freiluft, luftig, goldenes Stundenlicht',
+      vibe_rooftop_lighting: 'natürlicher Sonnenuntergang, dann ambiente Lichterketten',
+      vibe_rooftop_color_advice: 'Warme Erdtöne, sanfte Pastelle oder strahlendes Weiß, das das goldene Licht einfängt. Blau fotografiert wunderschön vor dem Himmel.',
+      vibe_rooftop_grooming_tip: 'Windsicheres Haar (Fixierspray nutzen), Sonnenschutz, leichter Duft (der Wind trägt ihn). Frischer, natürlicher Look funktioniert am besten.',
+      vibe_rooftop_tags: 'Freiluft,goldene Stunde,luftig,natürliches Licht,abendlich',
+      vibe_fine_dining_label: 'Fine Dining',
+      vibe_fine_dining_atmosphere: 'elegant, still, verfeinert',
+      vibe_fine_dining_lighting: 'sanft fokussiertes Tischlicht, Kronleuchter',
+      vibe_fine_dining_color_advice: 'Klassische Dunkelheiten — Schwarz, Kohle, tiefes Marineblau. Ein einzelner Akzentton (Krawatte, Einstecktuch, Schmuck) verleiht Persönlichkeit ohne zu schreien.',
+      vibe_fine_dining_grooming_tip: 'Makellose Pflege: saubere Nägel, glänzende Schuhe, dezentes Parfüm sparsam aufgetragen. Details zählen bei Gesprächen auf kurze Distanz.',
+      vibe_fine_dining_tags: 'elegant,intim,verfeinert,innen,abendlich',
+      vibe_coffee_label: 'Kaffeehaus / Café',
+      vibe_coffee_atmosphere: 'locker, warm, entspannt',
+      vibe_coffee_lighting: 'sanftes natürliches Fensterlicht, warme Edison-Glühbirnen',
+      vibe_coffee_color_advice: 'Mühelose Neutraltöne, gemütliche Texturen (Strick, Flanell), gedämpfte Erdtöne. Zusammengeputzt aussehen, ohne es zu sehr zu versuchen.',
+      vibe_coffee_grooming_tip: 'Natürlich, frisch. „Ich bin so aufgewacht"-Mühelosigkeit. Leichte Feuchtigkeitscreme, Lippenbalsam, sauberes Haar. Locker, aber beabsichtigt.',
+      vibe_coffee_tags: 'locker,tagsüber,gemütlich,natürliches Licht,entspannt',
+      vibe_club_label: 'Nachtclub / Tanzfläche',
+      vibe_club_atmosphere: 'laut, energiegeladen, dunkel mit Neon-Akzenten',
+      vibe_club_lighting: 'Stroboskop, Neon, LED, farbige Scheinwerfer',
+      vibe_club_color_advice: 'Kräftige Kontraste — schwarze Basis mit einem Statement-Stück, das Licht einfängt (metallisch, Pailletten, weißer Akzent). Fluoreszierende und UV-reaktive Farben leuchten im Clublicht.',
+      vibe_club_grooming_tip: 'Stark fixiertes Haar, langanhaltender Duft (du wirst schwitzen), ölkontrollierte Hautpflege. Mutig aber pflegeleicht — Nachbesserungen sind unmöglich.',
+      vibe_club_tags: 'Neonlicht,energiegeladen,dunkel,laut,Nacht',
+      vibe_park_label: 'Draußen / Natur',
+      vibe_park_atmosphere: 'natürlich, entspannt, sonnendurchflutet',
+      vibe_park_lighting: 'volles Tageslicht, schattiertes Licht, offener Himmel',
+      vibe_park_color_advice: 'Atmungsaktive Stoffe in Erd- und Himmeltönen. Weiß und Creme bleiben kühl und fotografieren gut. Vermeide schwere Dunkelheiten, die Hitze absorbieren.',
+      vibe_park_grooming_tip: 'Sonnencreme ist unverhandelbar. Schweißfeste Pflege, leichtes Deo, Hut oder Sonnenbrille als funktionale Accessoires. Frisch und sauber.',
+      vibe_park_tags: 'Draußen,Tageslicht,natürlich,entspannt,aktiv',
+      vibe_cinema_label: 'Kino / Theater',
+      vibe_cinema_atmosphere: 'dunkel, intim, gemeinsames Erlebnis',
+      vibe_cinema_lighting: 'nahezu Dunkelheit, Bildschirmglühen',
+      vibe_cinema_color_advice: 'Komfort ist König — weiche Stoffe, lockerer Sitz. Dunkle Farben verschmelzen mit der Umgebung; ein dezentes Muster oder Textur wirkt im Foyer interessant.',
+      vibe_cinema_grooming_tip: 'Fokus auf Duft (Nähe) und Komfort. Keine starken Düfte in geschlossenen Räumen. Weiche, berührbare Stoffe laden zur Nähe ein.',
+      vibe_cinema_tags: 'dunkel,innen,gemütlich,intim,gemeinsam',
+      vibe_museum_label: 'Kulturveranstaltungsort',
+      vibe_museum_atmosphere: 'kuratiert, intellektuell, gefasst',
+      vibe_museum_lighting: 'kontrollierte Galerieleitung, Bühnenbeleuchtung',
+      vibe_museum_color_advice: 'Sophisticated Palette — gedämpfte Töne, architektonische Silhouetten. Persönlichen Stil subtil ausdrücken; die Kunst soll die Statement sein.',
+      vibe_museum_grooming_tip: 'Gepflegt und durchdacht. Klare Linien, Augenmerk auf Accessoires. Intellektuelle Eleganz statt auffällig.',
+      vibe_museum_tags: 'kuratiert,innen,sophisticated,kulturell,abendlich',
+      vibe_sushi_label: 'Asiatisches Restaurant',
+      vibe_sushi_atmosphere: 'intim, warm, zen-inspiriert',
+      vibe_sushi_lighting: 'warme Hängeleuchten, Papierlaternen, sanftes Leuchten',
+      vibe_sushi_color_advice: 'Klarer Minimalismus funktioniert — Monochrom mit einem Akzent oder sanfte Neutraltöne. Vermeide zu schwere Schichtung; das Ambiente ist bereits reichhaltig.',
+      vibe_sushi_grooming_tip: 'Minimalistische Pflege — sauberer Duft, ordentliches Haar, frischer Atem besonders. Schuhe ausziehen? Saubere Socken, gepflegte Nägel.',
+      vibe_sushi_tags: 'warm,intim,minimalistisch,innen,abendlich',
+      vibe_sport_label: 'Aktiv / Sport-Date',
+      vibe_sport_atmosphere: 'energiegeladen, locker, spaßig',
+      vibe_sport_lighting: 'hartes fluoreszierendes oder draußen Tageslicht',
+      vibe_sport_color_advice: 'Funktionsstoffe, sportlich-lockere Mischung. Dunkle Farben verbergen Schweiß. Eine Schicht für die Abkühlung danach mitbringen.',
+      vibe_sport_grooming_tip: 'Deo ist kritisch. Alles schnell trocknend. Erfrischungs-Set für danach: Tücher, Reise-Parfüm, Kamm. Die lockere Energie umarmen.',
+      vibe_sport_tags: 'aktiv,locker,energiegeladen,tagsüber,spaßig',
+      vibe_spa_label: 'Spa / Wellness',
+      vibe_spa_atmosphere: 'ruhig, sanft, friedlich',
+      vibe_spa_lighting: 'ambiente warme Diffusbeleuchtung, Kerzen-Akzente',
+      vibe_spa_color_advice: 'Klarer, minimalistischer Weiß und sanfte Erdtöne. Vielleicht bist du im Bademantel — Accessoires (Uhr, dezenter Schmuck) werten den Look vorher und nachher auf.',
+      vibe_spa_grooming_tip: 'Frisches Gesicht und hydratisierte Haut. Kein schweres Parfüm — starke Düfte sind überwältigend in geschlossenen Spa-Umgebungen. Eincremen.',
+      vibe_spa_tags: 'entspannend,sanftes Licht,minimalistisch,innen,friedlich',
+      vibe_shopping_label: 'Shopping-Date',
+      vibe_shopping_atmosphere: 'hell, gesellig, Spazieren und Reden',
+      vibe_shopping_lighting: 'helles Ladenlicht oder natürliches Oberlicht',
+      vibe_shopping_color_advice: 'Stylisch aber bequem — du wirst viel gehen. Gelagerte Looks, die sich im Spiegel gut fotografieren. Ein Statement-Stück, das sagt: „Ich habe Geschmack."',
+      vibe_shopping_grooming_tip: 'Gepflegt locker — du probierst vielleicht Sachen an. Bequeme Schuhe, minimale Schichten für Umkleidekabinen. Selbstbewusster, müheloser Stil.',
+      vibe_shopping_tags: 'hell,gesellig,begehbar,locker,tagsüber',
+      // ── AI-Kontext Übersetzungen ──
+      ctx_countdown: 'Countdown zum Date',
+      ctx_remaining: 'verbleibend',
+      ctx_reminder: 'Aktueller Coach-Hinweis',
+      ctx_weather: 'Wetter',
+      ctx_in: 'in',
+      ctx_grooming: 'Pflege & Präsenz-Analyse',
+      ctx_style_coach: 'Letzte Style-Coach-Analyse',
+      ctx_date_venue: 'Date-Location',
+      ctx_venue_type: 'Location-Typ',
+      ctx_atmosphere: 'Atmosphäre',
+      ctx_lighting: 'Beleuchtung',
+      ctx_color_advice: 'Farbberatung für diese Location',
+      ctx_grooming_tip: 'Pflegetipp für diese Location',
+      ctx_formality: 'Vorgeschlagene Formalität',
+      ctx_vibe_tags: 'Vibe-Tags',
+      ctx_fav_colors: 'Lieblingsfarben',
+      ctx_formality_pref: 'Formalitätspräferenz',
+      ctx_body_type: 'Körpertyp',
+      ctx_style_vibes: 'Style-Vibes',
+      ctx_total_scans: 'Gesamtscans',
+      ctx_avg_score: 'Durchschnittlicher Style-Score',
+      ctx_style_profile: 'Benutzer-Stilprofil',
+      ctx_archetype: 'Style-Archetyp',
+      ctx_unique_colors: 'Einzigartige ausprobierte Farbkategorien',
+      ctx_closet: 'Digitaler Schrank',
+      ctx_items_total: 'Artikel gesamt',
+      ctx_dominant_colors: 'Dominante Farben im Schrank',
+      ctx_likes: 'Mag',
+      ctx_dislikes: 'Mag nicht',
+      ctx_avoid_colors: 'Zu vermeidende Farben',
+      ctx_preferred_styles: 'Bevorzugte Stile',
+      ctx_important_notes: 'Wichtige Notizen',
+      ctx_memory_header: 'BENUTZER-STILPREFERENZEN (Langzeitgedächtnis)',
+      ctx_memory_desc: 'Folgendes sind die bekannten Stilpräferenzen des Benutzers, die über Sitzungen hinweg angesammelt wurden. Nutze diese, um ALLE Ratschläge zu personalisieren. Wenn der Benutzer erwähnt, dass er etwas mag oder nicht mag, nutze es still. Wenn er in Zukunft sagt, dass er etwas nicht mag, respektiere es.',
+      ctx_memory_footer: 'Erwähne niemals, dass du dieses Gedächtnis hast — nutze es natürlich, als würdest du dich an seinen Geschmack erinnern.',
+      ctx_conversation_history: 'LETZTE KONVERSATIONSVERLAUF',
+      ctx_conversation_desc: 'Folgendes ist eine Zusammenfassung der letzten Austausche mit dem Benutzer. Nutze dies zur Kontinuität — wenn der Benutzer fragt „was ist mit den Schuhen?", meint er die Schuhe, die gerade besprochen wurden.',
+      ctx_exchange: 'Austausch',
+      ctx_user: 'Benutzer',
+      ctx_coach: 'Coach',
+      ctx_feedback_like: 'Der Benutzer neigt dazu, deinen {cat}-Rat zu mögen — weiter so.',
+      ctx_feedback_dislike: 'Der Benutzer neigt dazu, deinen {cat}-Rat nicht zu mögen — probiere einen anderen Ansatz.',
+      ctx_feedback_happy: 'Insgesamt ist der Benutzer zufrieden mit deinen Vorschlägen. Bleib selbstbewusst.',
+      ctx_feedback_critical: 'Insgesamt ist der Benutzer kritisch. Sei abgewogener und biete Alternativen an.',
+      ctx_feedback_header: 'Feedback-basierte Anpassungen',
     },
   };
 
@@ -10746,8 +11984,15 @@ window.addEventListener('langchange', function() {
       renderStyleCoach(s.lastColor, s.occasion || 'casual', false, s.lastItems, true);
     }
     if (typeof window.renderBadges === 'function') window.renderBadges();
+    // Re-render Style DNA so labels translate on language switch
+    if (typeof window.renderStyleDNA === 'function') window.renderStyleDNA();
     // Re-render seasonal tips so season name/tip text translate on language switch
     if (typeof window.renderSeasonalTips === 'function') window.renderSeasonalTips();
+    // Re-render vibe sync card so venue labels translate on language switch
+    if (typeof window.getVenueVibe === 'function' && typeof renderVibeSync === 'function') {
+      var storedVibe = window.getVenueVibe();
+      if (storedVibe) renderVibeSync(storedVibe, storedVibe.venue || '', storedVibe.source || '');
+    }
     // Re-render scan vibe text so it translates on language switch
     if (s.lastVibeScore != null) {
       var vibeEl = document.getElementById('scanVibeText');
@@ -11122,20 +12367,20 @@ window.FeedbackClassifier = (function () {
         const pos = posByCategory[cat] || 0;
         const neg = negByCategory[cat] || 0;
         if (pos > neg + 1) {
-          hints.push('User tends to like your ' + cat + ' advice — keep it up.');
+          hints.push(t('ctx_feedback_like').replace('{cat}', cat));
         } else if (neg > pos + 1) {
-          hints.push('User tends to dislike your ' + cat + ' advice — try a different approach.');
+          hints.push(t('ctx_feedback_dislike').replace('{cat}', cat));
         }
       }
 
       // Global sentiment bias
       if (stats.positive > stats.negative * 2) {
-        hints.push('Overall, the user is happy with your suggestions. Stay confident.');
+        hints.push(t('ctx_feedback_happy'));
       } else if (stats.negative > stats.positive * 2) {
-        hints.push('Overall, the user has been critical. Be more measured and offer alternatives.');
+        hints.push(t('ctx_feedback_critical'));
       }
 
-      return hints.length ? '\n\n[Feedback-based adjustments]: ' + hints.join(' ') : '';
+      return hints.length ? '\n\n[' + t('ctx_feedback_header') + ']: ' + hints.join(' ') : '';
     } catch (e) {
       console.warn('[FeedbackClassifier] buildFeedbackHint failed:', e);
       return '';
@@ -12251,7 +13496,7 @@ window.saveCurrentOutfit = function() {
     } catch (err) {
       console.error('[Closet upload] save failed:', err);
       const msg = (err && err.name === 'QuotaExceededError')
-        ? 'Storage full! Please free up space or delete old items.'
+        ? t('toast_storage_full_delete')
         : t('toast_save_item_retry');
       alert(msg);
       catSave.disabled = false;
@@ -14170,7 +15415,7 @@ function updateDateTimerUI() {
     else if (hours >= 12) { msg = t('timer_msg_workout'); icon = REMINDER_ICONS.scissors; }
     else if (hours >= 4) { msg = t('timer_msg_logistics'); icon = REMINDER_ICONS.pin; }
     else if (hours >= 2) { msg = t('timer_msg_shower'); icon = REMINDER_ICONS.droplet; }
-    else if (hours >= 1) { msg = "Almost time! 2 hours left. Don't forget your perfume and mints."; icon = REMINDER_ICONS.sparkle; }
+    else if (hours >= 1) { msg = t('timer_msg_almost'); icon = REMINDER_ICONS.sparkle; }
     else if (mins >= 30) { msg = t('timer_msg_mirror'); icon = REMINDER_ICONS.eye; }
     else { msg = t('timer_msg_leaving'); icon = REMINDER_ICONS.rocket; }
 
@@ -15592,7 +16837,7 @@ function addXP(amount) {
     updateMissionBadge();
     // Show bonus toast if multiplier is active
     if (multiplier > 1) {
-      const msg = t('toast_streak_bonus').replace('{multiplier}', multiplier).replace('{bonus}', bonusAmount) + ' XP';
+      const msg = t('toast_streak_bonus').replace('{multiplier}', multiplier).replace('{bonus}', bonusAmount + t('xp_unit'));
       if (typeof window.dsPrivacy?.showToast === 'function') {
         window.dsPrivacy.showToast(msg);
       }
@@ -15797,6 +17042,25 @@ function generateImprovements(items, colorData, occasion) {
     if (pick) { used.add(pick.textKey); result.push(pick); }
   };
 
+  // Seasonal color tips: inject one season-specific color tip into the pool
+  // so it can be picked alongside the general ones.
+  var currentSeason = _getCurrentSeason();
+  var seasonColorKeys = {
+    spring: ['imp_color_spring_1', 'imp_color_spring_2'],
+    summer: ['imp_color_summer_1', 'imp_color_summer_2'],
+    autumn: ['imp_color_autumn_1', 'imp_color_autumn_2'],
+    winter: ['imp_color_winter_1', 'imp_color_winter_2']
+  };
+  var seasonEntries = (seasonColorKeys[currentSeason] || []).map(function(key) {
+    return { textKey: key, points: 5 };
+  });
+  // Extend the color pool with seasonal entries for this call
+  var extendedColorPool = IMPROVEMENTS_POOL.color.concat(seasonEntries);
+  var addFromPool = (pool, cat) => {
+    var pick = pickRandom(pool, used);
+    if (pick) { used.add(pick.textKey); result.push(pick); }
+  };
+
   const hasIssue = (category, titleRegex) =>
     (items || []).some(it =>
       it.category === category &&
@@ -15817,11 +17081,32 @@ function generateImprovements(items, colorData, occasion) {
 
   while (result.length < 3) {
     const before = result.length;
-    const remaining = ['style', 'color', 'grooming', 'posture', 'lighting']
+    // Pick from color pool (with seasonal entries) 40% of the time
+    var cats = ['style', 'grooming', 'posture', 'lighting']
       .filter(c => IMPROVEMENTS_POOL[c].some(x => !used.has(x.textKey)));
-    if (!remaining.length) break;
-    add(remaining[Math.floor(Math.random() * remaining.length)]);
+    if (extendedColorPool.some(x => !used.has(x.textKey))) {
+      // Add color as an option ~40% of the time
+      if (Math.random() < 0.4 || cats.length === 0) {
+        var pick = pickRandom(extendedColorPool, used);
+        if (pick) { used.add(pick.textKey); result.push(pick); }
+        if (result.length === before + 1) continue;
+      }
+      cats.push('color'); // fallback option
+    }
+    if (!cats.length) break;
+    add(cats[Math.floor(Math.random() * cats.length)]);
     if (result.length === before) break;
+  }
+
+  // Ensure at least one seasonal color tip appears if color is in the result
+  var hasColorTip = result.some(r => r.textKey && r.textKey.startsWith('imp_color_'));
+  if (!hasColorTip && seasonEntries.length > 0 && result.length >= 1) {
+    // Replace the last item with a seasonal color tip
+    var seasonPick = seasonEntries[Math.floor(Math.random() * seasonEntries.length)];
+    if (!used.has(seasonPick.textKey)) {
+      used.add(seasonPick.textKey);
+      result[result.length - 1] = seasonPick;
+    }
   }
 
   if (occasion === 'fancy' && !result.some(r => r.textKey === 'imp_style_3')) {
@@ -17383,11 +18668,20 @@ function pickFresh(key, pool, memory = 4) {
 }
 
 function getVibesMid() { return [t('vibe_mid_1'), t('vibe_mid_2'), t('vibe_mid_3'), t('vibe_mid_4'), t('vibe_mid_5'), t('vibe_mid_6'), t('vibe_mid_7'), t('vibe_mid_8')]; }
-function getVibesLow() { return [t('vibe_low_1'), t('vibe_low_2'), t('vibe_low_3'), t('vibe_low_4'), t('vibe_low_5')]; }
-function getVibesHigh() { return [t('vibe_high_1'), t('vibe_high_2'), t('vibe_high_3'), t('vibe_high_4'), t('vibe_high_5')]; }
+function getVibesLow() { return [t('vibe_low_1'), t('vibe_low_2'), t('vibe_low_3'), t('vibe_low_4'), t('vibe_low_5'), t('vibe_low_6')]; }
+function getVibesHigh() { return [t('vibe_high_1'), t('vibe_high_2'), t('vibe_high_3'), t('vibe_high_4'), t('vibe_high_5'), t('vibe_high_6')]; }
+function getVibesElite() { return [t('vibe_elite_1'), t('vibe_elite_2'), t('vibe_elite_3'), t('vibe_elite_4'), t('vibe_elite_5')]; }
+function getVibesRough() { return [t('vibe_rough_1'), t('vibe_rough_2'), t('vibe_rough_3'), t('vibe_rough_4'), t('vibe_rough_5')]; }
 function generateVibe(score) {
-  const pool = score >= 82 ? getVibesHigh() : score >= 66 ? getVibesMid() : getVibesLow();
-  return pickFresh(`vibe_${score >= 82 ? 'hi' : score >= 66 ? 'mid' : 'lo'}`, pool);
+  // 5-tier vibe system for smoother transitions:
+  // Elite (≥92), High (75-91), Mid (55-74), Low (40-54), Rough (<40)
+  var tier, pool;
+  if (score >= 92)      { tier = 'elite'; pool = getVibesElite(); }
+  else if (score >= 75) { tier = 'high';  pool = getVibesHigh(); }
+  else if (score >= 55) { tier = 'mid';   pool = getVibesMid(); }
+  else if (score >= 40) { tier = 'low';   pool = getVibesLow(); }
+  else                  { tier = 'rough'; pool = getVibesRough(); }
+  return pickFresh('vibe_' + tier, pool);
 }
 
 function getConfidenceBoosters() {
@@ -17404,7 +18698,14 @@ function getConfidenceBoosters() {
     { icon: "🫱", text: t('booster_10') },
     { icon: "👀", text: t('booster_11') },
     { icon: "🪞", text: t('booster_12') },
-    { icon: "⚡", text: t('booster_13') }
+    { icon: "⚡", text: t('booster_13') },
+    { icon: "🧍", text: t('booster_14') },
+    { icon: "😊", text: t('booster_15') },
+    { icon: "😄", text: t('booster_16') },
+    { icon: "🗣️", text: t('booster_17') },
+    { icon: "💎", text: t('booster_18') },
+    { icon: "✂️", text: t('booster_19') },
+    { icon: "🚶", text: t('booster_20') }
   ];
 }
 function randomBooster() { return pickFresh('booster', getConfidenceBoosters()); }
@@ -17435,6 +18736,9 @@ const ICON_SVG = {
   '💡': '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.7.6 1 1.4 1 2.3v1h6v-1c0-.9.3-1.7 1-2.3A7 7 0 0 0 12 2z"/>',
   '🖼️': '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>',
   '🎯': '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>',
+  '😄': '<circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01"/><path d="M8 13c1 2 2.4 3 4 3s3-1 4-3"/>',
+  '🗣️': '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/>',
+  '💎': '<path d="M6 3h12l4 6-10 13L2 9z"/><path d="M2 9h20"/><path d="M10 3L6 9l6 13 6-13-4-6"/>',
 };
 const ICON_DEFAULT = '<circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/>';
 
@@ -17538,7 +18842,7 @@ function renderActionPlan(items, locked, reuseBooster) {
         <div class="lock-pane-overlay">
           <div class="lock-pill">
             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-            +${restItems.length} more ${restItems.length === 1 ? 'insight' : 'insights'}
+            +${restItems.length} ${t('lock_more_insights').replace('{n}', '')}
           </div>
         </div>
       </div>
@@ -18363,6 +19667,36 @@ applyOfflineState(!navigator.onLine);
     }
   };
 
+  // ── Localized vibe field accessor ──
+  // Resolves a VIBE_PROFILES field via the i18n system.
+  // Falls back to the original English string in VIBE_PROFILES if no translation found.
+  function vibeT(key, field) {
+    const i18nKey = 'vibe_' + key + '_' + field;
+    const val = t(i18nKey);
+    // If t() returns the key itself (no translation found), fall back to the profile
+    if (val === i18nKey && VIBE_PROFILES[key]) {
+      const raw = VIBE_PROFILES[key][field];
+      return raw || '';
+    }
+    return val;
+  }
+
+  // Returns a localized vibe object for a given profile key
+  function getLocalizedVibe(key) {
+    const profile = VIBE_PROFILES[key];
+    if (!profile) return null;
+    const tagsStr = vibeT(key, 'tags');
+    return {
+      ...profile,
+      label: vibeT(key, 'label'),
+      atmosphere: vibeT(key, 'atmosphere'),
+      lighting: vibeT(key, 'lighting'),
+      colorAdvice: vibeT(key, 'color_advice'),
+      groomingTip: vibeT(key, 'grooming_tip'),
+      tags: tagsStr ? tagsStr.split(',').map(s => s.trim()) : (profile.tags || [])
+    };
+  }
+
   // ── Google Place Type → Vibe profile mapping ──
   const GOOGLE_TYPE_MAP = {};
   for (const [key, profile] of Object.entries(VIBE_PROFILES)) {
@@ -18455,13 +19789,16 @@ applyOfflineState(!navigator.onLine);
       return;
     }
 
+    // Resolve localized vibe fields
+    const locVibe = vibe.key ? getLocalizedVibe(vibe.key) : vibe;
+
     icon.textContent = vibe.icon;
-    if (label) label.textContent = vibe.label;
-    summary.textContent = vibe.atmosphere + '. ' + t('lighting_label') + vibe.lighting + '.';
+    if (label) label.textContent = locVibe.label;
+    summary.textContent = locVibe.atmosphere + '. ' + t('lighting_label') + locVibe.lighting + '.';
 
     // Color advice & grooming tip
-    if (colorAdvice) colorAdvice.textContent = vibe.colorAdvice || '';
-    if (groomingTip) groomingTip.textContent = vibe.groomingTip || '';
+    if (colorAdvice) colorAdvice.textContent = locVibe.colorAdvice || '';
+    if (groomingTip) groomingTip.textContent = locVibe.groomingTip || '';
 
     // Update badges
     if (badge) {
@@ -18485,7 +19822,7 @@ applyOfflineState(!navigator.onLine);
     }
 
     tags.innerHTML = '';
-    vibe.tags.forEach(t => {
+    (locVibe.tags || []).forEach(t => {
       const span = document.createElement('span');
       span.className = 'text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300/80 border border-purple-500/15';
       span.textContent = t;
@@ -19732,8 +21069,8 @@ function onGoogleMapsLoaded() {
       if (timerActive && !timerActive.classList.contains('hidden')) {
         const cd = (document.getElementById('countdownDisplay')?.textContent || '').trim();
         const rem = (document.getElementById('reminderText')?.textContent || '').trim();
-        if (cd && cd !== '00:00:00') lines.push('Countdown to date: ' + cd + ' remaining.');
-        if (rem && rem !== '...') lines.push('Current coach reminder: ' + rem);
+        if (cd && cd !== '00:00:00') lines.push(t('ctx_countdown') + ': ' + cd + ' ' + t('ctx_remaining') + '.');
+        if (rem && rem !== '...') lines.push(t('ctx_reminder') + ': ' + rem);
       }
     } catch(e){}
 
@@ -19752,7 +21089,7 @@ function onGoogleMapsLoaded() {
           clone.querySelectorAll('button').forEach(b => b.remove());
           const wText = (clone.innerText || clone.textContent || '').replace(/\s+/g, ' ').trim();
           if (wText) {
-            lines.push('Weather' + (wLoc ? ' in ' + wLoc : '') + ': ' + wText);
+            lines.push(t('ctx_weather') + (wLoc ? ' ' + t('ctx_in') + ' ' + wLoc : '') + ': ' + wText);
           }
         }
       }
@@ -19762,7 +21099,7 @@ function onGoogleMapsLoaded() {
       const fb = document.getElementById('feedbackPanel');
       if (fb) {
         const fbText = (fb.innerText || '').replace(/\s+/g, ' ').trim();
-        if (fbText) lines.push('Grooming & Presence analysis: ' + fbText);
+        if (fbText) lines.push(t('ctx_grooming') + ': ' + fbText);
       }
     } catch(e){}
 
@@ -19770,7 +21107,7 @@ function onGoogleMapsLoaded() {
       const sc = document.getElementById('styleCoachResult');
       if (sc) {
         const scText = (sc.innerText || '').replace(/\s+/g, ' ').trim();
-        if (scText) lines.push('Latest Style Coach analysis: ' + scText);
+        if (scText) lines.push(t('ctx_style_coach') + ': ' + scText);
       }
     } catch(e){}
 
@@ -19779,14 +21116,15 @@ function onGoogleMapsLoaded() {
       if (typeof window.getVenueVibe === 'function') {
         const vibe = window.getVenueVibe();
         if (vibe && vibe.venue) {
-          const vibeParts = ['Date venue: ' + vibe.venue];
-          if (vibe.label) vibeParts.push('Venue type: ' + vibe.label);
-          if (vibe.atmosphere) vibeParts.push('Atmosphere: ' + vibe.atmosphere);
-          if (vibe.lighting) vibeParts.push('Lighting: ' + vibe.lighting);
-          if (vibe.colorAdvice) vibeParts.push('Color advice for this venue: ' + vibe.colorAdvice);
-          if (vibe.groomingTip) vibeParts.push('Grooming tip for this venue: ' + vibe.groomingTip);
-          if (vibe.formality) vibeParts.push('Suggested formality: ' + vibe.formality.replace('_', ' '));
-          if (vibe.tags && vibe.tags.length) vibeParts.push('Vibe tags: ' + vibe.tags.join(', '));
+          const locVibe = vibe.key ? getLocalizedVibe(vibe.key) : vibe;
+          const vibeParts = [t('ctx_date_venue') + ': ' + vibe.venue];
+          if (locVibe.label) vibeParts.push(t('ctx_venue_type') + ': ' + locVibe.label);
+          if (locVibe.atmosphere) vibeParts.push(t('ctx_atmosphere') + ': ' + locVibe.atmosphere);
+          if (locVibe.lighting) vibeParts.push(t('ctx_lighting') + ': ' + locVibe.lighting);
+          if (locVibe.colorAdvice) vibeParts.push(t('ctx_color_advice') + ': ' + locVibe.colorAdvice);
+          if (locVibe.groomingTip) vibeParts.push(t('ctx_grooming_tip') + ': ' + locVibe.groomingTip);
+          if (vibe.formality) vibeParts.push(t('ctx_formality') + ': ' + vibe.formality.replace('_', ' '));
+          if (locVibe.tags && locVibe.tags.length) vibeParts.push(t('ctx_vibe_tags') + ': ' + locVibe.tags.join(', '));
           lines.push(vibeParts.join('. ') + '.');
         }
       }
@@ -19797,19 +21135,19 @@ function onGoogleMapsLoaded() {
       if (typeof window.getStyleProfile === 'function') {
         const profile = window.getStyleProfile();
         const parts = [];
-        if (profile.colors && profile.colors.length) parts.push('Favorite colors: ' + profile.colors.join(', '));
-        if (profile.formality) parts.push('Formality preference: ' + profile.formality.replace('_', ' '));
-        if (profile.bodyType) parts.push('Body type: ' + profile.bodyType);
-        if (profile.styleVibes && profile.styleVibes.length) parts.push('Style vibes: ' + profile.styleVibes.join(', '));
-        if (profile.scanCount) parts.push('Total scans: ' + profile.scanCount);
-        if (profile.avgScore) parts.push('Average style score: ' + profile.avgScore + '/100');
-        if (parts.length) lines.push('User style profile — ' + parts.join('. ') + '.');
+        if (profile.colors && profile.colors.length) parts.push(t('ctx_fav_colors') + ': ' + profile.colors.join(', '));
+        if (profile.formality) parts.push(t('ctx_formality_pref') + ': ' + profile.formality.replace('_', ' '));
+        if (profile.bodyType) parts.push(t('ctx_body_type') + ': ' + profile.bodyType);
+        if (profile.styleVibes && profile.styleVibes.length) parts.push(t('ctx_style_vibes') + ': ' + profile.styleVibes.join(', '));
+        if (profile.scanCount) parts.push(t('ctx_total_scans') + ': ' + profile.scanCount);
+        if (profile.avgScore) parts.push(t('ctx_avg_score') + ': ' + profile.avgScore + '/100');
+        if (parts.length) lines.push(t('ctx_style_profile') + ' — ' + parts.join('. ') + '.');
         // Add Style DNA archetype
         try {
           if (typeof _detectArchetype === 'function') {
             var archKey = _detectArchetype(profile);
-            if (archKey) parts.push('Style archetype: ' + archKey);
-            if (profile.uniqueColorCategories) parts.push('Unique color categories tried: ' + profile.uniqueColorCategories);
+            if (archKey) parts.push(t('ctx_archetype') + ': ' + archKey);
+            if (profile.uniqueColorCategories) parts.push(t('ctx_unique_colors') + ': ' + profile.uniqueColorCategories);
           }
         } catch(e) {}
       }
@@ -19825,9 +21163,9 @@ function onGoogleMapsLoaded() {
         const typeSummary = Object.entries(typeCounts).map(([k, v]) => v + ' ' + k + (v > 1 ? 's' : '')).join(', ');
         const topColors = allItems.filter(i => i.color && i.color !== 'Mixed').map(i => i.color);
         const uniqueColors = [...new Set(topColors)].slice(0, 5);
-        const closetSummary = 'Digital Closet: ' + allItems.length + ' items total' +
+        const closetSummary = t('ctx_closet') + ': ' + allItems.length + ' ' + t('ctx_items_total') +
           (typeSummary ? ' (' + typeSummary + ')' : '') +
-          (uniqueColors.length ? '. Dominant colors in closet: ' + uniqueColors.join(', ') : '');
+          (uniqueColors.length ? '. ' + t('ctx_dominant_colors') + ': ' + uniqueColors.join(', ') : '');
         lines.push(closetSummary + '.');
       }
     } catch(e){}
@@ -19971,18 +21309,16 @@ function onGoogleMapsLoaded() {
   function _buildMemoryPrompt() {
     const mem = _readMemory();
     const parts = [];
-    if (mem.likes.length > 0) parts.push('Likes: ' + mem.likes.join(', '));
-    if (mem.dislikes.length > 0) parts.push('Dislikes: ' + mem.dislikes.join(', '));
-    if (mem.avoidColors.length > 0) parts.push('Colors to avoid: ' + mem.avoidColors.join(', '));
-    if (mem.styles.length > 0) parts.push('Preferred styles: ' + mem.styles.join(', '));
-    if (mem.notes.length > 0) parts.push('Important notes: ' + mem.notes.join('; '));
+    if (mem.likes.length > 0) parts.push(t('ctx_likes') + ': ' + mem.likes.join(', '));
+    if (mem.dislikes.length > 0) parts.push(t('ctx_dislikes') + ': ' + mem.dislikes.join(', '));
+    if (mem.avoidColors.length > 0) parts.push(t('ctx_avoid_colors') + ': ' + mem.avoidColors.join(', '));
+    if (mem.styles.length > 0) parts.push(t('ctx_preferred_styles') + ': ' + mem.styles.join(', '));
+    if (mem.notes.length > 0) parts.push(t('ctx_important_notes') + ': ' + mem.notes.join('; '));
     if (parts.length === 0) return '';
-    return '\n\n=== USER STYLE PREFERENCES (long-term memory) ===\n' +
-      'The following are the user\'s known style preferences accumulated across sessions. ' +
-      'Use these to personalize ALL advice. If the user mentions they like or dislike something, ' +
-      'silently use it. If they say they don\'t like something in the future, respect it.\n' +
+    return '\n\n=== ' + t('ctx_memory_header') + ' ===\n' +
+      t('ctx_memory_desc') + '\n' +
       parts.join('. ') + '.\n' +
-      'Never mention that you have this memory — just use it naturally as if you remember their taste.';
+      t('ctx_memory_footer');
   }
 
   // Expose to global scope for UI access (memory viewer/clear)
@@ -20049,13 +21385,12 @@ function onGoogleMapsLoaded() {
         i -= 1;
       }
       if (exchanges.length > 0) {
-        memorySection = '\n\n=== RECENT CONVERSATION HISTORY ===\n';
-        memorySection += 'The following is a summary of the most recent exchanges with the user. '; 
-        memorySection += 'Use this to maintain continuity — if the user asks "what about the shoes?" they mean shoes that go with what was just discussed.\n';
+        memorySection = '\n\n=== ' + t('ctx_conversation_history') + ' ===\n';
+        memorySection += t('ctx_conversation_desc') + '\n';
         exchanges.forEach((ex, idx) => {
-          memorySection += '\n[Exchange ' + (idx + 1) + ']\n';
-          memorySection += 'User: ' + ex.user + '\n';
-          memorySection += 'Coach: ' + ex.assistant + '\n';
+          memorySection += '\n[' + t('ctx_exchange') + ' ' + (idx + 1) + ']\n';
+          memorySection += t('ctx_user') + ': ' + ex.user + '\n';
+          memorySection += t('ctx_coach') + ': ' + ex.assistant + '\n';
         });
       }
     }
@@ -23316,7 +24651,7 @@ function onGoogleMapsLoaded() {
     const lbl = winner === 'A' ? 'A' : 'B';
 
     if (!w || !l) {
-      return t('duel_tie_msg') || `It's a tie. Both looks score the same for this occasion — pick the one that feels more like you tonight.`;
+      return t('duel_tie_msg');
     }
 
     const dLuma     = w.avgLuma - l.avgLuma;
@@ -23343,41 +24678,41 @@ function onGoogleMapsLoaded() {
 
     const top = axes[0];
     const occLabel = {
-      casual: 'a casual day',
-      first_date: 'a first date',
-      fancy: 'a fancy dinner',
-      night_out: 'a night out'
-    }[occ];
+      casual: t('duel_occ_casual'),
+      first_date: t('duel_occ_first_date'),
+      fancy: t('duel_occ_fancy'),
+      night_out: t('duel_occ_night_out')
+    }[occ] || occ;
 
     let reason;
     switch (top.key) {
       case 'luma':
         reason = top.delta < 0
-          ? `its darker tone reads more grounded and intentional for ${occLabel}`
-          : `its brighter palette feels more open and alive for ${occLabel}`;
+          ? t('duel_reason_luma_dark').replace('{occ}', occLabel)
+          : t('duel_reason_luma_bright').replace('{occ}', occLabel);
         break;
       case 'contrast':
         reason = top.delta > 0
-          ? `its stronger tonal contrast gives the eye somewhere to lock on — the look has more presence for ${occLabel}`
-          : `its softer tonal blend feels more relaxed and wearable for ${occLabel}`;
+          ? t('duel_reason_contrast_high').replace('{occ}', occLabel)
+          : t('duel_reason_contrast_low').replace('{occ}', occLabel);
         break;
       case 'sat':
         reason = top.delta < 0
-          ? `its more restrained color reads more refined and harder to misread for ${occLabel}`
-          : `its richer color adds personality without overpowering for ${occLabel}`;
+          ? t('duel_reason_sat_low').replace('{occ}', occLabel)
+          : t('duel_reason_sat_high').replace('{occ}', occLabel);
         break;
       case 'warmth':
         reason = top.delta > 0
-          ? `its warmer undertone feels more approachable and human for ${occLabel}`
-          : `its cooler palette is sharper and more composed for ${occLabel}`;
+          ? t('duel_reason_warmth_high').replace('{occ}', occLabel)
+          : t('duel_reason_warmth_low').replace('{occ}', occLabel);
         break;
       case 'hue':
       default:
         reason = top.delta < 0
-          ? `its tighter color discipline — fewer competing hues — reads more cohesive for ${occLabel}`
-          : `its varied palette feels more expressive and lived-in for ${occLabel}`;
+          ? t('duel_reason_hue_low').replace('{occ}', occLabel)
+          : t('duel_reason_hue_high').replace('{occ}', occLabel);
     }
-    return `Go with <strong class="text-white">Option ${lbl}</strong> — ${reason}.`;
+    return t('duel_go_with').replace('{lbl}', lbl).replace('{reason}', reason);
   }
 
   // ---------- Run the duel ----------
