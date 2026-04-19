@@ -593,6 +593,12 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
   }
 
   #analysisCanvas { display: none; }
+  .mobile-nav-btn {
+    /* Force GPU layer so box-shadow / background changes never
+       trigger layout reflow — eliminates the "vibration" flash. */
+    will-change: background-color, border-color, box-shadow;
+    transform: translateZ(0);
+  }
   .mobile-nav-btn.is-active {
     background: linear-gradient(to bottom, rgba(236,72,153,0.28), rgba(147,51,234,0.18)) !important;
     border-color: rgba(236,72,153,0.85) !important;
@@ -2380,7 +2386,9 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
   }
   /* Breathing glow ring — rendered as an ::after pseudo-element
      so the animation only toggles opacity (GPU-composited, no
-     reflow). The ring sits behind the button via z-index:-1. */
+     reflow). The ring sits behind the button via z-index:-1.
+     will-change + translateZ(0) force a dedicated compositor layer
+     so opacity changes never trigger layout or paint. */
   button.bg-gradient-to-tr.from-brand-500.to-purple-500::after,
   button.bg-gradient-to-r.from-brand-500.to-purple-500::after,
   a.bg-gradient-to-tr.from-brand-500.to-purple-500::after{
@@ -2393,16 +2401,20 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
       0 4px 14px -4px rgba(168, 85, 247, 0.55),
       0 0 0 6px rgba(236, 72, 153, 0.08);
     z-index: -1;
-    opacity: 0.55;
-    transition: opacity .35s cubic-bezier(.2,.8,.2,1);
-    pointer-events: none;
+    opacity: 0;
     will-change: opacity;
+    transform: translateZ(0);
+    animation: love-pulse-ring 3.2s ease-in-out infinite;
+    pointer-events: none;
   }
   @keyframes love-pulse-ring{
-    0%, 100% { opacity: 0.55; }
-    50%      { opacity: 0.55; }
+    0%, 100% { opacity: 0; }
+    50%      { opacity: 1; }
   }
-  /* Hover: brighten + show glow ring at full strength */
+  /* Hover: brighten + lock glow ring at full strength.
+     The glow stays visible on hover by locking opacity to 1
+     while keeping the animation paused (not removed) so it
+     resumes smoothly when the cursor leaves. */
   button.bg-gradient-to-tr.from-brand-500.to-purple-500:hover,
   button.bg-gradient-to-r.from-brand-500.to-purple-500:hover,
   a.bg-gradient-to-tr.from-brand-500.to-purple-500:hover{
@@ -2411,7 +2423,8 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
   button.bg-gradient-to-tr.from-brand-500.to-purple-500:hover::after,
   button.bg-gradient-to-r.from-brand-500.to-purple-500:hover::after,
   a.bg-gradient-to-tr.from-brand-500.to-purple-500:hover::after{
-    opacity: 1;
+    opacity: 1 !important;
+    animation-play-state: paused;
   }
   button.bg-gradient-to-tr.from-brand-500.to-purple-500:active,
   button.bg-gradient-to-r.from-brand-500.to-purple-500:active{
@@ -2608,67 +2621,6 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     .animate-pulse.bg-pink-500{ animation: none !important; }
     a.rounded-2xl:hover, a.rounded-3xl:hover,
     button.rounded-2xl:hover, button.rounded-3xl:hover{ transform: none; }
-  }
-
-  /* =================================================================
-     NO-TREMOR OVERRIDE — kills every infinite/perpetual animation on
-     CTA buttons and their pseudo-elements. Buttons stay completely
-     still on load. Hover/active still work (transitions, not animations).
-     ================================================================= */
-  button[class*="from-brand-500"],
-  a[class*="from-brand-500"],
-  button[class*="from-brand-400"],
-  a[class*="from-brand-400"],
-  button[class*="bg-brand-500"],
-  a[class*="bg-brand-500"],
-  button[class*="bg-pink-500"],
-  a[class*="bg-pink-500"]{
-    animation: none !important;
-    transform: none;
-  }
-  button[class*="from-brand-500"]::before,
-  button[class*="from-brand-500"]::after,
-  a[class*="from-brand-500"]::before,
-  a[class*="from-brand-500"]::after,
-  button[class*="from-brand-400"]::before,
-  button[class*="from-brand-400"]::after,
-  a[class*="from-brand-400"]::before,
-  a[class*="from-brand-400"]::after,
-  .from-brand-500.to-purple-500.rounded-2xl::after,
-  .from-brand-500.to-purple-500.rounded-3xl::after{
-    animation: none !important;
-  }
-  /* Kill heartbeat scale on any animate-pulse brand element */
-  .animate-pulse[class*="bg-brand"],
-  .animate-pulse[class*="bg-pink"],
-  [class*="bg-brand"].animate-pulse,
-  [class*="bg-pink"].animate-pulse{
-    animation: none !important;
-    transform: none !important;
-  }
-  /* Ambient aurora background — kill transform animation (still paints) */
-  .ambient-glow{ animation: none !important; transform: translate(-50%,-50%) !important; }
-
-  /* =================================================================
-     ABSOLUTE KILL — maximum specificity.  Stops every CSS animation
-     on every button / anchor / their children / their pseudos.
-     html > body prefix boosts specificity above any rule in the file.
-     ================================================================= */
-  html body button,
-  html body button *,
-  html body button::before,
-  html body button::after,
-  html body a,
-  html body a *,
-  html body a::before,
-  html body a::after,
-  html body [role="button"],
-  html body [role="button"] *,
-  html body [role="button"]::before,
-  html body [role="button"]::after{
-    animation: none !important;
-    animation-name: none !important;
-    animation-duration: 0s !important;
   }
 </style>
 </head>
@@ -3246,7 +3198,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     <span id="pointsBadge" class="inline-flex items-center text-[11px] sm:text-xs font-medium px-3 sm:px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-white transition-all whitespace-nowrap" title="Loading…">
       <span class="font-bold text-white tabular-nums">–</span><span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1" data-i18n="nav_pts">PTS</span>
     </span>
-    <button id="earnPointsBtn" class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold px-3 sm:px-4 py-1.5 rounded-full text-white bg-gradient-to-r from-brand-500 to-purple-500 hover:from-brand-400 hover:to-purple-400 transition-all shadow-[0_4px_14px_rgba(236,72,153,0.35)] whitespace-nowrap">
+    <button id="earnPointsBtn" class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold px-3 sm:px-4 py-1.5 rounded-full text-white bg-gradient-to-r from-brand-500 to-purple-500 hover:from-brand-400 hover:to-purple-400 whitespace-nowrap">
       <!-- Yellow sparkles icon, kept yellow on the pink gradient
            background per spec ("a csillagnak hagyd meg a sárga színt").
            Heroicons-style filled sparkles: one large 4-point twinkle
@@ -4914,7 +4866,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
 <!-- Mobile / Tablet Bottom Nav -->
 <nav id="mobileBottomNav" class="lg:hidden fixed bottom-0 left-0 right-0 z-[80] px-3 pt-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] bg-gradient-to-t from-[#09090b] via-[#09090b]/95 to-transparent pointer-events-none">
   <div class="max-w-md mx-auto grid grid-cols-4 gap-2 pointer-events-auto">
-    <button id="mobileNavScan" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-all active:scale-95">
+    <button id="mobileNavScan" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-colors duration-200 active:scale-95 is-active">
       <svg class="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M4 8V6a2 2 0 0 1 2-2h2"/>
         <path d="M16 4h2a2 2 0 0 1 2 2v2"/>
@@ -4925,19 +4877,19 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
       </svg>
       <span class="text-[10px] font-bold uppercase tracking-widest text-white" data-i18n="nav_scan">Scan</span>
     </button>
-    <button id="mobileNavCloset" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-all active:scale-95">
+    <button id="mobileNavCloset" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-colors duration-200 active:scale-95">
       <svg class="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>
       </svg>
       <span class="text-[10px] font-bold uppercase tracking-widest text-white" data-i18n="nav_closet">Closet</span>
     </button>
-    <button id="mobileNavChat" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-all active:scale-95">
+    <button id="mobileNavChat" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-colors duration-200 active:scale-95">
       <svg class="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/>
       </svg>
       <span class="text-[10px] font-bold uppercase tracking-widest text-white" data-i18n="nav_chat">AI Chat</span>
     </button>
-    <button id="mobileNavStory" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-all active:scale-95">
+    <button id="mobileNavStory" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-colors duration-200 active:scale-95">
       <svg class="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 6 12 12 16 14"/>
