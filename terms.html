@@ -1082,40 +1082,5 @@
     </div>
   </div>
 </footer>
-
-<!-- ── Haptic Feedback: vibration on interactive element press ── -->
-<script>
-(function(){
-  // Vibration API — works on Android/mobile, silently ignored on desktop/iOS
-  if (!navigator.vibrate && !navigator.webkitVibrate) return;
-  var vibrate = navigator.vibrate || navigator.webkitVibrate;
-
-  // Respect reduced-motion preference
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  function hapticTap(ms) {
-    try { vibrate.call(navigator, ms); } catch(e) {}
-  }
-
-  document.addEventListener('pointerdown', function(e) {
-    var el = e.target.closest(
-      'button, a, [role="button"], input[type="submit"], input[type="button"], input[type="checkbox"], label.checkbox-row, .btn-danger, [data-haptic]'
-    );
-    if (!el) return;
-    // Skip disabled elements
-    if (el.disabled || el.getAttribute('aria-disabled') === 'true') return;
-
-    // Intensity tiers
-    if (el.closest('.btn-danger') || el.matches('[data-haptic="heavy"]')) {
-      hapticTap(25);          // destructive / important actions
-    } else if (el.matches('a[href]') && !el.matches('[role="button"]')) {
-      hapticTap(5);           // light tap for plain links
-    } else {
-      hapticTap(10);          // standard tap for buttons / controls
-    }
-  }, { passive: true });
-})();
-</script>
-
 </body>
 </html>
