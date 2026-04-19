@@ -3772,8 +3772,30 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
               </div>
 
               <!-- Camera / analysis error fallback -->
-              <div id="vai-cam-error" class="hidden mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-center">
-                <div class="text-[11px] text-red-300/80" id="vai-cam-error-text" data-i18n="vibe_error_retry">try again</div>
+              <div id="vai-cam-error" class="hidden absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#09090b]/95 backdrop-blur-sm rounded-[28px] p-6 text-center">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-500/20 to-purple-500/10 border border-brand-500/30 flex items-center justify-center mb-4 shadow-lg shadow-brand-500/10">
+                  <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="vaiErrIconGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#ec4899"/>
+                        <stop offset="1" stop-color="#9333ea"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5l-8-3Z" stroke="url(#vaiErrIconGrad)" stroke-width="1.8" stroke-linejoin="round" fill="url(#vaiErrIconGrad)" fill-opacity="0.15"/>
+                    <rect x="9" y="11" width="6" height="5" rx="1.2" stroke="url(#vaiErrIconGrad)" stroke-width="1.8"/>
+                    <path d="M10.2 11V9.5a1.8 1.8 0 0 1 3.6 0V11" stroke="url(#vaiErrIconGrad)" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <h3 class="font-serif text-xl font-semibold mb-2" id="vai-cam-error-title" data-i18n="vibe_cam_denied_title">Camera Access Required</h3>
+                <p class="text-sm text-gray-400 mb-6 max-w-[280px]" id="vai-cam-error-text" data-i18n="vibe_cam_denied_desc">The Magic Mirror needs your camera to read your vibe. Allow access in browser settings and try again.</p>
+                <div class="flex gap-2 justify-center">
+                  <button id="vai-cam-back-btn" type="button" class="px-5 py-2.5 rounded-full text-xs font-bold border border-white/10 text-gray-300 hover:bg-white/5 transition">
+                    <span data-i18n="vibe_go_back">Go Back</span>
+                  </button>
+                  <button id="vai-cam-retry-btn" type="button" class="btn-primary px-6 py-2.5 rounded-full text-sm font-medium">
+                    <span data-i18n="retry">Try Again</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -4140,7 +4162,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
       </div>
 
       <!-- Hidden file input for manual closet uploads -->
-      <input type="file" id="closetUploadInput" accept="image/*" class="hidden" />
+      <input type="file" id="closetUploadInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
 
       <!-- Consent modal: shown on the FIRST ever upload attempt. Mandatory. -->
       <div id="closetUploadConsent" class="hidden fixed inset-0 z-[115] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="z-index:120">
@@ -4399,7 +4421,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
         </div>
 
         <form id="coachChatForm" class="relative z-10">
-          <input id="coachChatFile" type="file" accept="image/*" class="hidden" />
+          <input id="coachChatFile" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" />
           <div class="chat-input-bar flex items-center gap-1">
             <!-- Left: attachment buttons -->
             <button id="coachChatUploadBtn" type="button" title="Upload photo" aria-label="Upload photo" class="chat-icon-btn">
@@ -5530,7 +5552,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <!-- Two upload slots -->
           <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-5">
             <div>
-              <input type="file" id="duelFileA" accept="image/*" class="hidden" />
+              <input type="file" id="duelFileA" accept="image/jpeg,image/png,image/webp" class="hidden" />
               <button type="button" id="duelSlotA" class="duel-slot group w-full aspect-[3/4] rounded-2xl border-2 border-dashed border-white/15 bg-white/5 hover:bg-white/10 hover:border-brand-500/50 transition flex flex-col items-center justify-center gap-2 text-gray-400 relative overflow-hidden">
                 <svg class="w-8 h-8 opacity-60 group-hover:opacity-100 transition" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><circle cx="9" cy="10" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="M19 2v6"/><path d="M22 5h-6"/></svg>
                 <span class="text-xs font-bold" data-i18n="duel_upload_a">Upload A</span>
@@ -5539,7 +5561,7 @@ document.addEventListener('DOMContentLoaded', function () {
               <div class="text-center text-[11px] font-bold uppercase tracking-widest text-brand-400 mt-2" data-i18n="duel_option_a">Option A</div>
             </div>
             <div>
-              <input type="file" id="duelFileB" accept="image/*" class="hidden" />
+              <input type="file" id="duelFileB" accept="image/jpeg,image/png,image/webp" class="hidden" />
               <button type="button" id="duelSlotB" class="duel-slot group w-full aspect-[3/4] rounded-2xl border-2 border-dashed border-white/15 bg-white/5 hover:bg-white/10 hover:border-purple-500/50 transition flex flex-col items-center justify-center gap-2 text-gray-400 relative overflow-hidden">
                 <svg class="w-8 h-8 opacity-60 group-hover:opacity-100 transition" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><circle cx="9" cy="10" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="M19 2v6"/><path d="M22 5h-6"/></svg>
                 <span class="text-xs font-bold" data-i18n="duel_upload_b">Upload B</span>
@@ -7212,7 +7234,10 @@ function closePaywall() {
 // added #viewChat as a third top-level view (extracted from the
 // scanner's bottom card), so this now dispatches on targetView
 // explicitly instead of falling through.
-function toggleView(targetView) {
+function toggleView(targetView, opts) {
+    // opts.skipPush — when true, don't push a new history entry
+    // (used by popstate handler to avoid duplicate entries)
+    var _skipPush = opts && opts.skipPush;
     const viewScanner = $("viewScanner");
     const viewCloset = $("viewCloset");
     const viewChat = $("viewChat");
@@ -7325,7 +7350,8 @@ function toggleView(targetView) {
         }
         store.set({ activeView: 'closet' });
         if (location.hash !== '#closet') {
-            history.replaceState(null, '', '#closet');
+            if (_skipPush) history.replaceState({ view: 'closet' }, '', '#closet');
+            else history.pushState({ view: 'closet' }, '', '#closet');
         }
     } else if (targetView === 'chat') {
         hideScanner();
@@ -7340,7 +7366,8 @@ function toggleView(targetView) {
         // ── First-chat contextual hint ──
         showContextualHint('chat', 'viewChat');
         if (location.hash !== '#chat') {
-            history.replaceState(null, '', '#chat');
+            if (_skipPush) history.replaceState({ view: 'chat' }, '', '#chat');
+            else history.pushState({ view: 'chat' }, '', '#chat');
         }
     } else if (targetView === 'history') {
         hideScanner();
@@ -7358,7 +7385,8 @@ function toggleView(targetView) {
         }
         store.set({ activeView: 'history' });
         if (location.hash !== '#story') {
-            history.replaceState(null, '', '#story');
+            if (_skipPush) history.replaceState({ view: 'history' }, '', '#story');
+            else history.pushState({ view: 'history' }, '', '#story');
         }
     } else {
         // targetView === 'scanner' (or any unrecognized value — default).
@@ -7382,7 +7410,8 @@ function toggleView(targetView) {
 
         store.set({ activeView: 'scanner' });
         if (/^#(closet|chat|story)(\/|$)/.test(location.hash)) {
-            history.replaceState(null, '', location.pathname + location.search);
+            if (_skipPush) history.replaceState({ view: 'scanner' }, '', location.pathname + location.search);
+            else history.pushState({ view: 'scanner' }, '', location.pathname + location.search);
         }
     }
 }
@@ -7444,6 +7473,30 @@ try {
 // Expose for use by the inline mobile-nav script and other modules.
 window.toggleView = toggleView;
 window.unlockBodyScroll = unlockBodyScroll;
+
+// ============================================================
+// SPA BACK-BUTTON — Handle browser history navigation (popstate)
+// ============================================================
+// Without this, pressing the back button in a TWA or mobile browser
+// would either exit the app or reload the page instead of navigating
+// to the previous in-app view. pushState (above) creates real history
+// entries; popstate consumes them to switch views without a page load.
+window.addEventListener('popstate', function(e) {
+  try {
+    var hash = location.hash.replace('#', '');
+    var viewMap = { closet: 'closet', chat: 'chat', story: 'history' };
+    var targetView = viewMap[hash] || 'scanner';
+    var currentView = store.get().activeView;
+    // Only switch if the view actually changed (avoid redundant transitions)
+    if (targetView !== currentView) {
+      // skipPush: true prevents creating a new history entry —
+      // the user is navigating back through existing entries.
+      toggleView(targetView, { skipPush: true });
+    }
+  } catch (err) {
+    console.warn('[popstate] navigation failed:', err);
+  }
+});
 
 $("logoBtn").addEventListener("click", () => {
     // Logo taps always bring you home to the scanner view, regardless
@@ -7566,6 +7619,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       // Chat
       chat_placeholder: 'Ask me anything…',
       chat_error_unavailable: 'Couldn\'t reach the stylist right now. Please try again in a moment.',
+      chat_error_timeout: 'The stylist is taking too long to respond. Please try again.',
+      chat_error_rate_limit: 'Too many requests — please wait a moment and try again.',
       safety_minor: "DateScan is a Style & grooming coach for adults. I can't give styling or dating advice involving minors. If you're under 18, please talk to a trusted adult instead.",
       safety_sexual: "I keep things PG here. Try rephrasing your question without explicit language and I'll happily help with your outfit or grooming.",
       safety_self_harm: "It sounds like you might be going through something heavy. I'm just a styling app and I'm not the right help for this — please reach out to a crisis line in your country. In the US: call or text 988. In the UK: 116 123 (Samaritans). In the EU: 112. You matter.",
@@ -7828,6 +7883,15 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_error_title: 'Too much noise.',
       vibe_error_text: 'The mirror can\'t see your vibe yet —',
       vibe_error_retry: 'try again',
+      vibe_cam_denied_title: 'Camera Access Required',
+      vibe_cam_denied_desc: 'The Magic Mirror needs your camera to read your vibe. Allow access in your browser settings and try again.',
+      vibe_cam_no_cam_title: 'No Camera Found',
+      vibe_cam_no_cam_desc: 'No camera was detected on this device. The Magic Mirror needs a camera to work.',
+      vibe_cam_in_use_title: 'Camera In Use',
+      vibe_cam_in_use_desc: 'Another app is using your camera. Close it and try again.',
+      vibe_cam_generic_title: 'Camera Error',
+      vibe_cam_generic_desc: 'Something went wrong starting the camera. Please try again.',
+      vibe_go_back: 'Go Back',
       vai_stage_0: 'Reading palette...',
       vai_stage_1: 'Mapping silhouette...',
       vai_stage_2: 'Synthesizing vibe...',
@@ -8114,6 +8178,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_dead_heat: 'Dead Heat',
       duel_tie: 'Tie · {score} all',
       duel_tie_msg: "It's a tie. Both looks score the same for this occasion — pick the one that feels more like you tonight.",
+      duel_both_dark: 'Both looks are quite dark — try adding a lighter accent or layer to give the eye somewhere to land.',
+      duel_both_bright: 'Both looks are very light — consider grounding the outfit with a darker piece for more visual weight.',
       duel_occ_casual: 'a casual day',
       duel_occ_first_date: 'a first date',
       duel_occ_fancy: 'a fancy dinner',
@@ -8424,6 +8490,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       nav_scan: 'Scan',
       alert_select_image: 'Please select an image file.',
       alert_image_too_large: 'Image is too large (max 15 MB).',
+      alert_image_format: 'Please use JPEG, PNG, or WebP format.',
       alert_couldnt_read: "Couldn't read the image. Please try another one.",
       alert_select_datetime: 'Please select a date and time!',
       alert_date_future: 'The date must be in the future!',
@@ -9125,6 +9192,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
 
       chat_placeholder: 'Kérdezz bármit…',
       chat_error_unavailable: 'A stílusedző jelenleg nem elérhető. Kérjük, próbáld újra később.',
+      chat_error_timeout: 'A stílusedző túl sokáig válaszol. Kérjük, próbáld újra.',
+      chat_error_rate_limit: 'Túl sok kérés — kérjük, várj egy pillanatot és próbáld újra.',
       safety_minor: "A DateScan felnőtt stílusanácsadó. Nem adhatok stílus- vagy randitanácsot kiskorúaknak. Ha 18 év alatti vagy, kérjük, fordulj egy megbízható felnőtthoz.",
       safety_sexual: "Itt mindent korrekt módon tartunk. Fogalmazd át a kérdésed kifejezett nyelv nélkül, és szívesen segítek az öltözékedben vagy ápolásodban.",
       safety_self_harm: "Úgy tűnik, nehéz időszakon mész keresztül. Én csak egy stílusalkalmazás vagyok, és nem vagyok a megfelelő segítség ehhez — kérjük, fordulj a hazai krízisvonalhoz. Magyarországon: 116-123 (Kék Vonal). Az EU-ban: 112. Számítasz.",
@@ -9374,6 +9443,15 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_error_title: 'Túl sok zaj.',
       vibe_error_text: 'A tükör még nem látja a vibed —',
       vibe_error_retry: 'próbáld újra',
+      vibe_cam_denied_title: 'Kamera hozzáférés szükséges',
+      vibe_cam_denied_desc: 'A Varázstükör kamerát igényel a vibed olvasásához. Engedélyezd a hozzáférést a böngésző beállításaiban, majd próbáld újra.',
+      vibe_cam_no_cam_title: 'Nem található kamera',
+      vibe_cam_no_cam_desc: 'Nem található kamera ezen az eszközön. A Varázstükör kamerát igényel a működéshez.',
+      vibe_cam_in_use_title: 'A kamera használatban',
+      vibe_cam_in_use_desc: 'Egy másik alkalmazás használja a kamerát. Zárd be és próbáld újra.',
+      vibe_cam_generic_title: 'Kamera hiba',
+      vibe_cam_generic_desc: 'Hiba történt a kamera elindításakor. Kérjük, próbáld újra.',
+      vibe_go_back: 'Vissza',
       vai_stage_0: 'Paletta olvasása...',
       vai_stage_1: 'Sziluett leképezése...',
       vai_stage_2: 'Vibe szintetizálása...',
@@ -9660,6 +9738,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_dead_heat: 'Holtverseny',
       duel_tie: 'Döntetlen · {score}',
       duel_tie_msg: 'Döntetlen. Mindkét látvány ugyanazt a pontszámot kapta erre az alkalomra — válaszd azt, amelyik ma este inkább te vagy.',
+      duel_both_dark: 'Mindkét szett elég sötét — próbálj egy világosabb kiegészítőt vagy réteget adni, hogy legyen hová néznie a szemnek.',
+      duel_both_bright: 'Mindkét szett nagyon világos — fontold meg egy sötétebb darab hozzáadását, hogy nagyobb vizuális súlypontja legyen az öltözéknek.',
       duel_occ_casual: 'egy hétköznapi napra',
       duel_occ_first_date: 'egy első randira',
       duel_occ_fancy: 'egy elegáns vacsorára',
@@ -9970,6 +10050,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       nav_scan: 'Szkennelés',
       alert_select_image: 'Kérjük, válassz képfájlt.',
       alert_image_too_large: 'A kép túl nagy (max 15 MB).',
+      alert_image_format: 'Kérjük, JPEG, PNG vagy WebP formátumot használj.',
       alert_couldnt_read: 'Nem sikerült olvasni a képet. Próbálj mást.',
       alert_select_datetime: 'Kérjük, válassz dátumot és időpontot!',
       alert_date_future: 'A dátum a jövőben kell legyen!',
@@ -10670,6 +10751,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
 
       chat_placeholder: 'Frag mich alles…',
       chat_error_unavailable: 'Der Stylist ist gerade nicht erreichbar. Bitte versuche es gleich nochmal.',
+      chat_error_timeout: 'Der Stylist braucht zu lange für eine Antwort. Bitte versuche es erneut.',
+      chat_error_rate_limit: 'Zu viele Anfragen — bitte warte einen Moment und versuche es erneut.',
       safety_minor: "DateScan ist ein Style- und Pflegeberater für Erwachsene. Ich kann keine Stil- oder Dating-Beratung für Minderjährige geben. Wenn du unter 18 bist, wende dich bitte an eine vertrauenswürdige erwachsene Person.",
       safety_sexual: "Hier bleibt alles jugendfrei. Formuliere deine Frage ohne explizite Sprache um, und ich helfe dir gerne bei Outfit oder Pflege.",
       safety_self_harm: "Es klingt, als würdest du durch eine schwere Zeit gehen. Ich bin nur eine Style-App und nicht die richtige Hilfe dafür — bitte wende dich an eine Krisenhotline in deinem Land. In Deutschland: 0800/1110111. In der EU: 112. Du zählst.",
@@ -10919,6 +11002,15 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_error_title: 'Zu viel Rauschen.',
       vibe_error_text: 'Der Spiegel kann deinen Vibe noch nicht sehen —',
       vibe_error_retry: 'versuche es erneut',
+      vibe_cam_denied_title: 'Kamerazugriff erforderlich',
+      vibe_cam_denied_desc: 'Der Magische Spiegel benötigt deine Kamera, um deinen Vibe zu lesen. Erlaube den Zugriff in deinen Browsereinstellungen und versuche es erneut.',
+      vibe_cam_no_cam_title: 'Keine Kamera gefunden',
+      vibe_cam_no_cam_desc: 'Auf diesem Gerät wurde keine Kamera gefunden. Der Magische Spiegel benötigt eine Kamera.',
+      vibe_cam_in_use_title: 'Kamera in Benutzung',
+      vibe_cam_in_use_desc: 'Eine andere App verwendet deine Kamera. Schließe sie und versuche es erneut.',
+      vibe_cam_generic_title: 'Kamerafehler',
+      vibe_cam_generic_desc: 'Beim Starten der Kamera ist ein Fehler aufgetreten. Bitte versuche es erneut.',
+      vibe_go_back: 'Zurück',
       vai_stage_0: 'Palette wird gelesen...',
       vai_stage_1: 'Silhouette wird kartiert...',
       vai_stage_2: 'Dein Vibe wird synthetisiert...',
@@ -11205,6 +11297,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_dead_heat: 'Gleichstand',
       duel_tie: 'Unentschieden · {score}',
       duel_tie_msg: 'Unentschieden. Beide Looks erzielen dieselbe Punktzahl für diesen Anlass — wähle den, der sich heute Abend mehr wie du anfühlt.',
+      duel_both_dark: 'Beide Looks sind recht dunkel — versuche einen helleren Akzent oder eine Schicht hinzuzufügen, um dem Auge einen Ankerpunkt zu geben.',
+      duel_both_bright: 'Beide Looks sind sehr hell — ziehe in Erwägung, ein dunkleres Teil hinzuzufügen, um dem Outfit mehr visuelles Gewicht zu verleihen.',
       duel_occ_casual: 'einen lockeren Tag',
       duel_occ_first_date: 'ein erstes Date',
       duel_occ_fancy: 'ein edles Dinner',
@@ -11515,6 +11609,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       nav_scan: 'Scannen',
       alert_select_image: 'Bitte wähle eine Bilddatei.',
       alert_image_too_large: 'Bild zu groß (max 15 MB).',
+      alert_image_format: 'Bitte verwende JPEG, PNG oder WebP.',
       alert_couldnt_read: 'Bild konnte nicht gelesen werden. Bitte ein anderes versuchen.',
       alert_select_datetime: 'Bitte Datum und Uhrzeit wählen!',
       alert_date_future: 'Das Datum muss in der Zukunft liegen!',
@@ -12554,6 +12649,13 @@ window.addEventListener('langchange', function() {
     }
     if (s.lastColor && typeof renderStyleCoach === 'function') {
       renderStyleCoach(s.lastColor, s.occasion || 'casual', false, s.lastItems, true);
+    }
+    // On a failed scan (lastColor is null but lastItems exists), re-render
+    // the "Couldn't detect outfit" message in the new language and clear
+    // the feedbackPanel so old-language content doesn't persist.
+    if (!s.lastColor && s.lastItems) {
+      if (typeof renderStyleCoach === 'function') renderStyleCoach(null, s.occasion || 'casual', false, null, true);
+      if (typeof feedbackPanel !== 'undefined' && feedbackPanel) feedbackPanel.innerHTML = '';
     }
     if (typeof window.renderBadges === 'function') window.renderBadges();
     // Re-render Style DNA so labels translate on language switch
@@ -13949,13 +14051,23 @@ window.saveCurrentOutfit = function() {
   fileInput.addEventListener('change', (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      alert(t('alert_select_image'));
+    // Strict format check — only JPEG, PNG, WebP (canvas-safe)
+    var _closetAcceptTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!_closetAcceptTypes.includes(file.type)) {
+      if (typeof window.dsPrivacy?.showToast === 'function') {
+        window.dsPrivacy.showToast(t('alert_image_format'), 3500);
+      } else {
+        alert(t('alert_image_format'));
+      }
       fileInput.value = '';
       return;
     }
     if (file.size > 15 * 1024 * 1024) {
-      alert(t('alert_image_too_large'));
+      if (typeof window.dsPrivacy?.showToast === 'function') {
+        window.dsPrivacy.showToast(t('alert_image_too_large'), 3500);
+      } else {
+        alert(t('alert_image_too_large'));
+      }
       fileInput.value = '';
       return;
     }
@@ -13969,7 +14081,11 @@ window.saveCurrentOutfit = function() {
       }
     };
     reader.onerror = () => {
-      alert(t('alert_couldnt_read'));
+      if (typeof window.dsPrivacy?.showToast === 'function') {
+        window.dsPrivacy.showToast(t('alert_couldnt_read'), 3500);
+      } else {
+        alert(t('alert_couldnt_read'));
+      }
       fileInput.value = '';
     };
     reader.readAsDataURL(file);
@@ -18763,7 +18879,7 @@ async function runScan() {
     if (!cap) {
       triggerHaptic('error');
       var camBlockedItems = [{ category: "env", tone: "error", title: t('scan_cam_blocked'), text: t('scan_cam_blocked_msg'), action: t('retry'), _titleKey: 'scan_cam_blocked', _textKey: 'scan_cam_blocked_msg', _actionKey: 'retry' }];
-      store.set({ lastItems: camBlockedItems });
+      store.set({ lastItems: camBlockedItems, lastColor: null, lastFixes: null });
       renderActionPlan(camBlockedItems, false);
       return;
     }
@@ -18790,7 +18906,7 @@ async function runScan() {
         _textKey: actionKeyMap[preCheck.reason] || null,
         _actionKey: actionKeyMap[preCheck.reason] || null
       }];
-      store.set({ lastItems: preCheckItems });
+      store.set({ lastItems: preCheckItems, lastColor: null, lastFixes: null });
       renderActionPlan(preCheckItems, false);
       return;
     }
@@ -19044,6 +19160,7 @@ async function runScan() {
       if (lighting?.tooDark) {
         triggerHaptic('error');
         items.push(withKeys({ category: "env", tone: "alert", icon: "💡", title: t('fb_dark_title'), text: t('feedback_too_dark_text'), action: t('fb_dark_action') }, 'fb_dark_title', 'feedback_too_dark_text', 'fb_dark_action'));
+        store.set({ lastItems: items, lastColor: null, lastFixes: null });
         renderActionPlan(items, false);
         return;
       }
@@ -20089,7 +20206,7 @@ applyOfflineState(!navigator.onLine);
   // ── Venue vibe knowledge base ──
   const VIBE_PROFILES = {
     cocktail_bar: {
-      keywords: ['cocktail', 'bar', 'lounge', 'speakeasy', 'mixology', 'whiskey', 'gin bar', 'wine bar', 'martini', 'negroni'],
+      keywords: ['cocktail', 'bar', 'lounge', 'speakeasy', 'mixology', 'whiskey', 'gin bar', 'wine bar', 'martini', 'negroni', 'bár', 'koktél', 'borozó', 'koccintó', 'kneipe', 'cocktailbar', 'weinbar', 'barra', 'coctel', 'copa'],
       googleTypes: ['bar', 'night_club', 'liquor_store'],
       icon: '🍸',
       label: 'Cocktail Bar / Lounge',
@@ -20102,7 +20219,7 @@ applyOfflineState(!navigator.onLine);
       tags: ['dim lighting', 'intimate', 'warm tones', 'evening', 'sophisticated']
     },
     rooftop: {
-      keywords: ['rooftop', 'roof', 'terrace', 'skybar', 'sky bar', 'penthouse', 'view', 'panoramic'],
+      keywords: ['rooftop', 'roof', 'terrace', 'skybar', 'sky bar', 'penthouse', 'view', 'panoramic', 'tetőtér', 'terasz', 'kilátás', 'dachterrasse', 'dach', 'aussicht', 'terraza', 'azotea', 'mirador'],
       googleTypes: [],
       icon: '🌆',
       label: 'Rooftop / Terrace',
@@ -20115,7 +20232,7 @@ applyOfflineState(!navigator.onLine);
       tags: ['outdoor', 'golden hour', 'breezy', 'natural light', 'evening']
     },
     fine_dining: {
-      keywords: ['fine dining', 'michelin', 'tasting menu', 'gastronomy', 'restaurant', 'bistro', 'brasserie', 'ristorante', 'omakase', 'chef\'s table'],
+      keywords: ['fine dining', 'michelin', 'tasting menu', 'gastronomy', 'restaurant', 'bistro', 'brasserie', 'ristorante', 'omakase', 'chef\'s table', 'étterem', 'gasztronómia', 'fine dining', 'kóstoló', 'feinstes restaurant', 'gourmet', 'sternen', 'gastronomie', 'restaurant', 'gourmet', 'degustación'],
       googleTypes: ['restaurant'],
       icon: '🍽️',
       label: 'Fine Dining',
@@ -20128,7 +20245,7 @@ applyOfflineState(!navigator.onLine);
       tags: ['elegant', 'intimate', 'refined', 'indoor', 'evening']
     },
     coffee: {
-      keywords: ['coffee', 'cafe', 'café', 'coffee shop', 'espresso', 'latte', 'cappuccino', 'bakery', 'brunch'],
+      keywords: ['coffee', 'cafe', 'café', 'coffee shop', 'espresso', 'latte', 'cappuccino', 'bakery', 'brunch', 'kávézó', 'kávé', 'pékség', 'kaffeehaus', 'kaffee', 'bäckerei', 'cafetería', 'pastelería', 'кафе', 'кофе'],
       googleTypes: ['cafe', 'bakery'],
       icon: '☕',
       label: 'Coffee Shop / Café',
@@ -20141,7 +20258,7 @@ applyOfflineState(!navigator.onLine);
       tags: ['casual', 'daytime', 'cozy', 'natural light', 'relaxed']
     },
     club: {
-      keywords: ['club', 'nightclub', 'dj', 'dance', 'disco', 'rave', 'techno', 'house music', 'vip'],
+      keywords: ['club', 'nightclub', 'dj', 'dance', 'disco', 'rave', 'techno', 'house music', 'vip', 'szórakozóhely', 'diszkó', 'buli', 'disco', 'nachtclub', 'diskothek', 'discoteca', 'fiesta', 'baile', 'клуб', 'дискотека'],
       googleTypes: ['night_club'],
       icon: '🪩',
       label: 'Nightclub / Dance Floor',
@@ -20154,7 +20271,7 @@ applyOfflineState(!navigator.onLine);
       tags: ['neon lighting', 'high energy', 'dark', 'loud', 'night']
     },
     park: {
-      keywords: ['park', 'garden', 'botanical', 'outdoor', 'picnic', 'walk', 'hike', 'trail', 'lake', 'beach', 'seaside'],
+      keywords: ['park', 'garden', 'botanical', 'outdoor', 'picnic', 'walk', 'hike', 'trail', 'lake', 'beach', 'seaside', 'park', 'kert', 'szabadtér', 'séta', 'túra', 'strand', 'tó', 'garten', 'spaziergang', 'wanderung', 'see', 'strand', 'parque', 'jardín', 'paseo', 'lago', 'playa'],
       googleTypes: ['park', 'natural_feature', 'campground'],
       icon: '🌿',
       label: 'Outdoor / Nature',
@@ -20167,7 +20284,7 @@ applyOfflineState(!navigator.onLine);
       tags: ['outdoor', 'daylight', 'natural', 'relaxed', 'active']
     },
     cinema: {
-      keywords: ['cinema', 'movie', 'theater', 'film', 'imax', 'screening'],
+      keywords: ['cinema', 'movie', 'theater', 'film', 'imax', 'screening', 'mozi', 'film', 'színház', 'vetsítés', 'kino', 'filmtheater', 'vorstellung', 'cine', 'película', 'teatro', 'кино', 'фильм'],
       googleTypes: ['movie_theater'],
       icon: '🎬',
       label: 'Cinema / Theater',
@@ -20302,9 +20419,31 @@ applyOfflineState(!navigator.onLine);
     }
 
     if (!bestMatch) {
-      const nightWords = ['bar', 'club', 'lounge', 'night', 'evening', 'dinner'];
-      const dayWords = ['lunch', 'brunch', 'morning', 'breakfast', 'afternoon', 'cafe'];
-      const formalWords = ['restaurant', 'dining', 'reservations', 'private'];
+      // Multi-language fallback keyword lists — the primary VIBE_PROFILES
+      // keywords are English-only, so non-English venue names slip through.
+      // Adding Hungarian, German, Spanish, etc. equivalents ensures the
+      // keyword analyzer works for users typing in their own language.
+      const nightWords = [
+        'bar', 'club', 'lounge', 'night', 'evening', 'dinner',
+        'bár', 'klub', 'este', 'vacsora', 'szórakozóhely', 'pub',
+        'kneipe', 'abend', 'abendessen', 'lounge', 'nachtleben',
+        'noche', 'cena', 'copa', 'discoteca', 'fiesta',
+        'večer', 'noc', 'klub', 'večera', 'večerinka'
+      ];
+      const dayWords = [
+        'lunch', 'brunch', 'morning', 'breakfast', 'afternoon', 'cafe',
+        'ebéd', 'reggeli', 'délelőtt', 'délután', 'kávézó',
+        'mittagessen', 'frühstück', 'vormittag', 'nachmittag', 'kaffee',
+        'almuerzo', 'desayuno', 'mañana', 'tarde', 'cafetería',
+        'obed', 'zavtrak', 'utro', 'kafe'
+      ];
+      const formalWords = [
+        'restaurant', 'dining', 'reservations', 'private',
+        'étterem', 'fine dining', 'foglalás', 'privát', 'exkluzív',
+        'restaurant', 'gastronomie', 'reservierung', 'exklusiv',
+        'restaurante', 'reservación', 'exclusivo', 'privado',
+        'restavracija', 'rezervacija', 'ekskluziv'
+      ];
 
       let isNight = nightWords.some(w => lower.includes(w));
       let isDay = dayWords.some(w => lower.includes(w));
@@ -22053,11 +22192,29 @@ function onGoogleMapsLoaded() {
       fileInput.value = '';
       return;
     }
+    // Validate each file: only JPEG/PNG/WebP, max 15 MB
+    var _chatAcceptTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    var _chatMaxSize = 15 * 1024 * 1024;
+    var _validFiles = [];
     for (const f of files) {
+      if (!_chatAcceptTypes.includes(f.type)) {
+        window.dsPrivacy?.showToast?.(t('alert_image_format'), 3500);
+        continue; // skip this file, process the rest
+      }
+      if (f.size > _chatMaxSize) {
+        window.dsPrivacy?.showToast?.(t('alert_image_too_large'), 3500);
+        continue;
+      }
+      _validFiles.push(f);
+    }
+    for (const f of _validFiles) {
       try {
         const compressed = await compressImage(f);
         pendingAttachments.push({ url: compressed, source: 'upload' });
-      } catch(err) { console.error('Compress failed:', err); }
+      } catch(err) {
+        console.error('Compress failed:', err);
+        window.dsPrivacy?.showToast?.(t('alert_couldnt_read'), 3500);
+      }
     }
     renderAttachments();
     fileInput.value = '';
@@ -22117,14 +22274,27 @@ function onGoogleMapsLoaded() {
     }
 
     try {
+      // AbortController with timeout — prevents infinite typing indicator
+      // when the API hangs or the connection drops silently.
+      const _chatController = new AbortController();
+      const _chatTimeout = setTimeout(() => _chatController.abort(), 30000); // 30s hard limit
+
       const res = await fetch(WORKER_URL + '/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: MODEL, messages: messagesForApi })
+        body: JSON.stringify({ model: MODEL, messages: messagesForApi }),
+        signal: _chatController.signal
       });
+      clearTimeout(_chatTimeout);
+
       if (!res.ok) {
         const errText = await res.text().catch(() => '');
-        throw new Error('HTTP ' + res.status + ' ' + errText);
+        // Specific handling for rate-limit (429) — give the user a clear
+        // message instead of a generic "couldn't reach stylist".
+        if (res.status === 429) {
+          throw Object.assign(new Error('RATE_LIMIT'), { status: 429 });
+        }
+        throw Object.assign(new Error('HTTP ' + res.status + ' ' + errText), { status: res.status });
       }
       const data = await res.json();
       const reply = data.reply || data.content || data.message ||
@@ -22152,13 +22322,19 @@ function onGoogleMapsLoaded() {
     } catch (err) {
       stopTypingIndicator(thinking);
       thinking.classList.remove('animate-pulse');
-      // Always resolve error message in the correct language — never show English
-      // when the user has selected HU or DE, regardless of i18n module state.
-      var _l = 'en';
-      try { _l = (typeof window.getLang === 'function') ? window.getLang() : (localStorage.getItem('datescan.lang') || 'en'); } catch(e) {}
-      var _errMsg = _l === 'hu' ? 'A stílusedző jelenleg nem elérhető. Kérjük, próbáld újra később.'
-                   : _l === 'de' ? 'Der Stylist ist gerade nicht erreichbar. Bitte versuche es gleich nochmal.'
-                   : "Couldn't reach the stylist right now. Please try again in a moment.";
+      // Determine the specific error type and show a user-friendly message
+      // in the current language via t() instead of hardcoded strings.
+      var _errMsg;
+      if (err && err.name === 'AbortError') {
+        // Fetch timed out (30s hard limit)
+        _errMsg = t('chat_error_timeout');
+      } else if (err && err.message === 'RATE_LIMIT') {
+        // 429 Too Many Requests — rate-limited by the backend
+        _errMsg = t('chat_error_rate_limit');
+      } else {
+        // Generic network / server error
+        _errMsg = t('chat_error_unavailable');
+      }
       setBubbleText(thinking, "⚠️ " + _errMsg);
       console.error('Style Coach chat error:', err);
     }
@@ -22887,12 +23063,33 @@ function onGoogleMapsLoaded() {
       });
       video.srcObject = stream;
     } catch (err) {
-      let msg = t('scan_cam_error_read');
-      if (err && err.name === 'NotAllowedError') msg = t('scan_cam_denied');
-      else if (err && err.name === 'NotFoundError') msg = t('scan_cam_not_found');
-      else if (err && err.name === 'NotReadableError') msg = t('scan_cam_in_use');
-      camErrorTxt.textContent = msg;
+      stopCamera();
+      // Update error title and description based on error type
+      const camErrorTitle = document.getElementById('vai-cam-error-title');
+      let titleKey = 'vibe_cam_denied_title';
+      let descKey = 'vibe_cam_denied_desc';
+      if (err && err.name === 'NotAllowedError') {
+        titleKey = 'vibe_cam_denied_title';
+        descKey = 'vibe_cam_denied_desc';
+      } else if (err && err.name === 'NotFoundError') {
+        titleKey = 'vibe_cam_no_cam_title';
+        descKey = 'vibe_cam_no_cam_desc';
+      } else if (err && err.name === 'NotReadableError') {
+        titleKey = 'vibe_cam_in_use_title';
+        descKey = 'vibe_cam_in_use_desc';
+      } else {
+        titleKey = 'vibe_cam_generic_title';
+        descKey = 'vibe_cam_generic_desc';
+      }
+      if (camErrorTitle) {
+        camErrorTitle.textContent = t(titleKey);
+        camErrorTitle.setAttribute('data-i18n', titleKey);
+      }
+      camErrorTxt.textContent = t(descKey);
+      camErrorTxt.setAttribute('data-i18n', descKey);
       camError.classList.remove('hidden');
+      // Haptic feedback on error
+      if (typeof window.triggerHaptic === 'function') window.triggerHaptic('error');
     }
   }
 
@@ -23161,6 +23358,16 @@ function onGoogleMapsLoaded() {
   $vai('vai-open-mirror-btn').addEventListener('click', openMirror);
   $vai('vai-cancel-mirror-btn').addEventListener('click', cancelMirror);
   $vai('vai-capture-btn').addEventListener('click', runScan);
+  // Camera error CTA buttons
+  $vai('vai-cam-back-btn') && $vai('vai-cam-back-btn').addEventListener('click', function() {
+    stopCamera();
+    camError.classList.add('hidden');
+    show(idle);
+  });
+  $vai('vai-cam-retry-btn') && $vai('vai-cam-retry-btn').addEventListener('click', function() {
+    camError.classList.add('hidden');
+    openMirror();
+  });
   $vai('vai-reset-btn').addEventListener('click', reset);
   $vai('vai-share-btn').addEventListener('click', () => {
     if (typeof window.openShareModal === 'function' && lastResult) {
@@ -25020,8 +25227,35 @@ function onGoogleMapsLoaded() {
   fileA.addEventListener('change', (e) => handleFile(e.target.files[0], 'A'));
   fileB.addEventListener('change', (e) => handleFile(e.target.files[0], 'B'));
 
+  // Accepted MIME types and max file size for duel uploads.
+  // HEIC/HEIF, TIFF, SVG, etc. are rejected because canvas cannot
+  // reliably decode them across browsers — only JPEG, PNG, WebP are safe.
+  var _DUEL_ACCEPT_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+  var _MAX_FILE_SIZE = 15 * 1024 * 1024; // 15 MB
+
   function handleFile(file, slot) {
-    if (!file || !file.type.startsWith('image/')) return;
+    var inputEl = slot === 'A' ? fileA : fileB;
+    if (!file) return;
+    // Format check — reject anything that isn't JPEG, PNG, or WebP
+    if (!_DUEL_ACCEPT_TYPES.includes(file.type)) {
+      if (typeof window.dsPrivacy?.showToast === 'function') {
+        window.dsPrivacy.showToast(t('alert_image_format'), 3500);
+      } else {
+        alert(t('alert_image_format'));
+      }
+      inputEl.value = '';
+      return;
+    }
+    // Size check — reject files over 15 MB
+    if (file.size > _MAX_FILE_SIZE) {
+      if (typeof window.dsPrivacy?.showToast === 'function') {
+        window.dsPrivacy.showToast(t('alert_image_too_large'), 3500);
+      } else {
+        alert(t('alert_image_too_large'));
+      }
+      inputEl.value = '';
+      return;
+    }
     const reader = new FileReader();
     reader.onload = async () => {
       const dataURL = reader.result;
@@ -25034,7 +25268,16 @@ function onGoogleMapsLoaded() {
         updateRunButton();
       } catch (err) {
         console.error('[duel] analyze failed', err);
+        if (typeof window.dsPrivacy?.showToast === 'function') {
+          window.dsPrivacy.showToast(t('alert_couldnt_read'), 3500);
+        }
       }
+    };
+    reader.onerror = () => {
+      if (typeof window.dsPrivacy?.showToast === 'function') {
+        window.dsPrivacy.showToast(t('alert_couldnt_read'), 3500);
+      }
+      inputEl.value = '';
     };
     reader.readAsDataURL(file);
   }
@@ -25231,6 +25474,28 @@ function onGoogleMapsLoaded() {
 
     if (!w || !l) {
       return t('duel_tie_msg');
+    }
+
+    // Edge case: both images are very dark or very bright.
+    // The standard verdict logic would say "its darker tone reads more
+    // grounded" which sounds odd when both are essentially black — the
+    // winning axis delta is tiny and the reason is misleading.
+    // Instead, acknowledge the shared trait and offer constructive advice.
+    var _bothDarkThreshold = 70;   // avgLuma below this ≈ very dark
+    var _bothBrightThreshold = 200; // avgLuma above this ≈ very bright
+    if (a.avgLuma < _bothDarkThreshold && b.avgLuma < _bothDarkThreshold) {
+      var occLabel = {
+        casual: t('duel_occ_casual'),
+        first_date: t('duel_occ_first_date'),
+        fancy: t('duel_occ_fancy'),
+        night_out: t('duel_occ_night_out')
+      }[occ] || occ;
+      return t('duel_go_with').replace('{lbl}', lbl).replace('{reason}',
+        t('duel_both_dark'));
+    }
+    if (a.avgLuma > _bothBrightThreshold && b.avgLuma > _bothBrightThreshold) {
+      return t('duel_go_with').replace('{lbl}', lbl).replace('{reason}',
+        t('duel_both_bright'));
     }
 
     const dLuma     = w.avgLuma - l.avgLuma;
