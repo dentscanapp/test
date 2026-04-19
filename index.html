@@ -2609,6 +2609,45 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     a.rounded-2xl:hover, a.rounded-3xl:hover,
     button.rounded-2xl:hover, button.rounded-3xl:hover{ transform: none; }
   }
+
+  /* =================================================================
+     NO-TREMOR OVERRIDE — kills every infinite/perpetual animation on
+     CTA buttons and their pseudo-elements. Buttons stay completely
+     still on load. Hover/active still work (transitions, not animations).
+     ================================================================= */
+  button[class*="from-brand-500"],
+  a[class*="from-brand-500"],
+  button[class*="from-brand-400"],
+  a[class*="from-brand-400"],
+  button[class*="bg-brand-500"],
+  a[class*="bg-brand-500"],
+  button[class*="bg-pink-500"],
+  a[class*="bg-pink-500"]{
+    animation: none !important;
+    transform: none;
+  }
+  button[class*="from-brand-500"]::before,
+  button[class*="from-brand-500"]::after,
+  a[class*="from-brand-500"]::before,
+  a[class*="from-brand-500"]::after,
+  button[class*="from-brand-400"]::before,
+  button[class*="from-brand-400"]::after,
+  a[class*="from-brand-400"]::before,
+  a[class*="from-brand-400"]::after,
+  .from-brand-500.to-purple-500.rounded-2xl::after,
+  .from-brand-500.to-purple-500.rounded-3xl::after{
+    animation: none !important;
+  }
+  /* Kill heartbeat scale on any animate-pulse brand element */
+  .animate-pulse[class*="bg-brand"],
+  .animate-pulse[class*="bg-pink"],
+  [class*="bg-brand"].animate-pulse,
+  [class*="bg-pink"].animate-pulse{
+    animation: none !important;
+    transform: none !important;
+  }
+  /* Ambient aurora background — kill transform animation (still paints) */
+  .ambient-glow{ animation: none !important; transform: translate(-50%,-50%) !important; }
 </style>
 </head>
 <body class="relative antialiased text-gray-100">
