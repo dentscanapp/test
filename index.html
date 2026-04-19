@@ -2876,6 +2876,20 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05); }
     50%      { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 12px rgba(236,72,153,0.25); }
   }
+  /* When the language dropdown is open, suppress hover on specific nav
+     buttons by ID. The lang-open class is toggled on <body> by JS. */
+  body.lang-open #navClosetBtn,
+  body.lang-open #navClosetBtn:hover,
+  body.lang-open #navAiChatBtn,
+  body.lang-open #navAiChatBtn:hover,
+  body.lang-open #navStoryModeBtn,
+  body.lang-open #navStoryModeBtn:hover,
+  body.lang-open #pointsBadge,
+  body.lang-open #pointsBadge:hover,
+  body.lang-open #earnPointsBtn,
+  body.lang-open #earnPointsBtn:hover {
+    pointer-events: none;
+  }
 </style>
 
 <!-- ===== AGE GATE (18+) ===== -->
@@ -3187,9 +3201,9 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       <span class="hidden sm:inline" data-i18n="nav_chat">AI Chat</span>
     </button>
-    <button id="navStoryModeBtn" class="hidden lg:flex text-xs font-bold px-3 py-2 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors items-center gap-1.5" title="Story Mode">
+    <button id="navStoryModeBtn" class="hidden lg:flex text-xs font-bold px-3 py-2 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors items-center gap-1.5" title="Story">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      <span class="hidden sm:inline" data-i18n="nav_story">Story Mode</span>
+      <span class="hidden sm:inline" data-i18n="nav_story">Story</span>
     </button>
     <!-- Points pill (replaces the old "Free Scans Left" badge).
          Populated by updatePointsBadge(). Always visible — shows the
@@ -3226,12 +3240,15 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
         <span id="langSelectorLabel">EN</span>
         <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
       </button>
-      <div id="langSelectorDropdown" class="hidden fixed z-[200] min-w-[160px] bg-dark-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden py-1.5" role="listbox" aria-label="Select language">
-        <!-- Populated by JS from getSupportedLangs() -->
-      </div>
     </div>
   </div>
 </header>
+<!-- Language dropdown lives OUTSIDE the header so it gets its own
+     stacking context in the root. This prevents Chrome from triggering
+     hover states on nav buttons while the cursor moves over dropdown items. -->
+<div id="langSelectorDropdown" class="hidden fixed backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden py-1.5" style="z-index:200; min-width:160px; background-color:rgba(9,9,11,.95)" role="listbox" aria-label="Select language">
+  <!-- Populated by JS from getSupportedLangs() -->
+</div>
 
 <main class="relative z-20 px-4 sm:px-6 pb-12 max-w-7xl mx-auto overflow-hidden">
   
@@ -4037,11 +4054,11 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                <span data-i18n="closet_build_outfit">Build Outfit</span>
             </button>
-            <button id="closetExportBtn" class="px-4 py-2.5 rounded-xl text-sm font-bold flex gap-2 items-center justify-center flex-1 md:flex-none bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Export closet backup">
+            <button id="closetExportBtn" class="px-4 py-2.5 rounded-xl text-sm font-bold flex gap-2 items-center justify-center flex-1 bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Export closet backup">
                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                <span data-i18n="closet_export">Export</span>
             </button>
-            <button id="closetImportBtn" class="px-4 py-2.5 rounded-xl text-sm font-bold flex gap-2 items-center justify-center flex-1 md:flex-none bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Import closet backup">
+            <button id="closetImportBtn" class="px-4 py-2.5 rounded-xl text-sm font-bold flex gap-2 items-center justify-center flex-1 bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Import closet backup">
                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                <span data-i18n="closet_import">Import</span>
             </button>
@@ -4679,6 +4696,34 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
             <div class="text-3xl mb-2 opacity-40">🔖</div>
             <p class="text-sm text-gray-400" data-i18n="saved_tips_empty">No saved tips yet</p>
             <p class="text-[11px] text-gray-500 mt-1" data-i18n="saved_tips_hint">Tap the bookmark button on chat responses to save tips</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Duel History — past A/B outfit comparisons -->
+      <div class="premium-glass rounded-[32px] p-6 sm:p-8 relative overflow-hidden mb-8">
+        <div class="absolute -top-12 -left-12 w-36 h-36 rounded-full bg-purple-500/10 mix-blend-screen filter blur-[40px] pointer-events-none"></div>
+        <div class="absolute -bottom-12 -right-12 w-28 h-28 rounded-full bg-brand-500/10 mix-blend-screen filter blur-[40px] pointer-events-none"></div>
+        <div class="relative z-10">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-purple-500/15 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <div>
+                <h3 data-i18n="duel_history_title" class="font-serif text-xl font-semibold text-white">Duel History</h3>
+                <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="duel_history_subtitle">Past outfit face-offs</p>
+              </div>
+            </div>
+            <span id="duelHistoryCount" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-500/15 text-purple-400 border border-purple-500/20">0</span>
+          </div>
+          <div id="duelHistoryList" class="space-y-3 max-h-[420px] overflow-y-auto pr-1">
+            <!-- Populated by JS -->
+          </div>
+          <div id="duelHistoryEmpty" class="hidden text-center py-8">
+            <div class="text-3xl mb-2 opacity-40">⚔️</div>
+            <p class="text-sm text-gray-400" data-i18n="duel_history_empty">No duels yet</p>
+            <p class="text-[11px] text-gray-500 mt-1" data-i18n="duel_history_hint">Compare two outfits head-to-head from the Closet</p>
           </div>
         </div>
       </div>
@@ -5629,7 +5674,7 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
 
           <p class="text-[10px] text-gray-600 text-center mt-4 leading-relaxed" data-i18n="on_device_analysis">
-            On-device analysis · photos never leave your browser
+            On-device analysis · photos never leave your device
           </p>
         </div>
       </div>
@@ -7590,7 +7635,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       // Navigation
       nav_closet: 'Closet',
       nav_chat: 'AI Chat',
-      nav_story: 'Story Mode',
+      nav_story: 'Story',
       nav_scan: 'Scan',
       nav_go_pro: 'PRO',
       nav_pts: 'PTS',
@@ -7607,7 +7652,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       scan_cam_denied: 'Access denied. Please open Settings > Safari > Camera and set it to \'Allow\' or \'Ask\'.',
       scan_cam_not_found: 'No camera found on this device.',
       scan_cam_in_use: 'Camera in use by another app.',
-      scan_cam_error_dark: 'too dark — turn on a light',
+      scan_cam_error_dark: 'too dark — turn on the lights',
       cam_couldnt_start: "Couldn't start the camera",
       cam_retry: 'Retry',
       cam_more_help: 'More help',
@@ -8170,8 +8215,15 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_metric_warmth: 'Warmth',
       duel_verdict: 'Verdict',
       duel_ask_friends: 'Ask your friends',
+      duel_history_title: 'Duel History',
+      duel_history_subtitle: 'Past outfit face-offs',
+      duel_history_empty: 'No duels yet',
+      duel_history_hint: 'Compare two outfits head-to-head from the Closet',
+      duel_history_vs: 'vs',
+      duel_history_won: 'won',
+      duel_history_tie_short: 'Tie',
       xp_bonus_5: '+5 XP',
-      duel_privacy: 'On-device analysis · photos never leave your browser',
+      duel_privacy: 'On-device analysis · photos never leave your device',
       duel_winner: 'Winner',
       duel_winner_a: 'Option A · +{diff} points',
       duel_winner_b: 'Option B · +{diff} points',
@@ -8437,7 +8489,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       paywall_feature1: 'Unlimited AI coaching',
       paywall_feature2: 'Full improvement breakdown',
       paywall_feature3: 'Track your progress',
-      on_device_analysis: 'On-device analysis · photos never leave your browser',
+      on_device_analysis: 'On-device analysis · photos never leave your device',
       privacy_policy: 'Privacy Policy',
       terms_of_service: 'Terms of Service',
       scan_outfit_face: 'Scan Outfit & Face',
@@ -9171,12 +9223,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       nav_pts: 'PONT',
       nav_offline: 'Offline',
 
-      scan_extracting: 'Vibe-ok kinyerése...',
+      scan_extracting: 'Stílusjegyek elemzése...',
       scan_initializing: 'Inicializálás...',
       scan_waiting_camera: 'Várakozás kamerára',
       scan_ready: 'Kész',
       scan_starting_camera: 'Kamera indítása...',
-      scan_loading_coach: 'Keresés indítása...',
+      scan_loading_coach: 'Tanácsadó betöltése...',
       scan_fallback_cpu: 'Váltás CPU módra…',
       scan_cam_denied: 'Hozzáférés megtagadva. Nyisd meg a Beállítások > Safari > Kamera és állítsd „Engedélyezés\" vagy „Kérdezés\" értékre.',
       scan_cam_not_found: 'Nem található kamera ezen az eszközön.',
@@ -9201,7 +9253,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       chat_upload: 'Fénykép feltöltése',
       chat_closet_pick: 'Választás szekrényből',
       chat_send: 'Küldés',
-      chat_thinking: 'Szkennelés indítása',
+      chat_thinking: 'Gondolkodom...',
       chat_good: 'Jó válasz',
       chat_poor: 'Gyenge válasz',
       chat_save_tip: 'Tipp mentése',
@@ -9212,9 +9264,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       typing_hint_reading: 'Üzeneted olvasom…',
       typing_hint_photo: 'Fényképedet nézem…',
       typing_hint_color: 'Színharmoniát fontolgatok…',
-      typing_hint_fit: 'Az illeszkedésen gondolkodom…',
+      typing_hint_fit: 'A méretezést és szabást elemzem…',
       typing_hint_advice: 'A legjobb tanácsot keresem…',
-      typing_hint_glasses: 'Ráveszem a stílusszemüveget…',
+      typing_hint_glasses: 'Felveszem a stílusszemüvegem…',
       typing_hint_outfit: 'Szemrevételezem az öltözéked…',
       typing_hint_score: 'Kiszámolom a stílusod pontszámát…',
       typing_hint_vibe: 'Megnézem mi illik hozzád…',
@@ -9227,7 +9279,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       offline_tips_header: 'Stílustippek · Offline',
       tip_title_color_harmony: 'Színharmonia',
       tip_color_harmony: 'Maximum 2-3 szín. Semleges + egy árnyalat csiszolt megjelenést ad tipp nélkül.',
-      tip_title_fit_over_brand: 'Illeszkedés a márka felett',
+      tip_title_fit_over_brand: 'Szabás a márka felett',
       tip_fit_over_brand: 'Egy jól illeszkedő alapdarab mindig jobb, mint egy rosszul álló tervezői ruha. A váll- és derékilleszkedés a legfontosabb.',
       tip_title_layer_smart: 'Rétegezz okosan',
       tip_layer_smart: 'Vékony alapréteggel indulj, adj hozzá egy középréteget a melegért, és egy látványos felsőréteggel zárd.',
@@ -9287,7 +9339,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       weather_not_supported: 'A böngésző nem támogatja a geolokációt.',
       weather_no_colors: 'Még nincsenek felismert színek.',
 
-      report_placeholder: 'Opcionális: van-e még valami, amit tudnunk kell?',
+      report_placeholder: 'Opcionális: részletezd a hibát vagy add meg a kontextust...',
       report_sending: 'Küldés…',
       report_send: 'Jelentés küldése',
       report_thanks: 'Köszönjük — jelentés megérkezett.',
@@ -9518,7 +9570,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       dna_insight_one_occ: 'Minden öltözék <strong>{{occ}}</strong> volt {{period}}. Próbálj bekeverni más alkalomtípust a skálád bővítésére.',
       dna_insight_occ_heavy: '<strong>{{pct}}% {{occ}}</strong> {{period}}. Erős hajlás — fontold meg a váltogatást.',
       dna_insight_score_high: 'Átlag pontszám <strong>{{score}}/100</strong> {{period}}. Következetesen jó formában vagy.',
-      dna_insight_score_low: 'Átlag pontszám <strong>{{score}}/100</strong> {{period}}. Rengeteg hely van a javításra — fókuszálj a színkontrasztra és az illeszkedésre.',
+      dna_insight_score_low: 'Átlag pontszám <strong>{{score}}/100</strong> {{period}}. Bőven van mit csiszolni rajta — figyelj a színkontrasztra és az elemek igazítására.',
       dna_insight_high_variety: 'Magas változatosság — <strong>{{pct}}%</strong> szín-diverzitás {{period}}. Sokat kísérletezel.',
       dna_insight_low_variety: 'Színváltozatosság csak <strong>{{pct}}%</strong> {{period}}. Ugyanaz a paletta ismét — próbálj egy új árnyalatot.',
       dna_insight_signature: '<strong>{{pct}}% {{color}}</strong> {{period}}. Ez a te védjegyszíned.',
@@ -9730,6 +9782,13 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_metric_warmth: 'Melegség',
       duel_verdict: 'Ítélet',
       duel_ask_friends: 'Kérdezd a barátaidat',
+      duel_history_title: 'Párbaj előzmények',
+      duel_history_subtitle: 'Korábbi öltözék párbajok',
+      duel_history_empty: 'Még nem volt párbaj',
+      duel_history_hint: 'Hasonlítsd össze két szettet a Szekrényből',
+      duel_history_vs: 'vs',
+      duel_history_won: 'nyert',
+      duel_history_tie_short: 'Döntetlen',
       xp_bonus_5: '+5 XP',
       duel_privacy: 'Helyi elemzés · a képek sosem hagyják el a böngészőt',
       duel_winner: 'Győztes',
@@ -9779,7 +9838,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       paywall_year: 'Év',
       paywall_year_desc: 'Fejleszd a megjelenésed tudatosan!',
       paywall_best_value: 'Legjobb ár — 58% megtakarítás',
-      paywall_secure: 'Biztonságos fizetés Google Play-en',
+      paywall_secure: 'Biztonságos fizetés Google Playen',
       paywall_maybe_later: 'Talán később',
       privacy_label: 'Adatvédelem & Adatok',
       privacy_title: 'Mi hagyja el az eszközt',
@@ -9881,7 +9940,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       feedback_steady: 'Stabil — 0 pont különbség a korábbi szkenneléshez képest.',
       feedback_no_outfit: 'Nem sikerült egyértelműen felismerni az öltözéket.',
       footer_brand_desc: 'Az AI szárnysegéded. Szkenneld az öltözékedet, kapj azonnali stílus- és ápoltsági visszajelzést.',
-      footer_on_device: 'A kamera szkennelés helyben fut',
+      footer_on_device: 'A kameraszkennelés helyben fut',
       footer_legal: 'Jogi',
       footer_privacy: 'Adatvédelmi Tájékoztató',
       footer_terms: 'Felhasználási Feltételek',
@@ -10723,33 +10782,33 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
     },
     de: {
       nav_closet: 'Schrank',
-      nav_chat: 'AI Chat',
-      nav_story: 'Story',
-      nav_scan: 'Scannen',
+      nav_chat: 'KI-Chat',
+      nav_story: 'Verlauf',
+      nav_scan: 'Scan',
       nav_go_pro: 'PRO',
-      nav_pts: 'Punkt',
+      nav_pts: 'PKT',
       nav_offline: 'Offline',
 
-      scan_extracting: 'Vibes extrahieren...',
+      scan_extracting: 'Stil wird analysiert...',
       scan_initializing: 'Initialisierung...',
-      scan_waiting_camera: 'Warte auf Kamera',
+      scan_waiting_camera: 'Warten auf Kamera...',
       scan_ready: 'Bereit',
-      scan_starting_camera: 'Kamera starten...',
-      scan_loading_coach: 'AI Coach laden...',
-      scan_fallback_cpu: 'Wechsel zu CPU-Modus…',
-      scan_cam_denied: 'Zugriff verweigert. Öffne Einstellungen > Safari > Kamera und wähle „Erlauben\" oder „Fragen\".',
+      scan_starting_camera: 'Kamera wird gestartet...',
+      scan_loading_coach: 'Coach wird geladen...',
+      scan_fallback_cpu: 'Wechsel zum CPU-Modus...',
+      scan_cam_denied: 'Zugriff verweigert. Bitte öffne Einstellungen > Safari > Kamera und setze den Zugriff auf „Erlauben" oder „Fragen".',
       scan_cam_not_found: 'Keine Kamera auf diesem Gerät gefunden.',
-      scan_cam_in_use: 'Kamera wird von einer anderen App verwendet.',
-      scan_cam_error_dark: 'zu dunkel — Licht einschalten',
+      scan_cam_in_use: 'Die Kamera wird von einer anderen App verwendet.',
+      scan_cam_error_dark: 'Zu dunkel – bitte Licht einschalten',
       cam_couldnt_start: 'Kamera konnte nicht gestartet werden',
       cam_retry: 'Erneut versuchen',
       cam_more_help: 'Weitere Hilfe',
-      scan_cam_error_bright: 'überbelichtet — Helligkeit reduzieren',
-      scan_cam_error_empty: 'nichts zu analysieren — halte die Kamera auf dich',
-      scan_cam_error_read: 'Kamerabild nicht lesbar',
-      scan_cam_error_fail: 'Analyse fehlgeschlagen, versuche es erneut',
+      scan_cam_error_bright: 'Zu hell – bitte Licht dämpfen',
+      scan_cam_error_empty: 'Kein Bild zum Analysieren – bitte Kamera auf dich richten',
+      scan_cam_error_read: 'Kamerabild kann nicht gelesen werden',
+      scan_cam_error_fail: 'Analyse fehlgeschlagen, bitte erneut versuchen',
 
-      chat_placeholder: 'Frag mich alles…',
+      chat_placeholder: 'Frag mich etwas...',
       chat_error_unavailable: 'Der Stylist ist gerade nicht erreichbar. Bitte versuche es gleich nochmal.',
       chat_error_timeout: 'Der Stylist braucht zu lange für eine Antwort. Bitte versuche es erneut.',
       chat_error_rate_limit: 'Zu viele Anfragen — bitte warte einen Moment und versuche es erneut.',
@@ -10758,22 +10817,22 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       safety_self_harm: "Es klingt, als würdest du durch eine schwere Zeit gehen. Ich bin nur eine Style-App und nicht die richtige Hilfe dafür — bitte wende dich an eine Krisenhotline in deinem Land. In Deutschland: 0800/1110111. In der EU: 112. Du zählst.",
       chat_voice_input: 'Spracheingabe',
       chat_upload: 'Foto hochladen',
-      chat_closet_pick: 'Aus dem Schrank wählen',
+      chat_closet_pick: 'Aus Kleiderschrank wählen',
       chat_send: 'Senden',
-      chat_thinking: 'Scan starten',
+      chat_thinking: 'Einen Moment...',
       chat_good: 'Gute Antwort',
-      chat_poor: 'Schlechte Antwort',
+      chat_poor: 'Nicht hilfreich',
       chat_save_tip: 'Tipp speichern',
       chat_apply: 'Anwenden',
       chat_applied: 'Angewendet',
       chat_report: 'Melden',
-      chat_fallback_reply: 'Hmm, das habe ich nicht verstanden. Nochmal versuchen?',
-      typing_hint_reading: 'Lese deine Nachricht…',
-      typing_hint_photo: 'Betrachte dein Foto…',
-      typing_hint_color: 'Denke über Farbharmonie nach…',
-      typing_hint_fit: 'Überlege zur Passform…',
-      typing_hint_advice: 'Suche den besten Rat…',
-      typing_hint_glasses: 'Stil-Brille aufgesetzt…',
+      chat_fallback_reply: 'Entschuldigung, das habe ich nicht verstanden. Kannst du es anders formulieren?',
+      typing_hint_reading: 'Lese deine Nachricht...',
+      typing_hint_photo: 'Schaue mir dein Foto an...',
+      typing_hint_color: 'Prüfe die Farbharmonie...',
+      typing_hint_fit: 'Analysiere die Passform...',
+      typing_hint_advice: 'Suche nach dem besten Rat...',
+      typing_hint_glasses: 'Setze die Style-Experten-Brille auf...',
       typing_hint_outfit: 'Dein Outfit im Check…',
       typing_hint_score: 'Style-Score wird berechnet…',
       typing_hint_vibe: 'Schau mal was zu dir passt…',
@@ -10810,23 +10869,23 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       tip_weather_first: 'Kein Outfit sieht gut aus, wenn du frierst oder schwitzt. Prüfe die Vorhersage und lass Komfort leiten.',
 
       closet_search: 'Suche nach Farbe, Typ, Anlass...',
-      closet_save: 'Im Schrank speichern',
-      closet_saving: 'Speichern…',
+      closet_save: 'Im Kleiderschrank speichern',
+      closet_saving: 'Wird gespeichert...',
       closet_saved: '✓ Gespeichert',
       closet_update: 'Aktualisieren',
-      closet_empty_picker: 'Dein Schrank ist leer. Scanne und speichere ein Outfit!',
+      closet_empty_picker: 'Dein Kleiderschrank ist leer. Scanne und speichere ein Outfit!',
       closet_edit: 'Outfit bearbeiten',
       closet_item_label: 'Artikel',
       closet_builder: 'Outfit-Builder',
       closet_date_from: 'JJJJ-MM-TT',
       closet_date_to: 'JJJJ-MM-TT',
 
-      story_no_history: 'Noch keine Scan-Historie.',
+      story_no_history: 'Noch kein Scan-Verlauf vorhanden.',
       story_not_enough_data: 'Nicht genug Daten',
-      story_improving: '↗ Verbessernd',
-      story_declining: '↘ Absteigend',
-      story_steady: '→ Stetig',
-      story_consistent: 'Dein Stil ist konsistent',
+      story_improving: '↗ Verbessert',
+      story_declining: '↘ Verschlechtert',
+      story_steady: '→ Stabil',
+      story_consistent: 'Dein Stil ist beständig',
 
       saved_tips_title: 'Gespeicherte Tipps',
       saved_tips_subtitle: 'Deine Sammlung liebster Style-Tipps',
@@ -10837,7 +10896,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       saved_tip_delete: 'Löschen',
 
       share_item_title: 'Teile dieses Teil',
-      share_item_sub: 'Zeig, was in deinem Schrank steckt.',
+      share_item_sub: 'Zeig, was in deinem Kleiderschrank steckt.',
       share_score_title: 'Teile dein Ergebnis',
       share_score_sub: 'Deine Freunde müssen das sehen.',
       share_copied: '✓ Kopiert & gespeichert',
@@ -10855,7 +10914,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_occasion: 'Duell-Anlass',
 
       vibe_countdown: '00:00:00',
-      vibe_date_time: 'Date-Zeit! Handy weg, selbstbewusst sein und viel Spaß!',
+      vibe_date_time: 'Date-Zeit! Handy weg, sei selbstbewusst und hab viel Spaß!',
 
       close: 'Schließen',
       cancel: 'Abbrechen',
@@ -10893,7 +10952,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       nav_scanner: 'Scanner',
       nav_points_left: '{pts} von {max} Punkten',
       ob_welcome: 'Willkommen bei DateScan',
-      ob_subtitle: 'Dein AI-Wingman. In 3 Schritten bereit:',
+      ob_subtitle: 'Dein KI-Wingman. In 3 Schritten bereit:',
       ob_step1_title: '1. Kamera erlauben',
       ob_step1_desc: 'Wir müssen dein Outfit sehen. 100% privat.',
       ob_step2_title: '2. Gutes Licht',
@@ -10910,9 +10969,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       scan_privacy_note: 'Scan läuft lokal auf deinem Gerät.',
       scan_privacy_link: 'Datenschutz-Details',
       timer_label: 'Date-Vorbereitung',
-      timer_title: 'Rückwärtszähler',
+      timer_title: 'Countdown',
       timer_when: 'Wann ist das große Date?',
-      timer_start: 'Rückwärtszähler starten',
+      timer_start: 'Countdown starten',
       timer_remaining: 'Verbleibend',
       timer_coach_reminder: 'Coach-Erinnerung',
       timer_cancel: 'Abbrechen / Zeit ändern',
@@ -10976,7 +11035,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       gamify_logged: 'Geloggt! (+50 XP)',
       toast_streak_bonus: '{multiplier}x Strähne-Bonus! +{bonus} XP',
       toast_improvement_possible: '+{n} Verbesserung möglich',
-      coach_title: 'AI Style-Coach',
+      coach_title: 'KI Style-Coach',
       coach_status_active: 'Aktiv',
       coach_description: 'Tiefe Analyse deines Outfits — Farbe, Kontrast und Koordination.',
       coach_empty_title: 'Ich bin bereit',
@@ -11022,7 +11081,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_sub_default: 'monochromer Architekt',
       vibe_tip_default: 'Ein einzelner warmer Akzent — Kognak oder Rost — würde die Wirkung beim nächsten Look vertiefen.',
       vibe_missing_piece: 'Das fehlende Teil',
-      vibe_what_ai_saw: 'Was die AI sah',
+      vibe_what_ai_saw: 'Was die KI sah',
       vibe_palette: 'Palette',
       vibe_signals: 'Signale',
       vibe_metric_contrast: 'Kontrast',
@@ -11102,7 +11161,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_origin_baseline: 'die Basis für jeden zukünftigen Scan.',
       disclaimer_line1: 'KI-GENERIERTE WAHRNEHMUNG',
       disclaimer_line2: '',
-      closet_title: 'Digitaler Schrank',
+      closet_title: 'Digitaler Kleiderschrank',
       closet_subtitle: 'Deine gespeicherten Outfits und persönliches Style-Archiv.',
       closet_style_profile: 'Style-Profil',
       closet_add_item: 'Teil hinzufügen',
@@ -11135,7 +11194,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       type_accessory: 'Accessoire',
       closet_search_results: '{match} von {total} Treffer',
       closet_no_colors: 'Noch keine Farben erkannt.',
-      closet_empty_title: 'Dein Schrank ist leer.',
+      closet_empty_title: 'Dein Kleiderschrank ist leer.',
       closet_empty_desc: 'Scanne und speichere dein erstes Outfit.',
       closet_no_match_search: 'Keine Outfits passen zu deiner Suche.',
       closet_no_match_category: 'Keine Outfits in dieser Kategorie.',
@@ -11148,19 +11207,19 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_no_items: 'Noch keine Teile hochgeladen. Tippe auf Hinzufügen.',
       closet_items_no_match_search: 'Keine Teile passen zur Suche.',
       closet_items_no_match_category: 'Keine Teile in dieser Kategorie.',
-      closet_save_digital: 'Im digitalen Schrank speichern',
-      closet_saved_to_closet: 'Im Schrank gespeichert',
+      closet_save_digital: 'Im digitalen Kleiderschrank speichern',
+      closet_saved_to_closet: 'Im Kleiderschrank gespeichert',
       closet_filters_active: '{count} Filter aktiv',
       upload_consent_title: 'Vor dem Hochladen',
-      upload_consent_subtitle: 'Kurze Regeln für Schrank-Uploads.',
+      upload_consent_subtitle: 'Kurze Regeln für Kleiderschrank-Uploads.',
       upload_rule_1: 'Nur Fotos eigener Kleidung hochladen. Keine Promi- oder Stock-Bilder.',
       upload_rule_2: 'Keine Personen, Gesichter oder Minderjährige. Nur das Kleidungsstück selbst.',
       upload_rule_3: 'Nichts Sexuelles, Gewalttätiges oder Illegales. Lokal gespeichert.',
       upload_rule_4: 'Ich bin 18+ und besitze das Bild oder habe das Recht es zu nutzen.',
-      upload_accept_rules: 'Ich akzeptiere diese Regeln und die AGB sowie Datenschutzrichtlinie.',
+      upload_accept_rules: 'Ich akzeptiere diese Regeln, die AGB sowie die Datenschutzrichtlinie.',
       upload_continue: 'Weiter',
       category_title: 'Was ist das?',
-      category_subtitle: 'Wähle eine Kategorie für einen ordentlichen Schrank.',
+      category_subtitle: 'Wähle eine Kategorie für einen ordentlichen Kleiderschrank.',
       category_auto_detected: 'Automatisch erkannt',
       ob_slot_top: 'Oberteil',
       ob_slot_bottom: 'Unterteil',
@@ -11171,7 +11230,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ob_clear: 'Löschen',
       ob_save: 'Speichern',
       ob_save_as_new: 'Als neu speichern',
-      ob_ask_ai: 'AI fragen',
+      ob_ask_ai: 'KI fragen',
       vibe_check_title: 'Wie war es?',
       vibe_check_subtitle: 'Kurzer Vibe-Check — +10 XP.',
       vibe_chemistry: 'Chemie',
@@ -11182,7 +11241,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_check_successful_desc: '(z.B. zweites Date vereinbart). Das Outfit bekommt das Glücks-Outfit-Abzeichen.',
       vibe_check_save: 'Vibe speichern',
       style_profile_title: 'Dein Style-Profil',
-      style_profile_subtitle: 'Erzähl deinem AI-Coach von deinen Vorlieben für personalisierte Tipps.',
+      style_profile_subtitle: 'Erzähl deinem KI-Coach von deinen Vorlieben für personalisierte Tipps.',
       sp_color_palette: 'Farbpalette',
       sp_color_desc: 'Zu welcher Farbe ziehst du dich hin? Wähle eine.',
       sp_formality: 'Formalitätsgrad',
@@ -11207,13 +11266,13 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       sp_vibe_vintage: 'Vintage',
       sp_vibe_techwear: 'Techwear',
       sp_save: 'Profil speichern',
-      chat_view_title: 'AI Style-Coach',
-      chat_view_subtitle: 'Lade ein Foto hoch, wähle aus dem Schrank oder frag einfach — ich sehe es und helfe.',
+      chat_view_title: 'KI Style-Coach',
+      chat_view_subtitle: 'Lade ein Foto hoch, wähle aus dem Kleiderschrank oder frag einfach — ich sehe es und helfe.',
       chat_with_coach: 'Chat mit dem Coach',
-      chat_vision_ai: 'Vision AI',
+      chat_vision_ai: 'Vision KI',
       chat_point_per_msg: '<strong class="text-brand-400">1 Punkt</strong> pro Nachricht',
       chat_welcome: 'Hallo! Ich bin dein KI-Style-Coach mit Vision. Lade einfach ein Foto hoch oder stelle direkt deine Frage – ich berate dich gerne!',
-      chat_closet_picker_title: 'Aus dem Schrank wählen',
+      chat_closet_picker_title: 'Aus dem Kleiderschrank wählen',
       chat_crisis_message: 'Es klingt, als würdest du eine schwere Zeit durchmachen. Bitte wende dich an eine Krisenhotline in deinem Land.',
       chip_core_improve: 'Wie kann ich das verbessern?',
       chip_core_change_first: 'Was sollte ich zuerst ändern?',
@@ -11270,10 +11329,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       trend_pts_up: '+{n} Punkte Ø',
       trend_pts_down: '{n} Punkte Ø',
       dup_title: 'Sieht nach Duplikat aus',
-      dup_subtitle: 'Das ist sehr ähnlich zu etwas in deinem Schrank.',
+      dup_subtitle: 'Das ist sehr ähnlich zu etwas in deinem Kleiderschrank.',
       dup_new: 'Neu',
       dup_match: 'Treffer',
-      dup_in_closet: 'Im Schrank',
+      dup_in_closet: 'Im Kleiderschrank',
       dup_dont_save: 'Nicht speichern',
       dup_save_anyway: 'Trotzdem speichern',
       duel_title: 'A/B Outfit-Duell',
@@ -11289,8 +11348,15 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       duel_metric_warmth: 'Wärme',
       duel_verdict: 'Urteil',
       duel_ask_friends: 'Frag deine Freunde',
+      duel_history_title: 'Duell-Verlauf',
+      duel_history_subtitle: 'Vergangene Outfit-Duelle',
+      duel_history_empty: 'Noch keine Duelle',
+      duel_history_hint: 'Vergleiche zwei Outfits head-to-head aus dem Kleiderschrank',
+      duel_history_vs: 'vs',
+      duel_history_won: 'gewann',
+      duel_history_tie_short: 'Unentschieden',
       xp_bonus_5: '+5 XP',
-      duel_privacy: 'Lokale Analyse · Fotos verlassen nie den Browser',
+      duel_privacy: 'Lokale Analyse · Fotos verlassen niemals dein Gerät',
       duel_winner: 'Gewinner',
       duel_winner_a: 'Option A · +{diff} Punkte',
       duel_winner_b: 'Option B · +{diff} Punkte',
@@ -11319,42 +11385,42 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       share_download_png: 'PNG herunterladen',
       share_text: 'Mein DateScan-Score: {{score}}/100',
       share_card_cta: 'Hol deinen Score',
-      share_cta: 'AI hat mein Outfit bewertet. Probier es auch',
-      share_item_text: 'Schau dir mein Schrank-Item auf DateScan an',
+      share_cta: 'KI hat mein Outfit bewertet. Probier es auch',
+      share_item_text: 'Schau dir mein Kleiderschrank-Item auf DateScan an',
       share_native_title: 'Mein DateScan Score',
       share_confidence_title: 'SELBSTBEWUSSTSEIN-OPTIMIERER FÜR DATES',
-      share_ai_rated_tag: 'AI BEWERTETE MEIN OUTFIT',
+      share_ai_rated_tag: 'KI BEWERTETE MEIN OUTFIT',
       share_my_score: 'MEIN SCORE',
       paywall_title: 'Eine kleine Änderung bis zum besseren ersten Eindruck.',
       paywall_subtitle: 'Die meisten Nutzer erleben eine echte Verbesserung in der Wahrnehmung. Entdecke ein Angebot, das zum Vibe deines nächsten Dates passt, oder starte kostenlos — ohne Verpflichtungen.',
-      paywall_feature_1: 'Unbegrenztes AI-Coaching',
+      paywall_feature_1: 'Unbegrenztes KI-Coaching',
       paywall_feature_2: 'Vollständige Verbesserungsanalyse',
       paywall_feature_3: 'Fortschritt verfolgen',
       paywall_try_it_out: 'Probier es aus',
       paywall_week: 'Woche',
       paywall_week_desc: 'Schnelle Korrektur',
       paywall_month: 'Monat',
-      paywall_month_desc: 'Stil-Beherrschung',
+      paywall_month_desc: 'Stilsicherheit',
       paywall_year: 'Jahr',
-      paywall_year_desc: 'Vollständige Erneuerung',
-      paywall_best_value: 'Bestes Angebot — 58% sparen',
+      paywall_year_desc: 'Ultimative Transformation',
+      paywall_best_value: 'Bestes Angebot — 58% Ersparnis',
       paywall_secure: 'Sichere Zahlung via Google Play',
       paywall_maybe_later: 'Vielleicht später',
       privacy_label: 'Datenschutz & Daten',
       privacy_title: 'Was dein Gerät verlässt',
-      privacy_item_camera: '<strong class="text-white">Kamera-Scan &amp; Analyse.</strong> Läuft 100% lokal auf deinem Gerät mit MediaPipe + WebAssembly. Deine Videobilder verlassen nie den Browser.',
-      privacy_item_closet: '<strong class="text-white">Schrank &amp; Historie.</strong> Lokal in der IndexedDB deines Browsers gespeichert. Nichts wird irgendwohin gesendet.',
-      privacy_item_chat_text: '<strong class="text-white">AI Style Coach Chat — Text.</strong> Deine Nachrichten werden an <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code> gesendet und an ein Vision-Language-Modell weitergeleitet, damit du eine Antwort erhältst.',
-      privacy_item_chat_images: '<strong class="text-white">AI Style Coach Chat — Bilder.</strong> Wenn du ein Foto anhängst oder aus deinem Schrank wählst, wird das Bild mit deiner Nachricht hochgeladen, damit das Modell es „sehen" kann. Es wird nur für diese eine Anfrage verarbeitet und nach der Antwort nicht auf unserem Server behalten. Wir nutzen Chat-Inhalte nicht zum Trainieren von Modellen.',
+      privacy_item_camera: '<strong class="text-white">Kamera-Scan &amp; Analyse.</strong> Läuft 100% lokal auf deinem Gerät mit MediaPipe + WebAssembly. Deine Videobilder verlassen niemals dein Gerät.',
+      privacy_item_closet: '<strong class="text-white">Kleiderschrank &amp; Historie.</strong> Lokal in der IndexedDB deines Browsers gespeichert. Nichts wird irgendwohin gesendet.',
+      privacy_item_chat_text: '<strong class="text-white">KI Style Coach Chat — Text.</strong> Deine Nachrichten werden an <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code> gesendet und an ein Vision-Language-Modell weitergeleitet, damit du eine Antwort erhältst.',
+      privacy_item_chat_images: '<strong class="text-white">KI Style Coach Chat — Bilder.</strong> Wenn du ein Foto anhängst oder aus deinem Kleiderschrank wählst, wird das Bild mit deiner Nachricht hochgeladen, damit das Modell es „sehen" kann. Es wird nur für diese eine Anfrage verarbeitet und nach der Antwort nicht auf unserem Server behalten. Wir nutzen Chat-Inhalte nicht zum Trainieren von Modellen.',
       privacy_private_mode: 'Privater Modus',
       privacy_private_mode_desc: 'Blockiert Bild-Uploads im Chat und erzwingt das CPU-Backend.',
       privacy_status_off: 'Status: <span class="text-gray-300">Aus</span> — Bild-Uploads im Chat nach Zustimmung erlaubt.',
-      privacy_status_on: 'Status: <span class="text-brand-400 font-semibold">An</span> — Chat-Bild-Uploads blockiert, On-Device-AI nutzt CPU-Backend.',
+      privacy_status_on: 'Status: <span class="text-brand-400 font-semibold">An</span> — Chat-Bild-Uploads blockiert, On-Device-KI nutzt CPU-Backend.',
       privacy_delete_title: 'Account & Daten löschen',
       privacy_delete_desc: 'Account-ID anzeigen und alles dauerhaft löschen.',
       privacy_open_page: 'Datenschutz-Seite öffnen',
       privacy_done: 'Fertig',
-      chat_consent_title: 'Dieses Bild an die AI senden?',
+      chat_consent_title: 'Dieses Bild an die KI senden?',
       chat_consent_desc: 'Für die Analyse laden wir das Bild an api.datescan.app hoch. Es wird nicht gespeichert.',
       chat_consent_remember: 'Auf diesem Gerät nicht mehr fragen',
       chat_consent_send: 'Senden',
@@ -11366,7 +11432,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       age_fineprint: 'Mit Fortfahren bestätigst du, 18 Jahre oder älter zu sein. Siehe <a href="terms.html" class="text-brand-400 underline">AGB</a> und <a href="privacy.html" class="text-brand-400 underline">Datenschutz</a>.',
       hint_scan: 'Richte die Kamera auf dein Outfit — in Sekunden hast du dein Ergebnis!',
       hint_result: 'Das ist dein Gesamtscore. Scrolle nach unten für detaillierte Tipps je Kategorie.',
-      hint_chat: 'Frag mich alles über deinen Style oder lade ein Foto aus deinem Schrank hoch!',
+      hint_chat: 'Frag mich alles über deinen Style oder lade ein Foto aus deinem Kleiderschrank hoch!',
       cam_consent_title: 'Bevor wir die Kamera einschalten',
       cam_consent_lede: 'Der Scanner läuft komplett auf deinem Gerät. Was das bedeutet.',
       cam_bullet_1_title: 'Scan = lokal.',
@@ -11374,7 +11440,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cam_bullet_1: '<strong>Scan = lokal.</strong> Dein Kamerabild wird ausschließlich von deinem Browser analysiert, direkt auf deinem Gerät. Die Daten <strong>verlassen niemals dein Gerät</strong>, daher sehen wir sie nie.',
       cam_bullet_2_title: 'Nichts wird gespeichert.',
       cam_bullet_2_text: 'Frames leben nur wenige Sekunden im Speicher und werden verworfen.',
-      cam_bullet_2: '<strong>Nichts wird gespeichert.</strong> Frames leben nur wenige Sekunden im Speicher deines Geräts, während die AI Outfit, Pflege, Haltung und Beleuchtung prüft — dann werden sie verworfen.',
+      cam_bullet_2: '<strong>Nichts wird gespeichert.</strong> Frames leben nur wenige Sekunden im Speicher deines Geräts, während die KI Outfit, Pflege, Haltung und Beleuchtung prüft — dann werden sie verworfen.',
       cam_bullet_3_title: 'Du hast die Kontrolle.',
       cam_bullet_3_text: 'Stoppe die Kamera jederzeit durch Schließen des Scanners.',
       cam_bullet_3: '<strong>Du hast die Kontrolle.</strong> Stoppe die Kamera jederzeit durch Schließen des Scanners. Dein Browser ermöglicht auch den Widerruf der Kameraerlaubnis.',
@@ -11382,8 +11448,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cam_bullet_4_text: 'Richte die Kamera auf dich selbst, nicht auf andere.',
       cam_bullet_4: '<strong>Nur Selbst-Scan.</strong> Richte die Kamera auf <strong>dich selbst</strong>, nicht auf andere. Das Scannen anderer ohne Einwilligung ist laut AGB verboten.',
       cam_bullet_5_title: 'Hinweis:',
-      cam_bullet_5_text: 'Der AI-Style-Coach-Chat ist anders — dort hochgeladene Fotos gehen an unsere Server.',
-      cam_bullet_5: '<strong>Hinweis:</strong> Der AI-Style-Coach-<strong>Chat</strong> ist anders — wenn du dort ein Foto hochlädst, wird es an unser Vision-Modell gesendet. Beim ersten Mal erhältst du einen separaten Hinweis.',
+      cam_bullet_5_text: 'Der KI-Style-Coach-Chat ist anders — dort hochgeladene Fotos gehen an unsere Server.',
+      cam_bullet_5: '<strong>Hinweis:</strong> Der KI-Style-Coach-<strong>Chat</strong> ist anders — wenn du dort ein Foto hochlädst, wird es an unser Vision-Modell gesendet. Beim ersten Mal erhältst du einen separaten Hinweis.',
       cam_consent_yes: 'Verstanden — Kamera starten',
       cam_consent_no: 'Nicht jetzt',
       cam_consent_fineprint: 'Siehe Datenschutz und AGB für Details.',
@@ -11400,7 +11466,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       upload_bullet_3_text: 'Das Bild wird für eine einzige Anfrage an das Vision-Modell gesendet.',
       upload_bullet_4_title: 'Ich bin 18+',
       upload_bullet_4_text: 'und besitze das Bild oder habe das Nutzungsrecht.',
-      report_label: 'AI-Antwort melden',
+      report_label: 'KI-Antwort melden',
       report_title: 'Was stimmt mit dieser Antwort nicht?',
       report_desc: 'Deine Meldung geht an unser Moderationsteam.',
       report_offensive: 'Anstößig oder hasserfüllt',
@@ -11411,14 +11477,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       report_anonymous: 'Meldungen sind anonym, außer du bist eingeloggt.',
       toast_private_mode_chat: 'Privater Modus — Bild-Uploads im Chat deaktiviert.',
       toast_private_mode_reload: 'Privater Modus. Lade neu für CPU-Backend.',
-      toast_closet_full: 'Schrank voll! Lösche zuerst Teile (max 200).',
+      toast_closet_full: 'Kleiderschrank voll! Lösche zuerst Teile (max 200).',
       toast_outfit_not_found: 'Original-Outfit nicht gefunden.',
       toast_outfit_updated: 'Outfit aktualisiert!',
       toast_update_failed: 'Aktualisierung fehlgeschlagen. Versuche es erneut.',
-      toast_outfit_saved: 'Outfit im Schrank gespeichert!',
+      toast_outfit_saved: 'Outfit im Kleiderschrank gespeichert!',
       toast_save_failed: 'Speichern fehlgeschlagen. Versuche es erneut.',
-      toast_export_ok: 'Schrank erfolgreich exportiert!',
-      toast_export_empty: 'Nichts zu exportieren — Schrank ist leer.',
+      toast_export_ok: 'Kleiderschrank erfolgreich exportiert!',
+      toast_export_empty: 'Nichts zu exportieren — Kleiderschrank ist leer.',
       toast_export_fail: 'Export fehlgeschlagen. Versuche es erneut.',
       toast_import_ok: '{{count}} Teile erfolgreich importiert!',
       toast_import_fail: 'Import fehlgeschlagen. Ungültiges Dateiformat.',
@@ -11439,7 +11505,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       feedback_first_scan: 'Dein erster Scan. Weiter so!',
       feedback_steady: 'Stetig — 0 Punkte Unterschied zum früheren Scan.',
       feedback_no_outfit: 'Outfit nicht klar erkennbar.',
-      footer_brand_desc: 'Dein AI-Wingman. Scanne dein Outfit, erhalte sofortiges Style- und Pflege-Feedback.',
+      footer_brand_desc: 'Dein KI-Wingman. Scanne dein Outfit, erhalte sofortiges Style- und Pflege-Feedback.',
       footer_on_device: 'Kamera-Scans laufen lokal',
       footer_legal: 'Rechtliches',
       footer_privacy: 'Datenschutz',
@@ -11449,7 +11515,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       footer_support: 'Support',
       footer_contact: 'Support kontaktieren',
       footer_follow: 'Folgen',
-      footer_disclaimer: 'Hinweis: DateScan ist ein AI-basiertes Unterhaltungstool. Wir garantieren keinen Dating-Erfolg.',
+      footer_disclaimer: 'Hinweis: DateScan ist ein KI-basiertes Unterhaltungstool. Wir garantieren keinen Dating-Erfolg.',
       loading_brand: 'DateScan.',
 
       cam_consent_fineprint: 'Siehe unsere Datenschutzrichtlinie und Nutzungsbedingungen für Details.',
@@ -11546,17 +11612,17 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       mixed_color: 'Gemischt',
       closet_filter_all_items: 'Alle',
       closet_upload_title: 'Vor dem Hochladen',
-      closet_upload_lede: 'Kurze Regeln für Schrank-Uploads. Vor dem ersten Upload erforderlich.',
+      closet_upload_lede: 'Kurze Regeln für Kleiderschrank-Uploads. Vor dem ersten Upload erforderlich.',
       closet_upload_rule1: 'Lade nur Fotos <strong class="text-white">deiner eigenen Kleidung</strong> hoch. Keine Promi-, Stock- oder urheberrechtlich geschützten Bilder.',
       closet_upload_rule2: '<strong class="text-white">Keine Personen, keine Gesichter, keine Minderjährigen.</strong> Nur das Kleidungsstück selbst. Fotos von Personen werden abgelehnt.',
       closet_upload_rule3: 'Nichts <strong class="text-white">Sexuelles, Gewalttätiges oder Illegales.</strong> Deine Uploads werden lokal auf deinem Gerät gespeichert.',
       closet_upload_rule4: 'Ich bin <strong class="text-white">18+</strong> und besitze oder habe das Recht, das Bild zu verwenden.',
-      closet_upload_accept: 'Ich akzeptiere diese Regeln und die <a href="terms.html" class="text-brand-400 underline">AGB</a> und <a href="privacy.html" class="text-brand-400 underline">Datenschutzrichtlinie</a>.',
+      closet_upload_accept: 'Ich akzeptiere diese Regeln, die <a href="terms.html" class="text-brand-400 underline">AGB</a> sowie die <a href="privacy.html" class="text-brand-400 underline">Datenschutzrichtlinie</a>.',
       coach_scan_hint: 'Tippe oben auf <span class="text-brand-400 font-semibold">Outfit & Gesicht scannen</span> und ich analysiere deinen Look in Sekunden.',
-      paywall_feature1: 'Unbegrenztes AI-Coaching',
+      paywall_feature1: 'Unbegrenztes KI-Coaching',
       paywall_feature2: 'Vollständige Verbesserungsanalyse',
       paywall_feature3: 'Verfolge deinen Fortschritt',
-      on_device_analysis: 'Geräteinterne Analyse · Fotos verlassen nie deinen Browser',
+      on_device_analysis: 'Geräteinterne Analyse · Fotos verlassen niemals dein Gerät',
       privacy_policy: 'Datenschutzerklärung',
       terms_of_service: 'Nutzungsbedingungen',
       scan_outfit_face: 'Outfit & Gesicht scannen',
@@ -11600,7 +11666,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       story_stat_scans: 'Scans',
       streak_max_bonus: 'Max-Streak-Bonus aktiv!',
       streak_days_to_bonus: 'Noch {days} Tage bis {label} Bonus!',
-      share_from_closet: 'Aus meinem Schrank',
+      share_from_closet: 'Aus meinem Kleiderschrank',
       share_built_with: 'Erstellt mit DateScan',
       trend_7d: '7T',
       trend_14d: '14T',
@@ -11639,7 +11705,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       btn_refresh: 'Seite neu laden',
       out_of_points: 'Du hast heute keine Punkte mehr.',
       upgrade_for_unlimited: 'Upgrade auf Pro für unbegrenzte Scans und Chat — oder warte auf die tägliche Auffüllung.',
-      unlock_ai_coach: 'AI-Coach freischalten',
+      unlock_ai_coach: 'KI-Coach freischalten',
       origin_vibe_title: 'Das ist dein Ursprungs-Vibe',
       origin_vibe_baseline: '— die Basis für jeden zukünftigen Scan.',
       trend_improving: '↗ Verbessernd',
@@ -11662,7 +11728,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       filter_active: 'Filter aktiv',
       filters_active: 'Filter aktiv',
       share_this_item: 'Diesen Artikel teilen',
-      share_show_off: 'Zeig, was in deinem Schrank ist.',
+      share_show_off: 'Zeig, was in deinem Kleiderschrank ist.',
       share_your_score: 'Teile dein Ergebnis',
       share_friends_see: 'Deine Freunde müssen das sehen.',
       couldnt_detect_outfit: 'Outfit konnte nicht erkannt werden.',
@@ -12121,7 +12187,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cloth_thick_soles: 'Dicke Sohlen',
       ootd_generating: 'Generiere...',
       ootd_no_weather: 'Aktiviere Wetter für personalisierte Outfits',
-      ootd_no_closet: 'Füge zuerst Teile zu deinem Schrank hinzu',
+      ootd_no_closet: 'Füge zuerst Teile zu deinem Kleiderschrank hinzu',
       ootd_temp: '{temp}°C',
       ootd_share: 'OOTD teilen',
 
@@ -12257,9 +12323,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ctx_style_profile: 'Benutzer-Stilprofil',
       ctx_archetype: 'Style-Archetyp',
       ctx_unique_colors: 'Einzigartige ausprobierte Farbkategorien',
-      ctx_closet: 'Digitaler Schrank',
+      ctx_closet: 'Digitaler Kleiderschrank',
       ctx_items_total: 'Artikel gesamt',
-      ctx_dominant_colors: 'Dominante Farben im Schrank',
+      ctx_dominant_colors: 'Dominante Farben im Kleiderschrank',
       ctx_likes: 'Mag',
       ctx_dislikes: 'Mag nicht',
       ctx_avoid_colors: 'Zu vermeidende Farben',
@@ -12468,7 +12534,7 @@ window._tc = function(name) {
       // Update page title
       document.title = window.t('page_title');
       // Close dropdown
-      dropdown.classList.add('hidden');
+      closeDropdown();
     });
     dropdown.appendChild(item);
   });
@@ -12494,25 +12560,68 @@ window._tc = function(name) {
         updateLabel();
         rebuildDropdown();
         document.title = window.t('page_title');
-        dropdown.classList.add('hidden');
+        closeDropdown();
       });
       dropdown.appendChild(item);
     });
   }
 
-  // Position dropdown below the button using fixed positioning
+  // Position dropdown below the button using fixed positioning.
+  // Ensures the dropdown stays fully inside the viewport on mobile.
   function positionDropdown() {
     var rect = btn.getBoundingClientRect();
     var dropH = dropdown.offsetHeight || 160;
-    var spaceBelow = window.innerHeight - rect.bottom;
-    // If not enough space below, open upward
-    if (spaceBelow < dropH + 8 && rect.top > dropH + 8) {
-      dropdown.style.top = (rect.top - dropH - 8) + 'px';
+    var pad = 8;
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var spaceBelow = vh - rect.bottom;
+    var spaceAbove = rect.top;
+
+    // Decide direction: prefer below, but go above if not enough space
+    var goUp = spaceBelow < dropH + pad && spaceAbove > spaceBelow;
+
+    if (goUp) {
+      // Open upward — but clamp so it never goes above the viewport
+      var top = rect.top - dropH - pad;
+      if (top < pad) top = pad;
+      dropdown.style.top = top + 'px';
     } else {
-      dropdown.style.top = (rect.bottom + 8) + 'px';
+      // Open downward — but clamp so it never goes below the viewport
+      var top = rect.bottom + pad;
+      if (top + dropH > vh - pad) {
+        // Shrink by positioning so bottom edge = vh - pad
+        top = vh - pad - dropH;
+        if (top < pad) top = pad;
+      }
+      dropdown.style.top = top + 'px';
     }
-    dropdown.style.right = (window.innerWidth - rect.right) + 'px';
+
+    // Horizontal: align to right edge of button, but keep inside viewport
+    var right = vw - rect.right;
+    dropdown.style.right = 'auto';
     dropdown.style.left = 'auto';
+    // Use right-alignment by default
+    dropdown.style.right = right + 'px';
+    // But if the dropdown is wider than the button and would go off left edge,
+    // anchor to left instead
+    var dropW = dropdown.offsetWidth || 160;
+    var leftEdge = rect.right - dropW;
+    if (leftEdge < pad) {
+      dropdown.style.right = 'auto';
+      dropdown.style.left = pad + 'px';
+    }
+
+    // Set max-height so it never overflows viewport
+    var maxH = vh - parseInt(dropdown.style.top) - pad;
+    if (maxH < 40) maxH = 40;
+    dropdown.style.maxHeight = maxH + 'px';
+    dropdown.style.overflowY = 'auto';
+  }
+
+  // Toggle body.lang-open class to suppress hover on nav buttons
+  // (see CSS rule targeting body.lang-open #navXxxBtn)
+  function setLangOpen(open) {
+    document.body.classList.toggle('lang-open', open);
   }
 
   // Toggle dropdown on button click
@@ -12521,8 +12630,17 @@ window._tc = function(name) {
     var isHidden = dropdown.classList.toggle('hidden');
     if (!isHidden) {
       positionDropdown();
+      setLangOpen(true);
+    } else {
+      setLangOpen(false);
     }
   });
+
+  // Helper: close dropdown & remove body class
+  function closeDropdown() {
+    dropdown.classList.add('hidden');
+    setLangOpen(false);
+  }
 
   // Reposition on scroll/resize while open
   window.addEventListener('scroll', function() {
@@ -12535,13 +12653,13 @@ window._tc = function(name) {
   // Close dropdown on click outside
   document.addEventListener('click', function(e) {
     if (!dropdown.contains(e.target) && e.target !== btn) {
-      dropdown.classList.add('hidden');
+      closeDropdown();
     }
   });
 
   // Close on Escape
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') dropdown.classList.add('hidden');
+    if (e.key === 'Escape') closeDropdown();
   });
 
   // Listen for langchange events to update label
@@ -12600,6 +12718,8 @@ document.title = window.t('page_title');
             window.setLang(l2.code);
             if (label) label.textContent = l2.code.toUpperCase();
             dropdown.classList.add('hidden');
+            // Remove body.lang-open
+            document.body.classList.remove('lang-open');
             initLangSelectorGrid();
           });
           dropdown.appendChild(item);
@@ -12730,7 +12850,7 @@ const closetDB = (function () {
       if (!window.idb || !window.idb.openDB) {
         return Promise.reject(new Error('idb library not loaded'));
       }
-      dbPromise = window.idb.openDB('datescan-db', 5, {
+      dbPromise = window.idb.openDB('datescan-db', 6, {
         upgrade(db, oldVersion, newVersion, transaction) {
           if (!db.objectStoreNames.contains('outfits')) {
             const store = db.createObjectStore('outfits', { keyPath: 'id' });
@@ -12759,6 +12879,12 @@ const closetDB = (function () {
           if (!db.objectStoreNames.contains('savedTips')) {
             const tipStore = db.createObjectStore('savedTips', { keyPath: 'id', autoIncrement: true });
             tipStore.createIndex('ts', 'ts');
+          }
+          // v6: add duel history store — A/B outfit duel results
+          if (!db.objectStoreNames.contains('duelHistory')) {
+            const duelStore = db.createObjectStore('duelHistory', { keyPath: 'id', autoIncrement: true });
+            duelStore.createIndex('ts', 'ts');
+            duelStore.createIndex('occasion', 'occasion');
           }
         }
       });
@@ -12801,7 +12927,7 @@ const chatDB = (function () {
       if (!window.idb || !window.idb.openDB) {
         return Promise.reject(new Error('idb library not loaded'));
       }
-      _dbPromise = window.idb.openDB('datescan-db', 5);
+      _dbPromise = window.idb.openDB('datescan-db', 6);
     }
     return _dbPromise;
   }
@@ -12836,7 +12962,7 @@ const feedbackDB = (function () {
       if (!window.idb || !window.idb.openDB) {
         return Promise.reject(new Error('idb library not loaded'));
       }
-      _dbPromise = window.idb.openDB('datescan-db', 5);
+      _dbPromise = window.idb.openDB('datescan-db', 6);
     }
     return _dbPromise;
   }
@@ -12905,7 +13031,7 @@ const savedTipsDB = (function () {
     }
     // Use the same upgrade callback as closetDB so the DB schema
     // is always consistent, regardless of which connection opens first.
-    return window.idb.openDB('datescan-db', 5, {
+    return window.idb.openDB('datescan-db', 6, {
       upgrade(db, oldVersion, newVersion, transaction) {
         if (!db.objectStoreNames.contains('outfits')) {
           const store = db.createObjectStore('outfits', { keyPath: 'id' });
@@ -12990,6 +13116,65 @@ const savedTipsDB = (function () {
   };
 })();
 window.savedTipsDB = savedTipsDB;
+
+// ===== Duel History IDB store =====
+// Persists A/B outfit duel results so they survive page reloads and
+// can be displayed in the Style Story view. Uses the same datescan-db.
+const duelDB = (function () {
+  let _dbPromise = null;
+  async function getDB() {
+    if (!_dbPromise) {
+      // Ensure closetDB has run its upgrade first
+      try { await closetDB.getAll(); } catch(e) {}
+      if (!window.idb || !window.idb.openDB) {
+        return Promise.reject(new Error('idb library not loaded'));
+      }
+      _dbPromise = window.idb.openDB('datescan-db', 6);
+    }
+    return _dbPromise;
+  }
+  return {
+    // record: { occasion, scoreA, scoreB, archA, archB, winner, verdict,
+    //           imgA(dataURL), imgB(dataURL), featuresA, featuresB, ts }
+    async add(record) {
+      const db = await getDB();
+      const entry = { ...record, ts: record.ts || Date.now() };
+      try {
+        const id = await db.add('duelHistory', entry);
+        return id;
+      } catch(e) {
+        console.error('[duelDB] add FAILED:', e);
+        throw e;
+      }
+    },
+    async getAll() {
+      const db = await getDB();
+      try {
+        const all = await db.getAllFromIndex('duelHistory', 'ts');
+        return all;
+      } catch(e) {
+        console.warn('[duelDB] getAllFromIndex failed, fallback:', e.message);
+        const all = await db.getAll('duelHistory');
+        all.sort((a, b) => (a.ts || 0) - (b.ts || 0));
+        return all;
+      }
+    },
+    async remove(id) {
+      const db = await getDB();
+      try { await db.delete('duelHistory', id); }
+      catch(e) { console.error('[duelDB] remove FAILED:', e); throw e; }
+    },
+    async clear() {
+      const db = await getDB();
+      await db.clear('duelHistory');
+    },
+    async count() {
+      const db = await getDB();
+      return (await db.getAll('duelHistory')).length;
+    }
+  };
+})();
+window.duelDB = duelDB;
 
 // ===== On-device Lightweight Feedback Classifier =====
 // Analyzes accumulated feedback to produce rule-based adjustments
@@ -24830,6 +25015,106 @@ function onGoogleMapsLoaded() {
   }
   window.renderSavedTips = renderSavedTips;
 
+  // ===== Render Duel History in Story view =====
+  function renderDuelHistory() {
+    var listEl = document.getElementById('duelHistoryList');
+    var emptyEl = document.getElementById('duelHistoryEmpty');
+    var countEl = document.getElementById('duelHistoryCount');
+    if (!listEl || !emptyEl || !countEl) return;
+
+    if (!window.duelDB) {
+      emptyEl.classList.remove('hidden');
+      listEl.innerHTML = '';
+      countEl.textContent = '0';
+      return;
+    }
+
+    window.duelDB.getAll().then(function(duels) {
+      countEl.textContent = duels.length;
+
+      if (duels.length === 0) {
+        emptyEl.classList.remove('hidden');
+        listEl.innerHTML = '';
+        return;
+      }
+
+      emptyEl.classList.add('hidden');
+
+      // Show newest first
+      var sorted = duels.slice().reverse();
+
+      listEl.innerHTML = sorted.map(function(d) {
+        var date = new Date(d.ts);
+        var dateStr = date.toLocaleDateString(
+          typeof window.getLang === 'function' ? window.getLang() : 'en',
+          { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }
+        );
+        var occLabels = {
+          casual: t('occasion_casual'),
+          first_date: t('occasion_first_date'),
+          fancy: t('occasion_fancy_dinner'),
+          night_out: t('occasion_night_out')
+        };
+        var occLabel = occLabels[d.occasion] || d.occasion;
+        var winnerHtml;
+        if (d.winner === 'A') {
+          winnerHtml = '<span class="text-brand-400 font-bold">' + t('duel_option_a') + ' ' + t('duel_history_won') + '</span>';
+        } else if (d.winner === 'B') {
+          winnerHtml = '<span class="text-purple-400 font-bold">' + t('duel_option_b') + ' ' + t('duel_history_won') + '</span>';
+        } else {
+          winnerHtml = '<span class="text-gray-400 font-bold">' + t('duel_history_tie_short') + '</span>';
+        }
+        var verdictEsc = String(d.verdict || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        var verdictShort = verdictEsc.length > 120 ? verdictEsc.slice(0, 120) + '…' : verdictEsc;
+
+        // Thumbnail images — fall back to placeholder if missing
+        var imgAHtml = d.imgA
+          ? '<img src="' + d.imgA + '" class="w-full h-full object-cover" alt="A" />'
+          : '<div class="w-full h-full bg-brand-500/10 flex items-center justify-center text-brand-400 text-[10px] font-bold">A</div>';
+        var imgBHtml = d.imgB
+          ? '<img src="' + d.imgB + '" class="w-full h-full object-cover" alt="B" />'
+          : '<div class="w-full h-full bg-purple-500/10 flex items-center justify-center text-purple-400 text-[10px] font-bold">B</div>';
+
+        return '<div class="group p-3 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-purple-500/20 transition-all" data-duel-id="' + d.id + '">' +
+          '<div class="flex gap-3 mb-2.5">' +
+            '<div class="w-14 h-14 rounded-xl overflow-hidden border border-white/10 shrink-0">' + imgAHtml + '</div>' +
+            '<div class="flex flex-col items-center justify-center shrink-0">' +
+              '<div class="font-serif text-lg font-bold text-white">' + d.scoreA + '</div>' +
+              '<div class="text-[9px] text-gray-500 uppercase tracking-widest">' + t('duel_history_vs') + '</div>' +
+              '<div class="font-serif text-lg font-bold text-white">' + d.scoreB + '</div>' +
+            '</div>' +
+            '<div class="w-14 h-14 rounded-xl overflow-hidden border border-white/10 shrink-0">' + imgBHtml + '</div>' +
+            '<div class="flex-1 min-w-0 flex flex-col justify-center">' +
+              winnerHtml +
+              '<div class="text-[10px] text-gray-500 mt-0.5">' + occLabel + '</div>' +
+              '<div class="text-[10px] text-gray-600">' + dateStr + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<p class="text-[11px] text-gray-400 leading-relaxed">' + verdictShort + '</p>' +
+          '<button class="duel-history-delete mt-2 text-[10px] text-gray-600 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100" data-duel-id="' + d.id + '">' + (typeof window.t === 'function' ? window.t('saved_tip_delete') : 'Delete') + '</button>' +
+        '</div>';
+      }).join('');
+
+      // Wire delete buttons
+      listEl.querySelectorAll('.duel-history-delete').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var id = parseInt(this.dataset.duelId, 10);
+          if (id && window.duelDB) {
+            window.duelDB.remove(id).then(function() {
+              renderDuelHistory();
+            }).catch(function(e) { console.warn('[duelHistory] delete failed', e); });
+          }
+        });
+      });
+    }).catch(function(e) {
+      console.warn('[duelHistory] load failed:', e);
+      emptyEl.classList.remove('hidden');
+      listEl.innerHTML = '';
+      countEl.textContent = '0';
+    });
+  }
+  window.renderDuelHistory = renderDuelHistory;
+
   // Wrap renderHistoryView so the Style Calendar refreshes too
   const _origRenderHistoryView = renderHistoryView;
   window.renderHistoryView = function() {
@@ -24837,6 +25122,7 @@ function onGoogleMapsLoaded() {
     try { renderStyleCalendar(); } catch(e) { console.warn('[stylecal] render failed', e); }
     try { renderStyleDna(); }       catch(e) { console.warn('[styledna] render failed', e); }
     try { renderSavedTips(); }      catch(e) { console.warn('[savedTips] render failed', e); }
+    try { renderDuelHistory(); }    catch(e) { console.warn('[duelHistory] render failed', e); }
   };
 
   // Auto-render when view becomes visible
@@ -25560,7 +25846,25 @@ function onGoogleMapsLoaded() {
   }
 
   // ---------- Run the duel ----------
-  function runDuel() {
+  // Generate a tiny JPEG thumbnail from a data URL (96px wide) for
+  // compact storage in IndexedDB — keeps each duel entry under ~10 KB
+  // instead of multi-MB original photos.
+  function _duelThumb(dataUrl) {
+    return new Promise(function(resolve, reject) {
+      var img = new Image();
+      img.onload = function() {
+        var w = 96, h = Math.max(1, Math.round(w * img.height / img.width));
+        var c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(c.toDataURL('image/jpeg', 0.6));
+      };
+      img.onerror = function() { reject(new Error('thumb load failed')); };
+      img.src = dataUrl;
+    });
+  }
+
+  async function runDuel() {
     if (!featuresA || !featuresB) return;
     const sA = scoreFor(featuresA, occasion);
     const sB = scoreFor(featuresB, occasion);
@@ -25607,6 +25911,29 @@ function onGoogleMapsLoaded() {
 
     $('duelVerdict').innerHTML = verdictText(featuresA, featuresB, occasion, winner);
     resultEl.classList.remove('hidden');
+
+    // ── Persist duel result to IndexedDB ──
+    // Store a thumbnail-sized version of each image (96px wide) so the
+    // history card doesn't have to hold several MB of data per entry.
+    try {
+      var _thumbA = '', _thumbB = '';
+      try { _thumbA = await _duelThumb(previewA.src); } catch(e) {}
+      try { _thumbB = await _duelThumb(previewB.src); } catch(e) {}
+      if (window.duelDB) {
+        await window.duelDB.add({
+          occasion: occasion,
+          scoreA: sA, scoreB: sB,
+          archA: archA, archB: archB,
+          winner: winner,
+          verdict: $('duelVerdict').textContent,
+          imgA: _thumbA, imgB: _thumbB,
+          featuresA: { avgLuma: featuresA.avgLuma, contrast: featuresA.contrast, avgSat: featuresA.avgSat, warmth: featuresA.warmth, hueDiversity: featuresA.hueDiversity },
+          featuresB: { avgLuma: featuresB.avgLuma, contrast: featuresB.contrast, avgSat: featuresB.avgSat, warmth: featuresB.warmth, hueDiversity: featuresB.hueDiversity },
+          ts: Date.now()
+        });
+        console.log('[duel] result saved to duelHistory');
+      }
+    } catch(e) { console.warn('[duel] persist failed:', e); }
   }
 
   // ---------- "Ask your friends" share ----------
