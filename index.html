@@ -3235,7 +3235,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     <button id="upgradeBtn" class="hidden" aria-hidden="true" tabindex="-1"></button>
     <!-- Language Selector -->
     <div class="relative" id="langSelectorWrap">
-      <button id="langSelectorBtn" type="button" class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 hover:text-white transition-all whitespace-nowrap" aria-label="Change language" aria-haspopup="listbox">
+      <button id="langSelectorBtn" type="button" class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 hover:text-white transition-all whitespace-nowrap" style="touch-action:manipulation" aria-label="Change language" aria-haspopup="listbox">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A8.966 8.966 0 013 12c0-1.97.633-3.792 1.708-5.272"/></svg>
         <span id="langSelectorLabel">EN</span>
         <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
@@ -3246,7 +3246,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
 <!-- Language dropdown lives OUTSIDE the header so it gets its own
      stacking context in the root. This prevents Chrome from triggering
      hover states on nav buttons while the cursor moves over dropdown items. -->
-<div id="langSelectorDropdown" class="hidden fixed backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden py-1.5" style="z-index:200; min-width:160px; background-color:rgba(9,9,11,.95)" role="listbox" aria-label="Select language">
+<div id="langSelectorDropdown" class="hidden fixed backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden py-1.5" style="z-index:200; min-width:160px; background-color:rgba(9,9,11,.95); touch-action:manipulation" role="listbox" aria-label="Select language">
   <!-- Populated by JS from getSupportedLangs() -->
 </div>
 
@@ -10812,9 +10812,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       chat_error_unavailable: 'Der Stylist ist gerade nicht erreichbar. Bitte versuche es gleich nochmal.',
       chat_error_timeout: 'Der Stylist braucht zu lange für eine Antwort. Bitte versuche es erneut.',
       chat_error_rate_limit: 'Zu viele Anfragen — bitte warte einen Moment und versuche es erneut.',
-      safety_minor: "DateScan ist ein Style- und Pflegeberater für Erwachsene. Ich kann keine Stil- oder Dating-Beratung für Minderjährige geben. Wenn du unter 18 bist, wende dich bitte an eine vertrauenswürdige erwachsene Person.",
+      safety_minor: "DateScan ist ein Stil- und Pflegeberater für Erwachsene. Ich kann keine Stil- oder Dating-Beratung für Minderjährige geben. Wenn du unter 18 bist, wende dich bitte an eine vertrauenswürdige erwachsene Person.",
       safety_sexual: "Hier bleibt alles jugendfrei. Formuliere deine Frage ohne explizite Sprache um, und ich helfe dir gerne bei Outfit oder Pflege.",
-      safety_self_harm: "Es klingt, als würdest du durch eine schwere Zeit gehen. Ich bin nur eine Style-App und nicht die richtige Hilfe dafür — bitte wende dich an eine Krisenhotline in deinem Land. In Deutschland: 0800/1110111. In der EU: 112. Du zählst.",
+      safety_self_harm: "Es klingt, als würdest du durch eine schwere Zeit gehen. Ich bin nur eine Stil-App und nicht die richtige Hilfe dafür — bitte wende dich an eine Krisenhotline in deinem Land. In Deutschland: 0800/1110111. In der EU: 112. Du zählst.",
       chat_voice_input: 'Spracheingabe',
       chat_upload: 'Foto hochladen',
       chat_closet_pick: 'Aus Kleiderschrank wählen',
@@ -10832,9 +10832,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       typing_hint_color: 'Prüfe die Farbharmonie...',
       typing_hint_fit: 'Analysiere die Passform...',
       typing_hint_advice: 'Suche nach dem besten Rat...',
-      typing_hint_glasses: 'Setze die Style-Experten-Brille auf...',
+      typing_hint_glasses: 'Setze die Stil-Experten-Brille auf...',
       typing_hint_outfit: 'Dein Outfit im Check…',
-      typing_hint_score: 'Style-Score wird berechnet…',
+      typing_hint_score: 'Stil-Score wird berechnet…',
       typing_hint_vibe: 'Schau mal was zu dir passt…',
       typing_hint_match: 'Suche den perfekten Match…',
       label_vibe: 'Vibe',
@@ -10842,7 +10842,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       xp_plus_10: '+10 XP',
 
       // Offline style tips
-      offline_tips_header: 'Stiletipps · Offline',
+      offline_tips_header: 'Stiltipps · Offline',
       tip_title_color_harmony: 'Farbharmonie',
       tip_color_harmony: 'Maximal 2–3 Farben. Neutrale + eine Akzentfarbe sorgen für einen gepflegten Look ohne Raterei.',
       tip_title_fit_over_brand: 'Passform vor Marke',
@@ -10888,7 +10888,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       story_consistent: 'Dein Stil ist beständig',
 
       saved_tips_title: 'Gespeicherte Tipps',
-      saved_tips_subtitle: 'Deine Sammlung liebster Style-Tipps',
+      saved_tips_subtitle: 'Deine Sammlung liebster Stil-Tipps',
       saved_tips_empty: 'Noch keine Tipps gespeichert',
       saved_tips_hint: 'Tippe auf das Lesezeichen-Symbol bei Chat-Antworten',
       saved_tip_saved: 'Tipp gespeichert!',
@@ -10945,8 +10945,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
 
       lang_label: 'Sprache',
       app_name: 'DateScan.',
-      app_tagline: 'Persönlicher Style-Coach',
-      page_title: 'DateScan — Dein persönlicher Style-Coach',
+      app_tagline: 'Persönlicher Stil-Coach',
+      page_title: 'DateScan — Dein persönlicher Stil-Coach',
       nav_offline_title: 'Du bist offline',
       nav_points_loading: 'Laden…',
       nav_scanner: 'Scanner',
@@ -10958,7 +10958,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ob_step2_title: '2. Gutes Licht',
       ob_step2_desc: 'Stell dich vor ein Fenster oder eine Lichtquelle.',
       ob_step3_title: '3. Aktionsplan',
-      ob_step3_desc: 'Sofortiges Pflege- und Style-Feedback.',
+      ob_step3_desc: 'Sofortiges Pflege- und Stil-Feedback.',
       ob_start_btn: 'Kamera aktivieren & starten',
       scan_hero_title: 'Perfektioniere den',
       scan_hero_title_accent: 'ersten Eindruck',
@@ -11028,14 +11028,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       level_silver: 'Silber',
       level_gold: 'Gold',
       level_diamond: 'Diamant',
-      level_display: 'Level {{n}}: {{name}}',
-      streak_day_streak: '{streak} Tage Strähne',
+      level_display: 'Stufe {{n}}: {{name}}',
+      streak_day_streak: '{streak} Tage-Serie',
       gamify_log_date: 'Heutiges Date loggen',
       gamify_log_date_xp: '(+50 XP)',
       gamify_logged: 'Geloggt! (+50 XP)',
       toast_streak_bonus: '{multiplier}x Strähne-Bonus! +{bonus} XP',
       toast_improvement_possible: '+{n} Verbesserung möglich',
-      coach_title: 'KI Style-Coach',
+      coach_title: 'KI Stil-Coach',
       coach_status_active: 'Aktiv',
       coach_description: 'Tiefe Analyse deines Outfits — Farbe, Kontrast und Koordination.',
       coach_empty_title: 'Ich bin bereit',
@@ -11075,7 +11075,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vai_stage_2: 'Dein Vibe wird synthetisiert...',
       vai_stage_3: 'Erster Eindruck wird finalisiert...',
       vibe_result_label: 'Erster-Eindruck-Analyse',
-      vibe_origin_badge: 'Origin',
+      vibe_origin_badge: 'Ursprung',
       vibe_score_label: '/ 100 Vibe-Score',
       vibe_type_default: 'Selbstbewusst Minimal',
       vibe_sub_default: 'monochromer Architekt',
@@ -11140,7 +11140,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       dna_insight_high_variety: 'Hohe Vielfalt — <strong>{{pct}}%</strong> Farbdiversität {{period}}. Du experimentierst viel.',
       dna_insight_low_variety: 'Farbvielfalt nur <strong>{{pct}}%</strong> {{period}}. Gleiche Palette im Loop — probier einen neuen Ton.',
       dna_insight_signature: '<strong>{{pct}}% {{color}}</strong> {{period}}. Das ist deine Signaturfarbe.',
-      dna_insight_default: '<strong>{{total}} Outfits</strong> geloggt {{period}}. Bau deine Style-DNA weiter aus.',
+      dna_insight_default: '<strong>{{total}} Outfits</strong> geloggt {{period}}. Bau deine Stil-DNA weiter aus.',
       dna_stat_outfits: 'Outfits',
       dna_stat_avg_score: 'Durchschn. Punktzahl',
       dna_stat_top_occ: 'Top-Anlass',
@@ -11162,8 +11162,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       disclaimer_line1: 'KI-GENERIERTE WAHRNEHMUNG',
       disclaimer_line2: '',
       closet_title: 'Digitaler Kleiderschrank',
-      closet_subtitle: 'Deine gespeicherten Outfits und persönliches Style-Archiv.',
-      closet_style_profile: 'Style-Profil',
+      closet_subtitle: 'Deine gespeicherten Outfits und persönliches Stil-Archiv.',
+      closet_style_profile: 'Stil-Profil',
       closet_add_item: 'Teil hinzufügen',
       closet_ab_duel: 'A/B Duell',
       closet_build_outfit: 'Outfit zusammenstellen',
@@ -11240,7 +11240,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_check_successful: 'Erfolgreich?',
       vibe_check_successful_desc: '(z.B. zweites Date vereinbart). Das Outfit bekommt das Glücks-Outfit-Abzeichen.',
       vibe_check_save: 'Vibe speichern',
-      style_profile_title: 'Dein Style-Profil',
+      style_profile_title: 'Dein Stil-Profil',
       style_profile_subtitle: 'Erzähl deinem KI-Coach von deinen Vorlieben für personalisierte Tipps.',
       sp_color_palette: 'Farbpalette',
       sp_color_desc: 'Zu welcher Farbe ziehst du dich hin? Wähle eine.',
@@ -11254,7 +11254,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       sp_lean: 'Schlank',
       sp_athletic: 'Athletisch',
       sp_broad: 'Kräftig',
-      sp_style_vibe: 'Style-Vibe',
+      sp_style_vibe: 'Stil-Vibe',
       sp_vibe_minimalist: 'Minimalist',
       sp_vibe_streetwear: 'Streetwear',
       sp_vibe_classic: 'Klassisch',
@@ -11266,12 +11266,12 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       sp_vibe_vintage: 'Vintage',
       sp_vibe_techwear: 'Techwear',
       sp_save: 'Profil speichern',
-      chat_view_title: 'KI Style-Coach',
+      chat_view_title: 'KI Stil-Coach',
       chat_view_subtitle: 'Lade ein Foto hoch, wähle aus dem Kleiderschrank oder frag einfach — ich sehe es und helfe.',
       chat_with_coach: 'Chat mit dem Coach',
       chat_vision_ai: 'Vision KI',
       chat_point_per_msg: '<strong class="text-brand-400">1 Punkt</strong> pro Nachricht',
-      chat_welcome: 'Hallo! Ich bin dein KI-Style-Coach mit Vision. Lade einfach ein Foto hoch oder stelle direkt deine Frage – ich berate dich gerne!',
+      chat_welcome: 'Hallo! Ich bin dein KI-Stil-Coach mit Vision. Lade einfach ein Foto hoch oder stelle direkt deine Frage – ich berate dich gerne!',
       chat_closet_picker_title: 'Aus dem Kleiderschrank wählen',
       chat_crisis_message: 'Es klingt, als würdest du eine schwere Zeit durchmachen. Bitte wende dich an eine Krisenhotline in deinem Land.',
       chip_core_improve: 'Wie kann ich das verbessern?',
@@ -11290,11 +11290,11 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       chip_fancy_enough: 'Ist das formell genug?',
       chip_fancy_shoes: 'Welche Schuhe zum Anzug?',
       chip_fancy_help: 'Hilf mir bei einem formellen Outfit',
-      story_title: 'Style-Story',
-      story_subtitle: 'Verfolge deine Style-Entwicklung.',
+      story_title: 'Stil-Story',
+      story_subtitle: 'Verfolge deine Stil-Entwicklung.',
       story_score_trend: 'Punktetrend',
       story_score_calendar: 'Punktekalender',
-      story_style_calendar: 'Style-Kalender',
+      story_style_calendar: 'Stil-Kalender',
       story_timeline: 'Zeitleiste',
       story_level_progress: 'Level-Fortschritt',
       cal_today: 'Heute',
@@ -11317,15 +11317,15 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       stylecal_earn_xp: '+10 XP',
       stylecal_wore_at: 'Du hast bereits ein Outfit bei {loc} am {date} getragen. Probier etwas anderes.',
       stylecal_where_placeholder: 'Wo hast du das getragen?',
-      dna_label: 'Style-DNA',
-      dna_title: 'Dein Style-Report',
+      dna_label: 'Stil-DNA',
+      dna_title: 'Dein Stil-Report',
       dna_subtitle: 'Erkenntnisse, die du selbst nicht bemerken würdest.',
       dna_week: 'Woche',
       dna_month: 'Monat',
       dna_empty_main: 'Noch keine Outfits {label} gespeichert.',
       dna_range_week: 'diese Woche',
       dna_range_month: 'diesen Monat',
-      dna_empty_hint: 'Scanne und speichere Outfits für deine Style-DNA.',
+      dna_empty_hint: 'Scanne und speichere Outfits für deine Stil-DNA.',
       trend_pts_up: '+{n} Punkte Ø',
       trend_pts_down: '{n} Punkte Ø',
       dup_title: 'Sieht nach Duplikat aus',
@@ -11426,7 +11426,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       chat_consent_send: 'Senden',
       age_badge: '18+',
       age_title: 'Bist du 18 oder älter?',
-      age_description: 'DateScan ist ein Style- & Pflege-Coach für Erwachsene. Du musst 18+ sein.',
+      age_description: 'DateScan ist ein Stil- & Pflege-Coach für Erwachsene. Du musst 18+ sein.',
       age_yes: 'Ja, ich bin 18+',
       age_no: 'Nein, ich bin unter 18',
       age_fineprint: 'Mit Fortfahren bestätigst du, 18 Jahre oder älter zu sein. Siehe <a href="terms.html" class="text-brand-400 underline">AGB</a> und <a href="privacy.html" class="text-brand-400 underline">Datenschutz</a>.',
@@ -11448,8 +11448,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cam_bullet_4_text: 'Richte die Kamera auf dich selbst, nicht auf andere.',
       cam_bullet_4: '<strong>Nur Selbst-Scan.</strong> Richte die Kamera auf <strong>dich selbst</strong>, nicht auf andere. Das Scannen anderer ohne Einwilligung ist laut AGB verboten.',
       cam_bullet_5_title: 'Hinweis:',
-      cam_bullet_5_text: 'Der KI-Style-Coach-Chat ist anders — dort hochgeladene Fotos gehen an unsere Server.',
-      cam_bullet_5: '<strong>Hinweis:</strong> Der KI-Style-Coach-<strong>Chat</strong> ist anders — wenn du dort ein Foto hochlädst, wird es an unser Vision-Modell gesendet. Beim ersten Mal erhältst du einen separaten Hinweis.',
+      cam_bullet_5_text: 'Der KI-Stil-Coach-Chat ist anders — dort hochgeladene Fotos gehen an unsere Server.',
+      cam_bullet_5: '<strong>Hinweis:</strong> Der KI-Stil-Coach-<strong>Chat</strong> ist anders — wenn du dort ein Foto hochlädst, wird es an unser Vision-Modell gesendet. Beim ersten Mal erhältst du einen separaten Hinweis.',
       cam_consent_yes: 'Verstanden — Kamera starten',
       cam_consent_no: 'Nicht jetzt',
       cam_consent_fineprint: 'Siehe Datenschutz und AGB für Details.',
@@ -11505,7 +11505,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       feedback_first_scan: 'Dein erster Scan. Weiter so!',
       feedback_steady: 'Stetig — 0 Punkte Unterschied zum früheren Scan.',
       feedback_no_outfit: 'Outfit nicht klar erkennbar.',
-      footer_brand_desc: 'Dein KI-Wingman. Scanne dein Outfit, erhalte sofortiges Style- und Pflege-Feedback.',
+      footer_brand_desc: 'Dein KI-Wingman. Scanne dein Outfit, erhalte sofortiges Stil- und Pflege-Feedback.',
       footer_on_device: 'Kamera-Scans laufen lokal',
       footer_legal: 'Rechtliches',
       footer_privacy: 'Datenschutz',
@@ -11584,7 +11584,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       timer_msg_shower: 'Zeit für eine Dusche und mit dem Fertigmachen anzufangen.',
       timer_msg_mirror: 'Letzter Spiegel-Check. Hast du Schlüssel und Portemonnaie?',
       timer_msg_leaving: 'Du solltest bald los. Betritt den Ort, als gehörte er dir. Viel Glück!',
-      chat_offline_placeholder: 'Du bist offline. Style-Coach-Chat benötigt Internet.',
+      chat_offline_placeholder: 'Du bist offline. Stil-Coach-Chat benötigt Internet.',
       color_black: 'Dunkel / Schwarz',
       color_white: 'Hell / Weiß',
       color_gray: 'Grau',
@@ -11637,7 +11637,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_items_load_more: 'Mehr laden',
       vibe_check_xp_note: 'Schneller Vibe-Check — +10 XP.',
       pts_label: 'Punkt',
-      hero_desc: 'Dein KI-Stylcoach. Scanne dein Outfit, erhalte sofortiges Stil- und Pflege-Feedback und geh selbstbewusst zum Date.',
+      hero_desc: 'Dein KI-Stil-Coach. Scanne dein Outfit, erhalte sofortiges Stil- und Pflege-Feedback und geh selbstbewusst zum Date.',
       duel_desc: 'Zwei Looks. Ein Gewinner. Du entscheidest.',
       story_best: 'Beste',
       story_average: 'Durchschnitt',
@@ -11713,7 +11713,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       trend_steady: '→ Stetig',
       no_location: 'Noch kein Standort',
       no_outfits_yet: 'Noch keine Outfits gespeichert.',
-      scan_to_build_dna: 'Scanne und speichere Outfits für deine Style-DNA.',
+      scan_to_build_dna: 'Scanne und speichere Outfits für deine Stil-DNA.',
       duel_winner: 'Gewinner',
       duel_option_a: 'Option A',
       duel_option_b: 'Option B',
@@ -11992,9 +11992,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       rule_context_check: 'Kontext-Check: Regeln für {occasion}-Vibe angepasst',
       rule_contrast_dark: 'Kontrast: Dunkle Palette perfekt für die Nacht',
       rule_approachability: 'Zugänglichkeit: Weiche harte Kanten auf',
-      rule_venue_dark_match: 'Location-Match: Dunkle Palette passt zu schwacher Beleuchtung',
-      rule_venue_dark_mismatch: 'Location-Missmatch: Helle Farben können bei schwacher {venue}-Beleuchtung verblassen',
-      rule_venue_light_match: 'Location-Match: Helle Palette fängt natürliches Licht schön ein',
+      rule_venue_dark_match: 'Ort-Passung: Dunkle Palette passt zu schwacher Beleuchtung',
+      rule_venue_dark_mismatch: 'Ort-Fehlpass: Helle Farben können bei schwacher {venue}-Beleuchtung verblassen',
+      rule_venue_light_match: 'Ort-Passung: Helle Palette fängt natürliches Licht schön ein',
       rule_vibe_sync: 'Vibe-Sync: {label} erkannt — {atmosphere}',
       analysis_palette_label: 'Palette',
       analysis_contrast_label: 'Kontrast',
@@ -12127,9 +12127,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       badge_unlock_toast: '🏆 Erfolg freigeschaltet: {name}!',
       badge_scan_1: 'Erster Scan',
       badge_scan_1_desc: 'Schliesse deinen ersten Scan ab',
-      badge_scan_10: 'Style-Entdecker',
+      badge_scan_10: 'Stil-Entdecker',
       badge_scan_10_desc: 'Schliesse 10 Scans ab',
-      badge_scan_50: 'Style-Veteran',
+      badge_scan_50: 'Stil-Veteran',
       badge_scan_50_desc: 'Schliesse 50 Scans ab',
       badge_streak_3: 'Heiss',
       badge_streak_3_desc: '3 Tage Scan-Streak',
@@ -12143,23 +12143,23 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       badge_color_all_desc: 'Probiere alle Farbkategorien',
       badge_chat_50: 'Plauderbaum',
       badge_chat_50_desc: 'Sende 50 Chat-Nachrichten',
-      badge_score_80: 'Style-Ikone',
+      badge_score_80: 'Stil-Ikone',
       badge_score_80_desc: 'Durchschnittspunktzahl über 80',
 
       // Style DNA
       styledna_title: 'Style DNA',
-      styledna_subtitle: 'Dein Style-Profil basierend auf deinen Scans',
-      styledna_archetype: 'Style-Archetyp',
+      styledna_subtitle: 'Dein Stil-Profil basierend auf deinen Scans',
+      styledna_archetype: 'Stil-Archetyp',
       styledna_color_palette: 'Farbpalette',
       styledna_dominant: 'Dominant',
-      styledna_share: 'Style-Karte teilen',
+      styledna_share: 'Stil-Karte teilen',
       styledna_no_data: 'Scanne Outfits, um dein Style DNA freizuschalten',
-      styledna_arch_minimal: 'Minimalist Casual',
-      styledna_arch_street: 'Streetwear Fan',
-      styledna_arch_elegant: 'Elegant Classic',
-      styledna_arch_boho: 'Bohemian Free',
-      styledna_arch_sporty: 'Sporty Active',
-      styledna_arch_bold: 'Bold Statement',
+      styledna_arch_minimal: 'Minimalistisch Casual',
+      styledna_arch_street: 'Streetwear-Fan',
+      styledna_arch_elegant: 'Elegant Klassisch',
+      styledna_arch_boho: 'Boho Frei',
+      styledna_arch_sporty: 'Sportlich Aktiv',
+      styledna_arch_bold: 'Mutiges Statement',
       styledna_scans_label: 'Scans analysiert',
       styledna_avg_label: 'Durchschnitt',
 
@@ -12295,7 +12295,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_shopping_label: 'Shopping-Date',
       vibe_shopping_atmosphere: 'hell, gesellig, Spazieren und Reden',
       vibe_shopping_lighting: 'helles Ladenlicht oder natürliches Oberlicht',
-      vibe_shopping_color_advice: 'Stylisch aber bequem — du wirst viel gehen. Gelagerte Looks, die sich im Spiegel gut fotografieren. Ein Statement-Stück, das sagt: „Ich habe Geschmack."',
+      vibe_shopping_color_advice: 'Stilvoll aber bequem — du wirst viel gehen. Gelagerte Looks, die sich im Spiegel gut fotografieren. Ein Statement-Stück, das sagt: „Ich habe Geschmack."',
       vibe_shopping_grooming_tip: 'Gepflegt locker — du probierst vielleicht Sachen an. Bequeme Schuhe, minimale Schichten für Umkleidekabinen. Selbstbewusster, müheloser Stil.',
       vibe_shopping_tags: 'hell,gesellig,begehbar,locker,tagsüber',
       // ── AI-Kontext Übersetzungen ──
@@ -12305,23 +12305,23 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ctx_weather: 'Wetter',
       ctx_in: 'in',
       ctx_grooming: 'Pflege & Präsenz-Analyse',
-      ctx_style_coach: 'Letzte Style-Coach-Analyse',
-      ctx_date_venue: 'Date-Location',
-      ctx_venue_type: 'Location-Typ',
+      ctx_style_coach: 'Letzte Stil-Coach-Analyse',
+      ctx_date_venue: 'Date-Ort',
+      ctx_venue_type: 'Ort-Typ',
       ctx_atmosphere: 'Atmosphäre',
       ctx_lighting: 'Beleuchtung',
-      ctx_color_advice: 'Farbberatung für diese Location',
-      ctx_grooming_tip: 'Pflegetipp für diese Location',
+      ctx_color_advice: 'Farbberatung für diesen Ort',
+      ctx_grooming_tip: 'Pflegetipp für diesen Ort',
       ctx_formality: 'Vorgeschlagene Formalität',
       ctx_vibe_tags: 'Vibe-Tags',
       ctx_fav_colors: 'Lieblingsfarben',
       ctx_formality_pref: 'Formalitätspräferenz',
       ctx_body_type: 'Körpertyp',
-      ctx_style_vibes: 'Style-Vibes',
+      ctx_style_vibes: 'Stil-Vibes',
       ctx_total_scans: 'Gesamtscans',
-      ctx_avg_score: 'Durchschnittlicher Style-Score',
+      ctx_avg_score: 'Durchschnittlicher Stil-Score',
       ctx_style_profile: 'Benutzer-Stilprofil',
-      ctx_archetype: 'Style-Archetyp',
+      ctx_archetype: 'Stil-Archetyp',
       ctx_unique_colors: 'Einzigartige ausprobierte Farbkategorien',
       ctx_closet: 'Digitaler Kleiderschrank',
       ctx_items_total: 'Artikel gesamt',
@@ -12526,7 +12526,8 @@ window._tc = function(name) {
     if (l.code === current) {
       item.innerHTML += '<svg class="w-4 h-4 ml-auto text-brand-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
     }
-    item.addEventListener('click', function() {
+    item.addEventListener('click', function(e) {
+      e.stopPropagation();
       window.setLang(l.code);
       updateLabel();
       // Rebuild dropdown with new active state
@@ -12555,7 +12556,8 @@ window._tc = function(name) {
       if (l.code === c) {
         item.innerHTML += '<svg class="w-4 h-4 ml-auto text-brand-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
       }
-      item.addEventListener('click', function() {
+      item.addEventListener('click', function(e) {
+        e.stopPropagation();
         window.setLang(l.code);
         updateLabel();
         rebuildDropdown();
@@ -12714,7 +12716,8 @@ document.title = window.t('page_title');
           if (l2.code === c2) {
             item.innerHTML += '<svg class="w-4 h-4 ml-auto text-brand-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
           }
-          item.addEventListener('click', function() {
+          item.addEventListener('click', function(e) {
+            e.stopPropagation();
             window.setLang(l2.code);
             if (label) label.textContent = l2.code.toUpperCase();
             dropdown.classList.add('hidden');
