@@ -2181,6 +2181,412 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     box-shadow: 0 0 32px rgba(185,242,255,0.5), 0 0 64px rgba(123,104,238,0.2), inset 0 1px 0 rgba(255,255,255,0.3);
   }
 </style>
+
+<!-- ============================================================
+     DateScan — LOVE-AT-FIRST-SIGHT visual layer
+     Pure cosmetic overrides. Zero layout / markup changes.
+     Loads last in <head> so cascade wins over all prior utility
+     and custom styles without needing !important in 99% of cases.
+     Remove this single <style id="ds-love-layer"> block to revert.
+     ============================================================ -->
+<style id="ds-love-layer">
+  /* ---------- design tokens ---------- */
+  :root{
+    --love-coral:        #ff7eb3;
+    --love-rose:         #ff5a87;
+    --love-pink:         #ec4899;
+    --love-magenta:      #d946ef;
+    --love-violet:       #a855f7;
+    --love-deep-violet:  #7c3aed;
+    --love-sunset-a:     #ff9a8b;
+    --love-sunset-b:     #ff6a88;
+    --love-sunset-c:     #d76d77;
+    --love-ink:          #0a0712;
+    --love-ink-2:        #140a22;
+    --love-ink-3:        #1a0f2e;
+    --love-glass:        rgba(255, 255, 255, 0.06);
+    --love-glass-strong: rgba(255, 255, 255, 0.10);
+    --love-glass-hi:     rgba(255, 255, 255, 0.14);
+    --love-stroke:       rgba(255, 255, 255, 0.10);
+    --love-stroke-hi:    rgba(255, 255, 255, 0.16);
+    --love-radius-sm:    14px;
+    --love-radius-md:    20px;
+    --love-radius-lg:    28px;
+    --love-radius-xl:    36px;
+    --love-shadow-1:     0 1px 0 rgba(255,255,255,0.06) inset, 0 1px 2px rgba(0,0,0,0.35);
+    --love-shadow-2:     0 1px 0 rgba(255,255,255,0.07) inset, 0 10px 30px -10px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.35);
+    --love-shadow-3:     0 1px 0 rgba(255,255,255,0.08) inset, 0 24px 60px -20px rgba(124, 58, 237, 0.35), 0 12px 30px -12px rgba(236, 72, 153, 0.25);
+    --love-shadow-cta:   0 8px 24px -6px rgba(236, 72, 153, 0.55), 0 4px 12px -4px rgba(168, 85, 247, 0.45), 0 1px 0 rgba(255,255,255,0.18) inset;
+    --love-ring:         0 0 0 1px rgba(255,255,255,0.06), 0 0 0 2px rgba(236, 72, 153, 0.0);
+  }
+
+  /* ---------- global type refinement ---------- */
+  html, body{
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    font-feature-settings: 'ss01' on, 'cv11' on, 'calt' on;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, .font-serif{
+    letter-spacing: -0.022em;
+  }
+  .font-serif{
+    font-feature-settings: 'lnum' on, 'ss02' on;
+  }
+
+  /* ---------- sunset canvas ---------- */
+  body{
+    background-color: var(--love-ink) !important;
+    background-image:
+      radial-gradient(ellipse 90% 60% at 18% -8%, rgba(255, 126, 179, 0.22) 0%, rgba(255, 126, 179, 0) 55%),
+      radial-gradient(ellipse 80% 55% at 110% 8%, rgba(168, 85, 247, 0.22) 0%, rgba(168, 85, 247, 0) 55%),
+      radial-gradient(ellipse 100% 70% at 50% 120%, rgba(124, 58, 237, 0.28) 0%, rgba(124, 58, 237, 0) 60%),
+      linear-gradient(180deg, #0c0714 0%, #0a0712 55%, #080510 100%);
+    background-attachment: fixed;
+  }
+  /* subtle film grain — adds "premium print" texture */
+  body::before{
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- ambient aurora: richer, animated ---------- */
+  .ambient-glow{
+    width: 140vw !important;
+    height: 140vh !important;
+    background:
+      radial-gradient(circle at 15% 25%, rgba(255, 90, 135, 0.18) 0%, transparent 42%),
+      radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.18) 0%, transparent 42%),
+      radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.16) 0%, transparent 45%),
+      radial-gradient(circle at 75% 75%, rgba(124, 58, 237, 0.14) 0%, transparent 45%) !important;
+    filter: blur(40px) saturate(1.1);
+    animation: love-aurora 22s ease-in-out infinite alternate;
+  }
+  @keyframes love-aurora{
+    0%   { transform: translate(-50%, -50%) scale(1)    rotate(0deg); }
+    50%  { transform: translate(-48%, -52%) scale(1.05) rotate(2deg); }
+    100% { transform: translate(-52%, -48%) scale(0.98) rotate(-2deg); }
+  }
+
+  /* ---------- glassmorphism upgrade ----------
+     These Tailwind utilities are the "card" backgrounds across the app.
+     We retint them, round more, add frosted blur + layered shadows. */
+  .bg-white\/5,
+  .bg-white\/\[0\.03\]{
+    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.025) 100%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+  }
+  .bg-white\/10{
+    background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.05) 100%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+  }
+  .bg-white\/20{
+    background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.10) 100%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(22px) saturate(160%);
+  }
+
+  /* deep-ink surfaces (modals, popovers, banner) → frosted violet glass */
+  .bg-dark-950\/80,
+  .bg-dark-950\/95,
+  .bg-\[\#09090b\]\/95,
+  .bg-\[\#0f0f14\]\/95,
+  .bg-black\/60,
+  .bg-black\/70,
+  .bg-black\/80,
+  .bg-black\/85,
+  .bg-black\/90{
+    background: linear-gradient(180deg, rgba(20, 10, 34, 0.82) 0%, rgba(10, 7, 18, 0.92) 100%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    backdrop-filter: blur(24px) saturate(160%);
+  }
+  .bg-black\/30,
+  .bg-black\/40,
+  .bg-black\/50{
+    background: linear-gradient(180deg, rgba(20, 10, 34, 0.55) 0%, rgba(10, 7, 18, 0.70) 100%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  /* ---------- corner softening + depth ----------
+     Tailwind rounded-xl/2xl/3xl containers get larger radii +
+     multi-layer shadows for physical presence. */
+  .rounded-xl      { border-radius: var(--love-radius-sm) !important; }
+  .rounded-2xl     { border-radius: var(--love-radius-md) !important; }
+  .rounded-3xl,
+  .rounded-\[24px\],
+  .rounded-\[28px\]{ border-radius: var(--love-radius-lg) !important; }
+  .rounded-\[32px\]{ border-radius: var(--love-radius-xl) !important; }
+
+  /* any rounded-2xl / 3xl card that also has a frosted bg gets depth */
+  .rounded-2xl.border,
+  .rounded-3xl.border,
+  .rounded-\[24px\].border,
+  .rounded-\[28px\].border{
+    box-shadow: var(--love-shadow-2);
+  }
+  .rounded-2xl.shadow-2xl,
+  .rounded-3xl.shadow-2xl,
+  .rounded-\[24px\].shadow-2xl,
+  .rounded-\[28px\].shadow-2xl,
+  .shadow-2xl.border{
+    box-shadow: var(--love-shadow-3) !important;
+  }
+
+  /* borders: warmer, higher-contrast in dark */
+  .border-white\/5  { border-color: rgba(255,255,255,0.07) !important; }
+  .border-white\/10 { border-color: rgba(255,255,255,0.12) !important; }
+  .border-white\/15 { border-color: rgba(255,255,255,0.16) !important; }
+  .border-white\/20 { border-color: rgba(255,255,255,0.22) !important; }
+
+  /* ---------- primary brand gradient → sunset-to-violet ---------- */
+  .from-brand-500.to-purple-500,
+  .from-brand-400.via-pink-400.to-purple-400,
+  .from-brand-500.via-\[\#db2777\].to-purple-500,
+  .from-\[\#ec4899\].to-\[\#9333ea\]{
+    background-image: linear-gradient(
+      135deg,
+      #ff7eb3 0%,
+      #ff5a87 30%,
+      #ec4899 55%,
+      #a855f7 85%,
+      #7c3aed 100%
+    ) !important;
+  }
+
+  /* ---------- CTA buttons: pulse + glow ----------
+     Anything with the signature brand→purple gradient + shadow */
+  button.bg-gradient-to-tr.from-brand-500.to-purple-500,
+  button.bg-gradient-to-r.from-brand-500.to-purple-500,
+  a.bg-gradient-to-tr.from-brand-500.to-purple-500,
+  .bg-gradient-to-tr.from-brand-500.to-purple-500.shadow-lg,
+  .bg-gradient-to-r.from-brand-500.to-purple-500.shadow-lg{
+    position: relative;
+    box-shadow: var(--love-shadow-cta) !important;
+    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, filter .25s ease !important;
+    letter-spacing: 0.005em;
+  }
+  button.bg-gradient-to-tr.from-brand-500.to-purple-500:hover,
+  button.bg-gradient-to-r.from-brand-500.to-purple-500:hover,
+  a.bg-gradient-to-tr.from-brand-500.to-purple-500:hover{
+    filter: brightness(1.06) saturate(1.05);
+    box-shadow:
+      0 14px 34px -8px rgba(236, 72, 153, 0.65),
+      0 6px 18px -4px rgba(168, 85, 247, 0.55),
+      0 1px 0 rgba(255,255,255,0.22) inset !important;
+  }
+  button.bg-gradient-to-tr.from-brand-500.to-purple-500:active,
+  button.bg-gradient-to-r.from-brand-500.to-purple-500:active{
+    transform: translateY(1px) scale(0.985);
+  }
+  /* soft breathing pulse for hero / install / primary scan CTAs */
+  @keyframes love-pulse-glow{
+    0%, 100% { box-shadow: var(--love-shadow-cta); }
+    50%      { box-shadow:
+      0 10px 30px -6px rgba(236, 72, 153, 0.70),
+      0 4px 14px -4px rgba(168, 85, 247, 0.55),
+      0 0 0 6px rgba(236, 72, 153, 0.08),
+      0 1px 0 rgba(255,255,255,0.20) inset; }
+  }
+  .shadow-\[0_4px_14px_rgba\(236\2c 72\2c 153\2c 0\.35\)\]{
+    animation: love-pulse-glow 3.2s ease-in-out infinite;
+  }
+
+  /* ---------- chips / pills / badges ---------- */
+  .bg-brand-500\/10,
+  .bg-brand-500\/15{
+    background: linear-gradient(135deg, rgba(255, 126, 179, 0.14), rgba(168, 85, 247, 0.10)) !important;
+    border-color: rgba(244, 114, 182, 0.24);
+  }
+  .bg-brand-500\/20{
+    background: linear-gradient(135deg, rgba(255, 126, 179, 0.22), rgba(168, 85, 247, 0.16)) !important;
+  }
+  .bg-brand-500\/30{
+    background: linear-gradient(135deg, rgba(255, 126, 179, 0.30), rgba(168, 85, 247, 0.22)) !important;
+  }
+  .bg-purple-500\/10 { background: linear-gradient(135deg, rgba(168,85,247,0.14), rgba(124,58,237,0.10)) !important; }
+  .bg-purple-500\/20 { background: linear-gradient(135deg, rgba(168,85,247,0.22), rgba(124,58,237,0.16)) !important; }
+
+  /* success / warning / danger chips — retuned to match sunset palette */
+  .bg-emerald-500\/10 { background: linear-gradient(135deg, rgba(52,211,153,0.14), rgba(16,185,129,0.08)) !important; }
+  .bg-emerald-500\/15 { background: linear-gradient(135deg, rgba(52,211,153,0.20), rgba(16,185,129,0.12)) !important; }
+  .bg-emerald-500\/20 { background: linear-gradient(135deg, rgba(52,211,153,0.26), rgba(16,185,129,0.16)) !important; }
+  .bg-amber-500\/10   { background: linear-gradient(135deg, rgba(251,191,36,0.14), rgba(249,115,22,0.08)) !important; }
+  .bg-red-500\/10     { background: linear-gradient(135deg, rgba(251,113,133,0.14), rgba(239,68,68,0.08)) !important; }
+  .bg-red-500\/15     { background: linear-gradient(135deg, rgba(251,113,133,0.20), rgba(239,68,68,0.12)) !important; }
+
+  /* ---------- text gradients: richer ---------- */
+  .bg-clip-text.bg-gradient-to-r.from-brand-500.to-purple-500,
+  .bg-clip-text.bg-gradient-to-tr.from-brand-500.to-purple-500,
+  .bg-clip-text.bg-gradient-to-br.from-brand-500.to-purple-500{
+    background-image: linear-gradient(
+      135deg,
+      #ff9ec7 0%,
+      #ff6a88 30%,
+      #ec4899 55%,
+      #c084fc 85%,
+      #a855f7 100%
+    ) !important;
+  }
+
+  /* ---------- inputs: softer focus ---------- */
+  input, textarea, select{
+    transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+  }
+  input:focus, textarea:focus, select:focus{
+    box-shadow:
+      0 0 0 4px rgba(236, 72, 153, 0.14),
+      0 0 0 1px rgba(236, 72, 153, 0.55) inset;
+    outline: none !important;
+  }
+
+  /* ---------- focus visible ring — elegant, not bureaucratic ---------- */
+  :focus-visible{
+    outline: none;
+    box-shadow:
+      0 0 0 2px rgba(10, 7, 18, 1),
+      0 0 0 4px rgba(236, 72, 153, 0.55) !important;
+    border-radius: inherit;
+  }
+  button:focus-visible, a:focus-visible{
+    outline: none;
+  }
+
+  /* ---------- bottom / sticky navs ---------- */
+  nav[class*="fixed"],
+  nav[class*="sticky"],
+  [role="navigation"][class*="fixed"],
+  [role="navigation"][class*="sticky"],
+  .fixed.bottom-0[class*="bg-"]{
+    -webkit-backdrop-filter: blur(28px) saturate(170%);
+    backdrop-filter: blur(28px) saturate(170%);
+    border-top-color: rgba(255,255,255,0.08) !important;
+  }
+
+  /* ---------- level badges, ring haloes, chips ---------- */
+  .ring-2.ring-brand-400,
+  .ring-2.ring-brand-500\/60{
+    box-shadow: 0 0 0 1px rgba(10,7,18,1), 0 0 0 3px rgba(236, 72, 153, 0.55), 0 10px 24px -10px rgba(236, 72, 153, 0.5);
+  }
+
+  /* ---------- micro-interactions ---------- */
+  /* card lift */
+  a.rounded-2xl, a.rounded-3xl,
+  button.rounded-2xl, button.rounded-3xl,
+  [role="button"].rounded-2xl, [role="button"].rounded-3xl{
+    transition: transform .28s cubic-bezier(.2,.8,.2,1),
+                box-shadow .28s ease,
+                border-color .28s ease,
+                background-color .28s ease;
+  }
+  a.rounded-2xl:hover, a.rounded-3xl:hover,
+  button.rounded-2xl:hover, button.rounded-3xl:hover{
+    transform: translateY(-2px);
+  }
+  a.rounded-2xl:active, a.rounded-3xl:active,
+  button.rounded-2xl:active, button.rounded-3xl:active{
+    transform: translateY(0) scale(0.99);
+  }
+
+  /* heart-beat pulse (for anything with .animate-pulse living on brand colors) */
+  @keyframes love-heartbeat{
+    0%, 100%  { transform: scale(1); }
+    14%       { transform: scale(1.08); }
+    28%       { transform: scale(1); }
+    42%       { transform: scale(1.04); }
+    70%       { transform: scale(1); }
+  }
+  .animate-pulse.bg-brand-500,
+  .animate-pulse.bg-pink-500,
+  .bg-brand-500.animate-pulse,
+  .bg-pink-500.animate-pulse{
+    animation: love-heartbeat 1.6s ease-in-out infinite;
+  }
+
+  /* shimmer overlay helper (apply by adding a ::after we trigger on .shadow-2xl rounded cards with gradient borders) — purely decorative, no layout impact */
+  .from-brand-500.to-purple-500.rounded-2xl,
+  .from-brand-500.to-purple-500.rounded-3xl{
+    position: relative;
+    overflow: hidden;
+  }
+  .from-brand-500.to-purple-500.rounded-2xl::after,
+  .from-brand-500.to-purple-500.rounded-3xl::after{
+    content: "";
+    position: absolute;
+    top: 0; left: -60%;
+    width: 60%; height: 100%;
+    background: linear-gradient(100deg,
+      transparent 0%,
+      rgba(255,255,255,0.16) 50%,
+      transparent 100%);
+    transform: skewX(-18deg);
+    pointer-events: none;
+    animation: love-shimmer 5.5s ease-in-out 1s infinite;
+  }
+  @keyframes love-shimmer{
+    0%   { left: -60%; }
+    55%  { left: 120%; }
+    100% { left: 120%; }
+  }
+
+  /* ---------- tier icon polish (extends existing gold/silver/diamond) ---------- */
+  .level-tier-icon--bronze,
+  .level-tier-icon--silver,
+  .level-tier-icon--gold,
+  .level-tier-icon--diamond{
+    filter: saturate(1.08);
+  }
+
+  /* ---------- score calendar refinements ---------- */
+  .scorecal-title{
+    background: linear-gradient(135deg, #fff 0%, #fde4f0 60%, #f9a8d4 100%);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  .scorecal-month-label{
+    background: linear-gradient(135deg, #ff9ec7 0%, #ec4899 45%, #a855f7 100%) !important;
+    -webkit-background-clip: text; background-clip: text;
+  }
+
+  /* ---------- scrollbars (desktop only, already scoped by viewport) ---------- */
+  @media (min-width: 1024px){
+    *::-webkit-scrollbar-thumb{
+      background-image: linear-gradient(180deg, rgba(236,72,153,0.55), rgba(168,85,247,0.55)) !important;
+    }
+  }
+
+  /* ---------- selection color ---------- */
+  ::selection{
+    background: rgba(236, 72, 153, 0.32);
+    color: #fff;
+  }
+
+  /* ---------- safety: keep camera / video / canvas pristine ---------- */
+  video, canvas, img{
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* ---------- reduced motion respected ---------- */
+  @media (prefers-reduced-motion: reduce){
+    .ambient-glow{ animation: none !important; }
+    .from-brand-500.to-purple-500.rounded-2xl::after,
+    .from-brand-500.to-purple-500.rounded-3xl::after{ animation: none !important; display: none; }
+    .shadow-\[0_4px_14px_rgba\(236\2c 72\2c 153\2c 0\.35\)\]{ animation: none !important; }
+    .animate-pulse.bg-brand-500,
+    .animate-pulse.bg-pink-500{ animation: none !important; }
+    a.rounded-2xl:hover, a.rounded-3xl:hover,
+    button.rounded-2xl:hover, button.rounded-3xl:hover{ transform: none; }
+  }
+</style>
 </head>
 <body class="relative antialiased text-gray-100">
 
@@ -5281,34 +5687,154 @@ window.addEventListener('unhandledrejection', function(e) {
 // ── localStorage Safety Wrapper ────────────────────────────────
 // Wraps setItem to gracefully handle QuotaExceededError and
 // private browsing restrictions without crashing the app.
+// On quota overflow, performs tiered cleanup (oldest/largest data first)
+// and retries. If cleanup fails, shows a toast to the user.
 const _origSetItem = localStorage.setItem.bind(localStorage);
+
+// Priority-ordered list of key prefixes to evict when storage is full.
+// Earlier entries are evicted first (least important / most expendable).
+const _EVICT_ORDER = [
+  'datescan.thumb_',         // Scan thumbnails (easily regenerated)
+  'datescan.weather_',       // Cached weather data (stale quickly)
+  'datescan.hint.',          // One-time hint flags (non-critical)
+  'datescan.vibe_history',   // Vibe history (nice-to-have)
+  'datescan.history',        // Scan history (important but large)
+  'datescan.checklist',      // Checklist state (recoverable)
+  'datescan.date_timer',     // Timer (recoverable)
+  'datescan.missions',       // Mission state (recoverable)
+];
+
+// Estimate localStorage usage in bytes
+function _estimateStorageUsage() {
+  try {
+    let total = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const val = localStorage.getItem(key) || '';
+      // Each char is 2 bytes in UTF-16
+      total += (key.length + val.length) * 2;
+    }
+    return total;
+  } catch (e) { return -1; }
+}
+
+// Attempt to free space by evicting data in priority order.
+// Returns number of keys removed.
+function _evictStorageSpace(targetBytes) {
+  let removed = 0;
+  let freedBytes = 0;
+
+  // Phase 1: Evict by priority order
+  for (const prefix of _EVICT_ORDER) {
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(prefix)) {
+        keysToRemove.push(key);
+      }
+    }
+    for (const key of keysToRemove) {
+      try {
+        const val = localStorage.getItem(key) || '';
+        freedBytes += (key.length + val.length) * 2;
+        localStorage.removeItem(key);
+        removed++;
+      } catch (e) {}
+    }
+    if (freedBytes >= targetBytes) return removed;
+  }
+
+  // Phase 2: If still not enough, remove oldest datescan keys
+  // by iterating ALL remaining datescan keys (largest first)
+  const allKeys = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('datescan.')) {
+      try {
+        const val = localStorage.getItem(key) || '';
+        allKeys.push({ key, size: (key.length + val.length) * 2 });
+      } catch (e) {}
+    }
+  }
+  allKeys.sort((a, b) => b.size - a.size); // Largest first
+  for (const item of allKeys) {
+    if (freedBytes >= targetBytes) break;
+    // Never evict critical keys
+    if (item.key === 'datescan.pro' || item.key === 'datescan.userId' ||
+        item.key === 'datescan.lang' || item.key === 'datescan.onboarded') {
+      continue;
+    }
+    try {
+      localStorage.removeItem(item.key);
+      freedBytes += item.size;
+      removed++;
+    } catch (e) {}
+  }
+
+  return removed;
+}
+
+// Show a toast warning when storage is critically full
+function _showStorageWarning() {
+  try {
+    if (typeof showToast === 'function') {
+      showToast(t('storage_warning') || 'Storage is full — some data was cleared to keep the app running.');
+    } else {
+      // Fallback: create a simple temporary banner
+      const banner = document.createElement('div');
+      banner.textContent = t('storage_warning') || 'Storage is full — some data was cleared.';
+      banner.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(239,68,68,0.9);color:#fff;padding:8px 16px;border-radius:12px;font-size:12px;z-index:9999;max-width:90%;text-align:center;pointer-events:none;';
+      document.body.appendChild(banner);
+      setTimeout(() => banner.remove(), 4000);
+    }
+  } catch (e) {}
+}
+
 localStorage.setItem = function(key, value) {
   try {
     _origSetItem(key, value);
   } catch (e) {
-    if (e.name === 'QuotaExceededError' || e.code === 22) {
-      console.warn('[DateScan] Storage quota exceeded for key:', key);
-      // Try to free space by removing old scan thumbnails
+    if (e.name === 'QuotaExceededError' || e.code === 22 || e.code === 1014) {
+      console.warn('[DateScan] Storage quota exceeded for key:', key, '— attempting cleanup…');
       try {
-        const keys = Object.keys(localStorage);
-        let freed = 0;
-        for (let i = keys.length - 1; i >= 0 && freed < 3; i--) {
-          if (keys[i].startsWith('datescan.thumb_')) {
-            localStorage.removeItem(keys[i]);
-            freed++;
-          }
-        }
-        if (freed > 0) {
-          _origSetItem(key, value); // Retry after cleanup
-        }
+        // Estimate how much space we need (value size + 10% buffer)
+        const neededBytes = (key.length + String(value).length) * 2 * 1.1;
+        const evicted = _evictStorageSpace(neededBytes);
+        console.log('[DateScan] Evicted', evicted, 'keys to free space');
+        // Retry after cleanup
+        _origSetItem(key, value);
+        // Warn user that cleanup happened
+        _showStorageWarning();
       } catch (retryErr) {
-        console.warn('[DateScan] Storage cleanup failed:', retryErr);
+        console.error('[DateScan] Storage cleanup + retry failed:', retryErr);
+        _showStorageWarning();
       }
     } else {
       console.warn('[DateScan] localStorage.setItem failed:', key, e);
     }
   }
 };
+
+// ── Proactive storage health check ──
+// Run once on load. If storage is >80% full, do a preemptive cleanup
+// so the next write doesn't hit QuotaExceededError.
+(function _checkStorageHealth() {
+  try {
+    const TYPICAL_QUOTA = 5 * 1024 * 1024; // 5 MB (common mobile browser limit)
+    const used = _estimateStorageUsage();
+    if (used < 0) return; // Can't estimate — skip
+    const pct = used / TYPICAL_QUOTA;
+    if (pct > 0.8) {
+      const targetFree = TYPICAL_QUOTA * 0.3; // Free up to 30%
+      const toFree = Math.max(0, (used - TYPICAL_QUOTA * 0.7));
+      console.warn('[DateScan] Storage is', Math.round(pct * 100) + '% full (' + Math.round(used / 1024) + ' KB) — preemptive cleanup');
+      const evicted = _evictStorageSpace(toFree);
+      if (evicted > 0) {
+        console.log('[DateScan] Preemptively evicted', evicted, 'keys');
+      }
+    }
+  } catch (e) {}
+})();
 
 // Dynamic import for MediaPipe — loaded asynchronously so it NEVER blocks
 // the rest of the module from evaluating. The FaceLandmarker is only needed
@@ -8529,6 +9055,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ctx_feedback_happy: 'Overall, the user is happy with your suggestions. Stay confident.',
       ctx_feedback_critical: 'Overall, the user has been critical. Be more measured and offer alternatives.',
       ctx_feedback_header: 'Feedback-based adjustments',
+      storage_warning: 'Storage is full — some data was cleared to keep the app running.',
     },
     hu: {
       nav_closet: 'Szekrény',
@@ -10073,6 +10600,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ctx_feedback_happy: 'Összességében a felhasználó elégedett a javaslataiddal. Maradj magabiztos.',
       ctx_feedback_critical: 'Összességében a felhasználó kritikus. Légy mérlegelettebb és ajánlj alternatívákat.',
       ctx_feedback_header: 'Visszajelzés-alapú módosítások',
+      storage_warning: 'A tárhely megtelt — néhány adat törölve lett az alkalmazás működéséhez.',
     },
     de: {
       nav_closet: 'Schrank',
@@ -11617,6 +12145,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ctx_feedback_happy: 'Insgesamt ist der Benutzer zufrieden mit deinen Vorschlägen. Bleib selbstbewusst.',
       ctx_feedback_critical: 'Insgesamt ist der Benutzer kritisch. Sei abgewogener und biete Alternativen an.',
       ctx_feedback_header: 'Feedback-basierte Anpassungen',
+      storage_warning: 'Speicher ist voll — einige Daten wurden gelöscht, damit die App weiterläuft.',
     },
   };
 
@@ -24911,6 +25440,40 @@ function onGoogleMapsLoaded() {
     setTimeout(() => URL.revokeObjectURL(url), 5000);
     awardDuelShareXP();
   });
+})();
+</script>
+
+<!-- ── Haptic Feedback: vibration on interactive element press ── -->
+<script>
+(function(){
+  // Vibration API — works on Android/mobile, silently ignored on desktop/iOS
+  if (!navigator.vibrate && !navigator.webkitVibrate) return;
+  var vibrate = navigator.vibrate || navigator.webkitVibrate;
+
+  // Respect reduced-motion preference
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  function hapticTap(ms) {
+    try { vibrate.call(navigator, ms); } catch(e) {}
+  }
+
+  document.addEventListener('pointerdown', function(e) {
+    var el = e.target.closest(
+      'button, a, [role="button"], input[type="submit"], input[type="button"], input[type="checkbox"], label.checkbox-row, .btn-danger, [data-haptic]'
+    );
+    if (!el) return;
+    // Skip disabled elements
+    if (el.disabled || el.getAttribute('aria-disabled') === 'true') return;
+
+    // Intensity tiers
+    if (el.closest('.btn-danger') || el.matches('[data-haptic="heavy"]')) {
+      hapticTap(25);          // destructive / important actions
+    } else if (el.matches('a[href]') && !el.matches('[role="button"]')) {
+      hapticTap(5);           // light tap for plain links
+    } else {
+      hapticTap(10);          // standard tap for buttons / controls
+    }
+  }, { passive: true });
 })();
 </script>
 
