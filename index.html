@@ -2625,6 +2625,48 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     a.rounded-2xl:hover, a.rounded-3xl:hover,
     button.rounded-2xl:hover, button.rounded-3xl:hover{ transform: none; }
   }
+
+  /* ── Mobile performance: disable expensive backdrop-blur & heavy shadows ── */
+  @media (max-width: 1023px) {
+    .backdrop-blur-sm,
+    .backdrop-blur-md,
+    .backdrop-blur-lg,
+    .backdrop-blur-xl {
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+    }
+    /* Swap blur-dependent backgrounds to opaque so text stays readable */
+    .bg-dark-950\/80.backdrop-blur-lg,
+    .bg-dark-950\/95.backdrop-blur-lg,
+    .bg-dark-950\/80.backdrop-blur-md,
+    .bg-dark-950\/95.backdrop-blur-md {
+      background: rgba(9,9,11,0.97) !important;
+    }
+    .bg-\[\#09090b\]\/95.backdrop-blur-lg,
+    .bg-\[\#09090b\]\/95.backdrop-blur-md {
+      background: rgba(9,9,11,0.97) !important;
+    }
+    /* Remove expensive hover glow shadows on mobile */
+    .shadow-\[0_0_20px_rgba\(236\2c 72\2c 153\2c 0\.3\)\],
+    .shadow-\[0_0_20px_rgba\(236\2c 72\2c 153\2c 0\.4\)\],
+    .shadow-\[0_0_12px_rgba\(236\2c 72\2c 153\2c 0\.8\)\],
+    .shadow-\[0_0_10px_rgba\(236\2c 72\2c 153\2c 0\.1\)\] {
+      box-shadow: none !important;
+    }
+    /* Disable hover scale transforms on mobile (causes jank) */
+    .hover\:scale-105:hover,
+    .hover\:scale-110:hover,
+    .hover\:scale-\[1\.03\]:hover {
+      transform: none !important;
+    }
+    /* Simplify heavy drop-shadow filters */
+    .drop-shadow-\[0_0_24px_rgba\(236\2c 72\2c 153\2c 0\.35\)\],
+    .drop-shadow-\[0_0_10px_rgba\(236\2c 72\2c 153\2c 0\.5\)\],
+    .drop-shadow-\[0_0_10px_rgba\(236\2c 72\2c 153\2c 0\.3\)\],
+    .drop-shadow-\[0_0_8px_rgba\(236\2c 72\2c 153\2c 0\.4\)\] {
+      filter: none !important;
+    }
+  }
 </style>
 </head>
 <body class="relative antialiased text-gray-100">
@@ -4054,11 +4096,10 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                <span data-i18n="closet_build_outfit">Build Outfit</span>
             </button>
-            <button id="closetExportBtn" class="px-4 py-2.5 rounded-xl text-sm font-bold flex gap-2 items-center justify-center flex-1 bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Export closet backup">
+            <button id="closetExportBtn" class="px-3 py-2.5 rounded-xl text-sm font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Export closet backup">
                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                <span data-i18n="closet_export">Export</span>
-            </button>
-            <button id="closetImportBtn" class="px-4 py-2.5 rounded-xl text-sm font-bold flex gap-2 items-center justify-center flex-1 bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Import closet backup">
+            </button><button id="closetImportBtn" class="px-3 py-2.5 rounded-xl text-sm font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Import closet backup">
                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                <span data-i18n="closet_import">Import</span>
             </button>
@@ -7203,7 +7244,7 @@ function updatePointsBadge() {
   const s = _readPointsState();
   const hasBonus = (s.bonus || 0) > 0;
   // Show e.g. "5 PTS" or "8 PTS" with bonus indicator, plus reset hint in title.
-  badge.innerHTML = `<span class="font-bold text-white tabular-nums">${pts}</span><span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">${t('nav_pts')}</span>${hasBonus ? '<span class="text-[9px] font-bold text-green-400 ml-1.5">+' + s.bonus + '</span>' : ''}`;
+  badge.innerHTML = `<span class="font-bold text-white tabular-nums">${_esc(pts)}</span><span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">${t('nav_pts')}</span>${hasBonus ? '<span class="text-[9px] font-bold text-green-400 ml-1.5">+' + _esc(s.bonus) + '</span>' : ''}`;
   badge.classList.remove('bg-brand-500/10', 'border-brand-500/30');
   badge.classList.add('bg-white/5', 'border-white/10');
   if (pts === 0) {
@@ -8847,7 +8888,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_color_1: 'Add silver accessories to break up a dark monochrome',
       imp_color_2: 'Introduce one warm neutral to soften cool tones',
       imp_color_3: 'Layer a dark piece to anchor a light outfit',
-      imp_color_4: 'Swap in brown leather to warm up navy',
+      imp_color_4: '',
       imp_color_spring_1: 'Swap black for navy or charcoal — spring calls for softer darks',
       imp_color_spring_2: 'Add one pastel accent to wake up a winter palette',
       imp_color_summer_1: 'Choose breathable linen in white or sand over synthetics',
@@ -9220,7 +9261,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       nav_story: 'Történet',
       nav_scan: 'Szkennelés',
       nav_go_pro: 'PRO',
-      nav_pts: 'PONT',
+      nav_pts: 'PNT',
       nav_offline: 'Offline',
 
       scan_extracting: 'Stílusjegyek elemzése...',
@@ -9570,7 +9611,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       dna_insight_one_occ: 'Minden öltözék <strong>{{occ}}</strong> volt {{period}}. Próbálj bekeverni más alkalomtípust a skálád bővítésére.',
       dna_insight_occ_heavy: '<strong>{{pct}}% {{occ}}</strong> {{period}}. Erős hajlás — fontold meg a váltogatást.',
       dna_insight_score_high: 'Átlag pontszám <strong>{{score}}/100</strong> {{period}}. Következetesen jó formában vagy.',
-      dna_insight_score_low: 'Átlag pontszám <strong>{{score}}/100</strong> {{period}}. Bőven van mit csiszolni rajta — figyelj a színkontrasztra és az elemek igazítására.',
+      dna_insight_score_low: 'Átlag pontszám <strong>{{score}}/100</strong> {{period}}. Bőven van tér a fejlődésre: a hangsúlyt most a színkontrasztra és a pontos méretekre érdemes helyezned.',
       dna_insight_high_variety: 'Magas változatosság — <strong>{{pct}}%</strong> szín-diverzitás {{period}}. Sokat kísérletezel.',
       dna_insight_low_variety: 'Színváltozatosság csak <strong>{{pct}}%</strong> {{period}}. Ugyanaz a paletta ismét — próbálj egy új árnyalatot.',
       dna_insight_signature: '<strong>{{pct}}% {{color}}</strong> {{period}}. Ez a te védjegyszíned.',
@@ -10401,7 +10442,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_style_2: 'Próbálj tisztább, testhezállóbb darabokat legközelebb',
       imp_style_3: 'Tűrd be az inget élesebb sziluettért',
       imp_style_4: 'Gyűrd fel az ujjat az alkarodra laza élért',
-      imp_style_5: 'Vegyél fel egy kabátot vagy túl-inget vizuális mélységért',
+      imp_style_5: 'Vegyél fel egy kabátot vagy egy inget rétegként, hogy izgalmasabbá tedd az összképet',
       imp_style_6: 'Válts tiszta fehér sportcipőre, hogy megalapozd a szettet',
       imp_style_7: 'Adj hozzá egy kiemelt darabot — ne vidd túlzásba',
       imp_style_8: 'Illeszd az öved a cipődhoz',
@@ -10410,10 +10451,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_grooming_3: 'Itsd fel a T-zónát száraz zsebkendővel, hogy megszüntesd a fénylést',
       imp_grooming_4: 'Fröcskölj hideg vizet az arcodra friss megjelenésért',
       imp_grooming_5: 'Vigyél fel egy könnyű hidratálót ragyogásért, nem zsírosodásért',
-      imp_color_1: 'Adj ezüst kiegészítőket a sötét monokróm megtöréséhez',
+      imp_color_1: 'Ezüst kiegészítőkkel remekül feldobhatod a sötét, monokróm megjelenést',
       imp_color_2: 'Vegyél be egy meleg semleges színt a hűvös tónusok puhításához',
       imp_color_3: 'Rétegezz egy sötét darabot, hogy megalapozd a világos szettet',
-      imp_color_4: 'Cseréld be a barna bőrt, hogy felmelegítsd a tengerészkéket',
+      imp_color_4: '',
       imp_color_spring_1: 'Cseréld a feketét tengerészkékre vagy szénkékre — a tavasz lágyabb sötéteket kér',
       imp_color_spring_2: 'Adj egy pasztell akcentust, hogy felébresszd a téli palettát',
       imp_color_summer_1: 'Válassz lélegző vásznat fehérben vagy homokszínben szintetikus helyett',
@@ -10461,7 +10502,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       mp_contrast_statement: 'A kontrasztod a megnyilvánulás. Adj hozzá <strong style="color:#fff">egy tapintható textúrát</strong> — kötés, antil, kefélt len — hogy a szemnek legyen hol pihennie.',
       mp_lowkey_breath: 'A sötét paletta hiányol egy fény-leheletet. <strong style="color:#fff">Egy fehér vagy krém réteg</strong> — póló, sál, gallér — emelné anélkül hogy megtörné a hangulatot.',
       mp_highkey_weight: 'A világos paletta hiányolja a súlyt. <strong style="color:#fff">Egy sötétebb megalapozó darab</strong> — farmer, szén, eszpresszó — megalapozná a fényerőt.',
-      mp_warm_dominant: 'A melegség dominál. <strong style="color:#fff">Egy hűvös ék</strong> — palackkék, tengerészkék vagy szén — élesítené a palettát anélkül hogy harcolna vele.',
+      mp_warm_dominant: 'A meleg tónusok dominálnak. <strong style="color:#fff">Egy-egy hűvösebb színfolt</strong> – például a palackzöld, a tengerészkék vagy a szénszürke – karakteresebbé tenné az összképet anélkül, hogy elnyomna téged.',
       mp_cool_spark: 'A hűvös palettának szikra kell. <strong style="color:#fff">Egy arany vagy bronz fém ék</strong> azonnal puhítaná a hidegséget.',
       mp_near_perfect_color: 'Majdnem tökéletes kivitelezés. <strong style="color:#fff">Egy kis szín ék</strong> — zsebkendő, zokni, sapka — áttolná a csúcson anélkül hogy megtörné a fegyelmet.',
       mp_near_perfect_texture: 'Majdnem tökéletes kivitelezés. <strong style="color:#fff">Egy lágy textúra</strong> — kötés, antil vagy kefélt gyapjú — lekerekítené az élőket.',
@@ -11979,7 +12020,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       imp_color_1: 'Silber-Accessoires gegen dunkle Monochromie',
       imp_color_2: 'Einen warmen Neutralton gegen kühle Töne',
       imp_color_3: 'Dunkles Teil schichten als Anker für helles Outfit',
-      imp_color_4: 'Braunes Leder gegen Marineblau einsetzen',
+      imp_color_4: '',
       imp_color_spring_1: 'Schwarz gegen Marine oder Kohle tauschen — der Frühling will weichere Dunkeltöne',
       imp_color_spring_2: 'Ein Pastellakzent weckt die Winterpallette auf',
       imp_color_summer_1: 'Atmungsaktive Leinenstoffe in Weiss oder Sand statt Synthetik wählen',
@@ -12522,7 +12563,7 @@ window._tc = function(name) {
       (l.code === current
         ? 'bg-brand-500/20 text-brand-300 font-semibold'
         : 'text-gray-300 hover:bg-white/10 hover:text-white');
-    item.innerHTML = '<span class="text-xs font-bold uppercase w-7 shrink-0">' + l.code.toUpperCase() + '</span><span>' + l.name + '</span>';
+    item.innerHTML = '<span class="text-xs font-bold uppercase w-7 shrink-0">' + _esc(l.code.toUpperCase()) + '</span><span>' + _esc(l.name) + '</span>';
     if (l.code === current) {
       item.innerHTML += '<svg class="w-4 h-4 ml-auto text-brand-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
     }
@@ -12552,7 +12593,7 @@ window._tc = function(name) {
         (l.code === c
           ? 'bg-brand-500/20 text-brand-300 font-semibold'
           : 'text-gray-300 hover:bg-white/10 hover:text-white');
-      item.innerHTML = '<span class="text-xs font-bold uppercase w-7 shrink-0">' + l.code.toUpperCase() + '</span><span>' + l.name + '</span>';
+      item.innerHTML = '<span class="text-xs font-bold uppercase w-7 shrink-0">' + _esc(l.code.toUpperCase()) + '</span><span>' + _esc(l.name) + '</span>';
       if (l.code === c) {
         item.innerHTML += '<svg class="w-4 h-4 ml-auto text-brand-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
       }
@@ -12688,7 +12729,7 @@ document.title = window.t('page_title');
       (l.code === current
         ? 'bg-brand-500/20 text-brand-300 border border-brand-500/40'
         : 'bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-white');
-    btn.innerHTML = '<span class="block text-[10px] font-bold uppercase">' + l.code.toUpperCase() + '</span><span class="block text-[9px] mt-0.5 font-normal">' + l.name + '</span>';
+    btn.innerHTML = '<span class="block text-[10px] font-bold uppercase">' + _esc(l.code.toUpperCase()) + '</span><span class="block text-[9px] mt-0.5 font-normal">' + _esc(l.name) + '</span>';
     if (l.code === current) {
       btn.innerHTML += '<span class="block text-brand-400 text-[8px] mt-0.5">&#10003;</span>';
     }
@@ -12712,7 +12753,7 @@ document.title = window.t('page_title');
           item.setAttribute('data-lang', l2.code);
           item.className = 'w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors ' +
             (l2.code === c2 ? 'bg-brand-500/20 text-brand-300 font-semibold' : 'text-gray-300 hover:bg-white/10 hover:text-white');
-          item.innerHTML = '<span class="text-xs font-bold uppercase w-7 shrink-0">' + l2.code.toUpperCase() + '</span><span>' + l2.name + '</span>';
+          item.innerHTML = '<span class="text-xs font-bold uppercase w-7 shrink-0">' + _esc(l2.code.toUpperCase()) + '</span><span>' + _esc(l2.name) + '</span>';
           if (l2.code === c2) {
             item.innerHTML += '<svg class="w-4 h-4 ml-auto text-brand-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
           }
@@ -13354,8 +13395,8 @@ function generateThumbnail(dataUrl, callback) {
       const hex = getColorHex(c);
       // Translate color name for display; c is the saved name (may be in EN/HU/DE)
       const display = window._tc ? window._tc(c) : c;
-      return `<button data-color="${c}" class="closet-color-btn flex items-center gap-1.5 py-1.5 px-3 rounded-lg border text-[11px] font-bold transition-colors border-white/10 bg-white/5 text-gray-400 hover:bg-white/10">
-        <span class="w-3 h-3 rounded-full border border-white/20 shrink-0" style="background:${hex}"></span>${display}
+      return `<button data-color="${_esc(c)}" class="closet-color-btn flex items-center gap-1.5 py-1.5 px-3 rounded-lg border text-[11px] font-bold transition-colors border-white/10 bg-white/5 text-gray-400 hover:bg-white/10">
+        <span class="w-3 h-3 rounded-full border border-white/20 shrink-0" style="background:${hex}"></span>${_esc(display)}
       </button>`;
     }).join('');
 
@@ -13672,18 +13713,18 @@ window.renderCloset = function(filter = 'all', append = false) {
         return `
         <div class="premium-glass rounded-2xl overflow-hidden border border-white/10 flex flex-col hover:border-brand-500/40 transition-colors group cursor-default relative">
             <div class="aspect-[3/4] bg-black relative">
-                <img src="${outfit.image}" class="w-full h-full object-cover opacity-90 transition-opacity" alt="" data-i18n-aria="alt_saved_item" loading="lazy" />
+                <img src="${_esc(outfit.image)}" class="w-full h-full object-cover opacity-90 transition-opacity" alt="" data-i18n-aria="alt_saved_item" loading="lazy" />
                 ${typeBadge}
                 ${scoreBadge}
                 ${luckyBadge}
                 <div class="absolute bottom-3 right-3 flex gap-2.5 z-20">
-                     ${outfit.source === 'builder' ? `<button onclick="window.editBuilderOutfit('${outfit.id}')" class="w-12 h-12 rounded-full bg-black/70 hover:bg-emerald-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_edit')}">
+                     ${outfit.source === 'builder' ? `<button data-action="edit-builder" data-outfit-id="${_esc(outfit.id)}" class="w-12 h-12 rounded-full bg-black/70 hover:bg-emerald-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_edit')}">
                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                      </button>` : ''}
-                     <button onclick="window.triggerDeleteOutfit('${outfit.id}')" class="w-12 h-12 rounded-full bg-black/70 hover:bg-red-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_delete')}">
+                     <button data-action="delete-outfit" data-outfit-id="${_esc(outfit.id)}" class="w-12 h-12 rounded-full bg-black/70 hover:bg-red-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_delete')}">
                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                      </button>
-                     <button onclick="window.openShareModal(${outfit.score || 0}, '${outfit.image}')" class="w-12 h-12 rounded-full bg-black/70 hover:bg-brand-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_share')}">
+                     <button data-action="share-outfit" data-outfit-id="${_esc(outfit.id)}" data-outfit-score="${outfit.score || 0}" class="w-12 h-12 rounded-full bg-black/70 hover:bg-brand-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_share')}">
                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
                      </button>
                 </div>
@@ -13694,8 +13735,8 @@ window.renderCloset = function(filter = 'all', append = false) {
                   <div class="text-[9px] text-gray-500">${(() => { const d = new Date(outfit.date); return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`; })()}</div>
                 </div>
                 <div class="text-sm text-white font-medium truncate flex items-center gap-1.5">
-                   <div class="w-2.5 h-2.5 rounded-full border border-white/20" style="background-color: ${outfit.colorHex || '#ccc'};"></div>
-                   ${(window._tc ? window._tc(outfit.colorId || outfit.color || 'mixed') : (outfit.color || 'Mixed'))} ${t('analysis_palette_label')}
+                   <div class="w-2.5 h-2.5 rounded-full border border-white/20" style="background-color: ${_esc(outfit.colorHex || '#ccc')};"></div>
+                   ${_esc(window._tc ? window._tc(outfit.colorId || outfit.color || 'mixed') : (outfit.color || 'Mixed'))} ${t('analysis_palette_label')}
                 </div>
                 ${scanTagRow}
             </div>
@@ -13707,6 +13748,21 @@ window.renderCloset = function(filter = 'all', append = false) {
     } else {
         grid.innerHTML = html;
     }
+
+    // Delegate click handlers for data-action buttons (replaces inline onclick)
+    grid.querySelectorAll('[data-action="edit-builder"]').forEach(function(btn) {
+      btn.addEventListener('click', function() { window.editBuilderOutfit(btn.dataset.outfitId); });
+    });
+    grid.querySelectorAll('[data-action="delete-outfit"]').forEach(function(btn) {
+      btn.addEventListener('click', function() { window.triggerDeleteOutfit(btn.dataset.outfitId); });
+    });
+    grid.querySelectorAll('[data-action="share-outfit"]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var allOutfits = (window.userCloset && Array.isArray(window.userCloset.outfits)) ? window.userCloset.outfits : [];
+        var o = allOutfits.find(function(x) { return x.id === btn.dataset.outfitId; });
+        window.openShareModal(Number(btn.dataset.outfitScore) || 0, o ? o.image : '');
+      });
+    });
 
     // Show / hide "Load More"
     if (moreWrap) {
@@ -13729,7 +13785,7 @@ window.renderClosetItems = function(typeFilter = 'all', append = false) {
     const items = (userCloset.outfits || []).filter(o => o.source === 'upload');
 
     if (!items.length) {
-        grid.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500"><svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><circle cx="9" cy="10" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="M19 2v6"/><path d="M22 5h-6"/></svg><p class="text-sm" data-i18n="closet_no_items">No items uploaded yet. Tap <strong class="text-gray-300" data-i18n="closet_add_item">Add Item</strong> above to start.</p></div>`;
+        grid.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500"><svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><circle cx="9" cy="10" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="M19 2v6"/><path d="M22 5h-6"/></svg><p class="text-sm">${t('closet_no_items')}</p></div>`;
         if (moreWrap) moreWrap.classList.add('hidden');
         return;
     }
@@ -13767,13 +13823,13 @@ window.renderClosetItems = function(typeFilter = 'all', append = false) {
         return `
         <div class="premium-glass rounded-2xl overflow-hidden border border-white/10 flex flex-col hover:border-brand-500/40 transition-colors group cursor-default relative">
             <div class="aspect-[3/4] bg-black relative">
-                <img src="${item.image}" class="w-full h-full object-cover opacity-90 transition-opacity" alt="" data-i18n-aria="alt_saved_item" loading="lazy" />
+                <img src="${_esc(item.image)}" class="w-full h-full object-cover opacity-90 transition-opacity" alt="" data-i18n-aria="alt_saved_item" loading="lazy" />
                 <div class="absolute top-2 left-2 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold text-white border border-white/10 z-10">${TYPE_LABELS[item.type] || t('closet_item_label')}</div>
                 <div class="absolute bottom-3 right-3 flex gap-2.5 z-20">
-                     <button onclick="window.triggerDeleteOutfit('${item.id}')" class="w-12 h-12 rounded-full bg-black/70 hover:bg-red-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_delete')}">
+                     <button data-action="delete-outfit" data-outfit-id="${_esc(item.id)}" class="w-12 h-12 rounded-full bg-black/70 hover:bg-red-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_delete')}">
                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                      </button>
-                     <button onclick="window.openShareModal(null, '${item.image}')" class="w-12 h-12 rounded-full bg-black/70 hover:bg-brand-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_share')}">
+                     <button data-action="share-item" data-outfit-id="${_esc(item.id)}" class="w-12 h-12 rounded-full bg-black/70 hover:bg-brand-500/90 active:scale-95 flex items-center justify-center backdrop-blur-md text-white transition-all border border-white/20 shadow-lg" title="${t('closet_share')}">
                          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
                      </button>
                 </div>
@@ -13794,6 +13850,18 @@ window.renderClosetItems = function(typeFilter = 'all', append = false) {
     } else {
         grid.innerHTML = html;
     }
+
+    // Delegate click handlers for data-action buttons (replaces inline onclick)
+    grid.querySelectorAll('[data-action="delete-outfit"]').forEach(function(btn) {
+      btn.addEventListener('click', function() { window.triggerDeleteOutfit(btn.dataset.outfitId); });
+    });
+    grid.querySelectorAll('[data-action="share-item"]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var allOutfits = (window.userCloset && Array.isArray(window.userCloset.outfits)) ? window.userCloset.outfits : [];
+        var o = allOutfits.find(function(x) { return x.id === btn.dataset.outfitId; });
+        window.openShareModal(null, o ? o.image : '');
+      });
+    });
 
     // Show / hide "Load More"
     if (moreWrap) {
@@ -13890,7 +13958,7 @@ document.querySelectorAll(".closet-filter-btn").forEach(btn => {
     if (window.dsPrivacy && window.dsPrivacy.showToast) {
       window.dsPrivacy.showToast(msg, 3000);
     } else {
-      alert(msg);
+      window.dsPrivacy?.showToast?.(msg, 3000);
     }
   }
 
@@ -14082,8 +14150,7 @@ window.saveCurrentOutfit = function() {
     // ── 200-item closet limit ──
     const totalItems = (userCloset.outfits || []).length;
     if (totalItems >= 200) {
-      if (window.dsPrivacy?.showToast) window.dsPrivacy.showToast(t('toast_closet_full'));
-      else alert(t('toast_closet_full'));
+      window.dsPrivacy?.showToast?.(t('toast_closet_full'));
       return;
     }
 
@@ -14159,7 +14226,7 @@ window.saveCurrentOutfit = function() {
             const msg = (e && e.name === 'QuotaExceededError')
               ? t('toast_storage_full')
               : t('toast_save_outfit_retry');
-            alert(msg);
+            window.dsPrivacy?.showToast?.(msg, 3500);
             btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg> ${t('closet_save_digital')}`;
             btn.disabled = false;
         }
@@ -14242,20 +14309,12 @@ window.saveCurrentOutfit = function() {
     // Strict format check — only JPEG, PNG, WebP (canvas-safe)
     var _closetAcceptTypes = ['image/jpeg', 'image/png', 'image/webp'];
     if (!_closetAcceptTypes.includes(file.type)) {
-      if (typeof window.dsPrivacy?.showToast === 'function') {
-        window.dsPrivacy.showToast(t('alert_image_format'), 3500);
-      } else {
-        alert(t('alert_image_format'));
-      }
+      window.dsPrivacy?.showToast?.(t('alert_image_format'), 3500);
       fileInput.value = '';
       return;
     }
     if (file.size > 15 * 1024 * 1024) {
-      if (typeof window.dsPrivacy?.showToast === 'function') {
-        window.dsPrivacy.showToast(t('alert_image_too_large'), 3500);
-      } else {
-        alert(t('alert_image_too_large'));
-      }
+      window.dsPrivacy?.showToast?.(t('alert_image_too_large'), 3500);
       fileInput.value = '';
       return;
     }
@@ -14269,11 +14328,7 @@ window.saveCurrentOutfit = function() {
       }
     };
     reader.onerror = () => {
-      if (typeof window.dsPrivacy?.showToast === 'function') {
-        window.dsPrivacy.showToast(t('alert_couldnt_read'), 3500);
-      } else {
-        alert(t('alert_couldnt_read'));
-      }
+      window.dsPrivacy?.showToast?.(t('alert_couldnt_read'), 3500);
       fileInput.value = '';
     };
     reader.readAsDataURL(file);
@@ -14302,8 +14357,7 @@ window.saveCurrentOutfit = function() {
     // ── 200-item closet limit ──
     const totalItems = (userCloset.outfits || []).length;
     if (totalItems >= 200) {
-      if (window.dsPrivacy?.showToast) window.dsPrivacy.showToast(t('toast_closet_full'));
-      else alert(t('toast_closet_full'));
+      window.dsPrivacy?.showToast?.(t('toast_closet_full'));
       return;
     }
 
@@ -14374,7 +14428,7 @@ window.saveCurrentOutfit = function() {
       const msg = (err && err.name === 'QuotaExceededError')
         ? t('toast_storage_full_delete')
         : t('toast_save_item_retry');
-      alert(msg);
+      window.dsPrivacy?.showToast?.(msg, 3500);
       catSave.disabled = false;
       catSave.textContent = t('closet_save');
     }
@@ -14952,7 +15006,7 @@ function classifyColor(r, g, b) {
         if (autoInfoContent && tags) {
           const colorStr = (tags.colors || []).map(c => window._tc ? window._tc(c) : c).join(', ');
           autoInfoContent.innerHTML =
-            `<strong>${t('colors_label')}</strong> ${colorStr || t('mixed_color')}`;
+            `<strong>${t('colors_label')}</strong> ${_esc(colorStr) || t('mixed_color')}`;
           autoInfo.classList.remove('hidden');
         }
 
@@ -15253,9 +15307,9 @@ function classifyColor(r, g, b) {
     pickerGrid.innerHTML = filtered.map(item => {
       const inSlot = slotItemIds.has(item.id);
       return `
-        <div class="ob-pick-item rounded-xl overflow-hidden border ${inSlot ? 'border-emerald-500/50 ring-1 ring-emerald-500/30' : 'border-white/10 hover:border-emerald-500/40'} cursor-pointer transition-colors relative aspect-[3/4] bg-black" data-item-id="${item.id}">
-          <img src="${item.image}" class="w-full h-full object-cover ${inSlot ? 'opacity-40' : 'opacity-90'}" alt="${item.type}" loading="lazy" />
-          <div class="absolute top-1 left-1 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded text-[9px] font-bold text-white border border-white/10 z-10">${TYPE_ICONS[item.type] || ''} ${(typeof window.t === 'function' && window.t('type_' + item.type) !== 'type_' + item.type) ? window.t('type_' + item.type) : item.type}</div>
+        <div class="ob-pick-item rounded-xl overflow-hidden border ${inSlot ? 'border-emerald-500/50 ring-1 ring-emerald-500/30' : 'border-white/10 hover:border-emerald-500/40'} cursor-pointer transition-colors relative aspect-[3/4] bg-black" data-item-id="${_esc(item.id)}">
+          <img src="${_esc(item.image)}" class="w-full h-full object-cover ${inSlot ? 'opacity-40' : 'opacity-90'}" alt="${_esc(item.type)}" loading="lazy" />
+          <div class="absolute top-1 left-1 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded text-[9px] font-bold text-white border border-white/10 z-10">${TYPE_ICONS[item.type] || ''} ${(typeof window.t === 'function' && window.t('type_' + item.type) !== 'type_' + item.type) ? window.t('type_' + item.type) : _esc(item.type)}</div>
           ${inSlot ? '<div class="absolute inset-0 flex items-center justify-center z-10"><div class="w-8 h-8 rounded-full bg-emerald-500/80 flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div></div>' : ''}
         </div>`;
     }).join('');
@@ -15295,8 +15349,7 @@ function classifyColor(r, g, b) {
     if (!isUpdate) {
       const totalItems = (window.userCloset && Array.isArray(window.userCloset.outfits)) ? window.userCloset.outfits.length : 0;
       if (totalItems >= 200) {
-        if (window.dsPrivacy?.showToast) window.dsPrivacy.showToast(t('toast_closet_full'));
-        else alert(t('toast_closet_full'));
+        window.dsPrivacy?.showToast?.(t('toast_closet_full'));
         return;
       }
     }
@@ -16306,9 +16359,9 @@ function updateDateTimerUI() {
 
 $('startDateTimerBtn').addEventListener('click', () => {
   const val = $('dateTimerInput').value;
-  if (!val) return alert(t('alert_select_datetime'));
+  if (!val) { window.dsPrivacy?.showToast?.(t('alert_select_datetime')); return; }
   const targetDate = new Date(val);
-  if (targetDate < new Date()) return alert(t('alert_date_future'));
+  if (targetDate < new Date()) { window.dsPrivacy?.showToast?.(t('alert_date_future')); return; }
 
   localStorage.setItem('datescan.date_timer', targetDate.toISOString());
   
@@ -16346,7 +16399,11 @@ async function startAppFlow() {
   }
 
   try {
-    if (!store.get().cameraReady) await initCamera();
+    // Only start the camera if we're actually on the scanner view.
+    // If the user lands on #closet, #chat, or #story via deep link,
+    // starting the camera here wastes battery and keeps the "camera in
+    // use" notification visible on Android.
+    if (!store.get().cameraReady && isOnScannerView()) await initCamera();
     // Face landmarker model (~20MB) is now loaded lazily on the first
     // runScan() call, not here — blocking startup to download 20MB was
     // the biggest single hit on time-to-interactive. The user sees the
@@ -17895,8 +17952,7 @@ const IMPROVEMENTS_POOL = {
   color: [
     { textKey: "imp_color_1", points: 4 },
     { textKey: "imp_color_2", points: 5 },
-    { textKey: "imp_color_3", points: 6 },
-    { textKey: "imp_color_4", points: 5 }
+    { textKey: "imp_color_3", points: 6 }
   ]
 };
 
@@ -18123,7 +18179,7 @@ function renderStyleCoach(colorData, occasion, locked = false, items = null, reu
     }
   } catch(e) {}
 
-  let hist = JSON.parse(localStorage.getItem('datescan.history') || '[]');
+  let hist = []; try { hist = JSON.parse(localStorage.getItem('datescan.history') || '[]'); } catch(e) { console.warn('[storage] corrupt:', 'datescan.history', e); }
   const lastHist = hist[hist.length - 1];
   // Only add to history on a fresh scan, not on language-switch re-render
   if (!reuseScore && (!lastHist || (Date.now() - lastHist.time > 5000))) {
@@ -18735,6 +18791,11 @@ function renderWeatherCard({ data, latitude, longitude, locName, cacheStale, cac
   } catch (e) { console.warn('[weather-outfit] render failed', e); }
 }
 
+// Re-render weather card on language change so text updates
+window.addEventListener('langchange', function() {
+  try { loadWeather(false); } catch(e) { console.warn('[weather] lang refresh failed', e); }
+});
+
 // ============================================================
 // WEATHER-AWARE STYLING — pick from closet by tonight's weather
 // ============================================================
@@ -18876,6 +18937,7 @@ function renderWeatherOutfit(weather) {
 function _escapeHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+function _esc(s) { if (typeof s !== 'string') return String(s||''); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function _escAttr(s) { return _escapeHtml(s); }
 
 window.renderWeatherOutfit = renderWeatherOutfit;
@@ -20379,10 +20441,9 @@ applyOfflineState(!navigator.onLine);
 
 <!-- ============================================================
      VIBE SYNC MODULE — Standalone venue style detection
-     Uses Google Maps Places API (Autocomplete + Place Details)
-     to identify the date venue, then maps it to a vibe profile
-     with atmosphere, lighting, color & grooming advice.
-     Falls back to keyword heuristics when Google Maps is unavailable.
+     Uses keyword heuristics to identify the date venue,
+     then maps it to a vibe profile with atmosphere, lighting,
+     color & grooming advice.
      ============================================================ -->
 <script>
 (function initVibeSync() {
@@ -20395,7 +20456,6 @@ applyOfflineState(!navigator.onLine);
   const VIBE_PROFILES = {
     cocktail_bar: {
       keywords: ['cocktail', 'bar', 'lounge', 'speakeasy', 'mixology', 'whiskey', 'gin bar', 'wine bar', 'martini', 'negroni', 'bár', 'koktél', 'borozó', 'koccintó', 'kneipe', 'cocktailbar', 'weinbar', 'barra', 'coctel', 'copa'],
-      googleTypes: ['bar', 'night_club', 'liquor_store'],
       icon: '🍸',
       label: 'Cocktail Bar / Lounge',
       atmosphere: 'dim, moody, intimate',
@@ -20408,7 +20468,6 @@ applyOfflineState(!navigator.onLine);
     },
     rooftop: {
       keywords: ['rooftop', 'roof', 'terrace', 'skybar', 'sky bar', 'penthouse', 'view', 'panoramic', 'tetőtér', 'terasz', 'kilátás', 'dachterrasse', 'dach', 'aussicht', 'terraza', 'azotea', 'mirador'],
-      googleTypes: [],
       icon: '🌆',
       label: 'Rooftop / Terrace',
       atmosphere: 'open air, breezy, golden-hour glow',
@@ -20421,7 +20480,6 @@ applyOfflineState(!navigator.onLine);
     },
     fine_dining: {
       keywords: ['fine dining', 'michelin', 'tasting menu', 'gastronomy', 'restaurant', 'bistro', 'brasserie', 'ristorante', 'omakase', 'chef\'s table', 'étterem', 'gasztronómia', 'fine dining', 'kóstoló', 'feinstes restaurant', 'gourmet', 'sternen', 'gastronomie', 'restaurant', 'gourmet', 'degustación'],
-      googleTypes: ['restaurant'],
       icon: '🍽️',
       label: 'Fine Dining',
       atmosphere: 'elegant, hushed, refined',
@@ -20434,7 +20492,6 @@ applyOfflineState(!navigator.onLine);
     },
     coffee: {
       keywords: ['coffee', 'cafe', 'café', 'coffee shop', 'espresso', 'latte', 'cappuccino', 'bakery', 'brunch', 'kávézó', 'kávé', 'pékség', 'kaffeehaus', 'kaffee', 'bäckerei', 'cafetería', 'pastelería', 'кафе', 'кофе'],
-      googleTypes: ['cafe', 'bakery'],
       icon: '☕',
       label: 'Coffee Shop / Café',
       atmosphere: 'casual, warm, laid-back',
@@ -20447,7 +20504,6 @@ applyOfflineState(!navigator.onLine);
     },
     club: {
       keywords: ['club', 'nightclub', 'dj', 'dance', 'disco', 'rave', 'techno', 'house music', 'vip', 'szórakozóhely', 'diszkó', 'buli', 'disco', 'nachtclub', 'diskothek', 'discoteca', 'fiesta', 'baile', 'клуб', 'дискотека'],
-      googleTypes: ['night_club'],
       icon: '🪩',
       label: 'Nightclub / Dance Floor',
       atmosphere: 'loud, energetic, dark with neon accents',
@@ -20460,7 +20516,6 @@ applyOfflineState(!navigator.onLine);
     },
     park: {
       keywords: ['park', 'garden', 'botanical', 'outdoor', 'picnic', 'walk', 'hike', 'trail', 'lake', 'beach', 'seaside', 'park', 'kert', 'szabadtér', 'séta', 'túra', 'strand', 'tó', 'garten', 'spaziergang', 'wanderung', 'see', 'strand', 'parque', 'jardín', 'paseo', 'lago', 'playa'],
-      googleTypes: ['park', 'natural_feature', 'campground'],
       icon: '🌿',
       label: 'Outdoor / Nature',
       atmosphere: 'natural, relaxed, sun-dappled',
@@ -20473,7 +20528,6 @@ applyOfflineState(!navigator.onLine);
     },
     cinema: {
       keywords: ['cinema', 'movie', 'theater', 'film', 'imax', 'screening', 'mozi', 'film', 'színház', 'vetsítés', 'kino', 'filmtheater', 'vorstellung', 'cine', 'película', 'teatro', 'кино', 'фильм'],
-      googleTypes: ['movie_theater'],
       icon: '🎬',
       label: 'Cinema / Theater',
       atmosphere: 'dark, intimate, shared experience',
@@ -20486,7 +20540,6 @@ applyOfflineState(!navigator.onLine);
     },
     museum: {
       keywords: ['museum', 'gallery', 'exhibition', 'art', 'culture', 'opera', 'concert', 'philharmonic', 'ballet'],
-      googleTypes: ['museum', 'art_gallery', 'library'],
       icon: '🎭',
       label: 'Cultural Venue',
       atmosphere: 'curated, intellectual, composed',
@@ -20499,7 +20552,6 @@ applyOfflineState(!navigator.onLine);
     },
     sushi: {
       keywords: ['sushi', 'ramen', 'izakaya', 'japanese', 'thai', 'vietnamese', 'asian', 'noodle', 'dim sum'],
-      googleTypes: ['meal_takeaway', 'meal_delivery'],
       icon: '🍣',
       label: 'Asian Restaurant',
       atmosphere: 'intimate, warm, zen-inspired',
@@ -20512,7 +20564,6 @@ applyOfflineState(!navigator.onLine);
     },
     sport: {
       keywords: ['gym', 'sport', 'basketball', 'football', 'soccer', 'tennis', 'bowling', 'mini golf', 'escape room', 'climbing', 'axe throwing'],
-      googleTypes: ['gym', 'bowling_alley', 'stadium', 'amusement_park'],
       icon: '⚽',
       label: 'Active / Sports Date',
       atmosphere: 'energetic, casual, fun',
@@ -20525,7 +20576,6 @@ applyOfflineState(!navigator.onLine);
     },
     spa: {
       keywords: ['spa', 'massage', 'wellness', 'sauna', 'thermal bath', 'hot spring', 'hammam'],
-      googleTypes: ['spa'],
       icon: '🧖',
       label: 'Spa / Wellness',
       atmosphere: 'serene, soft, tranquil',
@@ -20538,7 +20588,6 @@ applyOfflineState(!navigator.onLine);
     },
     shopping: {
       keywords: ['shopping', 'mall', 'boutique', 'store', 'market', 'vintage shop', 'outlet'],
-      googleTypes: ['shopping_mall', 'clothing_store', 'department_store', 'store'],
       icon: '🛍️',
       label: 'Shopping Date',
       atmosphere: 'bright, social, walk-and-talk',
@@ -20581,13 +20630,7 @@ applyOfflineState(!navigator.onLine);
     };
   }
 
-  // ── Google Place Type → Vibe profile mapping ──
-  const GOOGLE_TYPE_MAP = {};
-  for (const [key, profile] of Object.entries(VIBE_PROFILES)) {
-    (profile.googleTypes || []).forEach(t => { GOOGLE_TYPE_MAP[t] = key; });
-  }
-
-  // ── Analyze venue text against knowledge base (keyword fallback) ──
+  // ── Analyze venue text against knowledge base ──
   function analyzeVenueKeywords(text) {
     if (!text || !text.trim()) return null;
     const lower = text.toLowerCase().trim();
@@ -20649,31 +20692,6 @@ applyOfflineState(!navigator.onLine);
     return bestMatch;
   }
 
-  // ── Analyze Google Place types → Vibe profile ──
-  function analyzeGoogleTypes(place) {
-    if (!place) return null;
-    const types = place.types || [];
-
-    // Check each Google type against our mapping
-    for (const t of types) {
-      if (GOOGLE_TYPE_MAP[t]) {
-        const profile = VIBE_PROFILES[GOOGLE_TYPE_MAP[t]];
-        if (profile) return { key: GOOGLE_TYPE_MAP[t], ...profile };
-      }
-    }
-
-    // Price level & rating heuristics for restaurants
-    if (types.includes('restaurant') || types.includes('food')) {
-      const priceLevel = place.price_level;
-      if (priceLevel >= 3) {
-        return { key: 'fine_dining', ...VIBE_PROFILES.fine_dining };
-      }
-      return { key: 'fine_dining', ...VIBE_PROFILES.fine_dining };
-    }
-
-    return null;
-  }
-
   // ── Render vibe sync result card ──
   function renderVibeSync(vibe, venueName, source) {
     const card = document.getElementById('vibeSyncCard');
@@ -20708,23 +20726,13 @@ applyOfflineState(!navigator.onLine);
 
     // Update badges
     if (badge) {
-      if (source === 'google') {
-        badge.textContent = t('stylecal_location_maps');
-        badge.className = 'text-[8px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 border border-blue-500/20';
-      } else {
-        badge.textContent = t('stylecal_location_keyword');
-        badge.className = 'text-[8px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/20';
-      }
+      badge.textContent = t('stylecal_location_keyword');
+      badge.className = 'text-[8px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/20';
     }
 
     if (statusBadge) {
-      if (source === 'google') {
-        statusBadge.textContent = t('stylecal_status_maps_synced');
-        statusBadge.className = 'text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-full bg-blue-500/15 text-blue-300 border border-blue-500/25';
-      } else {
-        statusBadge.textContent = t('stylecal_status_synced');
-        statusBadge.className = 'text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/25';
-      }
+      statusBadge.textContent = t('stylecal_status_synced');
+      statusBadge.className = 'text-[9px] uppercase tracking-wider font-bold px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/25';
     }
 
     tags.innerHTML = '';
@@ -20776,73 +20784,7 @@ applyOfflineState(!navigator.onLine);
     debounceTimer = setTimeout(fn, ms);
   }
 
-  // ── Google Maps Places Autocomplete setup ──
-  let autocomplete = null;
-  let placesService = null;
-  let googleMapsReady = false;
-
-  function initGoogleMapsAutocomplete() {
-    const input = document.getElementById('venueInput');
-    if (!input || !window.google || !window.google.maps || !window.google.maps.places) {
-      console.log('[VibeSync] Google Maps Places not available, using keyword fallback');
-      return;
-    }
-
-    try {
-      autocomplete = new google.maps.places.Autocomplete(input, {
-        types: ['establishment'],
-        fields: ['name', 'types', 'formatted_address', 'price_level', 'rating', 'geometry']
-      });
-
-      placesService = new google.maps.places.PlacesService(document.createElement('div'));
-      googleMapsReady = true;
-
-      // Style the autocomplete dropdown to match the app's dark theme
-      const styleEl = document.createElement('style');
-      styleEl.textContent = `
-        .pac-container { background: #18181b !important; border: 1px solid rgba(168,85,247,0.3) !important; border-radius: 12px !important; margin-top: 4px !important; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; overflow: hidden !important; z-index: 9999 !important; }
-        .pac-item { color: #d1d5db !important; border-top: 1px solid rgba(255,255,255,0.05) !important; padding: 10px 14px !important; font-size: 13px !important; cursor: pointer !important; }
-        .pac-item:hover { background: rgba(168,85,247,0.1) !important; }
-        .pac-item-selected { background: rgba(168,85,247,0.15) !important; }
-        .pac-icon { display: none !important; }
-        .pac-item-query { color: #f3f4f6 !important; font-size: 13px !important; }
-        .pac-item-query .pac-matched { color: #c084fc !important; font-weight: 600 !important; }
-        .pac-secondary-query, .pac-logo { color: #6b7280 !important; font-size: 11px !important; }
-        .pac-logo::after { display: none !important; }
-        .hdpi.pac-logo { background: none !important; }
-      `;
-      document.head.appendChild(styleEl);
-
-      // When user selects a place from Google's suggestions
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        if (!place || !place.name) return;
-
-        const venueName = place.name;
-
-        // Try Google type-based analysis first
-        let vibe = analyzeGoogleTypes(place);
-
-        // If Google types don't match, fall back to keyword analysis on the place name
-        if (!vibe) {
-          const fullText = venueName + ' ' + (place.formatted_address || '');
-          vibe = analyzeVenueKeywords(fullText);
-        }
-
-        renderVibeSync(vibe, venueName, 'google');
-        saveVibe(vibe, venueName, 'google');
-
-        const clearBtn = document.getElementById('venueClearBtn');
-        if (clearBtn) clearBtn.classList.remove('hidden');
-      });
-
-      console.log('[VibeSync] Google Maps Autocomplete initialized');
-    } catch (err) {
-      console.warn('[VibeSync] Google Maps init failed:', err);
-    }
-  }
-
-  // ── Bind input (with keyword fallback when Google Maps unavailable) ──
+  // ── Bind input ──
   function bindVibeSync() {
     const input = document.getElementById('venueInput');
     const clearBtn = document.getElementById('venueClearBtn');
@@ -20860,7 +20802,7 @@ applyOfflineState(!navigator.onLine);
       }
     }
 
-    // Keyword-based fallback input handler (when Google Maps doesn't trigger)
+    // Keyword-based input handler
     input.addEventListener('input', () => {
       const val = input.value.trim();
       if (val) {
@@ -20868,14 +20810,7 @@ applyOfflineState(!navigator.onLine);
       } else {
         clearBtn?.classList.add('hidden');
       }
-      // Only run keyword analysis if Google Maps hasn't handled this
-      // (Autocomplete replaces the input value with the selected place,
-      //  which also fires 'input' — but the place_changed listener already
-      //  handled the vibe sync, so we debounce and only run if no recent
-      //  Google Maps selection happened)
       debounce(() => {
-        // Skip if Google Maps recently selected a place (within 500ms)
-        if (googleMapsReady && Date.now() - (window._lastGmapsSelection || 0) < 500) return;
         const vibe = analyzeVenueKeywords(val);
         renderVibeSync(vibe, val, 'keyword');
         saveVibe(vibe, val, 'keyword');
@@ -20885,21 +20820,11 @@ applyOfflineState(!navigator.onLine);
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        // If Google Maps autocomplete is open, let it handle the selection
-        if (googleMapsReady && document.querySelector('.pac-container:not(.pac-container:empty)')) return;
         const vibe = analyzeVenueKeywords(input.value.trim());
         renderVibeSync(vibe, input.value.trim(), 'keyword');
         saveVibe(vibe, input.value.trim(), 'keyword');
       }
     });
-
-    // Track when Google Maps made a selection (to prevent double keyword analysis)
-    if (autocomplete) {
-      const origPlaceChanged = autocomplete.addListener;
-      autocomplete.addListener('place_changed', () => {
-        window._lastGmapsSelection = Date.now();
-      });
-    }
 
     if (clearBtn) {
       clearBtn.addEventListener('click', () => {
@@ -20916,8 +20841,6 @@ applyOfflineState(!navigator.onLine);
       });
     }
 
-    // Try Google Maps initialization
-    initGoogleMapsAutocomplete();
   }
 
   // ── Boot the module ──
@@ -20932,25 +20855,10 @@ applyOfflineState(!navigator.onLine);
     bootVibeSync();
   }
 
-  // Expose for AI Coach context + Google Maps callback
+  // Expose for AI Coach context
   window.getVenueVibe = () => loadVibe();
-  window.initVibeSync = initGoogleMapsAutocomplete;
 
 })();
-
-// Google Maps Places API — loaded asynchronously.
-// The callback reinitializes the Autocomplete after the API is ready.
-// If the API fails to load (no key, offline, blocked), the module
-// gracefully falls back to keyword-based venue detection.
-function onGoogleMapsLoaded() {
-  if (typeof window.initVibeSync === 'function') {
-    window.initVibeSync();
-  }
-}
-</script>
-<script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBz1MZW2fA5jOqfMKwGnnbD0C0g3Y0c7fk&libraries=places&callback=onGoogleMapsLoaded"
-  onerror="console.warn('[VibeSync] Google Maps script failed to load — using keyword fallback');">
 </script>
 <script>
   // ===== App version for cache-busting =====
@@ -21237,23 +21145,23 @@ function onGoogleMapsLoaded() {
     var html = '';
     if (mem.likes && mem.likes.length) {
       html += '<div><span class="text-purple-300 font-medium">' + t('memory_likes') + ':</span> ' +
-              mem.likes.map(function(l) { return '<span class="inline-block bg-purple-500/15 border border-purple-500/20 rounded-full px-2 py-0.5 text-[11px]">' + l + '</span>'; }).join(' ') + '</div>';
+              mem.likes.map(function(l) { return '<span class="inline-block bg-purple-500/15 border border-purple-500/20 rounded-full px-2 py-0.5 text-[11px]">' + _esc(l) + '</span>'; }).join(' ') + '</div>';
     }
     if (mem.dislikes && mem.dislikes.length) {
       html += '<div><span class="text-purple-300 font-medium">' + t('memory_dislikes') + ':</span> ' +
-              mem.dislikes.map(function(l) { return '<span class="inline-block bg-red-500/10 border border-red-500/20 rounded-full px-2 py-0.5 text-[11px]">' + l + '</span>'; }).join(' ') + '</div>';
+              mem.dislikes.map(function(l) { return '<span class="inline-block bg-red-500/10 border border-red-500/20 rounded-full px-2 py-0.5 text-[11px]">' + _esc(l) + '</span>'; }).join(' ') + '</div>';
     }
     if (mem.avoidColors && mem.avoidColors.length) {
       html += '<div><span class="text-purple-300 font-medium">' + t('memory_avoid') + ':</span> ' +
-              mem.avoidColors.map(function(l) { return '<span class="inline-block bg-amber-500/10 border border-amber-500/20 rounded-full px-2 py-0.5 text-[11px]">' + l + '</span>'; }).join(' ') + '</div>';
+              mem.avoidColors.map(function(l) { return '<span class="inline-block bg-amber-500/10 border border-amber-500/20 rounded-full px-2 py-0.5 text-[11px]">' + _esc(l) + '</span>'; }).join(' ') + '</div>';
     }
     if (mem.styles && mem.styles.length) {
       html += '<div><span class="text-purple-300 font-medium">' + t('memory_styles') + ':</span> ' +
-              mem.styles.map(function(l) { return '<span class="inline-block bg-cyan-500/10 border border-cyan-500/20 rounded-full px-2 py-0.5 text-[11px]">' + l + '</span>'; }).join(' ') + '</div>';
+              mem.styles.map(function(l) { return '<span class="inline-block bg-cyan-500/10 border border-cyan-500/20 rounded-full px-2 py-0.5 text-[11px]">' + _esc(l) + '</span>'; }).join(' ') + '</div>';
     }
     if (mem.notes && mem.notes.length) {
       html += '<div><span class="text-purple-300 font-medium">' + t('memory_notes') + ':</span> ' +
-              mem.notes.map(function(l) { return '<span class="inline-block bg-white/5 border border-white/10 rounded-full px-2 py-0.5 text-[11px]">' + l + '</span>'; }).join(' ') + '</div>';
+              mem.notes.map(function(l) { return '<span class="inline-block bg-white/5 border border-white/10 rounded-full px-2 py-0.5 text-[11px]">' + _esc(l) + '</span>'; }).join(' ') + '</div>';
     }
     memoryContent.innerHTML = html;
   }
@@ -21569,7 +21477,7 @@ function onGoogleMapsLoaded() {
       const chip = document.createElement('div');
       chip.className = 'relative w-16 h-16 rounded-xl overflow-hidden border border-brand-500/40 bg-black/40';
       chip.innerHTML =
-        '<img src="' + att.url + '" class="w-full h-full object-cover" />' +
+        '<img src="' + _esc(att.url) + '" class="w-full h-full object-cover" />' +
         '<button type="button" data-idx="' + idx + '" class="absolute top-0.5 right-0.5 w-5 h-5 rounded-full bg-black/80 text-white text-xs flex items-center justify-center hover:bg-red-500 transition">✕</button>';
       chip.querySelector('button').addEventListener('click', () => {
         pendingAttachments.splice(idx, 1);
@@ -22326,9 +22234,9 @@ function onGoogleMapsLoaded() {
         card.type = 'button';
         card.className = 'relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10 hover:border-brand-500/60 transition group';
         card.innerHTML =
-          '<img src="' + o.image + '" class="w-full h-full object-cover" />' +
+          '<img src="' + _esc(o.image) + '" class="w-full h-full object-cover" />' +
           '<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-2">' +
-            '<span class="text-[10px] text-white font-bold uppercase">' + t('occasion_' + (o.occasion || 'casual')) + ' · ' + (o.score || '-') + '/100</span>' +
+            '<span class="text-[10px] text-white font-bold uppercase">' + t('occasion_' + (o.occasion || 'casual')) + ' · ' + _esc(o.score || '-') + '/100</span>' +
           '</div>';
         card.addEventListener('click', async () => {
           picker.classList.add('hidden');
@@ -23100,7 +23008,7 @@ function onGoogleMapsLoaded() {
     const tempWord     = f.warmth > 14 ? t('temp_warm') : f.warmth < -14 ? t('temp_cool') : t('temp_neutral');
     const brightWord   = f.avgLuma > 165 ? t('bright_bright') : f.avgLuma < 95 ? t('bright_lowkey') : t('bright_midtone');
 
-    const palette = `${t('palette_your_image')} <strong style="color:#fb7185">${tempWord}</strong> ${t('palette_with')} ${satWord} <strong style="color:#fb7185">${colorName}</strong> ${t('palette_tones')} ${c.subtype}.`;
+    const palette = `${t('palette_your_image')} <strong style="color:#fb7185">${tempWord}</strong> ${t('palette_with')} ${satWord} <strong style="color:#fb7185">${_esc(colorName)}</strong> ${t('palette_tones')} ${_esc(c.subtype)}.`;
 
     const contrast = `<strong style="color:#fb7185">${contrastWord}</strong> ${t('contrast_tonal')} ${
       f.contrast > 50 ? t('contrast_edge')
@@ -23464,7 +23372,7 @@ function onGoogleMapsLoaded() {
     const insights = generateInsights(c);
     insightEls.forEach((el, i) => {
       if (insights[i]) {
-        el.innerHTML = `<span class="text-brand-400 font-bold">${insights[i].label} —</span> ${insights[i].html}`;
+        el.innerHTML = `<span class="text-brand-400 font-bold">${_esc(insights[i].label)} —</span> ${insights[i].html}`;
       }
     });
 
@@ -23617,7 +23525,7 @@ function onGoogleMapsLoaded() {
         const insights = generateInsights(c);
         insightEls.forEach(function(el, i) {
           if (insights[i]) {
-            el.innerHTML = '<span class="text-brand-400 font-bold">' + insights[i].label + ' —</span> ' + insights[i].html;
+            el.innerHTML = '<span class="text-brand-400 font-bold">' + _esc(insights[i].label) + ' —</span> ' + insights[i].html;
           }
         });
         // Re-generate missing piece advice in new language
@@ -23695,7 +23603,7 @@ function onGoogleMapsLoaded() {
 
   function renderHistoryView() {
     const hist = getHistory();
-    const m = JSON.parse(localStorage.getItem(MISSIONS_KEY) || '{"count":0,"log":[],"xp":0}');
+    let m = {"count":0,"log":[],"xp":0}; try { m = JSON.parse(localStorage.getItem(MISSIONS_KEY) || '{"count":0,"log":[],"xp":0}'); } catch(e) { console.warn('[storage] corrupt:', MISSIONS_KEY, e); }
     const xp = m.xp || 0;
     const streak = calculateStreak(m);
 
@@ -25527,21 +25435,13 @@ function onGoogleMapsLoaded() {
     if (!file) return;
     // Format check — reject anything that isn't JPEG, PNG, or WebP
     if (!_DUEL_ACCEPT_TYPES.includes(file.type)) {
-      if (typeof window.dsPrivacy?.showToast === 'function') {
-        window.dsPrivacy.showToast(t('alert_image_format'), 3500);
-      } else {
-        alert(t('alert_image_format'));
-      }
+      window.dsPrivacy?.showToast?.(t('alert_image_format'), 3500);
       inputEl.value = '';
       return;
     }
     // Size check — reject files over 15 MB
     if (file.size > _MAX_FILE_SIZE) {
-      if (typeof window.dsPrivacy?.showToast === 'function') {
-        window.dsPrivacy.showToast(t('alert_image_too_large'), 3500);
-      } else {
-        alert(t('alert_image_too_large'));
-      }
+      window.dsPrivacy?.showToast?.(t('alert_image_too_large'), 3500);
       inputEl.value = '';
       return;
     }
@@ -25773,12 +25673,6 @@ function onGoogleMapsLoaded() {
     var _bothDarkThreshold = 70;   // avgLuma below this ≈ very dark
     var _bothBrightThreshold = 200; // avgLuma above this ≈ very bright
     if (a.avgLuma < _bothDarkThreshold && b.avgLuma < _bothDarkThreshold) {
-      var occLabel = {
-        casual: t('duel_occ_casual'),
-        first_date: t('duel_occ_first_date'),
-        fancy: t('duel_occ_fancy'),
-        night_out: t('duel_occ_night_out')
-      }[occ] || occ;
       return t('duel_go_with').replace('{lbl}', lbl).replace('{reason}',
         t('duel_both_dark'));
     }
