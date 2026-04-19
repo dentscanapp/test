@@ -12537,7 +12537,12 @@ window.addEventListener('langchange', function() {
     // pick up the new language. Without this, switching to German after a
     // scan in Hungarian keeps showing Hungarian result text.
     var s = (typeof store !== 'undefined' && store.get) ? store.get() : {};
-    if (s.lastItems) {
+    // Only re-render the action plan (grooming) when the scan was
+    // successful — i.e. lastColor is truthy. On a failed scan the
+    // feedbackPanel was intentionally cleared; re-rendering would
+    // incorrectly show grooming items in the new language that were
+    // hidden after "Couldn't detect outfit".
+    if (s.lastItems && s.lastColor) {
       // Re-translate each item using its stored i18n keys
       s.lastItems.forEach(function(it) {
         if (it._titleKey && typeof window.t === 'function') it.title = window.t(it._titleKey);
