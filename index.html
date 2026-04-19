@@ -2384,33 +2384,32 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
     transition: transform .25s cubic-bezier(.2,.8,.2,1), filter .25s ease !important;
     letter-spacing: 0.005em;
   }
-  /* Breathing glow — rendered as an ::after pseudo-element so the
-     animation only toggles opacity (GPU-composited, no reflow).
-     The glow layer overlaps the button (inset: -3px) so there's NO
-     visible gap between the ring and the button edge. A faint
-     border-style glow + the deep shadow together create a seamless
-     halo that looks like it's part of the button itself. */
+  /* Breathing glow — the ::after pseudo is sized to EXACTLY cover
+     the button (inset: 0) so there is zero gap.  A negative spread
+     on every shadow pulls the glow inward, overlapping the button
+     edge and guaranteeing a seamless halo. The animation is slow
+     (7 s) with a gentle breathing curve. */
   button.bg-gradient-to-tr.from-brand-500.to-purple-500::after,
   button.bg-gradient-to-r.from-brand-500.to-purple-500::after,
   a.bg-gradient-to-tr.from-brand-500.to-purple-500::after{
     content: '';
     position: absolute;
-    inset: -3px;
+    inset: 0;
     border-radius: inherit;
     box-shadow:
-      0 0 18px 2px rgba(236, 72, 153, 0.65),
-      0 8px 28px -4px rgba(236, 72, 153, 0.55),
-      0 4px 14px -2px rgba(168, 85, 247, 0.45),
-      0 0 0 2px rgba(236, 72, 153, 0.18);
+      0 0 22px 0px rgba(236, 72, 153, 0.70),
+      0 0 44px -4px rgba(236, 72, 153, 0.45),
+      0 0 12px -2px rgba(168, 85, 247, 0.50),
+      inset 0 0 10px 0px rgba(236, 72, 153, 0.15);
     z-index: -1;
     opacity: 0;
     will-change: opacity;
     transform: translateZ(0);
-    animation: love-pulse-ring 5s ease-in-out infinite;
+    animation: love-pulse-ring 7s ease-in-out infinite;
     pointer-events: none;
   }
   @keyframes love-pulse-ring{
-    0%, 100% { opacity: 0.15; }
+    0%, 100% { opacity: 0.20; }
     50%      { opacity: 1; }
   }
   /* Hover: brighten + lock glow ring at full strength.
