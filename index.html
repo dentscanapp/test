@@ -2648,6 +2648,28 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
   }
   /* Ambient aurora background — kill transform animation (still paints) */
   .ambient-glow{ animation: none !important; transform: translate(-50%,-50%) !important; }
+
+  /* =================================================================
+     ABSOLUTE KILL — maximum specificity.  Stops every CSS animation
+     on every button / anchor / their children / their pseudos.
+     html > body prefix boosts specificity above any rule in the file.
+     ================================================================= */
+  html body button,
+  html body button *,
+  html body button::before,
+  html body button::after,
+  html body a,
+  html body a *,
+  html body a::before,
+  html body a::after,
+  html body [role="button"],
+  html body [role="button"] *,
+  html body [role="button"]::before,
+  html body [role="button"]::after{
+    animation: none !important;
+    animation-name: none !important;
+    animation-duration: 0s !important;
+  }
 </style>
 </head>
 <body class="relative antialiased text-gray-100">
