@@ -2381,7 +2381,7 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
   .bg-gradient-to-r.from-brand-500.to-purple-500.shadow-lg{
     position: relative;
     box-shadow: var(--love-shadow-cta) !important;
-    transition: transform .25s cubic-bezier(.2,.8,.2,1), filter .25s ease !important;
+    transition: transform .25s cubic-bezier(.2,.8,.2,1) !important;
     letter-spacing: 0.005em;
   }
   /* Breathing glow — the ::after pseudo is sized to EXACTLY cover
@@ -2419,7 +2419,9 @@ if (typeof window.t !== 'function') { window.t = function(key) { return key; }; 
   button.bg-gradient-to-tr.from-brand-500.to-purple-500:hover,
   button.bg-gradient-to-r.from-brand-500.to-purple-500:hover,
   a.bg-gradient-to-tr.from-brand-500.to-purple-500:hover{
-    filter: brightness(1.06) saturate(1.05);
+    /* No filter on hover — filter triggers layout reflow which
+       makes the entire header vibrate. The glow ::after already
+       provides the visual highlight. */
   }
   button.bg-gradient-to-tr.from-brand-500.to-purple-500:hover::after,
   button.bg-gradient-to-r.from-brand-500.to-purple-500:hover::after,
