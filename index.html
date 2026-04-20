@@ -2778,6 +2778,7 @@ if (window.__DS_IS_ANDROID_APP) {
     font-family: inherit; font-size: 0.95rem; font-weight: 600;
     cursor: pointer; border: 1px solid transparent;
     transition: transform 120ms ease, box-shadow 200ms ease, background 200ms ease;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
   }
   #age-gate button.ag-primary {
     background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
@@ -2801,13 +2802,23 @@ if (window.__DS_IS_ANDROID_APP) {
   }
   @keyframes dsc-fade { from { opacity: 0; } to { opacity: 1; } }
   .ds-consent .dsc-card {
-    width: 100%; max-width: 460px; max-height: calc(100vh - 2.5rem); overflow-y: auto;
+    width: 100%; max-width: 460px; max-height: calc(100vh - 2.5rem);
+    display: flex; flex-direction: column;
     background: linear-gradient(180deg, #18181b 0%, #09090b 100%);
     border: 1px solid rgba(244, 114, 182, 0.18);
     border-radius: 24px;
     padding: 1.85rem 1.6rem 1.85rem;
     box-shadow: 0 30px 80px -20px rgba(236, 72, 153, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.04);
     animation: dsc-pop 280ms cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-overflow-scrolling: touch;
+  }
+  .ds-consent .dsc-scroll {
+    overflow-y: auto; flex: 1 1 auto; min-height: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ds-consent .dsc-actions {
+    display: flex; flex-direction: column; gap: 0.55rem;
+    flex-shrink: 0; padding-top: 0.75rem;
   }
   @keyframes dsc-pop {
     from { transform: translateY(12px) scale(0.97); opacity: 0; }
@@ -2868,12 +2879,13 @@ if (window.__DS_IS_ANDROID_APP) {
     transform: rotate(45deg);
   }
   .ds-consent .dsc-checkbox span { font-size: 0.82rem; line-height: 1.5; color: #e4e4e7; }
-  .ds-consent .dsc-actions { display: flex; flex-direction: column; gap: 0.55rem; }
+
   .ds-consent button {
     width: 100%; padding: 0.9rem 1rem; border-radius: 14px;
     font-family: inherit; font-size: 0.95rem; font-weight: 600;
     cursor: pointer; border: 1px solid transparent;
     transition: transform 120ms ease, box-shadow 200ms ease, background 200ms ease, opacity 200ms ease;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
   }
   .ds-consent button.dsc-primary {
     background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
@@ -3033,6 +3045,7 @@ if (window.__DS_IS_ANDROID_APP) {
 <!-- ===== CAMERA CONSENT ===== -->
 <div id="dsc-camera" class="ds-consent" role="dialog" aria-modal="true" aria-labelledby="dsc-camera-title" hidden>
   <div class="dsc-card">
+    <div class="dsc-scroll">
     <div class="dsc-icon">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
@@ -3063,6 +3076,7 @@ if (window.__DS_IS_ANDROID_APP) {
         <span data-i18n-html="cam_bullet_5"><strong>Note:</strong> The AI Style Coach <strong>chat</strong> is different — if you upload a photo there, that image is sent to our vision model. You'll see a separate notice the first time.</span>
       </li>
     </ul>
+    </div><!-- /dsc-scroll -->
     <div class="dsc-actions">
       <button type="button" class="dsc-primary" id="dsc-camera-yes" data-i18n="cam_consent_yes">Got it — start the camera</button>
       <button type="button" class="dsc-secondary" id="dsc-camera-no" data-i18n="cam_consent_no">Not now</button>
@@ -3075,6 +3089,7 @@ if (window.__DS_IS_ANDROID_APP) {
 
 <div id="dsc-upload" class="ds-consent" role="dialog" aria-modal="true" aria-labelledby="dsc-upload-title" hidden>
   <div class="dsc-card">
+    <div class="dsc-scroll">
     <div class="dsc-icon">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
@@ -3105,6 +3120,7 @@ if (window.__DS_IS_ANDROID_APP) {
       <input type="checkbox" id="dsc-upload-confirm" style="margin-top:2px;accent-color:#ec4899;width:16px;height:16px;flex-shrink:0;" />
       <span style="font-size:13px;color:#d1d5db;" data-i18n-html="closet_upload_accept">I accept these rules and the <a href="terms.html" style="color:#ec4899;" data-i18n="terms_of_service">Terms of Service</a> and <a href="privacy.html" style="color:#ec4899;" data-i18n="privacy_policy">Privacy Policy</a>.</span>
     </label>
+    </div><!-- /dsc-scroll -->
     <div class="dsc-actions">
       <button type="button" class="dsc-primary" id="dsc-upload-yes" disabled data-i18n="upload_continue">Continue</button>
       <button type="button" class="dsc-secondary" id="dsc-upload-no" data-i18n="cancel">Cancel</button>
@@ -4064,10 +4080,6 @@ if (window.__DS_IS_ANDROID_APP) {
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
                   <span data-i18n="vibe_share_score">Share Score</span>
                 </button>
-                <button id="vai-next-btn" type="button" class="px-5 py-2.5 rounded-2xl text-xs font-bold inline-flex items-center gap-2 border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 active:scale-[0.98] transition">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M18.75 4.236c.982.143 1.954.317 2.916.52A6.003 6.003 0 0016.27 9.728M18.75 4.236V4.5c0 2.108-.966 3.99-2.48 5.228m0 0a6.003 6.003 0 01-5.54 0"/></svg>
-                  <span data-i18n="vibe_next_achievements">Achievements</span>
-                </button>
                 <button id="vai-reset-btn" type="button" class="px-5 py-2.5 rounded-2xl text-xs font-bold border border-white/10 text-gray-300 hover:bg-white/5 transition inline-flex items-center gap-2">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                   <span data-i18n="vibe_run_again">Run again</span>
@@ -4174,12 +4186,12 @@ if (window.__DS_IS_ANDROID_APP) {
                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                <span data-i18n="closet_build_outfit">Build Outfit</span>
             </button>
-            <div class="flex gap-2 shrink-0 flex-nowrap mx-auto">
-               <button id="closetExportBtn" class="px-3 py-2.5 rounded-xl text-sm font-bold flex gap-1.5 items-center justify-center bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Export closet backup">
+            <div class="flex gap-2 shrink-0 w-full">
+               <button id="closetExportBtn" class="flex-1 px-3 py-2.5 rounded-xl text-sm font-bold flex gap-1.5 items-center justify-center bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Export closet backup">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                   <span data-i18n="closet_export">Export</span>
                </button>
-               <button id="closetImportBtn" class="px-3 py-2.5 rounded-xl text-sm font-bold flex gap-1.5 items-center justify-center bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Import closet backup">
+               <button id="closetImportBtn" class="flex-1 px-3 py-2.5 rounded-xl text-sm font-bold flex gap-1.5 items-center justify-center bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Import closet backup">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                   <span data-i18n="closet_import">Import</span>
                </button>
@@ -4313,7 +4325,8 @@ if (window.__DS_IS_ANDROID_APP) {
 
   <!-- Consent modal: shown on the FIRST ever upload attempt. Mandatory. -->
   <div id="closetUploadConsent" class="hidden fixed inset-0 z-[115] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="z-index:9999">
-    <div class="premium-glass rounded-3xl border border-brand-500/30 max-w-md w-full p-6 sm:p-7 relative max-h-[90vh] overflow-y-auto">
+    <div class="premium-glass rounded-3xl border border-brand-500/30 max-w-md w-full p-6 sm:p-7 relative max-h-[90vh] flex flex-col">
+      <div class="overflow-y-auto flex-1 min-h-0 -webkit-overflow-scrolling-touch">
       <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-500/20 to-purple-500/20 border border-brand-500/30 flex items-center justify-center mb-4 mx-auto">
         <svg class="w-7 h-7 text-brand-400" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       </div>
@@ -4343,8 +4356,8 @@ if (window.__DS_IS_ANDROID_APP) {
         <input type="checkbox" id="closetUploadConsentCheck" class="mt-0.5 w-4 h-4 shrink-0 accent-pink-500" />
         <span class="text-xs text-gray-300 leading-relaxed" data-i18n-html="closet_upload_accept">I accept these rules and the <a href="terms.html" target="_blank" class="text-brand-400 underline" data-i18n="terms_of_service">Terms of Service</a> and <a href="privacy.html" target="_blank" class="text-brand-400 underline" data-i18n="privacy_policy">Privacy Policy</a>.</span>
       </label>
-
-      <div class="flex gap-2">
+      </div>
+      <div class="flex gap-2 flex-shrink-0 pt-2">
         <button id="closetUploadConsentCancel" type="button" class="flex-1 py-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 text-sm font-bold hover:bg-white/10 transition" data-i18n="cancel">Cancel</button>
         <button id="closetUploadConsentOk" type="button" disabled class="flex-1 py-3 rounded-xl btn-primary text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed" data-i18n="continue_btn">Continue</button>
       </div>
@@ -4353,7 +4366,8 @@ if (window.__DS_IS_ANDROID_APP) {
 
   <!-- Category picker modal for uploaded items -->
   <div id="closetCategoryModal" class="hidden fixed inset-0 z-[110] bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="premium-glass rounded-3xl border border-white/10 max-w-md w-full p-6 sm:p-7 relative max-h-[90vh] overflow-y-auto">
+    <div class="premium-glass rounded-3xl border border-white/10 max-w-md w-full p-6 sm:p-7 relative max-h-[90vh] flex flex-col">
+      <div class="overflow-y-auto flex-1 min-h-0 -webkit-overflow-scrolling-touch">
       <h3 class="font-serif text-2xl font-semibold text-white text-center mb-1" data-i18n="category_title">What is this?</h3>
       <p class="text-sm text-gray-400 text-center mb-5" data-i18n="category_subtitle">Pick a category so your closet stays organized.</p>
 
@@ -4391,8 +4405,8 @@ if (window.__DS_IS_ANDROID_APP) {
           <option value="night_out" data-i18n="occasion_night_out">Night Out</option>
         </select>
       </div>
-
-      <div class="flex gap-2">
+      </div>
+      <div class="flex gap-2 flex-shrink-0 pt-2">
         <button id="closetCategoryCancel" type="button" class="flex-1 py-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 text-sm font-bold hover:bg-white/10 transition" data-i18n="cancel">Cancel</button>
         <button id="closetCategorySave" type="button" disabled class="flex-1 py-3 rounded-xl btn-primary text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed" data-i18n="closet_save_digital">Save to Closet</button>
       </div>
@@ -23720,14 +23734,6 @@ applyOfflineState(!navigator.onLine);
     openMirror();
   });
   $vai('vai-reset-btn').addEventListener('click', reset);
-  $vai('vai-next-btn') && $vai('vai-next-btn').addEventListener('click', function() {
-    reset();
-    // Navigate to Achievements section
-    var achTab = document.querySelector('[data-tab="achievements"]') || document.querySelector('[data-tab="story"]');
-    if (achTab) achTab.click();
-    var achSection = document.getElementById('achievements-section') || document.getElementById('story-section');
-    if (achSection) achSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
   $vai('vai-share-btn').addEventListener('click', () => {
     if (typeof window.openShareModal === 'function' && lastResult) {
       window.openShareModal(lastResult.score, lastSnapshot || '');
