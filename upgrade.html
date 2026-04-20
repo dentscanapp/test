@@ -59,20 +59,30 @@ body{
   padding:32px 20px 60px;
 }
 
-/* ── Back Button ── */
+/* ── Back Button (fixed, top-right, matching contact.html) ── */
 .back{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.08);
-  color:#71717a;
-  padding:8px 14px;border-radius:10px;
-  font-family:inherit;font-size:13px;font-weight:500;
+  position:fixed;
+  top:calc(env(safe-area-inset-top, 0px) + 2.5rem);
+  right:24px;
+  z-index:30;
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(15,15,20,.80);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  color:#b0a8ba;
   text-decoration:none;cursor:pointer;
   transition:all .2s ease;
-  margin-bottom:20px;
 }
-.back:hover{background:rgba(255,255,255,.10);color:#fafafa;border-color:rgba(255,255,255,.16)}
-.back i{font-size:11px}
+.back:hover{
+  color:#fff;
+  border-color:rgba(236,72,153,.50);
+  background:rgba(236,72,153,.10);
+  box-shadow:0 0 16px rgba(236,72,153,.25);
+}
+.back:active{transform:scale(.95)}
+.back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ── Header ── */
 .hdr{text-align:center;margin-bottom:26px}
@@ -103,19 +113,6 @@ h1 .gr{
   border-radius:1rem;
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 }
-
-/* ── Features ── */
-.feats{padding:16px 14px;margin-bottom:24px}
-.feat{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.feat:last-child{border-bottom:none}
-.feat-ic{
-  width:32px;height:32px;flex-shrink:0;border-radius:9px;
-  background:rgba(236,72,153,.08);border:1px solid rgba(236,72,153,.18);
-  display:flex;align-items:center;justify-content:center;
-  color:#f472b6;font-size:13px;
-}
-.feat-t{font-weight:600;font-size:.88rem;color:#fafafa;margin-bottom:1px}
-.feat-d{color:#52525b;font-size:.78rem;line-height:1.4}
 
 /* ── Plans ── */
 .plans-label{
@@ -326,10 +323,13 @@ body.platform-android .app-only{display:revert!important}
 </head>
 <body>
 <div class="ambient"></div>
-<div class="wrap">
 
-  <!-- Back -->
-  <a href="index.html" class="back" id="backBtn"><i class="fas fa-arrow-left"></i> Vissza</a>
+<!-- Back (fixed top-right, matching contact.html) -->
+<a href="index.html" class="back" id="backBtn" aria-label="Vissza">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+</a>
+
+<div class="wrap">
 
   <!-- Already PRO -->
   <div id="alreadyProBanner" class="pro-banner hidden">
@@ -343,38 +343,6 @@ body.platform-android .app-only{display:revert!important}
     <div class="pill"><i class="fas fa-crown"></i> DateScan Premium</div>
     <h1>Unlock Your <span class="gr">Unfair Advantage</span></h1>
     <p class="sub">Stop guessing. Start matching. Turn every photo into a weapon that gets real results.</p>
-  </div>
-
-  <!-- Features -->
-  <div class="feats glass upgrade-section">
-    <div class="feat">
-      <div class="feat-ic"><i class="fas fa-infinity"></i></div>
-      <div>
-        <div class="feat-t">Unlimited AI Coaching & Scanning</div>
-        <div class="feat-d">Every angle, every outfit. No caps. No cooldowns.</div>
-      </div>
-    </div>
-    <div class="feat">
-      <div class="feat-ic"><i class="fas fa-brain"></i></div>
-      <div>
-        <div class="feat-t">Deep Attraction Analysis</div>
-        <div class="feat-d">Brutal AI feedback on what actually gets swipe-rights.</div>
-      </div>
-    </div>
-    <div class="feat">
-      <div class="feat-ic"><i class="fas fa-bolt"></i></div>
-      <div>
-        <div class="feat-t">Priority Processing</div>
-        <div class="feat-d">Skip queues. Results in seconds, not minutes.</div>
-      </div>
-    </div>
-    <div class="feat">
-      <div class="feat-ic"><i class="fas fa-chart-line"></i></div>
-      <div>
-        <div class="feat-t">Style DNA Report</div>
-        <div class="feat-d">Know your signature look. Double down on what works.</div>
-      </div>
-    </div>
   </div>
 
   <!-- Plans -->
