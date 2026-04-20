@@ -2990,6 +2990,17 @@ if (window.__DS_IS_ANDROID_APP) {
   body:has(#paywallModal:not(.hidden)) #mobileBottomNav {
     display: none !important;
   }
+  /* Hide header (PNT / PRO / lang icons) when modals are open so
+     they don't bleed through with their z-[110]. */
+  body:has(#closetUploadConsent:not(.hidden)) > header,
+  body:has(#closetUploadConsent:not(.hidden)) > #langSelectorDropdown,
+  body:has(#duelModal:not(.hidden)) > header,
+  body:has(#duelModal:not(.hidden)) > #langSelectorDropdown,
+  body:has(.ds-consent:not([hidden])) > header,
+  body:has(.ds-consent:not([hidden])) > #langSelectorDropdown {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 
   /* ── Contextual Hints (first-use tooltips) ── */
   .ctx-hint {
