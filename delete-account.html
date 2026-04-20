@@ -10,6 +10,23 @@
 <link rel="canonical" href="https://datescan.app/delete-account.html" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='40' y2='40' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23ec4899'/%3E%3Cstop offset='1' stop-color='%239333ea'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M10 5 H5 V10' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M30 5 H35 V10' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M10 35 H5 V30' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M30 35 H35 V30' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M20 13.5C20 13.5 16 9 11.5 9C7.5 9 5 12.5 5 16.5C5 22 13 28 20 32C27 28 35 22 35 16.5C35 12.5 32.5 9 28.5 9C24 9 20 13.5 20 13.5Z' fill='url(%23bg)' fill-opacity='0.15' stroke='url(%23bg)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='4' y1='20' x2='36' y2='20' stroke='%23f472b6' stroke-width='1.5' stroke-dasharray='2 2' opacity='0.8'/%3E%3C/svg%3E">
+<script>
+// ── EARLY lang detection (runs BEFORE any external script) ──
+(function(){
+  var supported=['en','hu','de'];var lang=null;var _h='';
+  try{_h=decodeURIComponent(window.location.href||'');}catch(e){_h=window.location.href||'';}
+  try{var p=new URLSearchParams(window.location.search);var v=p.get('lang');if(v&&supported.indexOf(v)!==-1)lang=v;}catch(e){}
+  if(!lang){try{var m=_h.match(/[?&]lang=([a-z]{2})(?:&|#|$)/i);if(m&&supported.indexOf(m[1])!==-1)lang=m[1];}catch(e){}}
+  if(!lang){try{var h=window.location.hash||'';if(!h&&_h.indexOf('#')!==-1)h=_h.substring(_h.indexOf('#'));var hm=h.match(/[#&]lang=([a-z]{2})/i);if(hm&&supported.indexOf(hm[1])!==-1)lang=hm[1];}catch(e){}}
+  if(!lang){try{var cm=document.cookie.match(/(?:^|;\s*)datescan_lang=([a-z]{2})/i);if(cm&&supported.indexOf(cm[1])!==-1)lang=cm[1];}catch(e){}}
+  if(!lang){try{var nl=localStorage.getItem('datescan.nav_lang');if(nl&&supported.indexOf(nl)!==-1)lang=nl;}catch(e){}}
+  if(!lang){try{var sl=localStorage.getItem('datescan.lang');if(sl&&sl.indexOf('auto:')===0)sl=sl.substring(5);if(sl&&supported.indexOf(sl)!==-1)lang=sl;}catch(e){}}
+  if(!lang){try{var nls=navigator.languages&&navigator.languages.length?Array.prototype.slice.call(navigator.languages):[navigator.language||navigator.userLanguage||''];for(var i=0;i<nls.length;i++){var pp=(nls[i]||'').split('-')[0].toLowerCase();if(pp==='hu'){lang='hu';break;}if(pp==='de'){lang='de';break;}}}catch(e){}}
+  if(lang)window._earlyLang=lang;if(!lang)lang='en';
+  var titles={en:'Delete Account — DateScan',hu:'Fiók törlése — DateScan',de:'Account löschen — DateScan'};
+  document.title=titles[lang]||titles.en;document.documentElement.lang=lang;
+})();
+</script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <script>
@@ -255,21 +272,65 @@
     }
   };
 
-  // Detect language: URL param > localStorage > navigator > fallback
-  // IMPORTANT: URL param wins absolutely. If user clicks a link with ?lang=en,
-  // we must honor 'en' and NOT fall through to localStorage/navigator (which
-  // would override to Hungarian on a Hungarian device). Uses null sentinel
-  // instead of 'en' default so we can distinguish "explicitly en" from "unset".
+  // Detect language: _earlyLang > URL param > href regex > hash > cookie > nav_lang > localStorage > navigator > fallback
   var supported = ['en','hu','de'];
   var lang = null;
+  var _h = '';
+  try { _h = decodeURIComponent(window.location.href || ''); } catch(e) { _h = window.location.href || ''; }
+  // 0. Check window._earlyLang (set by early script in <head>) — highest priority
+  if (!lang) {
+    try {
+      if (window._earlyLang && supported.indexOf(window._earlyLang) !== -1) lang = window._earlyLang;
+    } catch(e) {}
+  }
   // 1. Check URL parameter first (?lang=en / ?lang=de / ?lang=hu)
-  try {
-    var urlParams = new URLSearchParams(window.location.search);
-    var urlLang = urlParams.get('lang');
-    if (urlLang && supported.indexOf(urlLang) !== -1) {
-      lang = urlLang;
-    }
-  } catch(e) {}
+  if (!lang) {
+    try {
+      var urlParams = new URLSearchParams(window.location.search);
+      var urlLang = urlParams.get('lang');
+      if (urlLang && supported.indexOf(urlLang) !== -1) {
+        lang = urlLang;
+      }
+    } catch(e) {}
+  }
+  // 1b. Always try href regex — critical for file:// and some TWA/WebView environments
+  if (!lang) {
+    try {
+      var hrefMatch = _h.match(/[?&]lang=([a-z]{2})(?:&|#|$)/i);
+      if (hrefMatch && supported.indexOf(hrefMatch[1]) !== -1) {
+        lang = hrefMatch[1];
+      }
+    } catch(e) {}
+  }
+  // 1c. Check hash fragment (#lang=hu or &lang=hu after #)
+  if (!lang) {
+    try {
+      var hash = window.location.hash || '';
+      if (!hash && _h.indexOf('#') !== -1) hash = _h.substring(_h.indexOf('#'));
+      var hashMatch = hash.match(/[#&]lang=([a-z]{2})/i);
+      if (hashMatch && supported.indexOf(hashMatch[1]) !== -1) {
+        lang = hashMatch[1];
+      }
+    } catch(e) {}
+  }
+  // 1d. Check cookie
+  if (!lang) {
+    try {
+      var cookieMatch = document.cookie.match(/(?:^|;\s*)datescan_lang=([a-z]{2})/i);
+      if (cookieMatch && supported.indexOf(cookieMatch[1]) !== -1) {
+        lang = cookieMatch[1];
+      }
+    } catch(e) {}
+  }
+  // 1e. Check nav_lang localStorage
+  if (!lang) {
+    try {
+      var navLang = localStorage.getItem('datescan.nav_lang');
+      if (navLang && supported.indexOf(navLang) !== -1) {
+        lang = navLang;
+      }
+    } catch(e) {}
+  }
   // 2. Check localStorage
   if (!lang) {
     try {
@@ -356,16 +417,24 @@
   window._deleteAccountStrings = strings;
   window._deleteAccountApplyI18n = applyI18n;
 
-  // Apply on DOMContentLoaded
+  // Apply on DOMContentLoaded with aggressive retries
+  var _initDone = false;
   function init() {
+    if (_initDone) return;
+    _initDone = true;
     applyI18n();
     updateSubpageLinks();
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState !== 'loading') { init(); }
+  document.addEventListener('DOMContentLoaded', init);
+  window.addEventListener('load', function() {
+    if (!_initDone) init();
+    applyI18n(); updateSubpageLinks();
+  });
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 50);
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 200);
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 500);
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 1500);
 })();
 </script>
 

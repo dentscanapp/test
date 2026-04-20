@@ -9,6 +9,88 @@
 <link rel="canonical" href="https://datescan.app/terms.html" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='40' y2='40' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23ec4899'/%3E%3Cstop offset='1' stop-color='%239333ea'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M10 5 H5 V10' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M30 5 H35 V10' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M10 35 H5 V30' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M30 35 H35 V30' stroke='url(%23bg)' stroke-width='2' fill='none'/%3E%3Cpath d='M20 13.5C20 13.5 16 9 11.5 9C7.5 9 5 12.5 5 16.5C5 22 13 28 20 32C27 28 35 22 35 16.5C35 12.5 32.5 9 28.5 9C24 9 20 13.5 20 13.5Z' fill='url(%23bg)' fill-opacity='0.15' stroke='url(%23bg)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='4' y1='20' x2='36' y2='20' stroke='%23f472b6' stroke-width='1.5' stroke-dasharray='2 2' opacity='0.8'/%3E%3C/svg%3E">
+<script>
+// ── EARLY lang detection (runs BEFORE any external script) ──
+// Detects language from URL, hash, cookie, localStorage, or navigator.
+// Sets window._earlyLang so the main i18n block can use it as the highest-priority source.
+(function(){
+  var supported = ['en','hu','de'];
+  var lang = null;
+  var _fullHref = '';
+  try { _fullHref = decodeURIComponent(window.location.href || ''); } catch(e) { _fullHref = window.location.href || ''; }
+
+  // 1. URLSearchParams from location.search
+  try {
+    var p = new URLSearchParams(window.location.search);
+    var v = p.get('lang');
+    if (v && supported.indexOf(v) !== -1) lang = v;
+  } catch(e) {}
+
+  // 2. Full href regex (critical for file:// protocol where location.search is empty)
+  if (!lang) {
+    try {
+      var m = _fullHref.match(/[?&]lang=([a-z]{2})(?:&|#|$)/i);
+      if (m && supported.indexOf(m[1]) !== -1) lang = m[1];
+    } catch(e) {}
+  }
+
+  // 3. Hash (#lang=de)
+  if (!lang) {
+    try {
+      var h = window.location.hash || '';
+      if (!h && _fullHref.indexOf('#') !== -1) h = _fullHref.substring(_fullHref.indexOf('#'));
+      var hm = h.match(/[#&]lang=([a-z]{2})/i);
+      if (hm && supported.indexOf(hm[1]) !== -1) lang = hm[1];
+    } catch(e) {}
+  }
+
+  // 4. Cookie
+  if (!lang) {
+    try {
+      var cm = document.cookie.match(/(?:^|;\s*)datescan_lang=([a-z]{2})/i);
+      if (cm && supported.indexOf(cm[1]) !== -1) lang = cm[1];
+    } catch(e) {}
+  }
+
+  // 5. localStorage nav_lang
+  if (!lang) {
+    try {
+      var nl = localStorage.getItem('datescan.nav_lang');
+      if (nl && supported.indexOf(nl) !== -1) lang = nl;
+    } catch(e) {}
+  }
+
+  // 6. localStorage datescan.lang
+  if (!lang) {
+    try {
+      var sl = localStorage.getItem('datescan.lang');
+      if (sl && sl.indexOf('auto:') === 0) sl = sl.substring(5);
+      if (sl && supported.indexOf(sl) !== -1) lang = sl;
+    } catch(e) {}
+  }
+
+  // 7. Navigator
+  if (!lang) {
+    try {
+      var nls = navigator.languages && navigator.languages.length
+        ? Array.prototype.slice.call(navigator.languages)
+        : [navigator.language || navigator.userLanguage || ''];
+      for (var i = 0; i < nls.length; i++) {
+        var pp = (nls[i] || '').split('-')[0].toLowerCase();
+        if (pp === 'hu') { lang = 'hu'; break; }
+        if (pp === 'de') { lang = 'de'; break; }
+      }
+    } catch(e) {}
+  }
+
+  if (lang) window._earlyLang = lang;   // Only propagate if ACTUALLY detected (not default)
+  if (!lang) lang = 'en';               // Default for title/lang attribute only
+  // Set document title immediately for correct browser tab text
+  var titles = { en: 'Terms of Service — DateScan', hu: 'Felhasználási feltételek — DateScan', de: 'Nutzungsbedingungen — DateScan' };
+  document.title = titles[lang] || titles.en;
+  document.documentElement.lang = lang;
+})();
+</script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <script>
@@ -416,37 +498,96 @@
     }
   };
 
-  // Detect language: URL param > localStorage > navigator > fallback
-  // IMPORTANT: URL param wins absolutely. If user clicks a link with ?lang=en,
-  // we must honor 'en' and NOT fall through to localStorage/navigator (which
-  // would override to Hungarian on a Hungarian device). Uses null sentinel
-  // instead of 'en' default so we can distinguish "explicitly en" from "unset".
+  // Detect language: _earlyLang > URL param > href regex > hash > cookie > nav_lang > localStorage > navigator > fallback
+  // Uses MULTIPLE channels because some TWA / Custom Tab / file:// environments strip query params.
+  // The early detection script (in <head> before Tailwind) already ran and set window._earlyLang.
+  // We trust that as the highest priority since it ran before any external script could fail.
   var supported = ['en','hu','de'];
   var lang = null;
-  // 1. Check URL parameter first (?lang=en / ?lang=de / ?lang=hu)
-  try {
-    var urlParams = new URLSearchParams(window.location.search);
-    var urlLang = urlParams.get('lang');
-    if (urlLang && supported.indexOf(urlLang) !== -1) {
-      lang = urlLang;
-    }
-  } catch(e) {}
-  // 2. Check localStorage
+  var _detectedFrom = 'fallback';
+
+  // 0. Use early detection result (highest priority — ran before any external script)
+  if (window._earlyLang && supported.indexOf(window._earlyLang) !== -1) {
+    lang = window._earlyLang;
+    _detectedFrom = 'early_detection';
+  }
+
+  // 1. Check URL parameter (?lang=en / ?lang=de / ?lang=hu) via URLSearchParams
+  if (!lang) {
+    try {
+      var urlParams = new URLSearchParams(window.location.search);
+      var urlLang = urlParams.get('lang');
+      if (urlLang && supported.indexOf(urlLang) !== -1) {
+        lang = urlLang;
+        _detectedFrom = 'url_param';
+      }
+    } catch(e) {}
+  }
+  // 1b. Always also try href regex — critical for file:// protocol and some TWA/WebView environments
+  //     where window.location.search is empty but the full href still contains ?lang=XX
+  if (!lang) {
+    try {
+      var _href = window.location.href || '';
+      var hrefMatch = _href.match(/[?&]lang=([a-z]{2})(?:&|#|$)/i);
+      if (hrefMatch && supported.indexOf(hrefMatch[1]) !== -1) {
+        lang = hrefMatch[1];
+        _detectedFrom = 'url_param(href_regex)';
+      }
+    } catch(e) {}
+  }
+  // 2. Check hash parameter (#lang=hu) — survives all redirect/cache stripping
+  if (!lang) {
+    try {
+      var _href2 = window.location.href || '';
+      var hashStr = window.location.hash || '';
+      // Fallback: also try extracting hash from href when location.hash is empty
+      if (!hashStr && _href2.indexOf('#') !== -1) {
+        hashStr = _href2.substring(_href2.indexOf('#'));
+      }
+      var hashMatch = hashStr.match(/[#&]lang=([a-z]{2})/i);
+      if (hashMatch && supported.indexOf(hashMatch[1]) !== -1) {
+        lang = hashMatch[1];
+        _detectedFrom = 'hash';
+      }
+    } catch(e) {}
+  }
+  // 2b. Check cookie (datescan_lang=de) — works across file:// and incognito in some browsers
+  if (!lang) {
+    try {
+      var cookieMatch = document.cookie.match(/(?:^|;\s*)datescan_lang=([a-z]{2})/i);
+      if (cookieMatch && supported.indexOf(cookieMatch[1]) !== -1) {
+        lang = cookieMatch[1];
+        _detectedFrom = 'cookie';
+      }
+    } catch(e) {}
+  }
+  // 3. Check datescan.nav_lang (written by index.html click delegate right before navigation)
+  if (!lang) {
+    try {
+      var navLang = localStorage.getItem('datescan.nav_lang');
+      if (navLang && supported.indexOf(navLang) !== -1) {
+        lang = navLang;
+        _detectedFrom = 'nav_lang';
+      }
+    } catch(e) {}
+  }
+  // 4. Check datescan.lang (main app storage)
   if (!lang) {
     try {
       var stored = localStorage.getItem('datescan.lang');
       if (stored && stored.indexOf('auto:') === 0) {
-        // Extract language code from auto:XX format
         var autoLang = stored.substring(5);
         if (supported.indexOf(autoLang) !== -1) {
           lang = autoLang;
+          _detectedFrom = 'localStorage(auto:' + autoLang + ')';
         }
       } else if (stored && supported.indexOf(stored) !== -1) {
         lang = stored;
+        _detectedFrom = 'localStorage(' + stored + ')';
       }
     } catch(e) {}
   }
-  // 3. Detect from browser/navigator
+  // 5. Detect from browser/navigator
   if (!lang) {
     try {
       var navLangs = navigator.languages && navigator.languages.length
@@ -454,13 +595,14 @@
         : [navigator.language || navigator.userLanguage || ''];
       for (var i = 0; i < navLangs.length; i++) {
         var p = (navLangs[i] || '').split('-')[0].toLowerCase();
-        if (p === 'hu') { lang = 'hu'; break; }
-        if (p === 'de') { lang = 'de'; break; }
+        if (p === 'hu') { lang = 'hu'; _detectedFrom = 'navigator'; break; }
+        if (p === 'de') { lang = 'de'; _detectedFrom = 'navigator'; break; }
       }
     } catch(e) {}
   }
-  // 4. Final fallback
+  // 6. Final fallback
   if (!lang) lang = 'en';
+  console.log('[terms.html] lang=' + lang + ' from=' + _detectedFrom + ' earlyLang=' + (window._earlyLang||'none') + ' href=' + (window.location.href||''));
 
   var strings = translations[lang] || translations.en;
   document.documentElement.lang = lang;
@@ -517,16 +659,36 @@
   window._termsStrings = strings;
   window._termsApplyI18n = applyI18n;
 
-  // Apply on DOMContentLoaded
+  // Apply i18n — aggressive retry strategy to handle all browser/protocol combos:
+  //   - file:// protocol may delay DOMContentLoaded
+  //   - External CDN scripts (Tailwind) may block events
+  //   - Some browsers fire DOMContentLoaded before all elements are in the DOM
+  var _initDone = false;
   function init() {
+    if (_initDone) return;
+    _initDone = true;
     applyI18n();
     updateSubpageLinks();
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
+  // Try immediately if DOM already ready
+  if (document.readyState !== 'loading') {
     init();
   }
+  // Also listen for DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', init);
+  // Belt-and-suspenders: retry on load + multiple delays
+  window.addEventListener('load', function() {
+    if (!_initDone) init();
+    // Always re-apply on load to catch any missed elements
+    applyI18n();
+    updateSubpageLinks();
+  });
+  // Aggressive retries: 50ms, 200ms, 500ms, 1500ms — covers slow CDN, file:// delays, TWA
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 50);
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 200);
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 500);
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 1500);
+  });
 })();
 </script>
 

@@ -320,6 +320,246 @@ body.platform-android .app-only{display:revert!important}
   .price{font-size:1.05rem}
 }
 </style>
+
+<!-- ============================================================
+     i18n — Upgrade Page Translations
+     ============================================================ -->
+<script>
+(function(){
+  var translations = {
+    en: {
+      page_title: 'DateScan Premium — Unlock Your Edge',
+      back_label: 'Back',
+      pill_text: 'DateScan Premium',
+      h1_before: 'Unlock Your',
+      h1_gradient: 'Unfair Advantage',
+      subtitle: 'Stop guessing. Start matching. Turn every photo into a weapon that gets real results.',
+      plans_label: 'Choose Your Plan',
+      week_name: 'Weekly Pass',
+      week_meta: 'Unlimited AI coaching & scanning',
+      week_period: '/week',
+      month_name: 'Monthly Pass',
+      month_meta: 'Unlimited AI coaching & scanning',
+      month_period: '/month',
+      month_badge: 'Most Popular',
+      year_name: 'Yearly Access',
+      year_meta: 'Unlimited AI coaching & scanning',
+      year_period: '/year',
+      year_badge: 'Best Value — Save 58%',
+      year_save: 'Save 58% — Best deal',
+      cta_btn: 'Get Premium Now',
+      trust_secure: 'Secure Checkout',
+      trust_cancel: 'Cancel Anytime',
+      trust_safe: 'Private & Safe',
+      guarantee_title: '14-Day Goodwill Refund Guarantee',
+      guarantee_desc: 'Not satisfied? Contact <a href="mailto:info@datescan.app">info@datescan.app</a> within 14 days for a full refund. No questions asked.',
+      proof_quote: '"Finally, honest feedback that actually improved my matches."',
+      act_title: 'Already Purchased?',
+      act_subtitle: 'Enter your License Key from your email to activate Premium.',
+      act_placeholder: 'XXXX-XXXX-XXXX-XXXX',
+      act_btn: 'Activate Premium',
+      act_empty: 'Please enter your License Key.',
+      act_verifying: 'Verifying License Key...',
+      act_success: '\u2713 Success! Premium activated.',
+      act_invalid: 'Invalid License Key. Please check your email and try again.',
+      act_error: 'Connection error. Check your internet.',
+      footer_text: 'Payments processed by Gumroad. Check email for License Key after purchase.',
+      footer_support: 'Support:',
+      pro_title: "You're already PRO!",
+      pro_desc: 'Premium access active. No need to purchase again.'
+    },
+    hu: {
+      page_title: 'DateScan Premium — Szerezz előnyt',
+      back_label: 'Vissza',
+      pill_text: 'DateScan Premium',
+      h1_before: 'Szerezz',
+      h1_gradient: 'Páratlan Előnyt',
+      subtitle: 'Ne találgass. Kezdj matchelni. Alakíts minden fotót fegyverré, ami valódi eredményeket hoz.',
+      plans_label: 'Válassz csomagot',
+      week_name: 'Heti bérlet',
+      week_meta: 'Korlátlan AI coaching és szkennelés',
+      week_period: '/hét',
+      month_name: 'Havi bérlet',
+      month_meta: 'Korlátlan AI coaching és szkennelés',
+      month_period: '/hónap',
+      month_badge: 'Legnépszerűbb',
+      year_name: 'Éves hozzáférés',
+      year_meta: 'Korlátlan AI coaching és szkennelés',
+      year_period: '/év',
+      year_badge: 'Legjobb ár — 58% megtakarítás',
+      year_save: '58% megtakarítás — Legjobb ajánlat',
+      cta_btn: 'Prémium vásárlása',
+      trust_secure: 'Biztonságos fizetés',
+      trust_cancel: 'Bármikor lemondható',
+      trust_safe: 'Privát & Biztonságos',
+      guarantee_title: '14 napos jóakaratú visszatérítési garancia',
+      guarantee_desc: 'Nem elégedett? Írj a <a href="mailto:info@datescan.app">info@datescan.app</a> címre 14 napon belül a teljes visszatérítésért. Kérdezek nélkül.',
+      proof_quote: '"Végre őszinte visszajelzés, ami tényleg javította a matcheimet."',
+      act_title: 'Már vásároltál?',
+      act_subtitle: 'Írd be az emailedben kapott licenckulcsot a Premium aktiválásához.',
+      act_placeholder: 'XXXX-XXXX-XXXX-XXXX',
+      act_btn: 'Premium aktiválása',
+      act_empty: 'Kérjük, írd be a licenckulcsodat.',
+      act_verifying: 'Licenckulcs ellenőrzése...',
+      act_success: '\u2713 Siker! Premium aktiválva.',
+      act_invalid: 'Érvénytelen licenckulcs. Kérjük, ellenőrizd az emailedet és próbáld újra.',
+      act_error: 'Kapcsolathiiba. Ellenőrizd az internetkapcsolatodat.',
+      footer_text: 'A fizetést a Gumroad kezeli. A vásárlás után ellenőrizd az emailedet a licenckulcsért.',
+      footer_support: 'Támogatás:',
+      pro_title: 'Már PRO vagy!',
+      pro_desc: 'A Prémium hozzáférés aktív. Nem kell újra vásárolnod.'
+    },
+    de: {
+      page_title: 'DateScan Premium — Hol dir den Vorteil',
+      back_label: 'Zurück',
+      pill_text: 'DateScan Premium',
+      h1_before: 'Hol dir deinen',
+      h1_gradient: 'unfairen Vorteil',
+      subtitle: 'Hör auf zu raten. Fang an zu matchen. Mach jedes Foto zur Waffe, die echte Ergebnisse liefert.',
+      plans_label: 'Wähle deinen Plan',
+      week_name: 'Wochen-Pass',
+      week_meta: 'Unbegrenztes AI-Coaching & Scanning',
+      week_period: '/Woche',
+      month_name: 'Monats-Pass',
+      month_meta: 'Unbegrenztes AI-Coaching & Scanning',
+      month_period: '/Monat',
+      month_badge: 'Am beliebtesten',
+      year_name: 'Jahreszugang',
+      year_meta: 'Unbegrenztes AI-Coaching & Scanning',
+      year_period: '/Jahr',
+      year_badge: 'Bestes Preis-Leistungs-Verhältnis — 58% sparen',
+      year_save: '58% sparen — Bestes Angebot',
+      cta_btn: 'Premium jetzt holen',
+      trust_secure: 'Sichere Bezahlung',
+      trust_cancel: 'Jederzeit kündbar',
+      trust_safe: 'Privat & Sicher',
+      guarantee_title: '14-Tage-Gute-Wille-Geld-zurück-Garantie',
+      guarantee_desc: 'Nicht zufrieden? Kontaktiere <a href="mailto:info@datescan.app">info@datescan.app</a> innerhalb von 14 Tagen für eine volle Rückerstattung. Ohne Fragen.',
+      proof_quote: '"Endlich ehrliches Feedback, das meine Matches wirklich verbessert hat."',
+      act_title: 'Schon gekauft?',
+      act_subtitle: 'Gib deinen Lizenzschlüssel aus der E-Mail ein, um Premium zu aktivieren.',
+      act_placeholder: 'XXXX-XXXX-XXXX-XXXX',
+      act_btn: 'Premium aktivieren',
+      act_empty: 'Bitte gib deinen Lizenzschlüssel ein.',
+      act_verifying: 'Lizenzschlüssel wird überprüft...',
+      act_success: '\u2713 Erfolg! Premium aktiviert.',
+      act_invalid: 'Ungültiger Lizenzschlüssel. Bitte überprüfe deine E-Mail und versuche es erneut.',
+      act_error: 'Verbindungsfehler. Überprüfe deine Internetverbindung.',
+      footer_text: 'Zahlungen werden von Gumroad abgewickelt. Überprüfe deine E-Mail nach dem Kauf für den Lizenzschlüssel.',
+      footer_support: 'Support:',
+      pro_title: 'Du bist bereits PRO!',
+      pro_desc: 'Premium-Zugang aktiv. Du musst nicht noch einmal kaufen.'
+    }
+  };
+
+  // ── Language detection (same cascade as contact.html) ──
+  var supported = ['en','hu','de'];
+  var lang = null;
+
+  // 1. URL parameter (?lang=en / ?lang=de / ?lang=hu)
+  try {
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlLang = urlParams.get('lang');
+    if (urlLang && supported.indexOf(urlLang) !== -1) {
+      lang = urlLang;
+    }
+  } catch(e) {}
+
+  // 2. localStorage
+  if (!lang) {
+    try {
+      var stored = localStorage.getItem('datescan.lang');
+      if (stored && stored.indexOf('auto:') === 0) {
+        var autoLang = stored.substring(5);
+        if (supported.indexOf(autoLang) !== -1) lang = autoLang;
+      } else if (stored && supported.indexOf(stored) !== -1) {
+        lang = stored;
+      }
+    } catch(e) {}
+  }
+
+  // 3. Browser/navigator
+  if (!lang) {
+    try {
+      var navLangs = navigator.languages && navigator.languages.length
+        ? Array.prototype.slice.call(navigator.languages)
+        : [navigator.language || navigator.userLanguage || ''];
+      for (var i = 0; i < navLangs.length; i++) {
+        var p = (navLangs[i] || '').split('-')[0].toLowerCase();
+        if (p === 'hu') { lang = 'hu'; break; }
+        if (p === 'de') { lang = 'de'; break; }
+      }
+    } catch(e) {}
+  }
+
+  // 4. Fallback
+  if (!lang) lang = 'en';
+
+  var strings = translations[lang] || translations.en;
+  document.documentElement.lang = lang;
+  document.title = strings.page_title;
+
+  // ── Helper to apply translations ──
+  function applyI18n() {
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (strings[key] !== undefined) el.textContent = strings[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n-html');
+      if (strings[key] !== undefined) el.innerHTML = strings[key];
+    });
+  }
+
+  // ── Update subpage links to include ?lang=XX ──
+  function updateSubpageLinks() {
+    var subpages = ['privacy.html','contact.html','terms.html','refund.html','delete-account.html','upgrade.html'];
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      var href = a.getAttribute('href') || '';
+      for (var i = 0; i < subpages.length; i++) {
+        if (href.indexOf(subpages[i]) !== -1) {
+          var base = href;
+          var hash = '';
+          var hashIdx = href.indexOf('#');
+          if (hashIdx !== -1) { hash = href.substring(hashIdx); base = href.substring(0, hashIdx); }
+          var qIdx = base.indexOf('?');
+          if (qIdx !== -1) {
+            var params = base.substring(qIdx + 1).split('&').filter(function(p) { return p.indexOf('lang=') !== 0; });
+            base = base.substring(0, qIdx) + (params.length ? '?' + params.join('&') : '');
+          }
+          var sep = base.indexOf('?') !== -1 ? '&' : '?';
+          a.setAttribute('href', base + sep + 'lang=' + lang + hash);
+          break;
+        }
+      }
+    });
+    // Also update "Back to app" links to preserve language
+    document.querySelectorAll('a[href*="index.html"]').forEach(function(a) {
+      var href = a.getAttribute('href') || '';
+      if (href.indexOf('lang=') === -1) {
+        var sep = href.indexOf('?') !== -1 ? '&' : '?';
+        a.setAttribute('href', href + sep + 'lang=' + lang);
+      }
+    });
+  }
+
+  // Expose for later use in activation logic
+  window._upgradeLang = lang;
+  window._upgradeStrings = strings;
+  window._upgradeApplyI18n = applyI18n;
+
+  // Apply on DOMContentLoaded
+  function init() {
+    applyI18n();
+    updateSubpageLinks();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
 </head>
 <body>
 <div class="ambient"></div>
@@ -334,20 +574,20 @@ body.platform-android .app-only{display:revert!important}
   <!-- Already PRO -->
   <div id="alreadyProBanner" class="pro-banner hidden">
     <div class="chk"><i class="fas fa-check"></i></div>
-    <h2>You're already PRO!</h2>
-    <p>Premium access active. No need to purchase again.</p>
+    <h2 data-i18n="pro_title">You're already PRO!</h2>
+    <p data-i18n="pro_desc">Premium access active. No need to purchase again.</p>
   </div>
 
   <!-- Header -->
   <div class="hdr upgrade-section">
-    <div class="pill"><i class="fas fa-crown"></i> DateScan Premium</div>
-    <h1>Unlock Your <span class="gr">Unfair Advantage</span></h1>
-    <p class="sub">Stop guessing. Start matching. Turn every photo into a weapon that gets real results.</p>
+    <div class="pill"><i class="fas fa-crown"></i> <span data-i18n="pill_text">DateScan Premium</span></div>
+    <h1><span data-i18n="h1_before">Unlock Your</span> <span class="gr" data-i18n="h1_gradient">Unfair Advantage</span></h1>
+    <p class="sub" data-i18n="subtitle">Stop guessing. Start matching. Turn every photo into a weapon that gets real results.</p>
   </div>
 
   <!-- Plans -->
   <div id="plans-section" class="upgrade-section">
-    <div class="plans-label">Choose Your Plan</div>
+    <div class="plans-label" data-i18n="plans_label">Choose Your Plan</div>
 
     <!-- Weekly -->
     <label class="plan plan--week gumroad-only">
@@ -356,98 +596,98 @@ body.platform-android .app-only{display:revert!important}
         <div class="left">
           <div class="plan-ic"><i class="fas fa-bolt"></i></div>
           <div>
-            <div class="plan-name">Weekly Pass</div>
-            <div class="plan-meta">Korlátlan AI coaching és szkennelés</div>
+            <div class="plan-name" data-i18n="week_name">Weekly Pass</div>
+            <div class="plan-meta" data-i18n="week_meta">Unlimited AI coaching & scanning</div>
           </div>
         </div>
         <div class="dot"></div>
         <div class="right">
           <div class="price">$4.99</div>
-          <div class="period">/week</div>
+          <div class="period" data-i18n="week_period">/week</div>
         </div>
       </div>
     </label>
 
     <!-- Monthly (Popular) -->
     <label class="plan plan--month gumroad-only">
-      <div class="badge badge--pop"><i class="fas fa-fire"></i>&ensp;Most Popular</div>
+      <div class="badge badge--pop"><i class="fas fa-fire"></i>&ensp;<span data-i18n="month_badge">Most Popular</span></div>
       <input type="radio" name="plan" value="month" data-url="https://datascanapp.gumroad.com/l/month" checked>
       <div class="card">
         <div class="left">
           <div class="plan-ic"><i class="fas fa-crown"></i></div>
           <div>
-            <div class="plan-name">Monthly Pass</div>
-            <div class="plan-meta">Korlátlan AI coaching és szkennelés</div>
+            <div class="plan-name" data-i18n="month_name">Monthly Pass</div>
+            <div class="plan-meta" data-i18n="month_meta">Unlimited AI coaching & scanning</div>
           </div>
         </div>
         <div class="dot"></div>
         <div class="right">
           <div class="price">$9.99</div>
-          <div class="period">/month</div>
+          <div class="period" data-i18n="month_period">/month</div>
         </div>
       </div>
     </label>
 
     <!-- Yearly (Best Value) -->
     <label class="plan plan--year gumroad-only">
-      <div class="badge badge--val"><i class="fas fa-gem"></i>&ensp;Best Value — Save 58%</div>
+      <div class="badge badge--val"><i class="fas fa-gem"></i>&ensp;<span data-i18n="year_badge">Best Value — Save 58%</span></div>
       <input type="radio" name="plan" value="year" data-url="https://datascanapp.gumroad.com/l/year">
       <div class="card">
         <div class="left">
           <div class="plan-ic"><i class="fas fa-gem"></i></div>
           <div>
-            <div class="plan-name">Yearly Access</div>
-            <div class="plan-meta">Korlátlan AI coaching és szkennelés</div>
-            <div class="plan-save">Save 58% — Best deal</div>
+            <div class="plan-name" data-i18n="year_name">Yearly Access</div>
+            <div class="plan-meta" data-i18n="year_meta">Unlimited AI coaching & scanning</div>
+            <div class="plan-save" data-i18n="year_save">Save 58% — Best deal</div>
           </div>
         </div>
         <div class="dot"></div>
         <div class="right">
           <div class="price">$49.99</div>
-          <div class="period">/year</div>
+          <div class="period" data-i18n="year_period">/year</div>
         </div>
       </div>
     </label>
 
     <!-- SOLID CTA -->
     <button class="cta gumroad-only" id="buyBtn" onclick="openCheckout()">
-      <i class="fas fa-lock"></i>&ensp;Get Premium Now
+      <i class="fas fa-lock"></i>&ensp;<span data-i18n="cta_btn">Get Premium Now</span>
     </button>
 
     <div class="trust gumroad-only">
-      <span><i class="fas fa-lock"></i> Secure Checkout</span>
-      <span><i class="fas fa-undo"></i> Cancel Anytime</span>
-      <span><i class="fas fa-shield-alt"></i> Private &amp; Safe</span>
+      <span><i class="fas fa-lock"></i> <span data-i18n="trust_secure">Secure Checkout</span></span>
+      <span><i class="fas fa-undo"></i> <span data-i18n="trust_cancel">Cancel Anytime</span></span>
+      <span><i class="fas fa-shield-alt"></i> <span data-i18n="trust_safe">Private & Safe</span></span>
     </div>
 
     <!-- Guarantee -->
     <div class="guarantee gumroad-only">
       <div class="guarantee-ic"><i class="fas fa-shield-alt"></i></div>
       <div>
-        <div class="guarantee-t">14-Day Goodwill Refund Guarantee</div>
-        <div class="guarantee-d">Not satisfied? Contact <a href="mailto:info@datescan.app">info@datescan.app</a> within 14 days for a full refund. No questions asked.</div>
+        <div class="guarantee-t" data-i18n="guarantee_title">14-Day Goodwill Refund Guarantee</div>
+        <div class="guarantee-d" data-i18n-html="guarantee_desc">Not satisfied? Contact <a href="mailto:info@datescan.app">info@datescan.app</a> within 14 days for a full refund. No questions asked.</div>
       </div>
     </div>
 
     <!-- Social proof -->
     <div class="proof gumroad-only">
       <div class="stars">★★★★★</div>
-      <em>"Finally, honest feedback that actually improved my matches."</em>
+      <em data-i18n="proof_quote">"Finally, honest feedback that actually improved my matches."</em>
     </div>
   </div>
 
   <!-- Activation -->
   <div id="activation-section" class="act glass upgrade-section">
-    <div class="act-t">Already Purchased?</div>
-    <div class="act-s">Enter your License Key from your email to activate Premium.</div>
-    <input type="text" id="sale-id" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false">
-    <button class="act-btn" onclick="runActivation()">Activate Premium</button>
+    <div class="act-t" data-i18n="act_title">Already Purchased?</div>
+    <div class="act-s" data-i18n="act_subtitle">Enter your License Key from your email to activate Premium.</div>
+    <input type="text" id="sale-id" data-i18n-placeholder="act_placeholder" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false">
+    <button class="act-btn" onclick="runActivation()" data-i18n="act_btn">Activate Premium</button>
     <div id="status-msg"></div>
   </div>
 
   <div id="footer-gumroad" class="foot gumroad-only upgrade-section">
-    Payments processed by Gumroad. Check email for License Key after purchase.<br>
-    Support: <a href="mailto:info@datescan.app">info@datescan.app</a>
+    <span data-i18n="footer_text">Payments processed by Gumroad. Check email for License Key after purchase.</span><br>
+    <span data-i18n="footer_support">Support:</span> <a href="mailto:info@datescan.app">info@datescan.app</a>
   </div>
 
 </div>
@@ -488,6 +728,13 @@ body.platform-android .app-only{display:revert!important}
       if(backBtn&&params.get('platform')){
         backBtn.href='index.html?platform='+encodeURIComponent(params.get('platform'));
       }
+
+      // Apply placeholder translations
+      var s = window._upgradeStrings;
+      if (s) {
+        var inp = document.getElementById('sale-id');
+        if (inp && s.act_placeholder) inp.placeholder = s.act_placeholder;
+      }
     });
   }catch(e){}
 })();
@@ -514,24 +761,25 @@ function openCheckout(){
 }
 
 /* ============================================================
-   ACTIVATION LOGIC
+   ACTIVATION LOGIC (i18n-aware)
    ============================================================ */
 async function runActivation(){
   var idInput=document.getElementById('sale-id');
   var msg=document.getElementById('status-msg');
   var btn=document.querySelector('.act-btn');
 
+  var s = window._upgradeStrings || {};
   var id=idInput.value.trim();
 
   if(!id){
     msg.style.color='#ef4444';
-    msg.innerText='Please enter your License Key.';
+    msg.innerText=s.act_empty||'Please enter your License Key.';
     return;
   }
 
   btn.disabled=true;
   msg.style.color='#71717a';
-  msg.innerText='Verifying License Key...';
+  msg.innerText=s.act_verifying||'Verifying License Key...';
 
   try{
     var res=await fetch('https://core.datescan.app/api/verify-license',{
@@ -559,24 +807,26 @@ async function runActivation(){
       }
 
       msg.style.color='#22c55e';
-      msg.innerText='\u2713 Success! '+(data.product||'Premium')+' activated.';
+      msg.innerText=s.act_success||('\u2713 Success! Premium activated.');
 
       setTimeout(function(){
         var params=new URLSearchParams(location.search);
         var pp=params.get('platform');
         var redir='index.html';
         if(pp) redir+='?platform='+encodeURIComponent(pp);
+        var lang=window._upgradeLang;
+        if(lang&&lang!=='en') redir+=(pp?'&':'?')+'lang='+lang;
         location.href=redir;
       },2000);
 
     }else{
       msg.style.color='#ef4444';
-      msg.innerText='Invalid License Key. Please check your email and try again.';
+      msg.innerText=s.act_invalid||'Invalid License Key. Please check your email and try again.';
       btn.disabled=false;
     }
   }catch(err){
     msg.style.color='#ef4444';
-    msg.innerText='Connection error. Check your internet.';
+    msg.innerText=s.act_error||'Connection error. Check your internet.';
     btn.disabled=false;
   }
 }

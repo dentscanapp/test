@@ -2809,6 +2809,11 @@ if (window.__DS_IS_ANDROID_APP) {
   }
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
     .ds-consent { background: rgba(9, 9, 11, 0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+    /* On mobile, backdrop-filter can swallow touch events on some Android WebViews.
+       Use a solid background instead to ensure buttons remain clickable. */
+    @media (pointer: coarse), (hover: none) {
+      .ds-consent { background: rgba(9, 9, 11, 0.97); backdrop-filter: none; -webkit-backdrop-filter: none; }
+    }
   }
   @keyframes dsc-fade { from { opacity: 0; } to { opacity: 1; } }
   .ds-consent .dsc-card {
@@ -2823,9 +2828,13 @@ if (window.__DS_IS_ANDROID_APP) {
     box-shadow: 0 30px 80px -20px rgba(236, 72, 153, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.04);
     animation: dsc-pop 280ms cubic-bezier(0.16, 1, 0.3, 1);
     -webkit-overflow-scrolling: touch;
-    isolation: isolate;
-    will-change: transform;
     position: relative;
+    touch-action: auto;
+  }
+  /* Desktop: keep isolation for visual correctness.
+     Mobile: remove isolation + will-change to prevent touch event swallowing */
+  @media not all and (pointer: coarse) {
+    .ds-consent .dsc-card { isolation: isolate; will-change: transform; }
   }
   .ds-consent .dsc-scroll {
     overflow-y: auto; flex: 1 1 auto; min-height: 0;
@@ -2902,6 +2911,30 @@ if (window.__DS_IS_ANDROID_APP) {
     transition: transform 120ms ease, box-shadow 200ms ease, background 200ms ease, opacity 200ms ease;
     touch-action: manipulation; -webkit-tap-highlight-color: transparent;
     pointer-events: auto; position: relative; z-index: 1;
+    /* Ensure the button is always interactive on mobile —
+       force its own compositing layer so it's not swallowed
+       by parent isolation / will-change / backdrop-filter */
+    -webkit-user-select: none; user-select: none;
+    isolation: isolate;
+  }
+  /* On mobile, ensure the dsc-card's isolation does NOT
+     block touch events from reaching child buttons.
+     CRITICAL: Also remove isolation:isolate from buttons on mobile,
+     because nested compositing layers (isolation + translateZ) on
+     Android WebView can swallow touch events entirely. */
+  @media (pointer: coarse), (hover: none) {
+    .ds-consent .dsc-card { isolation: auto; will-change: auto; }
+    .ds-consent .dsc-actions { position: relative; z-index: 2; }
+    .ds-consent button {
+      -webkit-touch-callout: none;
+      /* Remove isolation:isolate on mobile — nested compositing layers
+         with translateZ(0) cause touch-swallowing on many Android WebViews */
+      isolation: auto;
+      /* Force a separate compositing layer for the button */
+      transform: translateZ(0);
+      /* Belt-and-suspenders: ensure touch events are never blocked */
+      pointer-events: auto !important;
+    }
   }
   .ds-consent button.dsc-primary {
     background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
@@ -3034,6 +3067,90 @@ if (window.__DS_IS_ANDROID_APP) {
   body.platform-android .gumroad-only { display: none !important; }
   .app-only { display: none !important; }
   body.platform-android .app-only { display: revert !important; }
+
+  /* ── PWA Install Banner (web-only, hidden for Android app) ── */
+  #pwa-install-banner {
+    display: none; /* shown via JS when beforeinstallprompt fires */
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 90;
+    padding: 0 16px 16px;
+    pointer-events: none;
+  }
+  #pwa-install-banner.visible {
+    display: block;
+    animation: pwa-slide-up .4s cubic-bezier(.2,.8,.2,1);
+  }
+  #pwa-install-banner .pwa-card {
+    pointer-events: auto;
+    max-width: 420px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(20,10,34,0.92) 0%, rgba(10,7,18,0.96) 100%);
+    border: 1px solid rgba(236,72,153,0.25);
+    border-radius: 20px;
+    padding: 16px 18px;
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 24px rgba(236,72,153,0.10), inset 0 1px 0 rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  #pwa-install-banner .pwa-icon {
+    width: 48px; height: 48px; flex-shrink: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(236,72,153,0.30);
+  }
+  #pwa-install-banner .pwa-icon svg {
+    width: 24px; height: 24px; fill: #fff;
+  }
+  #pwa-install-banner .pwa-text {
+    flex: 1; min-width: 0;
+  }
+  #pwa-install-banner .pwa-title {
+    font-weight: 700; font-size: .92rem; color: #fff;
+    margin-bottom: 2px;
+  }
+  #pwa-install-banner .pwa-desc {
+    font-size: .76rem; color: #94839f; line-height: 1.4;
+  }
+  #pwa-install-banner .pwa-btn {
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+    color: #fff;
+    border: none; border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 600; font-size: .85rem;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(236,72,153,0.35);
+    transition: transform .15s, box-shadow .2s;
+    white-space: nowrap;
+  }
+  #pwa-install-banner .pwa-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(236,72,153,0.45);
+  }
+  #pwa-install-banner .pwa-btn:active { transform: scale(.97); }
+  #pwa-install-banner .pwa-close {
+    position: absolute; top: 8px; right: 12px;
+    width: 24px; height: 24px;
+    background: none; border: none;
+    color: #52525b; font-size: 16px;
+    cursor: pointer; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: color .2s;
+  }
+  #pwa-install-banner .pwa-close:hover { color: #a1a1aa; }
+  @keyframes pwa-slide-up {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @media (min-width: 768px) {
+    #pwa-install-banner { padding: 0 24px 20px; }
+  }
 </style>
 
 <!-- ===== AGE GATE (18+) ===== -->
@@ -3233,28 +3350,85 @@ if (window.__DS_IS_ANDROID_APP) {
       if (!modal || !yes || !no) { resolve(); return; }
       modal.hidden = false;
       dscLock();
-      // Force the card into its own compositing layer so touch events
-      // aren't swallowed by backdrop-filter on older Android WebViews.
+      // On desktop, force the card into its own compositing layer so touch
+      // events aren't swallowed by backdrop-filter on older WebViews.
+      // On mobile (pointer:coarse), do NOT set translateZ on the card —
+      // nested compositing layers (card + buttons both with translateZ)
+      // cause touch event swallowing on many Android WebViews.
       var card = modal.querySelector('.dsc-card');
-      if (card) card.style.transform = 'translateZ(0)';
+      var isMobile = window.matchMedia('(pointer: coarse)').matches;
+      if (card && !isMobile) {
+        card.style.transform = 'translateZ(0)';
+        card.addEventListener('animationend', function onEnd() {
+          card.removeEventListener('animationend', onEnd);
+          card.style.transform = 'translateZ(0)';
+        });
+      }
+      var _resolved = false;
       function cleanup() {
         yes.removeEventListener('click', onYes);
         no.removeEventListener('click', onNo);
         yes.removeEventListener('touchend', onYesTouch);
         no.removeEventListener('touchend', onNoTouch);
+        yes.removeEventListener('touchstart', onTouchStartYes);
+        no.removeEventListener('touchstart', onTouchStartNo);
         modal.hidden = true;
         dscUnlock();
       }
-      function onYes() { storeAck(CAM_KEY); cleanup(); resolve(); }
-      function onNo()  { cleanup(); reject(new Error('camera_consent_declined')); }
+      function onYes() {
+        if (_resolved) return;
+        _resolved = true;
+        storeAck(CAM_KEY);
+        // Pre-request getUserMedia synchronously within the user-gesture
+        // context so that iOS Safari and some Android WebViews don't
+        // reject it as "not triggered by user gesture". The stream
+        // promise is stored globally for initCamera() to consume later.
+        try {
+          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            window._pendingCameraGUM = navigator.mediaDevices.getUserMedia({
+              video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 1280 } },
+              audio: false
+            });
+          }
+        } catch(earlyErr) {
+          // Synchronous throw is extremely rare but handle it gracefully
+          console.warn('[consent] synchronous getUserMedia throw:', earlyErr);
+        }
+        cleanup();
+        resolve();
+      }
+      function onNo()  { if (_resolved) return; _resolved = true; cleanup(); reject(new Error('camera_consent_declined')); }
       // Touch fallback: some Android WebViews fire touchend but not click
       // on elements inside backdrop-filter containers.
-      function onYesTouch(e) { e.preventDefault(); onYes(); }
-      function onNoTouch(e)  { e.preventDefault(); onNo(); }
+      function onYesTouch(e) { e.preventDefault(); e.stopPropagation(); onYes(); }
+      function onNoTouch(e)  { e.preventDefault(); e.stopPropagation(); onNo(); }
+      // Some mobile browsers (especially older Android WebViews) only fire
+      // touchstart and never fire touchend or click. Trigger action on
+      // touchstart with a tiny delay to avoid double-fire with touchend.
+      var _yesTouchTimer = null;
+      var _noTouchTimer = null;
+      function onTouchStartYes() {
+        clearTimeout(_yesTouchTimer);
+        _yesTouchTimer = setTimeout(function() { if (!_resolved) onYes(); }, 150);
+      }
+      function onTouchStartNo() {
+        clearTimeout(_noTouchTimer);
+        _noTouchTimer = setTimeout(function() { if (!_resolved) onNo(); }, 150);
+      }
       yes.addEventListener('click', onYes);
       no.addEventListener('click', onNo);
       yes.addEventListener('touchend', onYesTouch, { passive: false });
       no.addEventListener('touchend', onNoTouch, { passive: false });
+      yes.addEventListener('touchstart', onTouchStartYes, { passive: true });
+      no.addEventListener('touchstart', onTouchStartNo, { passive: true });
+      // pointerdown fallback: catches touch on WebViews that swallow all
+      // touch events but still fire pointer events on the button.
+      yes.addEventListener('pointerdown', function(e) {
+        if (!_resolved) { e.preventDefault(); onYes(); }
+      });
+      no.addEventListener('pointerdown', function(e) {
+        if (!_resolved) { e.preventDefault(); onNo(); }
+      });
     });
   }
 
@@ -3272,7 +3446,14 @@ if (window.__DS_IS_ANDROID_APP) {
       modal.hidden = false;
       dscLock();
       var card = modal.querySelector('.dsc-card');
-      if (card) card.style.transform = 'translateZ(0)';
+      var isMobile2 = window.matchMedia('(pointer: coarse)').matches;
+      if (card && !isMobile2) {
+        card.style.transform = 'translateZ(0)';
+        card.addEventListener('animationend', function onEnd() {
+          card.removeEventListener('animationend', onEnd);
+          card.style.transform = 'translateZ(0)';
+        });
+      }
       function onChange() { yes.disabled = !confirm.checked; }
       function cleanup() {
         yes.removeEventListener('click', onYes);
@@ -6356,7 +6537,11 @@ store.subscribe((s) => {
     scanBtn.disabled = false;
     scanBtnText.innerHTML = s.lastItems ? t('scan_again') : t('coach_empty_cta');
   } else {
-    scanBtn.disabled = true;
+    // Camera not ready yet — keep button ENABLED so the user can
+    // tap it to trigger initCamera() within a user gesture context.
+    // On mobile, getUserMedia() requires a user gesture, so the
+    // camera MUST be initialized from a button tap, not automatically.
+    scanBtn.disabled = false;
     scanBtnText.innerHTML = t('scan_initializing');
   }
 
@@ -8657,6 +8842,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       timer_msg_mirror: 'Final mirror check. Do you have your keys and wallet?',
       timer_msg_leaving: 'You should be leaving soon. Walk in like you own the place. Good luck!',
       chat_offline_placeholder: 'You\'re offline. Style Coach chat requires internet.',
+      pwa_install_title: 'Add to Home Screen',
+      pwa_install_desc: 'Install DateScan for faster access and offline support.',
+      pwa_install_btn: 'Install',
       color_black: 'Dark / Black',
       color_white: 'Light / White',
       color_gray: 'Gray',
@@ -10106,7 +10294,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cam_bullet_5: '<strong>Megjegyzés:</strong> Az AI Stílusedző <strong>funkció</strong> máshogy működik – az ott feltöltött képeket a vizuális modellünk dolgozza fel. Az első használatkor erről külön tájékoztatást láthatsz majd.',
       cam_consent_yes: 'Értem — kamera indítása',
       cam_consent_no: 'Most nem',
-      cam_consent_fineprint: 'Részletek az Adatvédelmi Tájékoztatóban és a Felhasználási Feltételekben.',
+      cam_consent_fineprint: 'Részletek az <a href="privacy.html">Adatvédelmi Tájékoztatóban</a> és a <a href="terms.html">Felhasználási Feltételekben</a>.',
       upload_consent_lede: 'Gyors szabályok chat képfeltöltéshez.',
       upload_bullet_1: '<strong>Nincs híresség, stock vagy szerzői jogvédett kép.</strong> A képek nem tartalmazhatnak hírességeket, stock fotókat vagy szerzői jogvédelem alatt álló tartalmat.',
       upload_bullet_2: '<strong>Kizárólag ruhadarab.</strong> Csak a ruhadarabról készült fotókat fogadjuk el. Személyek, arcok vagy kiskorúak nem szerepelhetnek a képen.',
@@ -10172,7 +10360,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       footer_disclaimer: 'Megjegyzés: A DateScan egy AI-alapú szórakoztató és önbizalom-növelő eszköz. Nem garantálunk randi-sikert.',
       loading_brand: 'DateScan.',
 
-      cam_consent_fineprint: 'Részletekért lásd az Adatvédelmi tájékoztatónkat és a Felhasználási feltételeinket.',
+      cam_consent_fineprint: 'Részletekért lásd az <a href="privacy.html">Adatvédelmi tájékoztatónkat</a> és a <a href="terms.html">Felhasználási feltételeinket</a>.',
       delete_outfit_title: 'Törlöd az öltözéket?',
       delete_outfit_confirm: 'Ez a művelet nem vonható vissza.',
       ob_tap_items_hint: 'Koppints az alábbi tárgyakra a helyek kitöltéséhez',
@@ -10239,6 +10427,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       timer_msg_mirror: 'Utolsó tükörellenőrzés. Megvannak a kulcsaid és a tárcád?',
       timer_msg_leaving: 'Hamarosan indulnod kell. Lépj be úgy, mintha tiéd lenne a hely. Sok sikert!',
       chat_offline_placeholder: 'Nincs kapcsolat. A stílusedző chat internetet igényel.',
+      pwa_install_title: 'Hozzáadás a kezdőképernyőhöz',
+      pwa_install_desc: 'Telepítsd a DateScan-t gyorsabb hozzáférésért és offline támogatásért.',
+      pwa_install_btn: 'Telepítés',
       color_black: 'Sötét / Fekete',
       color_white: 'Világos / Fehér',
       color_gray: 'Szürke',
@@ -11687,7 +11878,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cam_bullet_5: '<strong>Hinweis:</strong> Der AI-Stil-Coach-<strong>Chat</strong> ist anders — wenn du dort ein Foto hochlädst, wird es an unser Vision-Modell gesendet. Beim ersten Mal erhältst du einen separaten Hinweis.',
       cam_consent_yes: 'Verstanden — Kamera starten',
       cam_consent_no: 'Nicht jetzt',
-      cam_consent_fineprint: 'Siehe Datenschutz und AGB für Details.',
+      cam_consent_fineprint: 'Siehe <a href="privacy.html">Datenschutz</a> und <a href="terms.html">AGB</a> für Details.',
       upload_consent_lede: 'Kurze Regeln für Chat-Bild-Uploads.',
       upload_bullet_1: '<strong>Nur eigene Fotos.</strong> Lade nur Fotos hoch, die dir gehören. Keine Stock-Bilder.',
       upload_bullet_2: '<strong>Keine Personen, Gesichter, Minderjährige.</strong> Nur das Kleidungsstück selbst.',
@@ -11753,7 +11944,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       footer_disclaimer: 'Hinweis: DateScan ist ein AI-basiertes Unterhaltungstool. Wir garantieren keinen Dating-Erfolg.',
       loading_brand: 'DateScan.',
 
-      cam_consent_fineprint: 'Siehe unsere Datenschutzrichtlinie und Nutzungsbedingungen für Details.',
+      cam_consent_fineprint: 'Siehe unsere <a href="privacy.html">Datenschutzrichtlinie</a> und <a href="terms.html">Nutzungsbedingungen</a> für Details.',
       delete_outfit_title: 'Outfit löschen?',
       delete_outfit_confirm: 'Diese Aktion kann nicht rückgängig gemacht werden.',
       ob_tap_items_hint: 'Tippe auf Elemente unten, um jeden Platz zu füllen',
@@ -11820,6 +12011,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       timer_msg_mirror: 'Letzter Spiegel-Check. Hast du Schlüssel und Portemonnaie?',
       timer_msg_leaving: 'Du solltest bald los. Betritt den Ort, als gehörte er dir. Viel Glück!',
       chat_offline_placeholder: 'Du bist offline. Stil-Coach-Chat benötigt Internet.',
+      pwa_install_title: 'Zum Startbildschirm hinzufügen',
+      pwa_install_desc: 'Installiere DateScan für schnelleren Zugriff und Offline-Unterstützung.',
+      pwa_install_btn: 'Installieren',
       color_black: 'Dunkel / Schwarz',
       color_white: 'Hell / Weiß',
       color_gray: 'Grau',
@@ -13103,6 +13297,51 @@ window.addEventListener('langchange', function() {
   setTimeout(updateSubpageLinks, 50);
   setTimeout(updateSubpageLinks, 200);
 });
+// ── Triple-channel lang propagation ──
+// Some TWA / Custom Tab environments strip query params during navigation.
+// To guarantee terms.html (and other subpages) receive the current language
+// we use THREE channels simultaneously:
+//   1. ?lang=XX  (query param — rewritten above + at click time)
+//   2. #lang=XX  (hash — survives all redirect/cache stripping)
+//   3. localStorage datescan.nav_lang  (set right before navigation)
+// Capture-phase so it fires before browser navigates.
+document.addEventListener('click', function(e) {
+  try {
+    var a = e.target && e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    var subs = ['privacy.html','contact.html','terms.html','refund.html','delete-account.html'];
+    var matched = false;
+    for (var i = 0; i < subs.length; i++) {
+      if (href.indexOf(subs[i]) !== -1) { matched = true; break; }
+    }
+    if (!matched) return;
+    var lang = (typeof window.getLang === 'function')
+      ? window.getLang()
+      : (localStorage.getItem('datescan.lang') || 'en');
+    if (lang && lang.indexOf('auto:') === 0) lang = lang.substring(5);
+    if (['en','hu','de'].indexOf(lang) === -1) lang = 'en';
+    // Channel 3: localStorage (read by subpage before DOM even loads)
+    try { localStorage.setItem('datescan.nav_lang', lang); } catch(x) {}
+    // Channel 4: cookie (works even when file:// protocol strips query/hash and localStorage is blocked)
+    try { document.cookie = 'datescan_lang=' + lang + ';path=/;max-age=86400;SameSite=Lax'; } catch(x) {}
+    // Channel 1: query param
+    var base = href, hash = '';
+    var hi = href.indexOf('#');
+    if (hi !== -1) { hash = href.substring(hi); base = href.substring(0, hi); }
+    var qi = base.indexOf('?');
+    if (qi !== -1) {
+      var params = base.substring(qi + 1).split('&').filter(function(p){ return p.indexOf('lang=') !== 0; });
+      base = base.substring(0, qi) + (params.length ? '?' + params.join('&') : '');
+    }
+    var sep = base.indexOf('?') !== -1 ? '&' : '?';
+    // Channel 2: hash (strip any existing #lang=)
+    hash = hash.replace(/#lang=[a-z]+/i, '');
+    if (!hash) hash = '#lang=' + lang;
+    else hash = '#lang=' + lang + hash.substring(1);
+    a.setAttribute('href', base + sep + 'lang=' + lang + hash);
+  } catch(err) {}
+}, true);
 
 
 // ═══════════════════════════════════════════════════════════════
@@ -16281,14 +16520,20 @@ async function initCamera() {
     video.muted = true;
     video.playsInline = true;
 
+    // If the consent dialog already fired getUserMedia synchronously
+    // (to preserve the user-gesture context on mobile), reuse that
+    // promise instead of creating a new one.  This avoids a second
+    // permission prompt and ensures the call is seen as user-initiated.
+    var gumPromise = window._pendingCameraGUM || navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 1280 } },
+      audio: false,
+    });
+    window._pendingCameraGUM = null; // consume once
+
     // Wrap getUserMedia with a hard timeout. Without this, if the OS
     // permission prompt is left undismissed (Chrome on desktop can do
     // this) or the camera driver hangs, the promise sits forever and
     // the user just sees "Starting Camera..." with no way out.
-    const gumPromise = navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 1280 } },
-      audio: false,
-    });
     const gumTimeout = new Promise((_, rej) =>
       setTimeout(() => rej(new Error('Camera permission timed out. Please allow access and try again.')), 15000)
     );
@@ -16338,19 +16583,40 @@ async function initCamera() {
           tapBtn.id = 'tapToStartCamera';
           tapBtn.setAttribute('role', 'group');
           tapBtn.setAttribute('aria-label', 'Camera permission required');
-          tapBtn.className = 'absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-black/80 text-white text-sm font-semibold backdrop-blur-sm p-4 text-center overflow-hidden';
+          tapBtn.className = 'absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-black/90 text-white text-sm font-semibold p-4 text-center overflow-hidden touch-manipulation';
           videoWrap.appendChild(tapBtn);
         }
 
         const renderIdle = () => {
           tapBtn.innerHTML = `
-            <button type="button" data-role="start" class="flex flex-col items-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-2xl p-4 -m-4">
+            <button type="button" data-role="start" class="flex flex-col items-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-500 rounded-2xl p-4 -m-4 active:scale-95 transition-transform" style="touch-action:manipulation;-webkit-tap-highlight-color:transparent;pointer-events:auto;position:relative;z-index:1;">
               <div class="text-4xl leading-none">▶</div>
               <div class="uppercase tracking-widest text-xs">${t('tap_start_camera')}</div>
             </button>
           `;
           const startBtn = tapBtn.querySelector('[data-role="start"]');
-          startBtn.addEventListener('click', onTap, { once: true });
+          // Use click, touchend, AND touchstart for maximum mobile reliability.
+          // Some Android WebViews don't fire click on elements inside
+          // compositing layers; touchend fires immediately.
+          // Some browsers require touchstart to be handled for the
+          // first interaction to register at all.
+          var _startHandled = false;
+          function handleStart(e) {
+            if (_startHandled) return;
+            _startHandled = true;
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            onTap();
+          }
+          startBtn.addEventListener('click', handleStart, { once: true });
+          startBtn.addEventListener('touchend', function(e) {
+            if (e) { e.preventDefault(); }
+            handleStart(e);
+          }, { passive: false, once: true });
+          startBtn.addEventListener('touchstart', function() {
+            // Just mark that a touch started — don't trigger action yet
+            // (touchend will do that). But this ensures the browser
+            // registers the interaction as a user gesture.
+          }, { passive: true, once: true });
         };
 
         const renderLoading = () => {
@@ -16371,14 +16637,24 @@ async function initCamera() {
             </div>
             <div class="text-sm font-semibold text-white">Couldn't start the camera</div>
             <div class="text-xs text-gray-300 max-w-[260px] leading-relaxed font-normal">${friendlySafe}</div>
-            <button type="button" data-role="retry" class="mt-2 px-5 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-brand-500">Retry</button>
-            <button type="button" data-role="cancel" class="text-[11px] text-gray-400 hover:text-white underline underline-offset-4 mt-1">More help</button>
+            <button type="button" data-role="retry" class="mt-2 px-5 py-2 rounded-full bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-brand-500" style="touch-action:manipulation;pointer-events:auto;position:relative;z-index:1;">Retry</button>
+            <button type="button" data-role="cancel" class="text-[11px] text-gray-400 hover:text-white underline underline-offset-4 mt-1" style="touch-action:manipulation;pointer-events:auto;position:relative;z-index:1;">More help</button>
           `;
-          tapBtn.querySelector('[data-role="retry"]').addEventListener('click', onTap, { once: true });
+          tapBtn.querySelector('[data-role="retry"]').addEventListener('click', function(e) {
+            e.preventDefault(); onTap();
+          }, { once: true });
+          tapBtn.querySelector('[data-role="retry"]').addEventListener('touchend', function(e) {
+            e.preventDefault(); onTap();
+          }, { passive: false, once: true });
           tapBtn.querySelector('[data-role="cancel"]').addEventListener('click', () => {
             tapBtn.remove();
             safeRej(err);
           }, { once: true });
+          tapBtn.querySelector('[data-role="cancel"]').addEventListener('touchend', function(e) {
+            e.preventDefault();
+            tapBtn.remove();
+            safeRej(err);
+          }, { passive: false, once: true });
         };
 
         const onTap = () => {
@@ -16613,12 +16889,78 @@ async function startAppFlow() {
 }
 
 function setupPwaInstall() {
-  // Stub — the in-app install card and prompt have been removed.
-  // The app is now distributed via Google Play (TWA), so the
-  // browser-level "Add to Home Screen" / beforeinstallprompt UI
-  // is no longer surfaced. The service worker and manifest are
-  // still registered (the TWA wrapper depends on them), but the
-  // user-facing install affordance is gone.
+  // PWA install banner — ONLY shown to web users (not Android app).
+  // Android TWA users already have the native app, so the .gumroad-only
+  // CSS class hides this entire element when body.platform-android is set.
+  // Additionally, we never call .prompt() for Android app users as a safety net.
+
+  var banner = document.getElementById('pwa-install-banner');
+  var installBtn = document.getElementById('pwa-install-btn');
+  if (!banner || !installBtn) return;
+
+  // If user previously dismissed the banner, respect that for this session
+  var dismissed = false;
+  try { dismissed = sessionStorage.getItem('pwa_banner_dismissed') === '1'; } catch(e) {}
+
+  function showBanner() {
+    if (dismissed) return;
+    if (window.__DS_IS_ANDROID_APP) return; // extra safety: never show in Android app
+    banner.classList.add('visible');
+  }
+
+  function hideBanner() {
+    banner.classList.remove('visible');
+  }
+
+  // Close button
+  var closeBtn = banner.querySelector('.pwa-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      hideBanner();
+      try { sessionStorage.setItem('pwa_banner_dismissed', '1'); } catch(e) {}
+      dismissed = true;
+    });
+  }
+
+  // Install button — trigger the deferred prompt
+  installBtn.addEventListener('click', function() {
+    if (!window._deferredInstallPrompt) return;
+    if (window.__DS_IS_ANDROID_APP) return; // never prompt in Android app
+
+    window._deferredInstallPrompt.prompt();
+    window._deferredInstallPrompt.userChoice.then(function(choiceResult) {
+      if (choiceResult.outcome === 'accepted') {
+        // User installed — hide banner permanently
+        hideBanner();
+        try { localStorage.setItem('pwa_installed', '1'); } catch(e) {}
+      }
+      // Clear the deferred prompt regardless
+      window._deferredInstallPrompt = null;
+    }).catch(function() {
+      window._deferredInstallPrompt = null;
+    });
+  });
+
+  // If the deferred prompt is already available (beforeinstallprompt already fired),
+  // show the banner immediately. Otherwise listen for the custom event.
+  if (window._deferredInstallPrompt && !dismissed && !window.__DS_IS_ANDROID_APP) {
+    showBanner();
+  }
+
+  window.addEventListener('pwa-installable', function() {
+    if (!dismissed && !window.__DS_IS_ANDROID_APP) {
+      // Small delay to avoid jarring appearance alongside other UI
+      setTimeout(showBanner, 1500);
+    }
+  });
+
+  // If user already installed the PWA, don't show the banner
+  try {
+    if (window.matchMedia('(display-mode: standalone)').matches || localStorage.getItem('pwa_installed') === '1') {
+      hideBanner();
+      dismissed = true;
+    }
+  } catch(e) {}
 }
 
 // --- OFFLINE / ONLINE STATE ---
@@ -19296,7 +19638,31 @@ function showResultsLayout() {
 
 async function runScan() {
   const s = store.get();
-  if (s.isScanning || !s.cameraReady) return;
+  if (s.isScanning) return;
+
+  // If the camera isn't ready yet (e.g. getUserMedia failed on mobile
+  // because it wasn't called within a user gesture), try initializing
+  // it now — this click IS a user gesture, so the browser should allow it.
+  if (!s.cameraReady) {
+    try {
+      // Re-request consent if needed (normally already acknowledged)
+      if (window.DateScanConsent && !window.DateScanConsent.hasCameraAck()) {
+        await window.DateScanConsent.requireCamera();
+      }
+      await initCamera();
+    } catch (e) {
+      console.warn('[runScan] camera init failed:', e);
+      // Show a user-friendly error instead of silently doing nothing
+      if (e && e.name === 'NotAllowedError') {
+        showError(t('error_camera_denied') || 'Camera access denied. Please allow camera permission in your browser settings and try again.', '');
+      } else {
+        showError(t('error_system') || 'Could not start camera', (e && e.message) || String(e));
+      }
+      return;
+    }
+    // Re-check after initialization attempt
+    if (!store.get().cameraReady) return;
+  }
 
   triggerHaptic('tap');
 
@@ -21195,6 +21561,11 @@ applyOfflineState(!navigator.onLine);
         window.location.reload();
       });
     });
+
+    // Initialize PWA install banner (web-only, hidden for Android app)
+    if (typeof setupPwaInstall === 'function') {
+      setupPwaInstall();
+    }
   }
 
   (function() {
@@ -26337,6 +26708,20 @@ applyOfflineState(!navigator.onLine);
 })();
 </script>
 
+<!-- ── PWA Install Banner (web-only, hidden for Android app) ── -->
+<div id="pwa-install-banner" class="gumroad-only" role="dialog" aria-label="Install app">
+  <div class="pwa-card" style="position:relative;">
+    <button class="pwa-close" aria-label="Close">&times;</button>
+    <div class="pwa-icon">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14v-4H8l5-7v4h3l-5 7z"/></svg>
+    </div>
+    <div class="pwa-text">
+      <div class="pwa-title" data-i18n="pwa_install_title">Add to Home Screen</div>
+      <div class="pwa-desc" data-i18n="pwa_install_desc">Install DateScan for faster access and offline support.</div>
+    </div>
+    <button class="pwa-btn" id="pwa-install-btn" data-i18n="pwa_install_btn">Install</button>
+  </div>
+</div>
 
 </body>
 </html>
