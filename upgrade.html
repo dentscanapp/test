@@ -4,18 +4,15 @@
 <meta charset="UTF-8">
 <!-- ============================================================
      ANDROID APP REDIRECT (inline, before paint)
-     If platform=android is present, the user came from the Google
-     Play TWA app and must NOT see the Gumroad checkout. Redirect
-     them back immediately so there's zero flash of content.
+     If platform=android → bounce back immediately.
+     Google Play policy: no web checkout in TWA.
      ============================================================ -->
 <script>
-(function() {
-  try {
-    var params = new URLSearchParams(location.search);
-    if (params.get('platform') === 'android') {
-      location.replace('index.html?platform=android');
-    }
-  } catch(e) {}
+(function(){
+  try{
+    var p=new URLSearchParams(location.search);
+    if(p.get('platform')==='android'){location.replace('index.html?platform=android');}
+  }catch(e){}
 })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -39,6 +36,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
+/* ── Ambient Glow ── */
 .ambient-glow{
   position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
@@ -52,8 +50,28 @@ body{
   padding:32px 20px 60px;
 }
 
+/* ── Back Button ── */
+.back-btn{
+  position:absolute;top:20px;left:16px;z-index:10;
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  color:#9ca3af;
+  padding:8px 14px;border-radius:10px;
+  font-family:inherit;font-size:13px;font-weight:500;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.back-btn:hover{
+  background:rgba(255,255,255,.10);
+  color:#fafafa;
+  border-color:rgba(255,255,255,.18);
+}
+.back-btn i{font-size:11px}
+
 /* ── Header ── */
-.header{text-align:center;margin-bottom:28px}
+.header{text-align:center;margin-bottom:28px;padding-top:16px}
 
 .crown-badge{
   display:inline-flex;align-items:center;gap:8px;
@@ -110,7 +128,7 @@ h1 .gradient{
   color:#6b7280;margin-bottom:16px;font-weight:600;
 }
 
-/* ── Plan buttons (horizontal split) ── */
+/* ── Plan cards ── */
 .plan-wrapper{position:relative;margin-bottom:16px}
 
 .plan-wrapper.popular .plan-btn{
@@ -196,6 +214,51 @@ h1 .gradient{
   color:#6b7280;margin-top:3px;
 }
 
+/* ── CTA Buy Button ── */
+.buy-cta{
+  display:block;width:100%;margin-top:20px;margin-bottom:6px;
+  background:#ec4899;
+  color:#fff;
+  border:none;border-radius:.85rem;
+  padding:15px 20px;
+  font-family:inherit;font-size:1rem;font-weight:700;
+  letter-spacing:.02em;
+  text-align:center;text-decoration:none;
+  cursor:pointer;
+  box-shadow:0 4px 18px rgba(236,72,153,.40);
+  transition:transform .15s ease,box-shadow .2s ease,background .2s ease;
+}
+.buy-cta:hover{
+  background:#db2777;
+  transform:translateY(-1px);
+  box-shadow:0 6px 24px rgba(236,72,153,.50);
+}
+.buy-cta:active{transform:scale(.98)}
+
+/* ── Plan Radio Selection ── */
+.plan-radio{display:none}
+.plan-radio:checked + .plan-btn{
+  border-color:#ec4899;
+  box-shadow:0 0 0 2px rgba(236,72,153,.30),0 0 30px rgba(236,72,153,.12);
+}
+.plan-check{
+  width:20px;height:20px;flex-shrink:0;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s,background .2s;
+  margin-left:auto;
+}
+.plan-radio:checked + .plan-btn .plan-check{
+  border-color:#ec4899;
+  background:#ec4899;
+}
+.plan-radio:checked + .plan-btn .plan-check::after{
+  content:'';display:block;
+  width:6px;height:6px;border-radius:50%;
+  background:#fff;
+}
+
 /* ── Trust row ── */
 .trust-row{
   display:flex;justify-content:center;gap:18px;
@@ -206,6 +269,26 @@ h1 .gradient{
   color:#6b7280;font-size:12px;font-weight:500;
 }
 .trust-item i{color:#34d399;font-size:11px}
+
+/* ── Guarantee Box ── */
+.guarantee-box{
+  background:rgba(16,185,129,.06);
+  border:1px solid rgba(16,185,129,.18);
+  border-radius:1rem;padding:16px 18px;
+  margin:18px 0;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.guarantee-icon{
+  width:36px;height:36px;flex-shrink:0;
+  border-radius:10px;
+  background:rgba(16,185,129,.12);
+  display:flex;align-items:center;justify-content:center;
+  color:#34d399;font-size:15px;
+}
+.guarantee-text{flex:1}
+.guarantee-title{font-weight:600;font-size:.88rem;color:#fafafa;margin-bottom:3px}
+.guarantee-desc{color:#6b7280;font-size:.78rem;line-height:1.45}
+.guarantee-desc a{color:#f472b6;text-decoration:none}
 
 /* ── Activation ── */
 .activation-area{
@@ -291,18 +374,30 @@ body.platform-android .app-only { display: revert !important; }
   font-size:.85rem;color:#9ca3af;line-height:1.5;
 }
 
+/* ── Testimonial ── */
+.social-proof{
+  text-align:center;margin:20px 0 10px;
+  color:#6b7280;font-size:.78rem;line-height:1.5;
+}
+.social-proof .stars{color:#fbbf24;font-size:13px;letter-spacing:2px;margin-bottom:4px}
+.social-proof em{color:#9ca3af;font-style:normal}
+
 @media(max-width:420px){
   h1{font-size:1.75rem}
   .container{padding:24px 16px 40px}
   .plan-left{padding:14px 14px}
   .plan-right{padding:12px 14px;min-width:80px}
   .plan-price{font-size:1.1rem}
+  .back-btn{top:12px;left:10px;padding:7px 12px;font-size:12px}
 }
 </style>
 </head>
 <body>
 <div class="ambient-glow"></div>
 <div class="container">
+
+  <!-- ── Back Button ── -->
+  <a href="index.html" class="back-btn" id="backBtn"><i class="fas fa-arrow-left"></i> Vissza</a>
 
   <!-- ── Already PRO banner (shown only if user is already Pro) ── -->
   <div id="alreadyProBanner" class="already-pro-banner hidden">
@@ -323,8 +418,8 @@ body.platform-android .app-only { display: revert !important; }
     <div class="feature-item">
       <div class="feature-icon"><i class="fas fa-infinity"></i></div>
       <div class="feature-text">
-        <div class="feature-title">Unlimited Profile Scans</div>
-        <div class="feature-desc">Test every photo, every angle, every outfit. No caps. No cooldowns.</div>
+        <div class="feature-title">Unlimited AI Coaching & Scanning</div>
+        <div class="feature-desc">Unlimited scans, every angle, every outfit. No caps. No cooldowns.</div>
       </div>
     </div>
     <div class="feature-item">
@@ -350,69 +445,94 @@ body.platform-android .app-only { display: revert !important; }
     </div>
   </div>
 
-  <!-- ── Plans (hidden for Android app users, hidden for Pro users) ── -->
+  <!-- ── Plans ── -->
   <div id="plans-section" class="upgrade-section">
     <div class="section-label">Choose Your Plan</div>
 
     <!-- Weekly -->
     <div class="plan-wrapper">
-      <a href="https://datascanapp.gumroad.com/l/week" class="gumroad-button plan-btn gumroad-only">
+      <input type="radio" name="plan" class="plan-radio" id="plan-week" value="week" data-url="https://datascanapp.gumroad.com/l/week">
+      <label for="plan-week" class="plan-btn gumroad-only">
         <div class="plan-left">
           <div class="plan-icon"><i class="fas fa-bolt"></i></div>
           <div class="plan-details">
             <div class="plan-name">Weekly Pass</div>
-            <div class="plan-meta">7 days full access</div>
+            <div class="plan-meta">Korlátlan AI coaching és szkennelés</div>
           </div>
         </div>
         <div class="plan-right">
           <div class="plan-price">$4.99</div>
           <div class="plan-period">/week</div>
         </div>
-      </a>
+        <div class="plan-check"></div>
+      </label>
     </div>
 
-    <!-- Monthly -->
+    <!-- Monthly (Popular) -->
     <div class="plan-wrapper popular">
       <div class="badge badge-popular"><i class="fas fa-fire"></i>&ensp;Most Popular</div>
-      <a href="https://datascanapp.gumroad.com/l/month" class="gumroad-button plan-btn gumroad-only">
+      <input type="radio" name="plan" class="plan-radio" id="plan-month" value="month" data-url="https://datascanapp.gumroad.com/l/month" checked>
+      <label for="plan-month" class="plan-btn gumroad-only">
         <div class="plan-left">
           <div class="plan-icon"><i class="fas fa-crown"></i></div>
           <div class="plan-details">
             <div class="plan-name">Monthly Pass</div>
-            <div class="plan-meta">30 days full access</div>
-            <div class="plan-savings">Save 50%</div>
+            <div class="plan-meta">Korlátlan AI coaching és szkennelés</div>
           </div>
         </div>
         <div class="plan-right">
           <div class="plan-price">$9.99</div>
           <div class="plan-period">/month</div>
         </div>
-      </a>
+        <div class="plan-check"></div>
+      </label>
     </div>
 
-    <!-- Yearly -->
+    <!-- Yearly (Best Value) -->
     <div class="plan-wrapper best-value">
-      <div class="badge badge-value"><i class="fas fa-gem"></i>&ensp;Best Value</div>
-      <a href="https://datascanapp.gumroad.com/l/year" class="gumroad-button plan-btn gumroad-only">
+      <div class="badge badge-value"><i class="fas fa-gem"></i>&ensp;Best Value — Save 58%</div>
+      <input type="radio" name="plan" class="plan-radio" id="plan-year" value="year" data-url="https://datascanapp.gumroad.com/l/year">
+      <label for="plan-year" class="plan-btn gumroad-only">
         <div class="plan-left">
           <div class="plan-icon"><i class="fas fa-gem"></i></div>
           <div class="plan-details">
             <div class="plan-name">Yearly Access</div>
-            <div class="plan-meta">365 days full access</div>
-            <div class="plan-savings">Save 58%</div>
+            <div class="plan-meta">Korlátlan AI coaching és szkennelés</div>
+            <div class="plan-savings">Save 58% — Best deal</div>
           </div>
         </div>
         <div class="plan-right">
           <div class="plan-price">$49.99</div>
           <div class="plan-period">/year</div>
         </div>
-      </a>
+        <div class="plan-check"></div>
+      </label>
     </div>
+
+    <!-- ── Solid CTA Button ── -->
+    <button class="buy-cta gumroad-only" id="buyBtn" onclick="openCheckout()">
+      <i class="fas fa-lock"></i>&ensp;Get Premium Now
+    </button>
 
     <div class="trust-row gumroad-only">
       <div class="trust-item"><i class="fas fa-lock"></i> Secure Checkout</div>
       <div class="trust-item"><i class="fas fa-undo"></i> Cancel Anytime</div>
       <div class="trust-item"><i class="fas fa-shield-alt"></i> Private &amp; Safe</div>
+    </div>
+
+    <!-- ── Guarantee ── -->
+    <div class="guarantee-box gumroad-only">
+      <div class="guarantee-icon"><i class="fas fa-shield-alt"></i></div>
+      <div class="guarantee-text">
+        <div class="guarantee-title">14-Day Goodwill Refund Guarantee</div>
+        <div class="guarantee-desc">Not satisfied? Contact <a href="mailto:info@datescan.app">info@datescan.app</a> within 14 days for a full refund. No questions asked.</div>
+      </div>
+    </div>
+
+    <!-- ── Social Proof ── -->
+    <div class="social-proof gumroad-only">
+      <div class="stars">★★★★★</div>
+      <em>"Finally, honest feedback that actually improved my matches."</em>
     </div>
   </div>
 
@@ -425,7 +545,10 @@ body.platform-android .app-only { display: revert !important; }
     <div id="status-msg"></div>
   </div>
 
-  <div id="footer-gumroad" class="footer-note gumroad-only upgrade-section">Payments processed by Gumroad. Check email for License Key after purchase.</div>
+  <div id="footer-gumroad" class="footer-note gumroad-only upgrade-section">
+    Payments processed by Gumroad. Check email for License Key after purchase.<br>
+    Support: <a href="mailto:info@datescan.app">info@datescan.app</a>
+  </div>
 
 </div>
 
@@ -433,141 +556,135 @@ body.platform-android .app-only { display: revert !important; }
 /* ============================================================
    PRO STATUS CHECK (before DOM interactions)
    ============================================================ */
-(function() {
-  try {
-    // Check if user is already PRO
-    var isPro = false;
-    var proFlag = localStorage.getItem('is_pro') === 'true' || localStorage.getItem('datescan.pro') === 'true';
-    var expiryRaw = localStorage.getItem('premium_until') || localStorage.getItem('pro_expiry') || '0';
-    var expiry = parseInt(expiryRaw, 10);
+(function(){
+  try{
+    var isPro=false;
+    var proFlag=localStorage.getItem('is_pro')==='true'||localStorage.getItem('datescan.pro')==='true';
+    var expiryRaw=localStorage.getItem('premium_until')||localStorage.getItem('pro_expiry')||'0';
+    var expiry=parseInt(expiryRaw,10);
 
-    if (proFlag && (expiry === 0 || expiry > Date.now())) {
-      isPro = true;
-    } else if (proFlag && expiry > 0 && expiry <= Date.now()) {
-      // Expired — clear stale flags
+    if(proFlag&&(expiry===0||expiry>Date.now())){
+      isPro=true;
+    }else if(proFlag&&expiry>0&&expiry<=Date.now()){
       localStorage.removeItem('is_pro');
       localStorage.removeItem('premium_until');
-      isPro = false;
+      isPro=false;
     }
 
-    if (isPro) {
-      document.body.classList.add('user-is-pro');
-    }
+    if(isPro) document.body.classList.add('user-is-pro');
 
-    // Also apply platform-android class if needed
-    var params = new URLSearchParams(location.search);
-    if (params.get('platform') === 'android') {
+    var params=new URLSearchParams(location.search);
+    if(params.get('platform')==='android'){
       document.body.classList.add('platform-android');
     }
 
-    // Show "Already PRO" banner and hide upgrade sections
-    document.addEventListener('DOMContentLoaded', function() {
-      if (isPro) {
-        var banner = document.getElementById('alreadyProBanner');
-        if (banner) banner.classList.remove('hidden');
+    document.addEventListener('DOMContentLoaded',function(){
+      if(isPro){
+        var banner=document.getElementById('alreadyProBanner');
+        if(banner) banner.classList.remove('hidden');
+      }
+      // Back button: preserve platform param
+      var backBtn=document.getElementById('backBtn');
+      if(backBtn && params.get('platform')){
+        backBtn.href='index.html?platform='+encodeURIComponent(params.get('platform'));
       }
     });
-  } catch(e) {}
+  }catch(e){}
 })();
 
 /* ============================================================
    DESKTOP REDIRECT (mobile-only page)
    ============================================================ */
-(function() {
-  try {
-    var isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    // Also use pointer/hover media queries for more reliable detection
-    var isDesktopPointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches && window.matchMedia('(hover: hover)').matches;
-    if (!isMobile && isDesktopPointer) {
+(function(){
+  try{
+    var isMobile=/Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    var isDesktopPointer=window.matchMedia&&window.matchMedia('(pointer: fine)').matches&&window.matchMedia('(hover: hover)').matches;
+    if(!isMobile&&isDesktopPointer){
       location.replace('https://datescan.app/landing');
     }
-  } catch(e) {}
+  }catch(e){}
 })();
+
+/* ============================================================
+   CHECKOUT — Open selected plan on Gumroad
+   ============================================================ */
+function openCheckout(){
+  var selected=document.querySelector('input[name="plan"]:checked');
+  if(!selected) return;
+  var url=selected.getAttribute('data-url');
+  if(url) window.open(url,'_blank');
+}
 
 /* ============================================================
    ACTIVATION LOGIC — runActivation()
    ============================================================ */
-async function runActivation() {
-  const idInput = document.getElementById('sale-id');
-  const msg = document.getElementById('status-msg');
-  const btn = document.querySelector('.activate-link-btn');
+async function runActivation(){
+  const idInput=document.getElementById('sale-id');
+  const msg=document.getElementById('status-msg');
+  const btn=document.querySelector('.activate-link-btn');
 
-  const id = idInput.value.trim();
+  const id=idInput.value.trim();
 
-  if (!id) {
-    msg.style.color = '#ef4444';
-    msg.innerText = 'Please enter your License Key.';
+  if(!id){
+    msg.style.color='#ef4444';
+    msg.innerText='Please enter your License Key.';
     return;
   }
 
-  btn.disabled = true;
-  msg.style.color = '#9ca3af';
-  msg.innerText = 'Verifying License Key...';
+  btn.disabled=true;
+  msg.style.color='#9ca3af';
+  msg.innerText='Verifying License Key...';
 
-  try {
-    const res = await fetch('https://core.datescan.app/api/verify-license', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ license_key: id })
+  try{
+    const res=await fetch('https://core.datescan.app/api/verify-license',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({license_key:id})
     });
 
-    const data = await res.json();
+    const data=await res.json();
 
-    if (data.valid) {
-      // ── Save PRO status to localStorage ──
-      localStorage.setItem('is_pro', 'true');
+    if(data.valid){
+      localStorage.setItem('is_pro','true');
 
-      // Store the expiry timestamp from the Worker response.
-      // The Worker returns `expires_at` (ISO string or epoch ms).
-      // If not provided, calculate from `days`.
-      if (data.expires_at) {
-        // Worker returned an explicit expiry — store it
-        var expiresAt = data.expires_at;
-        // Normalize to epoch ms if it's an ISO string
-        if (typeof expiresAt === 'string') {
-          expiresAt = new Date(expiresAt).getTime();
-        }
-        localStorage.setItem('premium_until', String(expiresAt));
-      } else if (data.days) {
-        // Fallback: calculate from days
-        var exp = Date.now() + (data.days * 24 * 60 * 60 * 1000);
-        localStorage.setItem('premium_until', String(exp));
-      } else {
-        // No expiry info — permanent or unknown
-        localStorage.setItem('premium_until', '0');
+      if(data.expires_at){
+        var expiresAt=data.expires_at;
+        if(typeof expiresAt==='string') expiresAt=new Date(expiresAt).getTime();
+        localStorage.setItem('premium_until',String(expiresAt));
+      }else if(data.days){
+        var exp=Date.now()+(data.days*24*60*60*1000);
+        localStorage.setItem('premium_until',String(exp));
+      }else{
+        localStorage.setItem('premium_until','0');
       }
 
-      // Also set datescan.pro for compatibility with index.html's isProUser()
-      localStorage.setItem('datescan.pro', 'true');
+      localStorage.setItem('datescan.pro','true');
 
-      msg.style.color = '#22c55e';
-      msg.innerText = '\u2713 Success! ' + (data.product || 'Premium') + ' activated.';
+      msg.style.color='#22c55e';
+      msg.innerText='\u2713 Success! '+(data.product||'Premium')+' activated.';
 
-      // ── Smart redirect: preserve platform param ──
-      setTimeout(function() {
-        var params = new URLSearchParams(location.search);
-        var platformParam = params.get('platform');
-        var redirectUrl = 'index.html';
-        if (platformParam) {
-          redirectUrl += '?platform=' + encodeURIComponent(platformParam);
-        }
-        location.href = redirectUrl;
-      }, 2000);
+      setTimeout(function(){
+        var params=new URLSearchParams(location.search);
+        var platformParam=params.get('platform');
+        var redirectUrl='index.html';
+        if(platformParam) redirectUrl+='?platform='+encodeURIComponent(platformParam);
+        location.href=redirectUrl;
+      },2000);
 
-    } else {
-      msg.style.color = '#ef4444';
-      msg.innerText = 'Invalid License Key. Please check your email and try again.';
-      btn.disabled = false;
+    }else{
+      msg.style.color='#ef4444';
+      msg.innerText='Invalid License Key. Please check your email and try again.';
+      btn.disabled=false;
     }
-  } catch (err) {
-    msg.style.color = '#ef4444';
-    msg.innerText = 'Connection error. Check your internet.';
-    btn.disabled = false;
+  }catch(err){
+    msg.style.color='#ef4444';
+    msg.innerText='Connection error. Check your internet.';
+    btn.disabled=false;
   }
 }
 
-document.getElementById('sale-id').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') runActivation();
+document.getElementById('sale-id').addEventListener('keypress',function(e){
+  if(e.key==='Enter') runActivation();
 });
 </script>
 </body>
