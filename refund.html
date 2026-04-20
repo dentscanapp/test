@@ -313,37 +313,51 @@
     }
   };
 
-  // Detect language: URL param > localStorage > navigator > fallback
-  // IMPORTANT: URL param wins absolutely. If user clicks a link with ?lang=en,
-  // we must honor 'en' and NOT fall through to localStorage/navigator (which
-  // would override to Hungarian on a Hungarian device). Uses null sentinel
-  // instead of 'en' default so we can distinguish "explicitly en" from "unset".
+  // Detect language: URL param > hash > nav_lang > localStorage > navigator > fallback
   var supported = ['en','hu','de'];
   var lang = null;
-  // 1. Check URL parameter first (?lang=en / ?lang=de / ?lang=hu)
+  var _detectedFrom = 'fallback';
+  // 1. URL parameter (?lang=hu)
   try {
     var urlParams = new URLSearchParams(window.location.search);
     var urlLang = urlParams.get('lang');
     if (urlLang && supported.indexOf(urlLang) !== -1) {
-      lang = urlLang;
+      lang = urlLang; _detectedFrom = 'url_param';
     }
   } catch(e) {}
-  // 2. Check localStorage
+  // 2. Hash parameter (#lang=hu) — survives TWA/CCT redirect stripping
+  if (!lang) {
+    try {
+      var hashMatch = (window.location.hash || '').match(/(?:^#|&)lang=([a-z]{2})/i);
+      if (hashMatch && supported.indexOf(hashMatch[1]) !== -1) {
+        lang = hashMatch[1]; _detectedFrom = 'hash';
+      }
+    } catch(e) {}
+  }
+  // 3. datescan.nav_lang (written by index.html click delegate before navigation)
+  if (!lang) {
+    try {
+      var navLang = localStorage.getItem('datescan.nav_lang');
+      if (navLang && supported.indexOf(navLang) !== -1) {
+        lang = navLang; _detectedFrom = 'nav_lang';
+      }
+    } catch(e) {}
+  }
+  // 4. datescan.lang (main app storage)
   if (!lang) {
     try {
       var stored = localStorage.getItem('datescan.lang');
       if (stored && stored.indexOf('auto:') === 0) {
-        // Extract language code from auto:XX format
         var autoLang = stored.substring(5);
         if (supported.indexOf(autoLang) !== -1) {
-          lang = autoLang;
+          lang = autoLang; _detectedFrom = 'localStorage(auto)';
         }
       } else if (stored && supported.indexOf(stored) !== -1) {
-        lang = stored;
+        lang = stored; _detectedFrom = 'localStorage';
       }
     } catch(e) {}
   }
-  // 3. Detect from browser/navigator
+  // 5. Browser/navigator
   if (!lang) {
     try {
       var navLangs = navigator.languages && navigator.languages.length
@@ -351,13 +365,14 @@
         : [navigator.language || navigator.userLanguage || ''];
       for (var i = 0; i < navLangs.length; i++) {
         var p = (navLangs[i] || '').split('-')[0].toLowerCase();
-        if (p === 'hu') { lang = 'hu'; break; }
-        if (p === 'de') { lang = 'de'; break; }
+        if (p === 'hu') { lang = 'hu'; _detectedFrom = 'navigator'; break; }
+        if (p === 'de') { lang = 'de'; _detectedFrom = 'navigator'; break; }
       }
     } catch(e) {}
   }
-  // 4. Final fallback
+  // 6. Final fallback
   if (!lang) lang = 'en';
+  console.log('[refund.html] lang=' + lang + ' from=' + _detectedFrom);
 
   var strings = translations[lang] || translations.en;
   document.documentElement.lang = lang;
@@ -419,7 +434,10 @@
   window._refundApplyI18n = applyI18n;
 
   // Apply on DOMContentLoaded
+  var _initDone = false;
   function init() {
+    if (_initDone) return;
+    _initDone = true;
     applyI18n();
     updateSubpageLinks();
   }
@@ -428,6 +446,10 @@
   } else {
     init();
   }
+  window.addEventListener('load', function() {
+    if (!_initDone) init();
+    setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 100);
+  });
 })();
 </script>
 
