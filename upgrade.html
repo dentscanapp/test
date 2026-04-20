@@ -552,8 +552,11 @@ body.platform-android .app-only{display:revert!important}
   window._upgradeStrings = strings;
   window._upgradeApplyI18n = applyI18n;
 
-  // Apply on DOMContentLoaded
+  // Apply on DOMContentLoaded with aggressive retries
+  var _initDone = false;
   function init() {
+    if (_initDone) return;
+    _initDone = true;
     applyI18n();
     updateSubpageLinks();
   }
@@ -562,6 +565,14 @@ body.platform-android .app-only{display:revert!important}
   } else {
     init();
   }
+  window.addEventListener('load', function() {
+    if (!_initDone) init();
+    applyI18n();
+    updateSubpageLinks();
+  });
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 80);
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 300);
+  setTimeout(function() { applyI18n(); updateSubpageLinks(); }, 1000);
 })();
 </script>
 </head>
@@ -569,7 +580,7 @@ body.platform-android .app-only{display:revert!important}
 <div class="ambient"></div>
 
 <!-- Back (fixed top-right, matching contact.html) -->
-<a href="index.html" class="back" id="backBtn" aria-label="Vissza">
+<a href="index.html" class="back" id="backBtn" data-i18n-attr-aria-label="back_label" aria-label="Back">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
 </a>
 
@@ -729,8 +740,16 @@ body.platform-android .app-only{display:revert!important}
       }
       // Preserve platform param on back button
       var backBtn=document.getElementById('backBtn');
-      if(backBtn&&params.get('platform')){
-        backBtn.href='index.html?platform='+encodeURIComponent(params.get('platform'));
+      if(backBtn){
+        var href='index.html';
+        var sep='?';
+        if(params.get('platform')){
+          href+='?platform='+encodeURIComponent(params.get('platform'));
+          sep='&';
+        }
+        var bLang=window._upgradeLang;
+        if(bLang) href+=sep+'lang='+bLang;
+        backBtn.href=href;
       }
 
       // Apply placeholder translations

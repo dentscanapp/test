@@ -20727,8 +20727,17 @@ $("earnPointsBtn").addEventListener("click", () => {
   } else {
     var _lang = (typeof window.getLang === 'function') ? window.getLang() : (localStorage.getItem('datescan.lang') || 'en');
     if (_lang && _lang.indexOf('auto:') === 0) _lang = _lang.substring(5);
+    if (['en','hu','de'].indexOf(_lang) === -1) _lang = 'en';
     var _qs = location.search || '';
-    if (_lang && _lang !== 'en' && _qs.indexOf('lang=') === -1) { _qs += (_qs ? '&' : '?') + 'lang=' + _lang; }
+    // Always pass lang — even for English. Without it, upgrade.html
+    // falls back to localStorage/navigator which may be stale (e.g. auto:de
+    // on a German phone even though user has switched to EN/HU in-app).
+    if (_qs.indexOf('lang=') !== -1) {
+      // Replace existing lang param
+      _qs = _qs.replace(/([?&])lang=[a-z]+/i, '$1lang=' + _lang);
+    } else {
+      _qs += (_qs ? '&' : '?') + 'lang=' + _lang;
+    }
     window.location.href = 'upgrade.html' + _qs;
   }
 });
