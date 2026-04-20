@@ -352,7 +352,7 @@ body.platform-android .app-only{display:revert!important}
       trust_cancel: 'Cancel Anytime',
       trust_safe: 'Private & Safe',
       guarantee_title: '14-Day Goodwill Refund Guarantee',
-      guarantee_desc: 'Not satisfied? Contact <a href="mailto:info@datescan.app">info@datescan.app</a> within 14 days for a full refund. No questions asked.',
+      guarantee_desc: 'Not satisfied? Contact <a href="mailto:info@datescan.app">info@datescan.app</a> within 14 days for a full refund. Subject to our Refund Policy conditions.',
       proof_quote: '"Finally, honest feedback that actually improved my matches."',
       act_title: 'Already Purchased?',
       act_subtitle: 'Enter your License Key from your email to activate Premium.',
@@ -393,7 +393,7 @@ body.platform-android .app-only{display:revert!important}
       trust_cancel: 'Bármikor lemondható',
       trust_safe: 'Privát & Biztonságos',
       guarantee_title: '14 napos jóakaratú visszatérítési garancia',
-      guarantee_desc: 'Nem elégedett? Írj a <a href="mailto:info@datescan.app">info@datescan.app</a> címre 14 napon belül a teljes visszatérítésért. Kérdezek nélkül.',
+      guarantee_desc: 'Nem elégedett? Írj a <a href="mailto:info@datescan.app">info@datescan.app</a> címre 14 napon belül a teljes visszatérítésért. A visszatérítési feltételek érvényesek.',
       proof_quote: '"Végre őszinte visszajelzés, ami tényleg javította a matcheimet."',
       act_title: 'Már vásároltál?',
       act_subtitle: 'Írd be az emailedben kapott licenckulcsot a Premium aktiválásához.',
@@ -418,14 +418,14 @@ body.platform-android .app-only{display:revert!important}
       subtitle: 'Hör auf zu raten. Fang an zu matchen. Mach jedes Foto zur Waffe, die echte Ergebnisse liefert.',
       plans_label: 'Wähle deinen Plan',
       week_name: 'Wochen-Pass',
-      week_meta: 'Unbegrenztes AI-Coaching & Scanning',
+      week_meta: 'Unbegrenztes AI-Coaching & Scannen',
       week_period: '/Woche',
       month_name: 'Monats-Pass',
-      month_meta: 'Unbegrenztes AI-Coaching & Scanning',
+      month_meta: 'Unbegrenztes AI-Coaching & Scannen',
       month_period: '/Monat',
       month_badge: 'Am beliebtesten',
       year_name: 'Jahreszugang',
-      year_meta: 'Unbegrenztes AI-Coaching & Scanning',
+      year_meta: 'Unbegrenztes AI-Coaching & Scannen',
       year_period: '/Jahr',
       year_badge: 'Bestes Preis-Leistungs-Verhältnis — 58% sparen',
       year_save: '58% sparen — Bestes Angebot',
@@ -434,7 +434,7 @@ body.platform-android .app-only{display:revert!important}
       trust_cancel: 'Jederzeit kündbar',
       trust_safe: 'Privat & Sicher',
       guarantee_title: '14-Tage-Gute-Wille-Geld-zurück-Garantie',
-      guarantee_desc: 'Nicht zufrieden? Kontaktiere <a href="mailto:info@datescan.app">info@datescan.app</a> innerhalb von 14 Tagen für eine volle Rückerstattung. Ohne Fragen.',
+      guarantee_desc: 'Nicht zufrieden? Kontaktiere <a href="mailto:info@datescan.app">info@datescan.app</a> innerhalb von 14 Tagen für eine volle Rückerstattung. Vorbehaltlich unserer Erstattungsrichtlinie.',
       proof_quote: '"Endlich ehrliches Feedback, das meine Matches wirklich verbessert hat."',
       act_title: 'Schon gekauft?',
       act_subtitle: 'Gib deinen Lizenzschlüssel aus der E-Mail ein, um Premium zu aktivieren.',
@@ -508,6 +508,10 @@ body.platform-android .app-only{display:revert!important}
     document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
       var key = el.getAttribute('data-i18n-html');
       if (strings[key] !== undefined) el.innerHTML = strings[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n-placeholder');
+      if (strings[key] !== undefined) el.placeholder = strings[key];
     });
   }
 
@@ -665,7 +669,7 @@ body.platform-android .app-only{display:revert!important}
       <div class="guarantee-ic"><i class="fas fa-shield-alt"></i></div>
       <div>
         <div class="guarantee-t" data-i18n="guarantee_title">14-Day Goodwill Refund Guarantee</div>
-        <div class="guarantee-d" data-i18n-html="guarantee_desc">Not satisfied? Contact <a href="mailto:info@datescan.app">info@datescan.app</a> within 14 days for a full refund. No questions asked.</div>
+        <div class="guarantee-d" data-i18n-html="guarantee_desc">Not satisfied? Contact <a href="mailto:info@datescan.app">info@datescan.app</a> within 14 days for a full refund. Subject to our Refund Policy conditions.</div>
       </div>
     </div>
 
