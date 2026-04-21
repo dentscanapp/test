@@ -2707,6 +2707,27 @@ window._dsLog = function() { if (window.__DS_DEBUG) console.log.apply(console, a
     .drop-shadow-\[0_0_8px_rgba\(236\2c 72\2c 153\2c 0\.4\)\] {
       filter: none !important;
     }
+    /* Kill decorative blur orbs — they force GPU compositing layers and
+       cause severe jank on mid-range Android devices. These are all
+       position:absolute pointer-events:none elements used only for
+       ambient glow decoration. */
+    .blur-\[40px\],
+    .blur-\[50px\],
+    .blur-\[60px\],
+    .blur-\[120px\],
+    .blur-2xl,
+    .blur-3xl {
+      display: none !important;
+    }
+    /* Disable mix-blend-screen on mobile (forces compositing) */
+    .mix-blend-screen,
+    .mix-blend-overlay {
+      mix-blend-mode: normal !important;
+    }
+    /* Stop animate-pulse in results (constant repaints) */
+    #resultsCol .animate-pulse {
+      animation: none !important;
+    }
   }
 </style>
 </head>
@@ -6875,8 +6896,9 @@ function recordScanStreak() {
     }
   }
 
-  // Auto-complete daily challenge
-  completeDailyChallenge();
+  // Daily challenge is NOT auto-completed on scan — it should
+  // only complete when the user fulfils the actual challenge criteria.
+  // completeDailyChallenge();
 
   // Update UI
   updateMissionBadge();
@@ -19718,8 +19740,11 @@ function showResultsLayout() {
     setTimeout(() => resCol.scrollIntoView({ behavior: "smooth", block: "start" }), 300);
   }
 
-  // ── First-result contextual hint ──
-  showContextualHint('result', 'resultsCol');
+  // ── First-result contextual hint — only on successful scans ──
+  const s = store.get();
+  if (s.lastColor) {
+    showContextualHint('result', 'resultsCol');
+  }
 }
 
 async function runScan() {
