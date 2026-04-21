@@ -3110,12 +3110,11 @@ if (window.__DS_IS_ANDROID_APP) {
   #pwa-install-banner .pwa-icon {
     width: 48px; height: 48px; flex-shrink: 0;
     border-radius: 14px;
-    background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
-    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
     box-shadow: 0 4px 12px rgba(236,72,153,0.30);
   }
-  #pwa-install-banner .pwa-icon svg {
-    width: 24px; height: 24px; fill: #fff;
+  #pwa-install-banner .pwa-icon img {
+    width: 100%; height: 100%; object-fit: cover;
   }
   #pwa-install-banner .pwa-text {
     flex: 1; min-width: 0;
@@ -3228,6 +3227,18 @@ if (window.__DS_IS_ANDROID_APP) {
     <p class="dsc-fineprint" data-i18n-html="cam_consent_fineprint">
       See our <a href="privacy.html" data-i18n="privacy_policy">Privacy Policy</a> and <a href="terms.html" data-i18n="terms_of_service">Terms of Service</a> for full details.
     </p>
+
+    <!-- Inline PWA Install Banner — web only, hidden for Android app -->
+    <div id="pwa-inline-banner" class="gumroad-only" style="display:none; margin-top:14px; padding:12px 14px; border-radius:16px; background:linear-gradient(135deg, rgba(236,72,153,0.08) 0%, rgba(168,85,247,0.08) 100%); border:1px solid rgba(236,72,153,0.2); cursor:pointer;" role="button" tabindex="0" aria-label="Install DateScan">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <img src="/icon-192.png" alt="DateScan" width="40" height="40" style="border-radius:10px; flex-shrink:0;" />
+        <div style="flex:1; min-width:0;">
+          <div style="font-weight:700; font-size:0.82rem; color:#fff; margin-bottom:2px;" data-i18n="pwa_inline_title">Install DateScan App</div>
+          <div style="font-size:0.7rem; color:#94839f; line-height:1.35;" data-i18n="pwa_inline_desc">Add to your home screen for quick access</div>
+        </div>
+        <div style="flex-shrink:0; background:linear-gradient(135deg, #ec4899, #a855f7); color:#fff; border:none; border-radius:10px; padding:7px 14px; font-weight:600; font-size:0.78rem; font-family:inherit; white-space:nowrap;" data-i18n="pwa_install_btn">Install</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -8856,7 +8867,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       pwa_install_title: 'Add to Home Screen',
       pwa_install_desc: 'Install DateScan for faster access and offline support.',
       pwa_install_btn: 'Install',
-      color_black: 'Dark / Black',
+      pwa_install_ios: 'Tap the Share button ⬆ then "Add to Home Screen"',
+      pwa_inline_title: 'Install DateScan App',
+      pwa_inline_desc: 'Add to your home screen for quick access',
       color_white: 'Light / White',
       color_gray: 'Gray',
       color_blue: 'Blue',
@@ -10441,7 +10454,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       pwa_install_title: 'Hozzáadás a kezdőképernyőhöz',
       pwa_install_desc: 'Telepítsd a DateScan-t gyorsabb hozzáférésért és offline támogatásért.',
       pwa_install_btn: 'Telepítés',
-      color_black: 'Sötét / Fekete',
+      pwa_install_ios: 'Koppints a Megosztás gombra ⬆ majd „Hozzáadás a kezdőképernyőhöz"',
+      pwa_inline_title: 'DateScan alkalmazás telepítése',
+      pwa_inline_desc: 'Telepítsd a kezdőképernyőre a gyors eléréshez',
       color_white: 'Világos / Fehér',
       color_gray: 'Szürke',
       color_blue: 'Kék',
@@ -12025,7 +12040,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       pwa_install_title: 'Zum Startbildschirm hinzufügen',
       pwa_install_desc: 'Installiere DateScan für schnelleren Zugriff und Offline-Unterstützung.',
       pwa_install_btn: 'Installieren',
-      color_black: 'Dunkel / Schwarz',
+      pwa_install_ios: 'Tippe auf „Teilen" ⬆ und dann „Zum Home-Bildschirm"',
+      pwa_inline_title: 'DateScan App installieren',
+      pwa_inline_desc: 'Zum Startbildschirm hinzufügen für schnellen Zugriff',
       color_white: 'Hell / Weiß',
       color_gray: 'Grau',
       color_blue: 'Blau',
@@ -16903,19 +16920,28 @@ function setupPwaInstall() {
   // PWA install banner — ONLY shown to web users (not Android app).
   // Android TWA users already have the native app, so the .gumroad-only
   // CSS class hides this entire element when body.platform-android is set.
-  // Additionally, we never call .prompt() for Android app users as a safety net.
 
   var banner = document.getElementById('pwa-install-banner');
   var installBtn = document.getElementById('pwa-install-btn');
   if (!banner || !installBtn) return;
 
+  // Never show in Android app
+  if (window.__DS_IS_ANDROID_APP) return;
+
+  // Already running as installed PWA → skip
+  try {
+    if (window.matchMedia('(display-mode: standalone)').matches || localStorage.getItem('pwa_installed') === '1') return;
+  } catch(e) {}
+
   // If user previously dismissed the banner, respect that for this session
   var dismissed = false;
   try { dismissed = sessionStorage.getItem('pwa_banner_dismissed') === '1'; } catch(e) {}
 
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+
   function showBanner() {
     if (dismissed) return;
-    if (window.__DS_IS_ANDROID_APP) return; // extra safety: never show in Android app
+    if (window.__DS_IS_ANDROID_APP) return;
     banner.classList.add('visible');
   }
 
@@ -16933,45 +16959,88 @@ function setupPwaInstall() {
     });
   }
 
-  // Install button — trigger the deferred prompt
+  // Install button
   installBtn.addEventListener('click', function() {
-    if (!window._deferredInstallPrompt) return;
-    if (window.__DS_IS_ANDROID_APP) return; // never prompt in Android app
+    if (window.__DS_IS_ANDROID_APP) return;
 
-    window._deferredInstallPrompt.prompt();
-    window._deferredInstallPrompt.userChoice.then(function(choiceResult) {
-      if (choiceResult.outcome === 'accepted') {
-        // User installed — hide banner permanently
-        hideBanner();
-        try { localStorage.setItem('pwa_installed', '1'); } catch(e) {}
+    // Case 1: Chrome/Edge deferred prompt available
+    if (window._deferredInstallPrompt) {
+      window._deferredInstallPrompt.prompt();
+      window._deferredInstallPrompt.userChoice.then(function(choiceResult) {
+        if (choiceResult.outcome === 'accepted') {
+          hideBanner();
+          try { localStorage.setItem('pwa_installed', '1'); } catch(e) {}
+        }
+        window._deferredInstallPrompt = null;
+      }).catch(function() {
+        window._deferredInstallPrompt = null;
+      });
+      return;
+    }
+
+    // Case 2: iOS Safari — show manual instructions
+    if (isIOS) {
+      var msg = typeof window.t === 'function' ? window.t('pwa_install_ios') : 'Tap the Share button ⬆ then "Add to Home Screen"';
+      if (window.dsPrivacy && window.dsPrivacy.showToast) {
+        window.dsPrivacy.showToast(msg, 5000);
+      } else {
+        alert(msg);
       }
-      // Clear the deferred prompt regardless
-      window._deferredInstallPrompt = null;
-    }).catch(function() {
-      window._deferredInstallPrompt = null;
-    });
+      return;
+    }
+
+    // Case 3: Other browsers — open Play Store
+    window.location.href = 'https://play.google.com/store/apps/details?id=app.datescan';
   });
 
-  // If the deferred prompt is already available (beforeinstallprompt already fired),
-  // show the banner immediately. Otherwise listen for the custom event.
-  if (window._deferredInstallPrompt && !dismissed && !window.__DS_IS_ANDROID_APP) {
-    showBanner();
-  }
+  // Show banner after short delay for ALL web visitors
+  // (beforeinstallprompt may or may not fire)
+  setTimeout(showBanner, 2000);
 
+  // If the deferred prompt fires later, banner is already visible
   window.addEventListener('pwa-installable', function() {
     if (!dismissed && !window.__DS_IS_ANDROID_APP) {
-      // Small delay to avoid jarring appearance alongside other UI
-      setTimeout(showBanner, 1500);
+      showBanner();
     }
   });
 
-  // If user already installed the PWA, don't show the banner
-  try {
-    if (window.matchMedia('(display-mode: standalone)').matches || localStorage.getItem('pwa_installed') === '1') {
-      hideBanner();
-      dismissed = true;
+  // ── Inline PWA banner (inside camera consent dialog) ──
+  var inlineBanner = document.getElementById('pwa-inline-banner');
+  if (inlineBanner && !window.__DS_IS_ANDROID_APP) {
+    var pwaInstalled = false;
+    try {
+      pwaInstalled = window.matchMedia('(display-mode: standalone)').matches || localStorage.getItem('pwa_installed') === '1';
+    } catch(e) {}
+
+    if (!pwaInstalled) {
+      inlineBanner.style.display = 'block';
+
+      inlineBanner.addEventListener('click', function() {
+        // Chrome/Edge deferred prompt
+        if (window._deferredInstallPrompt) {
+          window._deferredInstallPrompt.prompt();
+          window._deferredInstallPrompt.userChoice.then(function(r) {
+            if (r.outcome === 'accepted') {
+              inlineBanner.style.display = 'none';
+              try { localStorage.setItem('pwa_installed', '1'); } catch(e) {}
+            }
+            window._deferredInstallPrompt = null;
+          }).catch(function() { window._deferredInstallPrompt = null; });
+          return;
+        }
+        // iOS Safari
+        if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream) {
+          var iosMsg = typeof window.t === 'function' ? window.t('pwa_install_ios') : 'Tap the Share button ⬆ then "Add to Home Screen"';
+          if (window.dsPrivacy && window.dsPrivacy.showToast) {
+            window.dsPrivacy.showToast(iosMsg, 5000);
+          } else { alert(iosMsg); }
+          return;
+        }
+        // Fallback: Play Store
+        window.open('https://play.google.com/store/apps/details?id=app.datescan', '_blank');
+      });
     }
-  } catch(e) {}
+  }
 }
 
 // --- OFFLINE / ONLINE STATE ---
@@ -20611,6 +20680,55 @@ async function handlePayment(plan) {
     try {
       const service = await window.getDigitalGoodsService("https://play.google.com/billing");
 
+      // ── Recovery: check for existing unacknowledged purchases ──
+      // Google Play will reject a new purchase with "already own this"
+      // if a previous purchase was never acknowledged (e.g. verify
+      // call failed, app crashed, network dropped).  We check first
+      // and verify/acknowledge any orphaned tokens.
+      try {
+        const existing = await service.listPurchases();
+        console.log("[DateScan] existing purchases:", existing);
+        if (existing && existing.length > 0) {
+          for (const purchase of existing) {
+            const token = purchase.purchaseToken;
+            if (!token) continue;
+            console.log("[DateScan] recovering unacknowledged purchase:", purchase.itemId, token);
+            showVerifyingOverlay();
+            setVerifyingMessage(typeof window.t === 'function' ? window.t('verifying_gpay') : 'Verifying your Google Play purchase…', false, 'verifying_gpay');
+
+            const userId = getOrCreateUserId();
+            try {
+              const vRes = await fetch(`${WORKER_BASE_URL}/verify`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  purchaseToken: token,
+                  sku: purchase.itemId || productId,
+                  plan: plan,
+                  userId: userId
+                })
+              });
+              const vResult = await vRes.json();
+              console.log("[DateScan] recovery /verify:", vResult);
+              if (vResult && vResult.success) {
+                setProUser();
+                localStorage.setItem("datescan.proPlan", plan);
+                try { updateUsageBadge(); } catch(e) {}
+                setVerifyingMessage(typeof window.t === 'function' ? window.t('payment_confirmed_welcome') : '✓ Payment confirmed! Welcome to Pro.', false, 'payment_confirmed_welcome');
+                window.dsPrivacy?.showToast?.(typeof window.t === 'function' ? window.t('payment_confirmed_welcome') : '🎉 Welcome to Pro!', 3000);
+                setTimeout(() => { hideVerifyingOverlay(); location.reload(); }, 1500);
+                return; // recovered — no need for new purchase
+              }
+            } catch(re) {
+              console.warn("[DateScan] recovery verify failed:", re);
+            }
+            hideVerifyingOverlay();
+          }
+        }
+      } catch(lpe) {
+        console.warn("[DateScan] listPurchases not available:", lpe);
+      }
+
       const paymentMethods = [{
         supportedMethods: "https://play.google.com/billing",
         data: { sku: productId }
@@ -20665,12 +20783,33 @@ async function handlePayment(plan) {
 
     } catch (e) {
       console.error("[DateScan] Google Play billing error:", e);
+      const errMsg = (e && (e.message || String(e))).toLowerCase();
+
+      // "Already owned" / ITEM_ALREADY_OWNED means the user has an
+      // active subscription but localStorage lost the Pro flag (app
+      // reinstall, cleared data, etc.).  Verify with the backend and
+      // restore Pro instead of bouncing them to the Play Store.
+      if (errMsg.includes('already') || errMsg.includes('owned') || errMsg.includes('item_already_owned')) {
+        console.log("[DateScan] already-owned detected — verifying with backend");
+        const restored = await verifyProStatus({ poll: true, visible: true });
+        if (restored) {
+          closePaywall();
+          return;
+        }
+        // Backend says not Pro either — tell user to manage sub
+        hideVerifyingOverlay();
+        setVerifyingMessage(
+          typeof window.t === 'function'
+            ? window.t('already_owned_manage')
+            : "Google Play says you already own this. Open Google Play → Subscriptions to manage or cancel, then try again.",
+          true, 'already_owned_manage'
+        );
+        showVerifyingOverlay();
+        return;
+      }
+
       hideVerifyingOverlay();
-      // No web checkout available — send them to the Play Store so
-      // they can install the app and try the purchase from inside the
-      // TWA. This branch is hit on cancelled prompts too, which is
-      // mildly suboptimal, but redirecting after a cancel is better
-      // than silently swallowing the error.
+      // Cancelled prompts or other errors → redirect to Play Store
       redirectToPlayStore(plan);
       return;
     }
@@ -20726,25 +20865,17 @@ $("closePaywall").addEventListener("click", closePaywall);
 $("upgradeBtn").addEventListener("click", window.openPaywall);
 $("earnPointsBtn").addEventListener("click", () => {
   triggerHaptic('tap');
-  // Platform routing: Android app → Google Play in-app purchase
-  // Mobile web (no platform param) → upgrade.html (Gumroad)
+  // Platform routing: Android app → show paywall (Google Play billing
+  // triggers when user picks a plan via plan-btn → handlePayment).
+  // Mobile web (no platform param) → upgrade.html (Gumroad).
   if (window.__DS_IS_ANDROID_APP) {
-    if (typeof window.startGooglePlayPurchase === 'function') {
-      window.startGooglePlayPurchase();
-    } else {
-      // Fallback: redirect to Play Store
-      handlePayment('month');
-    }
+    window.openPaywall();
   } else {
     var _lang = (typeof window.getLang === 'function') ? window.getLang() : (localStorage.getItem('datescan.lang') || 'en');
     if (_lang && _lang.indexOf('auto:') === 0) _lang = _lang.substring(5);
     if (['en','hu','de'].indexOf(_lang) === -1) _lang = 'en';
     var _qs = location.search || '';
-    // Always pass lang — even for English. Without it, upgrade.html
-    // falls back to localStorage/navigator which may be stale (e.g. auto:de
-    // on a German phone even though user has switched to EN/HU in-app).
     if (_qs.indexOf('lang=') !== -1) {
-      // Replace existing lang param
       _qs = _qs.replace(/([?&])lang=[a-z]+/i, '$1lang=' + _lang);
     } else {
       _qs += (_qs ? '&' : '?') + 'lang=' + _lang;
@@ -26737,7 +26868,7 @@ applyOfflineState(!navigator.onLine);
   <div class="pwa-card" style="position:relative;">
     <button class="pwa-close" aria-label="Close">&times;</button>
     <div class="pwa-icon">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14v-4H8l5-7v4h3l-5 7z"/></svg>
+      <img src="/icon-192.png" alt="DateScan" width="48" height="48" />
     </div>
     <div class="pwa-text">
       <div class="pwa-title" data-i18n="pwa_install_title">Add to Home Screen</div>
