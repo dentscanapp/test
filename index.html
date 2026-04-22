@@ -34129,8 +34129,8 @@ applyOfflineState(!navigator.onLine);
       var done = false;
       var timer = setTimeout(function() {
         if (!done) { done = true; reject(new Error('timeout')); }
-      }, ms);
-      fetch(url).then(function(r) {
+      }, ms || 3000);
+      fetch(url, { mode: 'cors', signal: AbortSignal.timeout ? AbortSignal.timeout(ms || 3000) : undefined }).then(function(r) {
         if (!done) { done = true; clearTimeout(timer); resolve(r); }
       }).catch(function(e) {
         if (!done) { done = true; clearTimeout(timer); reject(e); }
@@ -34196,7 +34196,7 @@ applyOfflineState(!navigator.onLine);
     return urls.reduce(function(promise, url) {
       return promise.then(function(text) {
         if (text && text.length > 200) return text; // Already have good data
-        return _fetchTimeout(url, 5000)
+        return _fetchTimeout(url, 3000)
           .then(function(r) { return r.json(); })
           .then(function(data) {
             if (data && data.query && data.query.pages) {
@@ -34216,7 +34216,7 @@ applyOfflineState(!navigator.onLine);
     return sources.reduce(function(promise, url) {
       return promise.then(function(text) {
         if (text && text.length > 3000) return text; // Already have enough data
-        return _fetchTimeout(url, 8000)
+        return _fetchTimeout(url, 4000)
           .then(function(r) { return r.text(); })
           .then(function(html) {
             // Strip HTML tags and scripts
@@ -34367,7 +34367,6 @@ applyOfflineState(!navigator.onLine);
   function _loadData() {
     if (_loading) return;
     _loading = true;
-    _showLoading();
 
     var season = trGetCurrentSeason();
     // Update season badge
@@ -34385,83 +34384,96 @@ applyOfflineState(!navigator.onLine);
     var realOverallScore = trCalculateOverallScore(realCategories);
     var isEmpty = closetItems.length === 0;
 
-    // Try to fetch online trend data from the internet
-    _fetchOnlineTrends().then(function(onlineData) {
-      _lastFetch = Date.now();
-      _loading = false;
+    // ── STEP 1: Render immediately with cached or fallback data ──
+    var cached = _getTrendCache();
+    var useOnline = false;
 
-      var mergedData;
-      if (onlineData && onlineData.foundKeywords) {
-        // Got real data from the internet!
-        var onlineDescs = _buildOnlineDescriptions(onlineData.foundKeywords);
-        var onlineTrendy = isEmpty ? [] : _buildOnlineTrendyItems(onlineData.foundKeywords);
-        var onlineMissing = isEmpty ? [] : _buildOnlineMissingTrends(onlineData.foundKeywords, closetItems);
+    if (cached && cached.foundKeywords) {
+      // Have cached online data — use it right away
+      var onlineDescs = _buildOnlineDescriptions(cached.foundKeywords);
+      var onlineTrendy = isEmpty ? [] : _buildOnlineTrendyItems(cached.foundKeywords);
+      var onlineMissing = isEmpty ? [] : _buildOnlineMissingTrends(cached.foundKeywords, closetItems);
 
-        // Override static trend descriptions with online data
-        var dict = window.trTranslations[trLang] || window.trTranslations.en;
-        var descKeys = ['trend_outerwear_desc', 'trend_tops_desc', 'trend_bottoms_desc', 'trend_shoes_desc', 'trend_accessories_desc', 'trend_colors_desc'];
-        var catKeys = ['outerwear', 'tops', 'bottoms', 'shoes', 'accessories', 'colors'];
-        catKeys.forEach(function(ck, i) {
-          if (onlineDescs[ck]) dict[descKeys[i]] = onlineDescs[ck];
-        });
+      var dict = window.trTranslations[trLang] || window.trTranslations.en;
+      var descKeys = ['trend_outerwear_desc', 'trend_tops_desc', 'trend_bottoms_desc', 'trend_shoes_desc', 'trend_accessories_desc', 'trend_colors_desc'];
+      var catKeys = ['outerwear', 'tops', 'bottoms', 'shoes', 'accessories', 'colors'];
+      catKeys.forEach(function(ck, i) {
+        if (onlineDescs[ck]) dict[descKeys[i]] = onlineDescs[ck];
+      });
 
-        mergedData = {
-          season: season.seasonKey,
-          year: season.year,
-          categories: realCategories,
-          trendyItems: onlineTrendy,
-          missingTrends: onlineMissing,
-          topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
-          isEmpty: isEmpty,
-          onlineSource: true
-        };
-      } else {
-        // No internet data — use static fallback
-        mergedData = {
-          season: season.seasonKey,
-          year: season.year,
-          categories: realCategories,
-          trendyItems: isEmpty ? [] : _getFallbackTrendyItems(),
-          missingTrends: isEmpty ? [] : _getFallbackMissingTrends(),
-          topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
-          isEmpty: isEmpty,
-          onlineSource: false
-        };
-      }
-
-      var emptyCompare = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
-      trRenderAll(mergedData, emptyCompare);
+      var cachedData = {
+        season: season.seasonKey, year: season.year,
+        categories: realCategories,
+        trendyItems: onlineTrendy,
+        missingTrends: onlineMissing,
+        topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
+        isEmpty: isEmpty, onlineSource: true
+      };
+      var cmp = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
+      trRenderAll(cachedData, cmp);
       trRenderTrendScore(realOverallScore);
-
-      // Update last updated with source indicator
-      var upd = $('trLastUpdated');
-      if (upd) {
-        var srcLabel = mergedData.onlineSource ? ' (online)' : '';
-        upd.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + srcLabel;
-      }
-    }).catch(function() {
-      // On any error, fall back to static data
-      _lastFetch = Date.now();
-      _loading = false;
-
-      var mergedData = {
-        season: season.seasonKey,
-        year: season.year,
+      useOnline = true;
+    } else {
+      // No cache — render with fallback data immediately
+      var fallbackData = {
+        season: season.seasonKey, year: season.year,
         categories: realCategories,
         trendyItems: isEmpty ? [] : _getFallbackTrendyItems(),
         missingTrends: isEmpty ? [] : _getFallbackMissingTrends(),
         topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
-        isEmpty: isEmpty,
-        onlineSource: false
+        isEmpty: isEmpty, onlineSource: false
       };
-
-      var emptyCompare = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
-      trRenderAll(mergedData, emptyCompare);
+      var cmp2 = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
+      trRenderAll(fallbackData, cmp2);
       trRenderTrendScore(realOverallScore);
+    }
 
-      var upd = $('trLastUpdated');
-      if (upd) upd.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString();
-    });
+    var upd = $('trLastUpdated');
+    if (upd) {
+      var srcLbl = useOnline ? ' (online)' : '';
+      upd.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + srcLbl;
+    }
+
+    _lastFetch = Date.now();
+    _loading = false;
+
+    // ── STEP 2: Try fetching fresh online data in the background ──
+    // Only if no cache or cache is older than 1 day
+    var cacheAge = cached ? (Date.now() - cached.ts) : _TREND_CACHE_MS;
+    if (cacheAge > 24 * 60 * 60 * 1000) {
+      _fetchOnlineTrends().then(function(onlineData) {
+        if (!onlineData || !onlineData.foundKeywords) return;
+
+        // Re-render with fresh online data
+        var freshDescs = _buildOnlineDescriptions(onlineData.foundKeywords);
+        var freshTrendy = isEmpty ? [] : _buildOnlineTrendyItems(onlineData.foundKeywords);
+        var freshMissing = isEmpty ? [] : _buildOnlineMissingTrends(onlineData.foundKeywords, closetItems);
+
+        var dict2 = window.trTranslations[trLang] || window.trTranslations.en;
+        var descKeys2 = ['trend_outerwear_desc', 'trend_tops_desc', 'trend_bottoms_desc', 'trend_shoes_desc', 'trend_accessories_desc', 'trend_colors_desc'];
+        var catKeys2 = ['outerwear', 'tops', 'bottoms', 'shoes', 'accessories', 'colors'];
+        catKeys2.forEach(function(ck, i) {
+          if (freshDescs[ck]) dict2[descKeys2[i]] = freshDescs[ck];
+        });
+
+        var freshData = {
+          season: season.seasonKey, year: season.year,
+          categories: realCategories,
+          trendyItems: freshTrendy,
+          missingTrends: freshMissing,
+          topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
+          isEmpty: isEmpty, onlineSource: true
+        };
+        var cmp3 = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
+        trRenderAll(freshData, cmp3);
+        trRenderTrendScore(realOverallScore);
+
+        var upd2 = $('trLastUpdated');
+        if (upd2) upd2.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + ' (online)';
+      }).catch(function() {
+        // Silently ignore — already showing cached/fallback data
+      });
+    }
   }
 
   // ── Merge API data into frontend format ────────────────────
