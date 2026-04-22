@@ -6549,10 +6549,7 @@ if (window.__DS_IS_ANDROID_APP) {
         <div class="tr-glass-card p-6 flex flex-col items-center justify-center">
           <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4" data-i18n="tr_trend_score">Trend Score</h3>
           <div id="trScoreContainer" class="relative w-40 h-40 mb-3">
-            <!-- Shimmer placeholder -->
-            <div id="trScoreShimmer" class="tr-shimmer w-full h-full rounded-full"></div>
-            <!-- Actual score SVG (hidden until data loads) -->
-            <svg id="trScoreSvg" class="hidden absolute inset-0 w-full h-full" viewBox="0 0 120 120">
+            <svg id="trScoreSvg" class="absolute inset-0 w-full h-full" viewBox="0 0 120 120">
               <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,0.06)" stroke-width="8" fill="none"/>
               <circle id="trScoreArc" class="tr-score-circle" cx="60" cy="60" r="52" stroke="#ec4899" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="0 326.73"/>
               <text id="trScoreValue" x="60" y="56" text-anchor="middle" fill="white" font-size="32" font-weight="700" font-family="Inter, system-ui, sans-serif">—</text>
@@ -6566,10 +6563,7 @@ if (window.__DS_IS_ANDROID_APP) {
         <div class="tr-glass-card p-6 flex flex-col items-center justify-center">
           <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4" data-i18n="tr_category_radar">Category Radar</h3>
           <div id="trRadarContainer" class="w-full max-w-[220px] aspect-square">
-            <!-- Shimmer placeholder -->
-            <div id="trRadarShimmer" class="tr-shimmer w-full h-full rounded-2xl"></div>
-            <!-- Actual radar SVG (hidden until data loads) -->
-            <svg id="trRadarSvg" class="hidden w-full h-full tr-radar-svg" viewBox="0 0 200 200"></svg>
+            <svg id="trRadarSvg" class="w-full h-full tr-radar-svg" viewBox="0 0 200 200"></svg>
           </div>
         </div>
       </div>
@@ -6587,8 +6581,7 @@ if (window.__DS_IS_ANDROID_APP) {
         <div id="trTabOverview" class="tr-tab-panel space-y-4">
           <!-- Top Recommendation Card -->
           <div id="trTopRecContainer">
-            <div id="trTopRecShimmer" class="tr-shimmer h-32 rounded-2xl"></div>
-            <div id="trTopRecCard" class="hidden tr-rec-glow tr-glass-card p-5 sm:p-6">
+            <div id="trTopRecCard" class="tr-rec-glow tr-glass-card p-5 sm:p-6">
               <div class="flex items-center gap-2 mb-3">
                 <span class="text-lg">🎯</span>
                 <h4 id="trTopRecTitle" class="font-serif text-lg font-semibold text-white"></h4>
@@ -6601,11 +6594,7 @@ if (window.__DS_IS_ANDROID_APP) {
           <!-- Category Breakdown -->
           <div class="tr-glass-card p-5 sm:p-6">
             <h4 class="font-serif text-lg font-semibold text-white mb-4" data-i18n="tr_category_breakdown">Category Breakdown</h4>
-            <div id="trCategoryBreakdown" class="space-y-3">
-              <div class="tr-shimmer h-6 rounded-lg"></div>
-              <div class="tr-shimmer h-6 rounded-lg"></div>
-              <div class="tr-shimmer h-6 rounded-lg"></div>
-            </div>
+            <div id="trCategoryBreakdown" class="space-y-3"></div>
           </div>
 
           <!-- Season Trends Description -->
@@ -6628,22 +6617,12 @@ if (window.__DS_IS_ANDROID_APP) {
 
         <!-- Trendy Tab -->
         <div id="trTabTrendy" class="tr-tab-panel hidden space-y-3">
-          <div id="trTrendyShimmer" class="space-y-3">
-            <div class="tr-shimmer h-20 rounded-2xl"></div>
-            <div class="tr-shimmer h-20 rounded-2xl"></div>
-            <div class="tr-shimmer h-20 rounded-2xl"></div>
-          </div>
-          <div id="trTrendyItems" class="hidden space-y-3 max-h-[500px] overflow-y-auto tr-scroll pr-1"></div>
+          <div id="trTrendyItems" class="space-y-3 max-h-[500px] overflow-y-auto tr-scroll pr-1"></div>
         </div>
 
         <!-- Missing Tab -->
         <div id="trTabMissing" class="tr-tab-panel hidden space-y-3">
-          <div id="trMissingShimmer" class="space-y-3">
-            <div class="tr-shimmer h-20 rounded-2xl"></div>
-            <div class="tr-shimmer h-20 rounded-2xl"></div>
-            <div class="tr-shimmer h-20 rounded-2xl"></div>
-          </div>
-          <div id="trMissingItems" class="hidden space-y-3 max-h-[500px] overflow-y-auto tr-scroll pr-1"></div>
+          <div id="trMissingItems" class="space-y-3 max-h-[500px] overflow-y-auto tr-scroll pr-1"></div>
         </div>
       </div>
 
@@ -33733,8 +33712,8 @@ applyOfflineState(!navigator.onLine);
       back_to_closet: 'Vissza a Gardróbhoz',
       lang_label: 'HU',
       loading: 'Betöltés…',
-
-      // Trend descriptions
+      empty_trendy: 'Töltsd fel a gardróbodat a Szekrényben, hogy lásd a trendi darabjaidat!',
+      empty_missing: 'Még nincs adat a hiányzó trendekről. Töltsd fel a gardróbodat!',
       trends_intro: 'E szezon legfontosabb trendjei',
       trend_outerwear_desc: 'Oversized trench kabátok és laza blézerek uralják a szezont. A klasszikus bézs és kamufszi árnyalatok a legkeresettebbek.',
       trend_tops_desc: 'A "Quiet Luxury" stílus folytatódik: letisztult vonalak, minőségi anyagok, semleges színek. A fehér póló és a finom kötött pulóverek továbbra is alapdarabok.',
@@ -33774,7 +33753,8 @@ applyOfflineState(!navigator.onLine);
       back_to_closet: 'Zurück zum Kleiderschrank',
       lang_label: 'DE',
       loading: 'Laden…',
-
+      empty_trendy: 'Lade deine Kleidung im Kleiderschrank hoch, um deine trendigen Teile zu sehen!',
+      empty_missing: 'Noch keine Daten zu fehlenden Trends. Lade deine Garderobe hoch!',
       // Trend descriptions
       trends_intro: 'Die wichtigsten Trends dieser Saison',
       trend_outerwear_desc: 'Oversized Trenchcoats und locker geschnittene Blazer dominieren die Saison. Klassische Beige- und Kamelfarben sind am gefragtesten.',
@@ -33815,7 +33795,8 @@ applyOfflineState(!navigator.onLine);
       back_to_closet: 'Back to Closet',
       lang_label: 'EN',
       loading: 'Loading…',
-
+      empty_trendy: 'Upload your clothes in the Closet to see your trendy items!',
+      empty_missing: 'No missing trend data yet. Upload your wardrobe first!',
       // Trend descriptions
       trends_intro: 'Top trends this season',
       trend_outerwear_desc: 'Oversized trench coats and relaxed-fit blazers dominate the season. Classic beige and camel shades are the most sought-after.',
@@ -34363,6 +34344,22 @@ applyOfflineState(!navigator.onLine);
     _initialized = true;
     _loadData();
     _setupAutoRefresh();
+
+    // Safety net: force render after 2 seconds if nothing appeared
+    // This ensures content is always visible even if something goes wrong
+    setTimeout(function() {
+      try {
+        var scoreEl = $('trScoreValue');
+        if (scoreEl && (scoreEl.textContent === '—' || scoreEl.textContent === '')) {
+          console.warn('[TrendRadar] Safety net triggered — forcing render');
+          _loading = false;
+          _lastFetch = 0;
+          _loadData();
+        }
+      } catch(e) {
+        console.error('[TrendRadar] Safety net error:', e);
+      }
+    }, 2000);
   };
 
   function _needsRefresh() {
@@ -34434,8 +34431,16 @@ applyOfflineState(!navigator.onLine);
     } catch(e) {
       console.error('[TrendRadar] _loadData error:', e);
       _loading = false;
-      // Force hide shimmers and show something
-      _hideAllShimmers();
+      // Force render with minimal fallback data
+      try {
+        var fbSeason = trGetCurrentSeason();
+        var fbCategories = trCalculateCategoryScores([]);
+        var fbScore = trCalculateOverallScore(fbCategories);
+        var fbData = { season: fbSeason.seasonKey, year: fbSeason.year, categories: fbCategories, trendyItems: [], missingTrends: [], topRecommendation: {}, isEmpty: true, onlineSource: false };
+        trRenderAll(fbData, { overallScore: fbScore });
+      } catch(e2) {
+        console.error('[TrendRadar] fallback render also failed:', e2);
+      }
     }
   }
 
@@ -34470,96 +34475,6 @@ applyOfflineState(!navigator.onLine);
     }
   }
 
-  // Force hide all shimmer elements (emergency fallback)
-  function _hideAllShimmers() {
-    ['trScoreShimmer', 'trRadarShimmer', 'trTopRecShimmer', 'trTrendyShimmer', 'trMissingShimmer'].forEach(function(id) {
-      var el = $(id);
-      if (el) el.style.display = 'none';
-    });
-  }
-
-  // ── Merge API data into frontend format ────────────────────
-  function _mergeApiData(trends, compare) {
-    // The trends API returns categories as array: [{ name, score, trends: [...] }]
-    // The compare API returns: { trendyItems, missingTrends, topRecommendation, trendScore }
-    // We need to combine them for the frontend renderer
-
-    var categoriesObj = {};
-    var categoriesArr = trends.categories || [];
-    if (Array.isArray(categoriesArr)) {
-      categoriesArr.forEach(function(cat, i) {
-        var key = cat.name ? cat.name.toLowerCase().replace(/[^a-z0-9]/g, '_') : ('cat_' + i);
-        categoriesObj[key] = {
-          name: cat.name,
-          score: cat.score || 0,
-          trend: (cat.trends && cat.trends[0]) ? cat.trends[0].name : '',
-          trendLabel: (cat.trends && cat.trends[0]) ? cat.trends[0].name : ''
-        };
-      });
-    } else {
-      // Already an object
-      categoriesObj = categoriesArr;
-    }
-
-    // Build trendy items from compare data
-    var trendyItems = [];
-    if (compare && compare.trendyItems) {
-      trendyItems = compare.trendyItems.map(function(ti) {
-        return {
-          name: ti.item ? ti.item.name : (ti.name || ''),
-          match: ti.matchedTrend || '',
-          score: ti.heat || 0,
-          desc: ti.item ? (ti.item.category || '') : ''
-        };
-      });
-    }
-
-    // Build missing trends from compare data
-    var missingTrends = [];
-    if (compare && compare.missingTrends) {
-      missingTrends = compare.missingTrends.map(function(mt) {
-        return {
-          name: mt.name || '',
-          category: mt.category || '',
-          priority: mt.heat >= 85 ? 'high' : (mt.heat >= 70 ? 'medium' : 'low'),
-          desc: mt.description || ''
-        };
-      });
-    }
-
-    // Top recommendation from compare data
-    var topRec = {};
-    if (compare && compare.topRecommendation) {
-      topRec = {
-        title: trT('top_rec_title'),
-        name: compare.topRecommendation.name || '',
-        reason: compare.topRecommendation.description || '',
-        score: compare.topRecommendation.heat || 0
-      };
-    }
-
-    return {
-      season: trends.season || '',
-      year: trends.year || new Date().getFullYear(),
-      categories: categoriesObj,
-      trendyItems: trendyItems,
-      missingTrends: missingTrends,
-      topRecommendation: topRec
-    };
-  }
-
-  function _showLoading() {
-    // Show shimmers, hide real content
-    ['trScoreShimmer', 'trRadarShimmer', 'trTopRecShimmer', 'trTrendyShimmer', 'trMissingShimmer'].forEach(function(id) {
-      var el = $(id);
-      if (el) el.style.display = '';
-    });
-    ['trScoreSvg', 'trRadarSvg', 'trTopRecCard', 'trTrendyItems', 'trMissingItems'].forEach(function(id) {
-      var el = $(id);
-      if (el) el.classList.add('hidden');
-    });
-  }
-
   // ── Render All ─────────────────────────────────────────────
   window.trRenderAll = function(trends, compare) {
     var score = (compare && (compare.overallScore || compare.trendScore)) || 0;
@@ -34580,15 +34495,11 @@ applyOfflineState(!navigator.onLine);
 
   // ── Render Trend Score ─────────────────────────────────────
   window.trRenderTrendScore = function(score) {
-    var shimmer = $('trScoreShimmer');
     var svg = $('trScoreSvg');
     var arc = $('trScoreArc');
     var valueEl = $('trScoreValue');
     var labelEl = $('trScoreLabel');
     var descEl = $('trScoreDesc');
-
-    if (shimmer) shimmer.style.display = 'none';
-    if (svg) svg.classList.remove('hidden');
 
     var circumference = 2 * Math.PI * 52; // r=52 → ~326.73
     var offset = circumference - (score / 100) * circumference;
@@ -34606,11 +34517,8 @@ applyOfflineState(!navigator.onLine);
 
   // ── Render Radar Chart ─────────────────────────────────────
   window.trRenderRadarChart = function(categories) {
-    var shimmer = $('trRadarShimmer');
     var svgEl = $('trRadarSvg');
-    if (shimmer) shimmer.style.display = 'none';
     if (!svgEl) return;
-    svgEl.classList.remove('hidden');
 
     var keys = Object.keys(categories);
     if (keys.length === 0) return;
@@ -34698,14 +34606,11 @@ applyOfflineState(!navigator.onLine);
 
   // ── Render Top Recommendation ──────────────────────────────
   window.trRenderTopRecommendation = function(rec) {
-    var shimmer = $('trTopRecShimmer');
     var card = $('trTopRecCard');
     var titleEl = $('trTopRecTitle');
     var descEl = $('trTopRecDesc');
     var metaEl = $('trTopRecMeta');
 
-    if (shimmer) shimmer.style.display = 'none';
-    if (card) card.classList.remove('hidden');
     if (titleEl) titleEl.textContent = rec.title || rec.name || trT('top_rec_title');
     if (descEl) descEl.textContent = rec.reason || rec.desc || '';
     if (metaEl) {
@@ -34722,14 +34627,11 @@ applyOfflineState(!navigator.onLine);
 
   // ── Render Trendy Items ────────────────────────────────────
   window.trRenderTrendyItems = function(items) {
-    var shimmer = $('trTrendyShimmer');
     var container = $('trTrendyItems');
-    if (shimmer) shimmer.style.display = 'none';
     if (!container) return;
-    container.classList.remove('hidden');
 
     if (!items.length) {
-      container.innerHTML = '<p class="text-sm text-gray-500 text-center py-6">' + _escHtml(trT('loading')) + '</p>';
+      container.innerHTML = '<p class="text-sm text-gray-500 text-center py-6">' + _escHtml(trT('empty_trendy')) + '</p>';
       return;
     }
 
@@ -34751,14 +34653,11 @@ applyOfflineState(!navigator.onLine);
 
   // ── Render Missing Trends ──────────────────────────────────
   window.trRenderMissingTrends = function(trends) {
-    var shimmer = $('trMissingShimmer');
     var container = $('trMissingItems');
-    if (shimmer) shimmer.style.display = 'none';
     if (!container) return;
-    container.classList.remove('hidden');
 
     if (!trends.length) {
-      container.innerHTML = '<p class="text-sm text-gray-500 text-center py-6">' + _escHtml(trT('loading')) + '</p>';
+      container.innerHTML = '<p class="text-sm text-gray-500 text-center py-6">' + _escHtml(trT('empty_missing')) + '</p>';
       return;
     }
 
@@ -34789,24 +34688,23 @@ applyOfflineState(!navigator.onLine);
   window.trRenderCategoryBreakdown = function(categories) {
     var container = $('trCategoryBreakdown');
     if (!container) return;
-    container.innerHTML = '';
 
     var keys = Object.keys(categories);
+    var html = '';
     keys.forEach(function(key) {
       var cat = categories[key];
       if (!cat) return;
       var score = cat.score || 0;
       var color = score >= 70 ? '#22c55e' : (score >= 50 ? '#f59e0b' : '#ef4444');
-      var row = document.createElement('div');
-      row.className = 'flex items-center gap-3';
-      row.innerHTML =
+      html += '<div class="flex items-center gap-3">' +
         '<span class="text-xs font-semibold text-gray-300 w-24 shrink-0 truncate">' + _escHtml(cat.name || key) + '</span>' +
         '<div class="flex-1 tr-progress-track">' +
           '<div class="tr-progress-fill" style="width:' + score + '%;background:' + color + '"></div>' +
         '</div>' +
-        '<span class="text-xs font-bold w-8 text-right" style="color:' + color + '">' + score + '</span>';
-      container.appendChild(row);
+        '<span class="text-xs font-bold w-8 text-right" style="color:' + color + '">' + score + '</span>' +
+      '</div>';
     });
+    container.innerHTML = html;
   };
 
   // ── Render Season Trends Description ──────────────────────
