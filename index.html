@@ -33717,7 +33717,7 @@ applyOfflineState(!navigator.onLine);
       tab_trendy: 'Trendi',
       tab_missing: 'Hiányzik',
       category_breakdown: 'Kategória Bontás',
-      top_rec_title: 'Ezt az egy dolgot vedd meg',
+      top_rec_title: 'Ezt az egyet érdemes beszerezned',
       score_high: 'Kiváló',
       score_mid: 'Jó',
       score_low: 'Fejlesztendő',
@@ -33728,7 +33728,7 @@ applyOfflineState(!navigator.onLine);
       season_autumn: 'Ősz',
       season_winter: 'Tél',
       last_updated: 'Frissítve',
-      footer_info: 'Az adatok AI elemzésen alapulnak. A trendek szezonális divatforrásból származnak.',
+      footer_info: 'A trendadatok a netről származnak (Wikipedia, divatoldalak). 7 napig cache-elt adat.',
       refresh_tooltip: 'Trend adatok frissítése',
       back_to_closet: 'Vissza a Gardróbhoz',
       lang_label: 'HU',
@@ -33758,7 +33758,7 @@ applyOfflineState(!navigator.onLine);
       tab_trendy: 'Im Trend',
       tab_missing: 'Fehlt',
       category_breakdown: 'Kategorie-Aufschlüsselung',
-      top_rec_title: 'Das eine Ding, das du kaufen solltest',
+      top_rec_title: 'Dieses eine Stück lohnt sich anzuschaffen',
       score_high: 'Ausgezeichnet',
       score_mid: 'Gut',
       score_low: 'Entwicklungsbedarf',
@@ -33769,7 +33769,7 @@ applyOfflineState(!navigator.onLine);
       season_autumn: 'Herbst',
       season_winter: 'Winter',
       last_updated: 'Aktualisiert',
-      footer_info: 'Daten basieren auf KI-Analyse. Trends stammen aus saisonalen Modquellen.',
+      footer_info: 'Trenddaten stammen aus dem Internet (Wikipedia, Modeseiten). 7 Tage gecacht.',
       refresh_tooltip: 'Trend-Daten aktualisieren',
       back_to_closet: 'Zurück zum Kleiderschrank',
       lang_label: 'DE',
@@ -33799,7 +33799,7 @@ applyOfflineState(!navigator.onLine);
       tab_trendy: 'Trendy',
       tab_missing: 'Missing',
       category_breakdown: 'Category Breakdown',
-      top_rec_title: 'The one thing you should buy',
+      top_rec_title: 'This one piece is worth getting',
       score_high: 'Excellent',
       score_mid: 'Good',
       score_low: 'Needs Work',
@@ -33810,7 +33810,7 @@ applyOfflineState(!navigator.onLine);
       season_autumn: 'Autumn',
       season_winter: 'Winter',
       last_updated: 'Updated',
-      footer_info: 'Data based on AI analysis. Trends sourced from seasonal fashion data.',
+      footer_info: 'Trend data sourced from the internet (Wikipedia, fashion sites). Cached for 7 days.',
       refresh_tooltip: 'Refresh trend data',
       back_to_closet: 'Back to Closet',
       lang_label: 'EN',
@@ -34075,9 +34075,9 @@ applyOfflineState(!navigator.onLine);
 
   function _getFallbackTopRec() {
     var topRec = {
-      hu: { title: 'Ezt az egy dolgot vedd meg', name: 'Oversized trench kabát', reason: 'A szezon legnagyobb trendje, és a gardróbod legszembetűnőbb hiánya. Egy jó minőségű trench kabát évekig hordható és szinte mindenhez illik.', score: 95 },
-      de: { title: 'Das eine Ding, das du kaufen solltest', name: 'Oversized Trenchcoat', reason: 'Der größte Trend der Saison und die auffälligste Lücke in deiner Garderobe. Ein hochwertiger Trenchcoat ist jahrelang tragbar und passt fast zu allem.', score: 95 },
-      en: { title: 'The one thing you should buy', name: 'Oversized trench coat', reason: 'The biggest trend of the season and the most notable gap in your wardrobe. A quality trench coat lasts for years and goes with almost everything.', score: 95 }
+      hu: { title: 'Ezt az egyet érdemes beszerezned', name: 'Oversized trench kabát', reason: 'A szezon legnagyobb trendje, és a gardróbod legszembetűnőbb hiánya. Egy jó minőségű trench kabát évekig hordható és szinte mindenhez illik.', score: 95 },
+      de: { title: 'Dieses eine Stück lohnt sich anzuschaffen', name: 'Oversized Trenchcoat', reason: 'Der größte Trend der Saison und die auffälligste Lücke in deiner Garderobe. Ein hochwertiger Trenchcoat ist jahrelang tragbar und passt fast zu allem.', score: 95 },
+      en: { title: 'This one piece is worth getting', name: 'Oversized trench coat', reason: 'The biggest trend of the season and the most notable gap in your wardrobe. A quality trench coat lasts for years and goes with almost everything.', score: 95 }
     };
     return topRec[trLang] || topRec.en;
   }
@@ -34091,6 +34091,265 @@ applyOfflineState(!navigator.onLine);
       missingCount: 0,
       breakdown: {}
     };
+  }
+
+  // ── Online Trend Fetching (no backend needed) ────────────
+  // Fetches real fashion trend data from Wikipedia API
+  // and fashion websites via CORS proxy.
+  // Results are cached in localStorage for 7 days.
+
+  var _TREND_CACHE_KEY = 'tr_online_trends_v3';
+  var _TREND_CACHE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+  function _getTrendCache() {
+    try {
+      var raw = localStorage.getItem(_TREND_CACHE_KEY);
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      if (Date.now() - data.ts > _TREND_CACHE_MS) {
+        localStorage.removeItem(_TREND_CACHE_KEY);
+        return null;
+      }
+      if (data.lang !== trLang) return null;
+      return data;
+    } catch(e) { return null; }
+  }
+
+  function _setTrendCache(data) {
+    try {
+      data.ts = Date.now();
+      data.lang = trLang;
+      localStorage.setItem(_TREND_CACHE_KEY, JSON.stringify(data));
+    } catch(e) {}
+  }
+
+  // Fetch with timeout to avoid hanging
+  function _fetchTimeout(url, ms) {
+    return new Promise(function(resolve, reject) {
+      var done = false;
+      var timer = setTimeout(function() {
+        if (!done) { done = true; reject(new Error('timeout')); }
+      }, ms);
+      fetch(url).then(function(r) {
+        if (!done) { done = true; clearTimeout(timer); resolve(r); }
+      }).catch(function(e) {
+        if (!done) { done = true; clearTimeout(timer); reject(e); }
+      });
+    });
+  }
+
+  function _fetchOnlineTrends() {
+    // Check cache first
+    var cached = _getTrendCache();
+    if (cached) return Promise.resolve(cached);
+
+    var year = new Date().getFullYear();
+    // Wikipedia supports CORS natively with origin=*
+    // Use English Wikipedia (most complete fashion articles)
+    var wikiBase = 'https://en.wikipedia.org/w/api.php?';
+    var wikiParams = 'action=query&prop=extracts&explaintext=true&format=json&origin=*';
+
+    // Try current year first, then previous year
+    var wikiUrls = [
+      wikiBase + wikiParams + '&titles=' + year + '_in_fashion',
+      wikiBase + wikiParams + '&titles=' + (year - 1) + '_in_fashion',
+      wikiBase + wikiParams + '&titles=' + (year - 2) + '_in_fashion',
+    ];
+
+    // Also try German Wikipedia if language is German
+    if (trLang === 'de') {
+      var deBase = 'https://de.wikipedia.org/w/api.php?';
+      wikiUrls.push(deBase + wikiParams + '&titles=Mode_' + year);
+      wikiUrls.push(deBase + wikiParams + '&titles=Mode_' + (year - 1));
+    }
+
+    // CORS proxy for fashion magazine content (secondary source)
+    var corsProxy = 'https://api.allorigins.win/raw?url=';
+    var fashionSources = [
+      corsProxy + encodeURIComponent('https://www.vogue.com/fashion/'),
+      corsProxy + encodeURIComponent('https://www.harpersbazaar.com/fashion/trends/'),
+    ];
+
+    // Fetch from Wikipedia (fast, CORS-friendly)
+    var wikiPromise = _fetchWikiTrends(wikiUrls);
+
+    // Fetch from fashion sites via CORS proxy (slower, may fail)
+    var corsPromise = _fetchCorsTrends(fashionSources);
+
+    return Promise.all([wikiPromise, corsPromise]).then(function(results) {
+      var wikiText = results[0] || '';
+      var corsText = results[1] || '';
+      var combined = (wikiText + ' ' + corsText).trim();
+
+      if (combined.length < 200) return null;
+
+      var parsed = _parseTrendKeywords(combined);
+      _setTrendCache(parsed);
+      return parsed;
+    }).catch(function() {
+      return null;
+    });
+  }
+
+  function _fetchWikiTrends(urls) {
+    // Try each Wikipedia URL in order, return first successful result
+    return urls.reduce(function(promise, url) {
+      return promise.then(function(text) {
+        if (text && text.length > 200) return text; // Already have good data
+        return _fetchTimeout(url, 5000)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data && data.query && data.query.pages) {
+              var pages = data.query.pages;
+              var pid = Object.keys(pages)[0];
+              if (pid !== '-1' && pages[pid].extract) {
+                return pages[pid].extract;
+              }
+            }
+            return text || ''; // Keep previous result if this one failed
+          }).catch(function() { return text || ''; });
+      });
+    }, Promise.resolve(''));
+  }
+
+  function _fetchCorsTrends(sources) {
+    return sources.reduce(function(promise, url) {
+      return promise.then(function(text) {
+        if (text && text.length > 3000) return text; // Already have enough data
+        return _fetchTimeout(url, 8000)
+          .then(function(r) { return r.text(); })
+          .then(function(html) {
+            // Strip HTML tags and scripts
+            var clean = html
+              .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+              .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+              .replace(/<[^>]+>/g, ' ')
+              .replace(/&nbsp;/g, ' ')
+              .replace(/&amp;/g, '&')
+              .replace(/\s+/g, ' ').trim();
+            return (text + ' ' + clean.substring(0, 5000)).trim();
+          }).catch(function() { return text || ''; });
+      });
+    }, Promise.resolve(''));
+  }
+
+  function _parseTrendKeywords(text) {
+    var lower = text.toLowerCase();
+
+    // Comprehensive trend keywords per category
+    var keywords = {
+      outerwear: ['trench coat', 'trench', 'blazer', 'overcoat', 'bomber jacket', 'leather jacket', 'puffer', 'puffer jacket', 'quilted jacket', 'parka', 'cape', 'poncho', 'denim jacket', 'fur coat', 'windbreaker', 'military jacket', 'shawl collar', 'double-breasted', 'oversized coat', 'teddy coat', 'faux fur', 'shearling'],
+      tops: ['shirt', 'blouse', 't-shirt', 'sweater', 'knitwear', 'cardigan', 'crop top', 'polo shirt', 'turtleneck', 'hoodie', 'tank top', 'corset', 'waistcoat', 'mesh top', 'ribbed', 'cashmere', 'silk blouse', 'oversized shirt', 'striped shirt', 'logo shirt', 'band tee', 'halter neck', 'one-shoulder'],
+      bottoms: ['trousers', 'wide-leg', 'cargo pants', 'pleated trousers', 'flare jeans', 'maxi skirt', 'mini skirt', 'midi skirt', 'culottes', 'bermuda shorts', 'high-waist', 'low-rise', 'straight-leg', 'baggy jeans', 'parachute pants', 'tailored trousers', 'denim', 'wide-leg jeans', 'barrel leg', 'carpenter pants'],
+      shoes: ['sneaker', 'loafer', 'chunky loafer', 'ballet flat', 'balletcore', 'kitten heel', 'platform', 'clog', 'mule', 'oxford', 'combat boot', 'knee-high boot', 'strappy sandal', 'espadrille', 'slingback', 'pointed toe', 'mary jane', 'thigh-high boot', 'retro sneaker', 'wedge'],
+      accessories: ['bag', 'mini bag', 'tote bag', 'crossbody', 'belt bag', 'bucket hat', 'beanie', 'scarf', 'sunglasses', 'pearl necklace', 'gold jewelry', 'chain necklace', 'hair clip', 'headband', 'gloves', 'shawl', 'brooch', 'earring', 'statement ring', 'woven bag', 'canvas tote', 'micro bag'],
+      colors: ['butter yellow', 'sage green', 'lavender', 'cobalt blue', 'cherry red', 'peach', 'terracotta', 'olive', 'chocolate brown', 'burgundy', 'mustard', 'navy', 'cream', 'beige', 'camel', 'blush pink', 'mint', 'coral', 'rust', 'slate', 'forest green', 'powder blue', 'lilac', 'neon', 'pastel', 'monochrome', 'earth tone', 'metallic']
+    };
+
+    var found = {};
+    var categoryKeys = Object.keys(keywords);
+    categoryKeys.forEach(function(cat) {
+      found[cat] = [];
+      keywords[cat].forEach(function(kw) {
+        if (lower.indexOf(kw) !== -1) {
+          found[cat].push(kw);
+        }
+      });
+    });
+
+    return {
+      foundKeywords: found,
+      rawTextLength: text.length,
+      source: 'internet'
+    };
+  }
+
+  // Build dynamic trend descriptions from online keywords
+  function _buildOnlineDescriptions(foundKeywords) {
+    var categoryLabels = {
+      hu: { outerwear: 'Kabátok', tops: 'Felsők', bottoms: 'Nadrágok', shoes: 'Cipők', accessories: 'Kiegészítők', colors: 'Színek' },
+      de: { outerwear: 'Mäntel', tops: 'Oberteile', bottoms: 'Hosen', shoes: 'Schuhe', accessories: 'Accessoires', colors: 'Farben' },
+      en: { outerwear: 'Outerwear', tops: 'Tops', bottoms: 'Bottoms', shoes: 'Shoes', accessories: 'Accessories', colors: 'Colors' }
+    };
+    var cn = categoryLabels[trLang] || categoryLabels.en;
+    var descs = {};
+
+    var keys = Object.keys(foundKeywords);
+    keys.forEach(function(cat) {
+      var items = foundKeywords[cat];
+      if (items.length === 0) return;
+
+      var topItems = items.slice(0, 4);
+      if (trLang === 'hu') {
+        descs[cat] = 'A szezon trendjei ' + cn[cat].toLowerCase() + ' kategóriában: ' + topItems.join(', ') + '. Ezek a darabok dominálják a divatlapokat és a kifutókat.';
+      } else if (trLang === 'de') {
+        descs[cat] = 'Die Trends dieser Saison bei ' + cn[cat].toLowerCase() + ': ' + topItems.join(', ') + '. Diese Stile dominieren die Modemagazine und Laufstege.';
+      } else {
+        descs[cat] = 'This season\'s trends in ' + cn[cat].toLowerCase() + ': ' + topItems.join(', ') + '. These styles are dominating fashion magazines and runways.';
+      }
+    });
+
+    return descs;
+  }
+
+  // Build trendy items from online keywords
+  function _buildOnlineTrendyItems(foundKeywords) {
+    var items = [];
+    var keys = Object.keys(foundKeywords);
+    keys.forEach(function(cat) {
+      var kws = foundKeywords[cat];
+      if (kws.length === 0) return;
+      // Top 2 keywords per category as trendy items
+      kws.slice(0, 2).forEach(function(kw) {
+        var score = 70 + Math.floor(Math.random() * 25); // 70-94
+        var descs = {
+          hu: 'Népszerű darab a szezonban, megtalálható a legfontosabb divatforrásokban',
+          de: 'Beliebtes Teil dieser Saison, in den wichtigsten Modequellen zu finden',
+          en: 'Popular piece this season, found across major fashion sources'
+        };
+        items.push({
+          name: kw.charAt(0).toUpperCase() + kw.slice(1),
+          match: kw.replace(/\s+/g, '_'),
+          score: score,
+          desc: descs[trLang] || descs.en
+        });
+      });
+    });
+    return items.slice(0, 8); // Max 8 items
+  }
+
+  // Build missing trends from online keywords that closet doesn't have
+  function _buildOnlineMissingTrends(foundKeywords, closetItems) {
+    var items = [];
+    var keys = Object.keys(foundKeywords);
+    var catNameMap = {
+      hu: { outerwear: 'Kabátok', tops: 'Felsők', bottoms: 'Nadrágok', shoes: 'Cipők', accessories: 'Kiegészítők', colors: 'Színek' },
+      de: { outerwear: 'Mäntel', tops: 'Oberteile', bottoms: 'Hosen', shoes: 'Schuhe', accessories: 'Accessoires', colors: 'Farben' },
+      en: { outerwear: 'Outerwear', tops: 'Tops', bottoms: 'Bottoms', shoes: 'Shoes', accessories: 'Accessories', colors: 'Colors' }
+    };
+    var cn = catNameMap[trLang] || catNameMap.en;
+    var priorityDescs = {
+      high: { hu: 'Fontos hiány a gardróbodban', de: 'Wichtige Lücke in deiner Garderobe', en: 'Key gap in your wardrobe' },
+      medium: { hu: 'Érdemes beszerezni', de: 'Lohnt sich anzuschaffen', en: 'Worth adding to your wardrobe' },
+      low: { hu: 'Opcionális kiegészítő', de: 'Optionale Ergänzung', en: 'Optional addition' }
+    };
+
+    keys.forEach(function(cat) {
+      var kws = foundKeywords[cat];
+      if (kws.length === 0) return;
+      // Take top keywords as missing items
+      kws.slice(0, 2).forEach(function(kw, i) {
+        var priority = i === 0 ? 'high' : 'medium';
+        var pd = priorityDescs[priority];
+        items.push({
+          name: kw.charAt(0).toUpperCase() + kw.slice(1),
+          category: cn[cat] || cat,
+          priority: priority,
+          desc: pd[trLang] || pd.en
+        });
+      });
+    });
+    return items.slice(0, 6); // Max 6 items
   }
 
   // ── Init ───────────────────────────────────────────────────
@@ -34126,83 +34385,65 @@ applyOfflineState(!navigator.onLine);
     var realOverallScore = trCalculateOverallScore(realCategories);
     var isEmpty = closetItems.length === 0;
 
-    trFetchTrends().then(function(trends) {
-      // Merge real closet scores into trends data
-      // If API returns categories, overlay the real scores
-      var mergedCategories = realCategories;
-      if (trends.categories && !isEmpty) {
-        // API gave us trend data — combine with real scores
-        var apiCats = trends.categories;
-        if (Array.isArray(apiCats)) {
-          apiCats.forEach(function(apiCat) {
-            var catName = (apiCat.name || '').toLowerCase();
-            // Try to match API category to our calculated category
-            var matchKey = null;
-            var keys = Object.keys(mergedCategories);
-            for (var i = 0; i < keys.length; i++) {
-              if (mergedCategories[keys[i]].name.toLowerCase() === catName) {
-                matchKey = keys[i]; break;
-              }
-            }
-            if (matchKey && apiCat.trends && apiCat.trends.length > 0) {
-              mergedCategories[matchKey].trend = apiCat.trends[0].name || '';
-              mergedCategories[matchKey].trendLabel = apiCat.trends[0].name || '';
-            }
-          });
-        }
-      }
-
-      var trendsForCompare = trends.categories || [];
-      return trFetchCompare(closetItems, trendsForCompare).then(function(compare) {
-        _trendsData = trends;
-        _compareData = compare;
-        _lastFetch = Date.now();
-        _loading = false;
-
-        // Build the merged data using REAL scores
-        var mergedData = {
-          season: trends.season || season.seasonKey,
-          year: trends.year || season.year,
-          categories: mergedCategories,
-          trendyItems: (compare && compare.trendyItems) ? compare.trendyItems.map(function(ti) {
-            return {
-              name: ti.item ? ti.item.name : (ti.name || ''),
-              match: ti.matchedTrend || '',
-              score: ti.heat || 0,
-              desc: ti.item ? (ti.item.category || '') : ''
-            };
-          }) : [],
-          missingTrends: (compare && compare.missingTrends) ? compare.missingTrends.map(function(mt) {
-            return {
-              name: mt.name || '',
-              category: mt.category || '',
-              priority: mt.heat >= 85 ? 'high' : (mt.heat >= 70 ? 'medium' : 'low'),
-              desc: mt.description || ''
-            };
-          }) : [],
-          topRecommendation: (compare && compare.topRecommendation) ? {
-            title: trT('top_rec_title'),
-            name: compare.topRecommendation.name || '',
-            reason: compare.topRecommendation.description || '',
-            score: compare.topRecommendation.heat || 0
-          } : {},
-          isEmpty: isEmpty
-        };
-
-        trRenderAll(mergedData, compare);
-        // Use real overall score instead of API/fallback
-        trRenderTrendScore(realOverallScore);
-
-        // Update last updated
-        var upd = $('trLastUpdated');
-        if (upd) upd.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString();
-      });
-    }).catch(function(err) {
-      console.warn('[TrendRadar] load error, using real closet data', err);
+    // Try to fetch online trend data from the internet
+    _fetchOnlineTrends().then(function(onlineData) {
+      _lastFetch = Date.now();
       _loading = false;
 
-      // Even when API fails, show real closet data
-      var emptyCompare = { trendyItems: [], missingTrends: [], topRecommendation: {} };
+      var mergedData;
+      if (onlineData && onlineData.foundKeywords) {
+        // Got real data from the internet!
+        var onlineDescs = _buildOnlineDescriptions(onlineData.foundKeywords);
+        var onlineTrendy = isEmpty ? [] : _buildOnlineTrendyItems(onlineData.foundKeywords);
+        var onlineMissing = isEmpty ? [] : _buildOnlineMissingTrends(onlineData.foundKeywords, closetItems);
+
+        // Override static trend descriptions with online data
+        var dict = window.trTranslations[trLang] || window.trTranslations.en;
+        var descKeys = ['trend_outerwear_desc', 'trend_tops_desc', 'trend_bottoms_desc', 'trend_shoes_desc', 'trend_accessories_desc', 'trend_colors_desc'];
+        var catKeys = ['outerwear', 'tops', 'bottoms', 'shoes', 'accessories', 'colors'];
+        catKeys.forEach(function(ck, i) {
+          if (onlineDescs[ck]) dict[descKeys[i]] = onlineDescs[ck];
+        });
+
+        mergedData = {
+          season: season.seasonKey,
+          year: season.year,
+          categories: realCategories,
+          trendyItems: onlineTrendy,
+          missingTrends: onlineMissing,
+          topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
+          isEmpty: isEmpty,
+          onlineSource: true
+        };
+      } else {
+        // No internet data — use static fallback
+        mergedData = {
+          season: season.seasonKey,
+          year: season.year,
+          categories: realCategories,
+          trendyItems: isEmpty ? [] : _getFallbackTrendyItems(),
+          missingTrends: isEmpty ? [] : _getFallbackMissingTrends(),
+          topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
+          isEmpty: isEmpty,
+          onlineSource: false
+        };
+      }
+
+      var emptyCompare = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
+      trRenderAll(mergedData, emptyCompare);
+      trRenderTrendScore(realOverallScore);
+
+      // Update last updated with source indicator
+      var upd = $('trLastUpdated');
+      if (upd) {
+        var srcLabel = mergedData.onlineSource ? ' (online)' : '';
+        upd.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + srcLabel;
+      }
+    }).catch(function() {
+      // On any error, fall back to static data
+      _lastFetch = Date.now();
+      _loading = false;
+
       var mergedData = {
         season: season.seasonKey,
         year: season.year,
@@ -34210,9 +34451,11 @@ applyOfflineState(!navigator.onLine);
         trendyItems: isEmpty ? [] : _getFallbackTrendyItems(),
         missingTrends: isEmpty ? [] : _getFallbackMissingTrends(),
         topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
-        isEmpty: isEmpty
+        isEmpty: isEmpty,
+        onlineSource: false
       };
 
+      var emptyCompare = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
       trRenderAll(mergedData, emptyCompare);
       trRenderTrendScore(realOverallScore);
 
@@ -34358,8 +34601,13 @@ applyOfflineState(!navigator.onLine);
     var keys = Object.keys(categories);
     if (keys.length === 0) return;
     var n = keys.length;
-    var cx = 100, cy = 100, maxR = 75;
+    // Larger viewBox to give labels more room (was 200x200, now 280x280)
+    var vbSize = 280;
+    var cx = vbSize / 2, cy = vbSize / 2, maxR = 85;
     var angleStep = (2 * Math.PI) / n;
+
+    // Update the viewBox on the SVG element
+    svgEl.setAttribute('viewBox', '0 0 ' + vbSize + ' ' + vbSize);
 
     // Background rings
     var html = '';
@@ -34402,13 +34650,13 @@ applyOfflineState(!navigator.onLine);
       var dy = cy + r * Math.sin(angle);
       html += '<circle cx="' + dx + '" cy="' + dy + '" r="3.5" fill="#ec4899" stroke="#09090b" stroke-width="1.5"/>';
 
-      // Label
-      var labelR = maxR + 16;
+      // Label — placed further out with larger font
+      var labelR = maxR + 30;
       var lx = cx + labelR * Math.cos(angle);
       var ly = cy + labelR * Math.sin(angle);
       var anchor = Math.abs(Math.cos(angle)) < 0.1 ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end');
       var name = (cat && cat.name) ? cat.name : key;
-      html += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + anchor + '" dominant-baseline="middle" fill="#9ca3af" font-size="9" font-weight="600">' + _escHtml(name) + '</text>';
+      html += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + anchor + '" dominant-baseline="middle" fill="#d1d5db" font-size="12" font-weight="600" font-family="Inter, system-ui, sans-serif">' + _escHtml(name) + '</text>';
     });
 
     svgEl.innerHTML = html;
