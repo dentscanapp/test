@@ -34125,16 +34125,21 @@ applyOfflineState(!navigator.onLine);
 
   // Fetch with timeout to avoid hanging
   function _fetchTimeout(url, ms) {
+    var timeout = ms || 3000;
     return new Promise(function(resolve, reject) {
       var done = false;
       var timer = setTimeout(function() {
         if (!done) { done = true; reject(new Error('timeout')); }
-      }, ms || 3000);
-      fetch(url, { mode: 'cors', signal: AbortSignal.timeout ? AbortSignal.timeout(ms || 3000) : undefined }).then(function(r) {
-        if (!done) { done = true; clearTimeout(timer); resolve(r); }
-      }).catch(function(e) {
+      }, timeout);
+      try {
+        fetch(url).then(function(r) {
+          if (!done) { done = true; clearTimeout(timer); resolve(r); }
+        }).catch(function(e) {
+          if (!done) { done = true; clearTimeout(timer); reject(e); }
+        });
+      } catch(e) {
         if (!done) { done = true; clearTimeout(timer); reject(e); }
-      });
+      }
     });
   }
 
@@ -34368,32 +34373,80 @@ applyOfflineState(!navigator.onLine);
     if (_loading) return;
     _loading = true;
 
-    var season = trGetCurrentSeason();
-    // Update season badge
-    var badge = $('trSeasonBadge');
-    if (badge) badge.textContent = season.seasonLabel + ' ' + season.year;
+    try {
+      var season = trGetCurrentSeason();
+      // Update season badge
+      var badge = $('trSeasonBadge');
+      if (badge) badge.textContent = season.seasonLabel + ' ' + season.year;
 
-    // Update language label
-    var langLabel = $('trLangLabel');
-    if (langLabel) langLabel.textContent = trLang.toUpperCase();
+      // Update language label
+      var langLabel = $('trLangLabel');
+      if (langLabel) langLabel.textContent = trLang.toUpperCase();
 
-    // Get REAL closet items from IndexedDB
-    var closetItems = trGetWardrobeItems();
-    // Calculate scores from real closet data
-    var realCategories = trCalculateCategoryScores(closetItems);
-    var realOverallScore = trCalculateOverallScore(realCategories);
-    var isEmpty = closetItems.length === 0;
+      // Get REAL closet items from IndexedDB
+      var closetItems = trGetWardrobeItems();
+      // Calculate scores from real closet data
+      var realCategories = trCalculateCategoryScores(closetItems);
+      var realOverallScore = trCalculateOverallScore(realCategories);
+      var isEmpty = closetItems.length === 0;
 
-    // ── STEP 1: Render immediately with cached or fallback data ──
-    var cached = _getTrendCache();
-    var useOnline = false;
+      // ── Render IMMEDIATELY with fallback data ──
+      var mergedData = {
+        season: season.seasonKey,
+        year: season.year,
+        categories: realCategories,
+        trendyItems: isEmpty ? [] : _getFallbackTrendyItems(),
+        missingTrends: isEmpty ? [] : _getFallbackMissingTrends(),
+        topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
+        isEmpty: isEmpty,
+        onlineSource: false
+      };
 
-    if (cached && cached.foundKeywords) {
-      // Have cached online data — use it right away
-      var onlineDescs = _buildOnlineDescriptions(cached.foundKeywords);
-      var onlineTrendy = isEmpty ? [] : _buildOnlineTrendyItems(cached.foundKeywords);
-      var onlineMissing = isEmpty ? [] : _buildOnlineMissingTrends(cached.foundKeywords, closetItems);
+      var emptyCompare = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
+      trRenderAll(mergedData, emptyCompare);
+      trRenderTrendScore(realOverallScore);
 
+      // Check if we have cached online data to overlay
+      var cached = _getTrendCache();
+      if (cached && cached.foundKeywords) {
+        _applyOnlineData(cached.foundKeywords, realCategories, realOverallScore, isEmpty, season, closetItems);
+      }
+
+      var upd = $('trLastUpdated');
+      if (upd) {
+        var srcLbl = (cached && cached.foundKeywords) ? ' (online)' : '';
+        upd.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + srcLbl;
+      }
+
+      _lastFetch = Date.now();
+      _loading = false;
+
+      // ── Background: fetch fresh online data if cache is old ──
+      var cacheAge = cached ? (Date.now() - (cached.ts || 0)) : _TREND_CACHE_MS;
+      if (cacheAge > 24 * 60 * 60 * 1000) {
+        _fetchOnlineTrends().then(function(onlineData) {
+          if (!onlineData || !onlineData.foundKeywords) return;
+          _applyOnlineData(onlineData.foundKeywords, realCategories, realOverallScore, isEmpty, season, closetItems);
+          var upd2 = $('trLastUpdated');
+          if (upd2) upd2.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + ' (online)';
+        }).catch(function() { /* ignore */ });
+      }
+    } catch(e) {
+      console.error('[TrendRadar] _loadData error:', e);
+      _loading = false;
+      // Force hide shimmers and show something
+      _hideAllShimmers();
+    }
+  }
+
+  // Apply online data to the UI (used for both cached and fresh data)
+  function _applyOnlineData(foundKeywords, realCategories, realOverallScore, isEmpty, season, closetItems) {
+    try {
+      var onlineDescs = _buildOnlineDescriptions(foundKeywords);
+      var onlineTrendy = isEmpty ? [] : _buildOnlineTrendyItems(foundKeywords);
+      var onlineMissing = isEmpty ? [] : _buildOnlineMissingTrends(foundKeywords, closetItems);
+
+      // Override static trend descriptions with online data
       var dict = window.trTranslations[trLang] || window.trTranslations.en;
       var descKeys = ['trend_outerwear_desc', 'trend_tops_desc', 'trend_bottoms_desc', 'trend_shoes_desc', 'trend_accessories_desc', 'trend_colors_desc'];
       var catKeys = ['outerwear', 'tops', 'bottoms', 'shoes', 'accessories', 'colors'];
@@ -34401,7 +34454,7 @@ applyOfflineState(!navigator.onLine);
         if (onlineDescs[ck]) dict[descKeys[i]] = onlineDescs[ck];
       });
 
-      var cachedData = {
+      var freshData = {
         season: season.seasonKey, year: season.year,
         categories: realCategories,
         trendyItems: onlineTrendy,
@@ -34410,70 +34463,19 @@ applyOfflineState(!navigator.onLine);
         isEmpty: isEmpty, onlineSource: true
       };
       var cmp = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
-      trRenderAll(cachedData, cmp);
+      trRenderAll(freshData, cmp);
       trRenderTrendScore(realOverallScore);
-      useOnline = true;
-    } else {
-      // No cache — render with fallback data immediately
-      var fallbackData = {
-        season: season.seasonKey, year: season.year,
-        categories: realCategories,
-        trendyItems: isEmpty ? [] : _getFallbackTrendyItems(),
-        missingTrends: isEmpty ? [] : _getFallbackMissingTrends(),
-        topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
-        isEmpty: isEmpty, onlineSource: false
-      };
-      var cmp2 = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
-      trRenderAll(fallbackData, cmp2);
-      trRenderTrendScore(realOverallScore);
+    } catch(e) {
+      console.warn('[TrendRadar] _applyOnlineData error:', e);
     }
+  }
 
-    var upd = $('trLastUpdated');
-    if (upd) {
-      var srcLbl = useOnline ? ' (online)' : '';
-      upd.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + srcLbl;
-    }
-
-    _lastFetch = Date.now();
-    _loading = false;
-
-    // ── STEP 2: Try fetching fresh online data in the background ──
-    // Only if no cache or cache is older than 1 day
-    var cacheAge = cached ? (Date.now() - cached.ts) : _TREND_CACHE_MS;
-    if (cacheAge > 24 * 60 * 60 * 1000) {
-      _fetchOnlineTrends().then(function(onlineData) {
-        if (!onlineData || !onlineData.foundKeywords) return;
-
-        // Re-render with fresh online data
-        var freshDescs = _buildOnlineDescriptions(onlineData.foundKeywords);
-        var freshTrendy = isEmpty ? [] : _buildOnlineTrendyItems(onlineData.foundKeywords);
-        var freshMissing = isEmpty ? [] : _buildOnlineMissingTrends(onlineData.foundKeywords, closetItems);
-
-        var dict2 = window.trTranslations[trLang] || window.trTranslations.en;
-        var descKeys2 = ['trend_outerwear_desc', 'trend_tops_desc', 'trend_bottoms_desc', 'trend_shoes_desc', 'trend_accessories_desc', 'trend_colors_desc'];
-        var catKeys2 = ['outerwear', 'tops', 'bottoms', 'shoes', 'accessories', 'colors'];
-        catKeys2.forEach(function(ck, i) {
-          if (freshDescs[ck]) dict2[descKeys2[i]] = freshDescs[ck];
-        });
-
-        var freshData = {
-          season: season.seasonKey, year: season.year,
-          categories: realCategories,
-          trendyItems: freshTrendy,
-          missingTrends: freshMissing,
-          topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
-          isEmpty: isEmpty, onlineSource: true
-        };
-        var cmp3 = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
-        trRenderAll(freshData, cmp3);
-        trRenderTrendScore(realOverallScore);
-
-        var upd2 = $('trLastUpdated');
-        if (upd2) upd2.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + ' (online)';
-      }).catch(function() {
-        // Silently ignore — already showing cached/fallback data
-      });
-    }
+  // Force hide all shimmer elements (emergency fallback)
+  function _hideAllShimmers() {
+    ['trScoreShimmer', 'trRadarShimmer', 'trTopRecShimmer', 'trTrendyShimmer', 'trMissingShimmer'].forEach(function(id) {
+      var el = $(id);
+      if (el) el.style.display = 'none';
+    });
   }
 
   // ── Merge API data into frontend format ────────────────────
@@ -34613,22 +34615,22 @@ applyOfflineState(!navigator.onLine);
     var keys = Object.keys(categories);
     if (keys.length === 0) return;
     var n = keys.length;
-    // Larger viewBox to give labels more room (was 200x200, now 280x280)
-    var vbSize = 280;
-    var cx = vbSize / 2, cy = vbSize / 2, maxR = 85;
+    // Extra-large viewBox so long labels never get clipped
+    var vbW = 360, vbH = 360;
+    var cx = vbW / 2, cy = vbH / 2, maxR = 95;
     var angleStep = (2 * Math.PI) / n;
 
-    // Update the viewBox on the SVG element
-    svgEl.setAttribute('viewBox', '0 0 ' + vbSize + ' ' + vbSize);
+    svgEl.setAttribute('viewBox', '0 0 ' + vbW + ' ' + vbH);
+
+    var html = '';
 
     // Background rings
-    var html = '';
     [0.25, 0.5, 0.75, 1].forEach(function(ring) {
       var r = maxR * ring;
       var points = [];
       for (var i = 0; i < n; i++) {
         var angle = i * angleStep - Math.PI / 2;
-        points.push((cx + r * Math.cos(angle)) + ',' + (cy + r * Math.sin(angle)));
+        points.push((cx + r * Math.cos(angle)).toFixed(1) + ',' + (cy + r * Math.sin(angle)).toFixed(1));
       }
       html += '<polygon points="' + points.join(' ') + '" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
     });
@@ -34638,7 +34640,7 @@ applyOfflineState(!navigator.onLine);
       var angle = i * angleStep - Math.PI / 2;
       var ex = cx + maxR * Math.cos(angle);
       var ey = cy + maxR * Math.sin(angle);
-      html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + ex + '" y2="' + ey + '" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
+      html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + ex.toFixed(1) + '" y2="' + ey.toFixed(1) + '" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
     });
 
     // Data polygon
@@ -34648,7 +34650,7 @@ applyOfflineState(!navigator.onLine);
       var score = (cat && cat.score) || 0;
       var r = maxR * (score / 100);
       var angle = i * angleStep - Math.PI / 2;
-      dataPoints.push((cx + r * Math.cos(angle)) + ',' + (cy + r * Math.sin(angle)));
+      dataPoints.push((cx + r * Math.cos(angle)).toFixed(1) + ',' + (cy + r * Math.sin(angle)).toFixed(1));
     });
     html += '<polygon points="' + dataPoints.join(' ') + '" fill="rgba(236,72,153,0.15)" stroke="rgba(236,72,153,0.6)" stroke-width="2"/>';
 
@@ -34660,15 +34662,35 @@ applyOfflineState(!navigator.onLine);
       var angle = i * angleStep - Math.PI / 2;
       var dx = cx + r * Math.cos(angle);
       var dy = cy + r * Math.sin(angle);
-      html += '<circle cx="' + dx + '" cy="' + dy + '" r="3.5" fill="#ec4899" stroke="#09090b" stroke-width="1.5"/>';
+      html += '<circle cx="' + dx.toFixed(1) + '" cy="' + dy.toFixed(1) + '" r="3.5" fill="#ec4899" stroke="#09090b" stroke-width="1.5"/>';
 
-      // Label — placed further out with larger font
-      var labelR = maxR + 30;
+      // Score number near the dot
+      if (score > 0) {
+        var scoreR = r + 10;
+        var sx = cx + scoreR * Math.cos(angle);
+        var sy = cy + scoreR * Math.sin(angle);
+        html += '<text x="' + sx.toFixed(1) + '" y="' + sy.toFixed(1) + '" text-anchor="middle" dominant-baseline="middle" fill="#ec4899" font-size="9" font-weight="700" font-family="Inter, system-ui, sans-serif">' + score + '</text>';
+      }
+
+      // Category name label — pushed well outside the chart
+      var name = (cat && cat.name) ? cat.name : key;
+      var labelR = maxR + 38;
       var lx = cx + labelR * Math.cos(angle);
       var ly = cy + labelR * Math.sin(angle);
-      var anchor = Math.abs(Math.cos(angle)) < 0.1 ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end');
-      var name = (cat && cat.name) ? cat.name : key;
-      html += '<text x="' + lx + '" y="' + ly + '" text-anchor="' + anchor + '" dominant-baseline="middle" fill="#d1d5db" font-size="12" font-weight="600" font-family="Inter, system-ui, sans-serif">' + _escHtml(name) + '</text>';
+      var cosA = Math.cos(angle);
+      var sinA = Math.sin(angle);
+      var anchor, dy_adj;
+
+      // Smart positioning based on angle quadrant
+      if (Math.abs(cosA) < 0.15) {
+        anchor = 'middle';
+        dy_adj = sinA < 0 ? '-0.3em' : '1em';
+      } else {
+        anchor = cosA > 0 ? 'start' : 'end';
+        dy_adj = '0.35em';
+      }
+
+      html += '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="' + anchor + '" dominant-baseline="auto" fill="#e5e7eb" font-size="13" font-weight="600" font-family="Inter, system-ui, sans-serif" dy="' + dy_adj + '">' + _escHtml(name) + '</text>';
     });
 
     svgEl.innerHTML = html;
