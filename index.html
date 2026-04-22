@@ -33815,7 +33815,11 @@ applyOfflineState(!navigator.onLine);
   };
 
   // ── Language Detection ──────────────────────────────────────
-  var trLang = (function() {
+  // Detects language at call time (not IIFE time) so that the
+  // module script's getLang() and localStorage are available.
+  var trLang = 'hu'; // safe default; updated in _detectLang()
+
+  function _detectLang() {
     try {
       var gl = (typeof window.getLang === 'function') ? window.getLang() : null;
       if (gl && (gl === 'hu' || gl === 'de' || gl === 'en')) return gl;
@@ -33826,7 +33830,7 @@ applyOfflineState(!navigator.onLine);
       }
     } catch(e) {}
     return 'hu';
-  })();
+  }
 
   // ── Translate Helper ───────────────────────────────────────
   function trT(key) {
@@ -34338,10 +34342,47 @@ applyOfflineState(!navigator.onLine);
     return items.slice(0, 6); // Max 6 items
   }
 
+  // ── Translate static data-i18n elements ────────────────────
+  function _applyStaticTranslations() {
+    var view = $('viewTrendRadar');
+    if (!view) return;
+    var els = view.querySelectorAll('[data-i18n]');
+    els.forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (!key) return;
+      // data-i18n attributes use 'tr_' prefix (e.g. tr_title) but the
+      // translation dictionaries use unprefixed keys (e.g. title).
+      // Strip the prefix so the lookup succeeds.
+      var dictKey = key.replace(/^tr_/, '');
+      var translated = trT(dictKey);
+      if (translated && translated !== dictKey) {
+        // Only update text nodes that are direct children, not nested SVGs etc.
+        var hasOnlyText = true;
+        for (var i = 0; i < el.childNodes.length; i++) {
+          if (el.childNodes[i].nodeType === 1 && el.childNodes[i].tagName !== 'SVG') {
+            hasOnlyText = false;
+            break;
+          }
+        }
+        if (hasOnlyText) {
+          el.textContent = translated;
+        }
+      }
+    });
+  }
+
   // ── Init ───────────────────────────────────────────────────
   window.initTrendRadar = function() {
+    // Always re-detect language on init (the module script may have set
+    // getLang / localStorage since the IIFE first ran).
+    trLang = _detectLang();
+
     if (_initialized && !_needsRefresh()) return;
     _initialized = true;
+
+    // Translate static data-i18n elements now that we know the language
+    _applyStaticTranslations();
+
     _loadData();
     _setupAutoRefresh();
 
@@ -34354,6 +34395,8 @@ applyOfflineState(!navigator.onLine);
           console.warn('[TrendRadar] Safety net triggered — forcing render');
           _loading = false;
           _lastFetch = 0;
+          trLang = _detectLang();
+          _applyStaticTranslations();
           _loadData();
         }
       } catch(e) {
@@ -34481,7 +34524,7 @@ applyOfflineState(!navigator.onLine);
     var isEmpty = trends.isEmpty || false;
     trRenderTrendScore(score);
     trRenderRadarChart(trends.categories || {});
-    trRenderTopRecommendation(trends.topRecommendation || {});
+    trRenderTopRecommendation(trends.topRecommendation || {}, isEmpty);
     trRenderTrendyItems(trends.trendyItems || []);
     trRenderMissingTrends(trends.missingTrends || []);
     trRenderCategoryBreakdown(trends.categories || {});
@@ -34605,11 +34648,19 @@ applyOfflineState(!navigator.onLine);
   };
 
   // ── Render Top Recommendation ──────────────────────────────
-  window.trRenderTopRecommendation = function(rec) {
+  window.trRenderTopRecommendation = function(rec, isEmpty) {
+    var container = $('trTopRecContainer');
     var card = $('trTopRecCard');
     var titleEl = $('trTopRecTitle');
     var descEl = $('trTopRecDesc');
     var metaEl = $('trTopRecMeta');
+
+    // Hide the entire recommendation card when closet is empty
+    if (isEmpty || !rec || (!rec.name && !rec.reason && !rec.desc)) {
+      if (container) container.classList.add('hidden');
+      return;
+    }
+    if (container) container.classList.remove('hidden');
 
     if (titleEl) titleEl.textContent = rec.title || rec.name || trT('top_rec_title');
     if (descEl) descEl.textContent = rec.reason || rec.desc || '';
@@ -34777,6 +34828,8 @@ applyOfflineState(!navigator.onLine);
     // Close dropdown
     var dd = $('trLangDropdown');
     if (dd) dd.classList.add('hidden');
+    // Re-translate static data-i18n elements
+    _applyStaticTranslations();
     // Re-fetch data in new language
     _lastFetch = 0;
     _loadData();
