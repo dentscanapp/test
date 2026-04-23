@@ -17408,7 +17408,8 @@ window.saveCurrentOutfit = function() {
             colorHex: s.lastColor ? s.lastColor.hex : '#888',
             occasion: s.occasion,
             date: Date.now(),
-            phash: _newHash
+            phash: _newHash,
+            source: 'scan'
         };
 
         try {
@@ -33887,19 +33888,48 @@ applyOfflineState(!navigator.onLine);
     var typeToCategory = {
       jacket: 'outerwear', coat: 'outerwear', blazer: 'outerwear', vest: 'outerwear',
       shirt: 'tops', top: 'tops', tshirt: 'tops', blouse: 'tops', sweater: 'tops', hoodie: 'tops', pullover: 'tops',
+      dress: 'tops',
       pants: 'bottoms', jeans: 'bottoms', trousers: 'bottoms', shorts: 'bottoms', skirt: 'bottoms',
       shoes: 'shoes', sneakers: 'shoes', boots: 'shoes', loafers: 'shoes', heels: 'shoes',
       accessory: 'accessories', bag: 'accessories', belt: 'accessories', hat: 'accessories', scarf: 'accessories', watch: 'accessories'
     };
 
+    // Infer category from item text when type is missing (e.g. scanned outfits)
+    function _inferCategory(item) {
+      var text = ((item.name || '') + ' ' + (item.occasion || '') + ' ' + ((item.tags || []).join(' '))).toLowerCase();
+      var infer = [
+        ['outerwear', ['jacket','coat','blazer','vest','kabát','blézer','mantel']],
+        ['shoes',     ['shoe','sneaker','boot','loafer','heel','cipő','bakancs','schuhe','stiefel']],
+        ['accessories',['bag','belt','hat','scarf','watch','jewelry','táska','öv','sapka','sál','tasche']],
+        ['bottoms',   ['pants','jeans','trousers','shorts','skirt','nadrág','farmer','hose','rock']],
+        ['tops',      ['shirt','top','blouse','sweater','hoodie','dress','póló','pulóver','felső','oberteil']]
+      ];
+      for (var i = 0; i < infer.length; i++) {
+        for (var j = 0; j < infer[i][1].length; j++) {
+          if (text.indexOf(infer[i][1][j]) !== -1) return infer[i][0];
+        }
+      }
+      return null;
+    }
+
     // Count items per category
     var catCounts = { outerwear: 0, tops: 0, bottoms: 0, shoes: 0, accessories: 0, colors: 0 };
     var catTrendMatches = { outerwear: 0, tops: 0, bottoms: 0, shoes: 0, accessories: 0, colors: 0 };
     var colorsFound = {};
+    var untypedCount = 0;
 
     closetItems.forEach(function(item) {
       var type = (item.type || '').toLowerCase();
       var category = typeToCategory[type];
+      // Fallback: infer category from item text when type is missing
+      if (!category) category = _inferCategory(item);
+      // Last resort: count untyped items (scanned outfits) as general wardrobe
+      if (!category) {
+        untypedCount++;
+        // Distribute untyped items across tops+bottoms (full outfit scan)
+        catCounts.tops++;
+        catCounts.bottoms++;
+      }
       if (category) {
         catCounts[category]++;
         // Check if item name/tags match trending keywords
