@@ -5977,7 +5977,6 @@ if (window.__DS_IS_ANDROID_APP) {
         </div>
         <div>
           <h3 class="font-serif text-xl font-semibold text-white flex items-center gap-2" data-i18n="tr_title">Trend Radar
-            <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-gradient-to-r from-brand-500 to-purple-500 text-white uppercase tracking-wider">PRO</span>
           </h3>
           <p class="text-[11px] text-gray-400" id="trSeasonLabel">Tavasz 2026</p>
         </div>
@@ -5986,13 +5985,12 @@ if (window.__DS_IS_ANDROID_APP) {
       <!-- Overall Score Circle -->
       <div class="text-center mb-5 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
         <div class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-3 flex items-center justify-center gap-2" data-i18n="tr_score_label">Divat trend pontszámod
-          <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-gradient-to-r from-brand-500 to-purple-500 text-white uppercase tracking-wider">PRO</span>
         </div>
-        <div class="relative inline-block">
-          <canvas id="trScoreRing" width="140" height="140"></canvas>
-          <div class="absolute inset-0 flex flex-col items-center justify-center">
-            <span id="trScoreValue" class="text-3xl font-bold text-white tabular-nums">0</span>
-            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold" data-i18n="tr_score_unit">TREND PONT</span>
+        <div class="relative inline-flex items-center justify-center" style="width:140px;height:140px;">
+          <canvas id="trScoreRing" width="140" height="140" style="width:140px;height:140px;position:absolute;inset:0;"></canvas>
+          <div class="flex flex-col items-center justify-center text-center" style="z-index:1;">
+            <span id="trScoreValue" class="text-3xl font-bold text-white tabular-nums leading-none">0</span>
+            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold leading-none mt-1" data-i18n="tr_score_unit">TREND PONT</span>
           </div>
         </div>
         <p id="trScoreMsg" class="text-xs text-gray-400 mt-2"></p>
@@ -6019,7 +6017,7 @@ if (window.__DS_IS_ANDROID_APP) {
         <!-- Featured trend card -->
         <div id="trFeaturedCard" class="mb-4 p-4 rounded-2xl bg-gradient-to-br from-brand-500/10 to-purple-500/10 border border-brand-500/20">
           <div class="flex items-center gap-2 mb-2">
-            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold" data-i18n="tr_featured_label">EZT AZ EGY DOLGOT VEDD MEG</span>
+            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold" data-i18n="tr_featured_label">HA CSAK EGY DOLGOT VÁLASZTASZ, EZ LEGYEN AZ.</span>
             <span class="text-[9px] text-gray-600">|</span>
             <span id="trFeaturedSource" class="text-[9px] text-gray-500" data-i18n="tr_source">source: trend data</span>
           </div>
@@ -6049,7 +6047,6 @@ if (window.__DS_IS_ANDROID_APP) {
         <!-- Category breakdown -->
         <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
           <div class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-3 flex items-center gap-2" data-i18n="tr_cat_title">Kategória trendek
-            <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-gradient-to-r from-brand-500 to-purple-500 text-white uppercase tracking-wider">PRO</span>
           </div>
           <div id="trCatBreakdown" class="space-y-3">
             <!-- Dynamically populated -->
@@ -9831,7 +9828,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       tr_tab_overview: 'Overview',
       tr_tab_trending: 'Trending',
       tr_tab_missing: 'Missing',
-      tr_featured_label: 'BUY THIS ONE THING',
+      tr_featured_label: 'IF YOU ONLY PICK ONE THING, MAKE IT THIS.',
       tr_relevance: 'Popularity index',
       tr_count_have: 'TRENDY ITEM',
       tr_count_missing: 'MISSING TREND',
@@ -11722,7 +11719,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       tr_tab_overview: 'Áttekintés',
       tr_tab_trending: 'Trendi',
       tr_tab_missing: 'Hiányzó',
-      tr_featured_label: 'EZT AZ EGY DOLGOT VEDD MEG',
+      tr_featured_label: 'HA CSAK EGY DOLGOT VÁLASZTASZ, EZ LEGYEN AZ.',
       tr_relevance: 'Népszerűségi index',
       tr_count_have: 'TRENDI DARAB',
       tr_count_missing: 'HIÁNYZÓ TREND',
@@ -13612,7 +13609,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       tr_tab_overview: 'Übersicht',
       tr_tab_trending: 'Trendig',
       tr_tab_missing: 'Fehlend',
-      tr_featured_label: 'KAUF DIR DIESES EINE TEIL',
+      tr_featured_label: 'WENN DU NUR EIN TEIL WÄHLST, DANN DIESES.',
       tr_relevance: 'Beliebt­heits­index',
       tr_count_have: 'TRENDIGE TEILE',
       tr_count_missing: 'FEHLENDE TRENDS',
@@ -33594,7 +33591,7 @@ applyOfflineState(!navigator.onLine);
 
   // ── Hardcoded trend knowledge (baseline, enhanced by Wikipedia) ──
   var TREND_DB = [
-    { hu:'Oversized blézer',      en:'Oversized blazer',       de:'Oversized Blazer',       cat:'outerwear',   keywords:['oversized','blazer','structured'],         relevance:92, descHu:'Nagyon felkapott darab, ami azonnal emeli az összhatást.',               descEn:'Highly popular piece that instantly elevates the overall look.',                descDe:'Ein sehr angesagtes Teil, das den Gesamtlook sofort aufwertet.' },
+    { hu:'Bő szabású blézer',      en:'Oversized blazer',       de:'Oversized Blazer',       cat:'outerwear',   keywords:['oversized','blazer','structured'],         relevance:92, descHu:'Nagyon felkapott darab, ami azonnal emeli az összhatást.',               descEn:'Highly popular piece that instantly elevates the overall look.',                descDe:'Ein sehr angesagtes Teil, das den Gesamtlook sofort aufwertet.' },
     { hu:'Szűk farmer',           en:'Slim jeans',             de:'Slim-Jeans',             cat:'bottoms',     keywords:['slim','jeans','denim','skinny'],           relevance:88, descHu:'Nálad már van — ez idén trendi!',                                       descEn:'You already own these — they\'re trendy this year!',                            descDe:'Du hast sie schon — dieses Jahr sind sie trendy!' },
     { hu:'Bőr hatású kabát',      en:'Leather-look jacket',    de:'Leder-Look-Jacke',       cat:'outerwear',   keywords:['leather','jacket','faux','moto'],          relevance:85, descHu:'Vagány, modern, sokoldalú.',                                            descEn:'Edgy, modern, versatile.',                                                     descDe:'Cool, modern, vielseitig.' },
     { hu:'Fehér sneaker',         en:'White sneakers',         de:'Weiße Sneaker',          cat:'shoes',       keywords:['white','sneaker','clean','minimal'],       relevance:90, descHu:'Időtlen klasszikus, mindig trendi.',                                     descEn:'Timeless classic, always trendy.',                                              descDe:'Zeitloser Klassiker, immer im Trend.' },
@@ -34101,9 +34098,6 @@ applyOfflineState(!navigator.onLine);
 
   // ── Open / Close ──
   openBtn.addEventListener('click', function() {
-    if (!window.isProUser || !window.isProUser()) {
-      if (typeof window.showPaywall === 'function') { window.showPaywall('trend_radar'); return; }
-    }
     _trShowAllHave = false;
     _trShowAllMiss = false;
     modal.classList.remove('hidden');
