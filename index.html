@@ -2667,160 +2667,6 @@ window._dsLog = function() { if (window.__DS_DEBUG) console.log.apply(console, a
     }
   }
 </style>
-
-<!-- ============================================================
-     DateScan — TREND RADAR visual layer
-     Glass-morphism cards, gradient text, shimmer loading,
-     radar pulse, and custom scrollbar for trend lists.
-     ============================================================ -->
-<style id="ds-trend-radar">
-  /* ── Glass Card ────────────────────────────────────────── */
-  .tr-glass-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-  }
-
-  /* ── Gradient Text ─────────────────────────────────────── */
-  .tr-gradient-text {
-    background: linear-gradient(135deg, #ec4899 0%, #9333ea 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* ── Shimmer Loading ───────────────────────────────────── */
-  .tr-shimmer {
-    position: relative;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-  }
-  .tr-shimmer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.08) 50%,
-      transparent 100%
-    );
-    animation: tr-shimmer-move 1.8s ease-in-out infinite;
-  }
-  @keyframes tr-shimmer-move {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-
-  /* ── Radar Pulse ───────────────────────────────────────── */
-  .tr-radar-pulse {
-    animation: tr-pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes tr-pulse {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50%      { opacity: 1;   transform: scale(1.04); }
-  }
-
-  /* ── Custom Scrollbar for Trend Lists ──────────────────── */
-  .tr-scroll::-webkit-scrollbar {
-    width: 4px;
-  }
-  .tr-scroll::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .tr-scroll::-webkit-scrollbar-thumb {
-    background: rgba(236, 72, 153, 0.25);
-    border-radius: 4px;
-  }
-  .tr-scroll::-webkit-scrollbar-thumb:hover {
-    background: rgba(236, 72, 153, 0.4);
-  }
-
-  /* ── Trend Score Circle ────────────────────────────────── */
-  .tr-score-circle {
-    transform: rotate(-90deg);
-    transform-origin: center;
-  }
-
-  /* ── Tab Active Indicator ──────────────────────────────── */
-  .tr-tab-active {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(147, 51, 234, 0.2));
-    border-color: rgba(236, 72, 153, 0.4);
-    color: #f9a8d4;
-  }
-  .tr-tab-inactive {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.08);
-    color: #9ca3af;
-  }
-  .tr-tab-inactive:hover {
-    background: rgba(255, 255, 255, 0.07);
-    color: #d1d5db;
-  }
-
-  /* ── Trend Item Card Hover ─────────────────────────────── */
-  .tr-item-card {
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
-  }
-  .tr-item-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(236, 72, 153, 0.12);
-  }
-
-  /* ── Category Progress Bar ─────────────────────────────── */
-  .tr-progress-track {
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 9999px;
-    height: 8px;
-    overflow: hidden;
-  }
-  .tr-progress-fill {
-    height: 100%;
-    border-radius: 9999px;
-    transition: width 0.8s ease;
-  }
-
-  /* ── PRO Badge ─────────────────────────────────────────── */
-  .tr-pro-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 2px 8px;
-    border-radius: 9999px;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-    color: #1a0a00;
-    box-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
-    user-select: none;
-    pointer-events: none;
-  }
-
-  /* ── Recommendation Card Glow ──────────────────────────── */
-  .tr-rec-glow {
-    position: relative;
-  }
-  .tr-rec-glow::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: 24px;
-    background: linear-gradient(135deg, #ec4899, #9333ea);
-    opacity: 0.25;
-    z-index: -1;
-    filter: blur(8px);
-  }
-
-  /* ── Radar Chart Area ──────────────────────────────────── */
-  .tr-radar-svg text {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  }
-</style>
 </head>
 <body class="relative antialiased text-gray-100">
 <script>
@@ -3107,7 +2953,8 @@ if (window.__DS_IS_ANDROID_APP) {
   body:has(#garmentCareModal:not(.hidden)) #mobileBottomNav,
   body:has(#dateOutfitModal:not(.hidden)) #mobileBottomNav,
   body:has(#weeklyPlannerModal:not(.hidden)) #mobileBottomNav,
-  body:has(#styleProfileModal:not(.hidden)) #mobileBottomNav {
+  body:has(#styleProfileModal:not(.hidden)) #mobileBottomNav,
+  body:has(#trendRadarModal:not(.hidden)) #mobileBottomNav {
     display: none !important;
   }
   /* Hide header (PNT / PRO / lang icons) when modals are open so
@@ -3133,7 +2980,9 @@ if (window.__DS_IS_ANDROID_APP) {
   body:has(#weeklyPlannerModal:not(.hidden)) > header,
   body:has(#weeklyPlannerModal:not(.hidden)) > #langSelectorDropdown,
   body:has(#styleProfileModal:not(.hidden)) > header,
-  body:has(#styleProfileModal:not(.hidden)) > #langSelectorDropdown {
+  body:has(#styleProfileModal:not(.hidden)) > #langSelectorDropdown,
+  body:has(#trendRadarModal:not(.hidden)) > header,
+  body:has(#trendRadarModal:not(.hidden)) > #langSelectorDropdown {
     visibility: hidden !important;
     pointer-events: none !important;
   }
@@ -5164,6 +5013,10 @@ if (window.__DS_IS_ANDROID_APP) {
                <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                <span data-i18n="closet_style_profile">Style Profile</span>
             </button>
+            <button id="trendRadarBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-brand-500/20 to-purple-500/20 border border-brand-500/30 text-brand-400 hover:from-brand-500/30 hover:to-purple-500/30 active:scale-[0.98] transition" title="Trend Radar — see how your closet matches current trends">
+               <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 19 21 12 17 5 21"/></svg>
+               <span data-i18n="closet_trend_radar">Trend Radar</span>
+            </button>
             <button id="smartShopBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-300 hover:from-amber-500/30 hover:to-orange-500/30 active:scale-[0.98] transition" title="Smart Shopping List — wardrobe gap analysis and suggestions">
                <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                <span data-i18n="closet_smart_shop">Shopping List</span>
@@ -5191,10 +5044,6 @@ if (window.__DS_IS_ANDROID_APP) {
             <button id="duelOpenBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Compare two outfits head-to-head">
                <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4l6 0 0 6"/><path d="M10 20l-6 0 0-6"/><path d="M20 4l-9 9"/><path d="M4 20l6-6"/></svg>
                <span data-i18n="closet_ab_duel">A/B Duel</span>
-            </button>
-            <button id="trendRadarBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/30 text-pink-300 hover:from-pink-500/30 hover:to-purple-500/30 active:scale-[0.98] transition" title="Trend Radar — AI fashion trend analysis">
-               <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 12l8-8"/><circle cx="12" cy="12" r="3"/></svg>
-               <span data-i18n="closet_trend_radar">Trend Radar</span>
             </button>
 
             <button id="outfitBuilderBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 hover:from-emerald-500/30 hover:to-teal-500/30 active:scale-[0.98] transition" title="Build an outfit from your closet items">
@@ -6113,6 +5962,132 @@ if (window.__DS_IS_ANDROID_APP) {
       </div>
 
   <!-- AI CHAT VIEW — Phase 2 extraction.
+
+  <!-- ===== TREND RADAR MODAL ===== -->
+  <div id="trendRadarModal" class="hidden fixed inset-0 z-[115] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="z-index:120">
+    <div class="premium-glass rounded-3xl border border-brand-500/20 max-w-lg w-full p-5 sm:p-6 relative max-h-[92vh] overflow-y-auto">
+      <button id="trendRadarClose" type="button" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 flex items-center justify-center transition z-10" aria-label="Close">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <!-- Header -->
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-500/25 to-purple-500/25 border border-brand-500/30 flex items-center justify-center">
+          <svg class="w-6 h-6 text-brand-400" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="12 2 19 21 12 17 5 21"/></svg>
+        </div>
+        <div>
+          <h3 class="font-serif text-xl font-semibold text-white flex items-center gap-2" data-i18n="tr_title">Trend Radar
+            <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-gradient-to-r from-brand-500 to-purple-500 text-white uppercase tracking-wider">PRO</span>
+          </h3>
+          <p class="text-[11px] text-gray-400" id="trSeasonLabel">Tavasz 2026</p>
+        </div>
+      </div>
+
+      <!-- Overall Score Circle -->
+      <div class="text-center mb-5 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
+        <div class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-3 flex items-center justify-center gap-2" data-i18n="tr_score_label">Divat trend pontszámod
+          <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-gradient-to-r from-brand-500 to-purple-500 text-white uppercase tracking-wider">PRO</span>
+        </div>
+        <div class="relative inline-block">
+          <canvas id="trScoreRing" width="140" height="140"></canvas>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span id="trScoreValue" class="text-3xl font-bold text-white tabular-nums">0</span>
+            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold" data-i18n="tr_score_unit">TREND PONT</span>
+          </div>
+        </div>
+        <p id="trScoreMsg" class="text-xs text-gray-400 mt-2"></p>
+      </div>
+
+      <!-- Radar Chart -->
+      <div class="mb-5 p-4 rounded-2xl bg-white/[0.03] border border-white/5">
+        <div class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-3 flex items-center gap-2">
+          <svg class="w-3 h-3 text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 19 21 12 17 5 21"/></svg>
+          <span data-i18n="tr_radar_label">Kategória radar</span>
+        </div>
+        <canvas id="trRadarCanvas" width="280" height="260" class="mx-auto" style="max-width:280px;"></canvas>
+      </div>
+
+      <!-- Tab navigation -->
+      <div class="flex gap-1 mb-4 bg-white/5 rounded-xl p-1" id="trTabs">
+        <button data-tr-tab="overview" class="tr-tab flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-colors bg-brand-500/20 text-brand-300 border border-brand-500/30" data-i18n="tr_tab_overview">Áttekintés</button>
+        <button data-tr-tab="trending" class="tr-tab flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-colors bg-white/5 text-gray-400 border border-transparent hover:bg-white/10" data-i18n="tr_tab_trending">Trendi</button>
+        <button data-tr-tab="missing" class="tr-tab flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-colors bg-white/5 text-gray-400 border border-transparent hover:bg-white/10" data-i18n="tr_tab_missing">Hiányzó</button>
+      </div>
+
+      <!-- Overview panel -->
+      <div id="trOverview" class="tr-panel">
+        <!-- Featured trend card -->
+        <div id="trFeaturedCard" class="mb-4 p-4 rounded-2xl bg-gradient-to-br from-brand-500/10 to-purple-500/10 border border-brand-500/20">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold" data-i18n="tr_featured_label">EZT AZ EGY DOLGOT VEDD MEG</span>
+            <span class="text-[9px] text-gray-600">|</span>
+            <span id="trFeaturedSource" class="text-[9px] text-gray-500" data-i18n="tr_source">source: trend data</span>
+          </div>
+          <h4 id="trFeaturedName" class="font-serif text-lg font-semibold text-white mb-1">—</h4>
+          <div id="trFeaturedTags" class="flex flex-wrap gap-1.5 mb-3"></div>
+          <p id="trFeaturedDesc" class="text-xs text-gray-400 leading-relaxed mb-3"></p>
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-[10px] text-gray-500" data-i18n="tr_relevance">Népszerűségi index</span>
+            <div class="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden"><div id="trFeaturedBar" class="h-full rounded-full bg-gradient-to-r from-brand-500 to-purple-500 transition-all duration-700" style="width:0%"></div></div>
+            <span id="trFeaturedPct" class="text-[11px] font-bold text-brand-400 tabular-nums">0%</span>
+          </div>
+          <div id="trFeaturedMeta" class="flex items-center gap-2 text-[10px] text-gray-500 mt-2"></div>
+        </div>
+
+        <!-- Trend counts -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div class="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 text-center">
+            <div class="flex items-center justify-center gap-1.5 mb-1"><span class="text-emerald-400 text-sm">✓</span><span id="trCountHave" class="text-xl font-bold text-white tabular-nums">0</span></div>
+            <div class="text-[9px] uppercase tracking-widest text-gray-400 font-bold" data-i18n="tr_count_have">TRENDI DARAB</div>
+          </div>
+          <div class="rounded-xl border border-brand-500/20 bg-brand-500/5 p-3 text-center">
+            <div class="flex items-center justify-center gap-1.5 mb-1"><span class="text-brand-400 text-sm">+</span><span id="trCountMissing" class="text-xl font-bold text-white tabular-nums">0</span></div>
+            <div class="text-[9px] uppercase tracking-widest text-gray-400 font-bold" data-i18n="tr_count_missing">HIÁNYZÓ TREND</div>
+          </div>
+        </div>
+
+        <!-- Category breakdown -->
+        <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
+          <div class="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-3 flex items-center gap-2" data-i18n="tr_cat_title">Kategória trendek
+            <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-gradient-to-r from-brand-500 to-purple-500 text-white uppercase tracking-wider">PRO</span>
+          </div>
+          <div id="trCatBreakdown" class="space-y-3">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Trending panel (items user already has) -->
+      <div id="trTrending" class="tr-panel hidden">
+        <div class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold mb-3" data-i18n="tr_have_header">AMI MÁR TRENDI A SZEKRÉNYEDBEN</div>
+        <div id="trHaveList" class="space-y-2.5"></div>
+        <div id="trHaveEmpty" class="hidden text-center py-8">
+          <div class="text-3xl mb-2">👀</div>
+          <p class="text-sm text-gray-400" data-i18n="tr_have_empty">Szekrényed üres. Tölts fel ruhákat a Szekrénybe!</p>
+        </div>
+        <button id="trHaveMore" class="hidden w-full mt-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-300 hover:bg-white/10 active:scale-[0.98] transition" data-i18n="tr_show_more">Összes trendi darab megtekintése →</button>
+      </div>
+
+      <!-- Missing panel -->
+      <div id="trMissing" class="tr-panel hidden">
+        <div class="text-[10px] uppercase tracking-widest text-brand-400 font-bold mb-3" data-i18n="tr_missing_header">AMIT MÉG HIÁNYZIK</div>
+        <div id="trMissList" class="space-y-2.5"></div>
+        <div id="trMissEmpty" class="hidden text-center py-8">
+          <div class="text-3xl mb-2">🎉</div>
+          <p class="text-sm text-gray-400" data-i18n="tr_miss_empty">Szekrényed fedi az összes aktuális trendet!</p>
+        </div>
+        <button id="trMissMore" class="hidden w-full mt-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-300 hover:bg-white/10 active:scale-[0.98] transition" data-i18n="tr_show_more_miss">Összes hiányzó trend megtekintése →</button>
+      </div>
+
+      <!-- Data source disclaimer -->
+      <div class="mt-5 p-3 rounded-xl bg-white/[0.02] border border-white/5 text-center">
+        <p class="text-[10px] text-gray-600 leading-relaxed" data-i18n="tr_disclaimer">Ez a grafikon a szekrényed és a trendek viszonyát mutatja, nem egyértelmű stílusértékelés. A trendadatok a netről származnak (Wikipedia, divatoldalak). 7 napig cache-elt adat.</p>
+        <p id="trCacheInfo" class="text-[9px] text-gray-700 mt-1"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI CHAT VIEW — Phase 2 extraction.
        This used to be a card at the bottom of #viewScanner's camera column.
        It now lives as a top-level sibling view so the bottom nav's AI CHAT
        tab can route to it directly. All IDs inside (coachChatForm,
@@ -6491,144 +6466,6 @@ if (window.__DS_IS_ANDROID_APP) {
             <!-- Populated by JS -->
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================
-       TREND RADAR VIEW — AI fashion trend analysis
-       ============================================================ -->
-  <div id="viewTrendRadar" class="hidden opacity-0 translate-y-8 transition-all duration-500 pb-12 pt-4">
-    <div class="max-w-2xl mx-auto w-full">
-
-      <!-- Header -->
-      <div class="mb-8">
-        <div class="flex items-center justify-between gap-3 mb-2">
-          <div class="flex items-center gap-3">
-            <button id="trBackBtn" class="shrink-0 w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition" title="Back to Closet">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <h2 class="font-serif text-3xl md:text-4xl font-medium leading-tight flex items-center gap-2.5">
-              <svg class="w-7 h-7 md:w-8 md:h-8 tr-radar-pulse text-pink-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 12l8-8"/><circle cx="12" cy="12" r="3"/></svg>
-              <span class="tr-gradient-text" data-i18n="tr_title">Trend Radar</span>
-            </h2>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="tr-pro-badge">
-              <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1l2.39 5.68L18 7.5l-4.1 3.68L15.18 17 10 13.77 4.82 17l1.28-5.82L2 7.5l5.61-.82z"/></svg>
-              PRO
-            </span>
-            <!-- Language switcher -->
-            <div id="trLangSwitcher" class="relative">
-              <button id="trLangBtn" class="shrink-0 h-8 px-2.5 rounded-lg bg-white/5 border border-white/10 text-[11px] font-bold text-gray-400 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5" title="Change language">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                <span id="trLangLabel">HU</span>
-              </button>
-              <div id="trLangDropdown" class="hidden absolute right-0 top-full mt-1 z-50 bg-[#18181b] border border-white/10 rounded-xl overflow-hidden shadow-xl min-w-[80px]">
-                <button class="tr-lang-opt w-full px-3 py-2 text-xs font-bold text-left hover:bg-white/10 transition" data-tr-lang="hu">🇭🇺 HU</button>
-                <button class="tr-lang-opt w-full px-3 py-2 text-xs font-bold text-left hover:bg-white/10 transition" data-tr-lang="de">🇩🇪 DE</button>
-                <button class="tr-lang-opt w-full px-3 py-2 text-xs font-bold text-left hover:bg-white/10 transition" data-tr-lang="en">🇬🇧 EN</button>
-              </div>
-            </div>
-            <!-- Refresh button -->
-            <button id="trRefreshBtn" class="shrink-0 w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition" title="Refresh trend data">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            </button>
-          </div>
-        </div>
-        <p class="text-gray-400 text-sm font-medium ml-12" data-i18n="tr_subtitle">AI-powered fashion trend analysis for your wardrobe</p>
-        <div class="flex items-center gap-2 ml-12 mt-1.5">
-          <span id="trSeasonBadge" class="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-pink-500/15 text-pink-300 border border-pink-500/20"></span>
-          <span id="trLastUpdated" class="text-[10px] text-gray-500"></span>
-        </div>
-      </div>
-
-      <!-- Trend Score + Radar Chart Row -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-        <!-- Trend Score -->
-        <div class="tr-glass-card p-6 flex flex-col items-center justify-center">
-          <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4" data-i18n="tr_trend_score">Trend Score</h3>
-          <div id="trScoreContainer" class="relative w-40 h-40 mb-3">
-            <svg id="trScoreSvg" class="absolute inset-0 w-full h-full" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,0.06)" stroke-width="8" fill="none"/>
-              <circle id="trScoreArc" class="tr-score-circle" cx="60" cy="60" r="52" stroke="#ec4899" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="0 326.73"/>
-              <text id="trScoreValue" x="60" y="56" text-anchor="middle" fill="white" font-size="32" font-weight="700" font-family="Inter, system-ui, sans-serif">—</text>
-              <text id="trScoreLabel" x="60" y="74" text-anchor="middle" fill="#9ca3af" font-size="10" font-weight="600" font-family="Inter, system-ui, sans-serif"></text>
-            </svg>
-          </div>
-          <p id="trScoreDesc" class="text-xs text-gray-500 text-center"></p>
-        </div>
-
-        <!-- Radar Chart -->
-        <div class="tr-glass-card p-6 flex flex-col items-center justify-center">
-          <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4" data-i18n="tr_category_radar">Category Radar</h3>
-          <div id="trRadarContainer" class="w-full max-w-[220px] aspect-square">
-            <svg id="trRadarSvg" class="w-full h-full tr-radar-svg" viewBox="0 0 200 200"></svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tabs -->
-      <div class="flex gap-2 mb-6">
-        <button class="tr-tab-btn tr-tab-active flex-1 px-3 py-2 rounded-xl text-xs font-bold border transition" data-tr-tab="overview" data-i18n="tr_tab_overview">Overview</button>
-        <button class="tr-tab-btn tr-tab-inactive flex-1 px-3 py-2 rounded-xl text-xs font-bold border transition" data-tr-tab="trendy" data-i18n="tr_tab_trendy">Trendy</button>
-        <button class="tr-tab-btn tr-tab-inactive flex-1 px-3 py-2 rounded-xl text-xs font-bold border transition" data-tr-tab="missing" data-i18n="tr_tab_missing">Missing</button>
-      </div>
-
-      <!-- Tab Content -->
-      <div id="trTabContent">
-        <!-- Overview Tab (default) -->
-        <div id="trTabOverview" class="tr-tab-panel space-y-4">
-          <!-- Top Recommendation Card -->
-          <div id="trTopRecContainer">
-            <div id="trTopRecCard" class="tr-rec-glow tr-glass-card p-5 sm:p-6">
-              <div class="flex items-center gap-2 mb-3">
-                <span class="text-lg">🎯</span>
-                <h4 id="trTopRecTitle" class="font-serif text-lg font-semibold text-white"></h4>
-              </div>
-              <p id="trTopRecDesc" class="text-sm text-gray-400 leading-relaxed"></p>
-              <div id="trTopRecMeta" class="flex items-center gap-3 mt-3"></div>
-            </div>
-          </div>
-
-          <!-- Category Breakdown -->
-          <div class="tr-glass-card p-5 sm:p-6">
-            <h4 class="font-serif text-lg font-semibold text-white mb-4" data-i18n="tr_category_breakdown">Category Breakdown</h4>
-            <div id="trCategoryBreakdown" class="space-y-3"></div>
-          </div>
-
-          <!-- Season Trends Description -->
-          <div id="trTrendsDescription" class="tr-glass-card p-5 sm:p-6">
-            <h4 id="trTrendsIntro" class="text-sm font-bold text-pink-400 uppercase tracking-widest mb-4"></h4>
-            <div id="trTrendsList" class="space-y-3"></div>
-          </div>
-
-          <!-- Scoring Explanation -->
-          <div id="trScoringInfo" class="tr-glass-card p-5 sm:p-6">
-            <div class="flex items-center gap-2 mb-3">
-              <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-              <h4 id="trScoringTitle" class="text-xs font-bold text-gray-500 uppercase tracking-widest"></h4>
-            </div>
-            <p id="trScoringExplain" class="text-xs text-gray-400 leading-relaxed"></p>
-            <p id="trScoringEmpty" class="hidden text-xs text-amber-400/80 leading-relaxed mt-2"></p>
-            <p id="trScoringNote" class="text-[10px] text-gray-600 leading-relaxed mt-2 italic"></p>
-          </div>
-        </div>
-
-        <!-- Trendy Tab -->
-        <div id="trTabTrendy" class="tr-tab-panel hidden space-y-3">
-          <div id="trTrendyItems" class="space-y-3 max-h-[500px] overflow-y-auto tr-scroll pr-1"></div>
-        </div>
-
-        <!-- Missing Tab -->
-        <div id="trTabMissing" class="tr-tab-panel hidden space-y-3">
-          <div id="trMissingItems" class="space-y-3 max-h-[500px] overflow-y-auto tr-scroll pr-1"></div>
-        </div>
-      </div>
-
-      <!-- Footer info -->
-      <div class="mt-8 text-center">
-        <p id="trFooterInfo" class="text-[11px] text-gray-600"></p>
       </div>
     </div>
   </div>
@@ -9231,7 +9068,6 @@ function toggleView(targetView, opts) {
     const viewCloset = $("viewCloset");
     const viewChat = $("viewChat");
     const viewHistory = $("viewHistory");
-    const viewTrendRadar = $("viewTrendRadar");
     const navBtn = $("navClosetBtn");
     const storyBtn = $("navStoryModeBtn");
     const aiChatBtn = $("navAiChatBtn");
@@ -9314,7 +9150,6 @@ function toggleView(targetView, opts) {
         hideScanner();
         hideOverlay(viewChat);
         hideOverlay(viewHistory);
-        hideOverlay(viewTrendRadar);
         showOverlay(viewCloset);
         resetStoryNavBtn();
         resetAiChatNavBtn();
@@ -9343,7 +9178,6 @@ function toggleView(targetView, opts) {
         hideScanner();
         hideOverlay(viewCloset);
         hideOverlay(viewHistory);
-        hideOverlay(viewTrendRadar);
         showOverlay(viewChat);
         resetClosetNavBtn();
         resetStoryNavBtn();
@@ -9360,7 +9194,6 @@ function toggleView(targetView, opts) {
         hideScanner();
         hideOverlay(viewCloset);
         hideOverlay(viewChat);
-        hideOverlay(viewTrendRadar);
         showOverlay(viewHistory);
         resetClosetNavBtn();
         activateStoryNavBtn();
@@ -9376,29 +9209,11 @@ function toggleView(targetView, opts) {
             if (_skipPush) history.replaceState({ view: 'history' }, '', '#story');
             else history.pushState({ view: 'history' }, '', '#story');
         }
-    } else if (targetView === 'trendradar') {
-        hideScanner();
-        hideOverlay(viewCloset);
-        hideOverlay(viewChat);
-        hideOverlay(viewHistory);
-        showOverlay(viewTrendRadar);
-        resetClosetNavBtn();
-        resetStoryNavBtn();
-        resetAiChatNavBtn();
-        stopCameraIfLeavingScanner();
-        // Initialize trend radar data on first view
-        if (typeof window.initTrendRadar === 'function') window.initTrendRadar();
-        store.set({ activeView: 'trendradar' });
-        if (location.hash !== '#trendradar') {
-            if (_skipPush) history.replaceState({ view: 'trendradar' }, '', '#trendradar');
-            else history.pushState({ view: 'trendradar' }, '', '#trendradar');
-        }
     } else {
         // targetView === 'scanner' (or any unrecognized value — default).
         hideOverlay(viewCloset);
         hideOverlay(viewChat);
         hideOverlay(viewHistory);
-        hideOverlay(viewTrendRadar);
         // Scanner comes back in after the overlay fade-down completes
         // so the two transitions don't visually fight.
         setTimeout(showScanner, 300);
@@ -9430,7 +9245,7 @@ function toggleView(targetView, opts) {
         }
 
         store.set({ activeView: 'scanner' });
-        if (/^#(closet|chat|story|trendradar)(\/|$)/.test(location.hash)) {
+        if (/^#(closet|chat|story)(\/|$)/.test(location.hash)) {
             if (_skipPush) history.replaceState({ view: 'scanner' }, '', location.pathname + location.search);
             else history.pushState({ view: 'scanner' }, '', location.pathname + location.search);
         }
@@ -9505,7 +9320,7 @@ window.unlockBodyScroll = unlockBodyScroll;
 window.addEventListener('popstate', function(e) {
   try {
     var hash = location.hash.replace('#', '');
-    var viewMap = { closet: 'closet', chat: 'chat', story: 'history', trendradar: 'trendradar' };
+    var viewMap = { closet: 'closet', chat: 'chat', story: 'history' };
     var targetView = viewMap[hash] || 'scanner';
     var currentView = store.get().activeView;
     // Only switch if the view actually changed (avoid redundant transitions)
@@ -10008,6 +9823,27 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_title: 'Digital Closet',
       closet_subtitle: 'Your saved outfits and personal style archive.',
       closet_style_profile: 'Style Profile',
+      closet_trend_radar: 'Trend Radar',
+      tr_title: 'Trend Radar',
+      tr_score_label: 'Your fashion trend score',
+      tr_score_unit: 'TREND POINT',
+      tr_radar_label: 'Category radar',
+      tr_tab_overview: 'Overview',
+      tr_tab_trending: 'Trending',
+      tr_tab_missing: 'Missing',
+      tr_featured_label: 'BUY THIS ONE THING',
+      tr_relevance: 'Popularity index',
+      tr_count_have: 'TRENDY ITEM',
+      tr_count_missing: 'MISSING TREND',
+      tr_cat_title: 'Category trends',
+      tr_have_header: 'ALREADY TRENDING IN YOUR CLOSET',
+      tr_have_empty: 'Your closet is empty. Upload clothes to the Closet!',
+      tr_missing_header: 'WHAT YOU\'RE STILL MISSING',
+      tr_miss_empty: 'Your closet covers all current trends!',
+      tr_show_more: 'View all trending items →',
+      tr_show_more_miss: 'View all missing trends →',
+      tr_disclaimer: 'This chart shows the relationship between your closet and trends, not a definitive style rating. Trend data comes from the web (Wikipedia, fashion sites). Data is cached for 7 days.',
+      tr_source: 'source: trend data',
       closet_add_item: 'Add Item',
       closet_ab_duel: 'A/B Duel',
       closet_build_outfit: 'Build Outfit',
@@ -11492,17 +11328,6 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       wsp_weather_error: 'Could not fetch weather. Using default suggestions.',
       wsp_role_top: 'Top', wsp_role_bottom: 'Bottom', wsp_role_outer: 'Outer', wsp_role_dress: 'Dress', wsp_role_shoes: 'Shoes', wsp_role_accessory: 'Accessory',
 
-      // Trend Radar
-      closet_trend_radar: 'Trend Radar',
-      tr_title: 'Trend Radar',
-      tr_subtitle: 'AI-powered fashion trend analysis for your wardrobe',
-      tr_trend_score: 'Trend Score',
-      tr_category_radar: 'Category Radar',
-      tr_tab_overview: 'Overview',
-      tr_tab_trendy: 'Trendy',
-      tr_tab_missing: 'Missing',
-      tr_category_breakdown: 'Category Breakdown',
-
     },
     hu: {
       nav_closet: 'Szekrény',
@@ -11889,6 +11714,27 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_title: 'Digitális Szekrény',
       closet_subtitle: 'Elmentett öltözékek és személyes stílusarchívum.',
       closet_style_profile: 'Stílusadatlap',
+      closet_trend_radar: 'Trend Radar',
+      tr_title: 'Trend Radar',
+      tr_score_label: 'Divat trend pontszámod',
+      tr_score_unit: 'TREND PONT',
+      tr_radar_label: 'Kategória radar',
+      tr_tab_overview: 'Áttekintés',
+      tr_tab_trending: 'Trendi',
+      tr_tab_missing: 'Hiányzó',
+      tr_featured_label: 'EZT AZ EGY DOLGOT VEDD MEG',
+      tr_relevance: 'Népszerűségi index',
+      tr_count_have: 'TRENDI DARAB',
+      tr_count_missing: 'HIÁNYZÓ TREND',
+      tr_cat_title: 'Kategória trendek',
+      tr_have_header: 'AMI MÁR TRENDI A SZEKRÉNYEDBEN',
+      tr_have_empty: 'Szekrényed üres. Tölts fel ruhákat a Szekrénybe!',
+      tr_missing_header: 'AMIT MÉG HIÁNYZIK',
+      tr_miss_empty: 'Szekrényed fedi az összes aktuális trendet!',
+      tr_show_more: 'Összes trendi darab megtekintése →',
+      tr_show_more_miss: 'Összes hiányzó trend megtekintése →',
+      tr_disclaimer: 'Ez a grafikon a szekrényed és a trendek viszonyát mutatja, nem egyértelmű stílusértékelés. A trendadatok a netről származnak (Wikipedia, divatoldalak). 7 napig cache-elt adat.',
+      tr_source: 'forrás: trendadatok',
       closet_add_item: 'Tárgy hozzáadása',
       closet_ab_duel: 'A/B Párbaj',
       closet_build_outfit: 'Öltözék összeállítása',
@@ -13372,17 +13218,6 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       wsp_weather_error: 'Nem sikerült lekérdezni az időjárást. Alapértelmezett javaslatok használata.',
       wsp_role_top: 'Felső', wsp_role_bottom: 'Alsó', wsp_role_outer: 'Kabát', wsp_role_dress: 'Ruha', wsp_role_shoes: 'Cipő', wsp_role_accessory: 'Kiegészítő',
 
-      // Trend Radar
-      closet_trend_radar: 'Trend Radar',
-      tr_title: 'Trend Radar',
-      tr_subtitle: 'AI alapú divattrend-elemzés a szekrényedhez',
-      tr_trend_score: 'Trend pontszám',
-      tr_category_radar: 'Kategória radar',
-      tr_tab_overview: 'Áttekintés',
-      tr_tab_trendy: 'Trendi',
-      tr_tab_missing: 'Hiányzik',
-      tr_category_breakdown: 'Kategória részletek',
-
     },
     de: {
       nav_closet: 'Schrank',
@@ -13769,6 +13604,27 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_title: 'Digitaler Kleiderschrank',
       closet_subtitle: 'Deine gespeicherten Outfits und persönliches Stil-Archiv.',
       closet_style_profile: 'Stil-Profil',
+      closet_trend_radar: 'Trend Radar',
+      tr_title: 'Trend Radar',
+      tr_score_label: 'Dein Mode-Trend-Score',
+      tr_score_unit: 'TREND PUNKT',
+      tr_radar_label: 'Kategorie Radar',
+      tr_tab_overview: 'Übersicht',
+      tr_tab_trending: 'Trendig',
+      tr_tab_missing: 'Fehlend',
+      tr_featured_label: 'KAUF DIR DIESES EINE TEIL',
+      tr_relevance: 'Beliebt­heits­index',
+      tr_count_have: 'TRENDIGE TEILE',
+      tr_count_missing: 'FEHLENDE TRENDS',
+      tr_cat_title: 'Kategorie Trends',
+      tr_have_header: 'SCHON TRENDIG IN DEINEM SCHRANK',
+      tr_have_empty: 'Dein Schrank ist leer. Lade Kleidung hoch!',
+      tr_missing_header: 'WAS DIR NOCH FEHLT',
+      tr_miss_empty: 'Dein Schrank deckt alle aktuellen Trends ab!',
+      tr_show_more: 'Alle trendigen Teile anzeigen →',
+      tr_show_more_miss: 'Alle fehlenden Trends anzeigen →',
+      tr_disclaimer: 'Dieses Diagramm zeigt das Verhältnis zwischen deinem Schrank und den Trends, keine definitive Stilbewertung. Trenddaten stammen aus dem Web (Wikipedia, Modeseiten). Daten werden 7 Tage gecacht.',
+      tr_source: 'Quelle: Trenddaten',
       closet_add_item: 'Teil hinzufügen',
       closet_ab_duel: 'A/B Duell',
       closet_build_outfit: 'Outfit zusammenstellen',
@@ -15251,17 +15107,6 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       wsp_weather_fetch: 'Wetter wird abgerufen...',
       wsp_weather_error: 'Wetter konnte nicht abgerufen werden. Standardvorschläge werden verwendet.',
       wsp_role_top: 'Oberteil', wsp_role_bottom: 'Unterteil', wsp_role_outer: 'Jacke', wsp_role_dress: 'Kleid', wsp_role_shoes: 'Schuhe', wsp_role_accessory: 'Accessoire',
-
-      // Trend Radar
-      closet_trend_radar: 'Trend Radar',
-      tr_title: 'Trend Radar',
-      tr_subtitle: 'KI-gestützte Modetrend-Analyse für deine Garderobe',
-      tr_trend_score: 'Trendpunktestand',
-      tr_category_radar: 'Kategorie-Radar',
-      tr_tab_overview: 'Übersicht',
-      tr_tab_trendy: 'Trendy',
-      tr_tab_missing: 'Fehlt',
-      tr_category_breakdown: 'Kategorie-Details',
 
     },
   };
@@ -17408,8 +17253,7 @@ window.saveCurrentOutfit = function() {
             colorHex: s.lastColor ? s.lastColor.hex : '#888',
             occasion: s.occasion,
             date: Date.now(),
-            phash: _newHash,
-            source: 'scan'
+            phash: _newHash
         };
 
         try {
@@ -33677,1332 +33521,6 @@ applyOfflineState(!navigator.onLine);
 
 
 
-<!-- ============================================================
-     TREND RADAR — AI fashion trend analysis module
-     Self-contained IIFE. No dependencies on app internals
-     beyond toggleView() and the $() helper.
-     ============================================================ -->
-<script>
-(function() {
-  'use strict';
-
-  // ── i18n Translations ──────────────────────────────────────
-  window.trTranslations = {
-    hu: {
-      title: 'Trend Radar',
-      subtitle: 'AI divat trend elemzés a gardróbodhoz',
-      trend_score: 'Trend Pontszám',
-      category_radar: 'Kategória Radar',
-      tab_overview: 'Áttekintés',
-      tab_trendy: 'Trendi',
-      tab_missing: 'Hiányzik',
-      category_breakdown: 'Kategória Bontás',
-      top_rec_title: 'Ezt az egyet érdemes beszerezned',
-      score_high: 'Kiváló',
-      score_mid: 'Jó',
-      score_low: 'Fejlesztendő',
-      trendy_match: 'Egyezés',
-      missing_priority: 'Prioritás',
-      season_spring: 'Tavasz',
-      season_summer: 'Nyár',
-      season_autumn: 'Ősz',
-      season_winter: 'Tél',
-      last_updated: 'Frissítve',
-      footer_info: 'A trendadatok a netről származnak (Wikipedia, divatoldalak). 7 napig cache-elt adat.',
-      refresh_tooltip: 'Trend adatok frissítése',
-      back_to_closet: 'Vissza a Gardróbhoz',
-      lang_label: 'HU',
-      loading: 'Betöltés…',
-      empty_trendy: 'Töltsd fel a gardróbodat a Szekrényben, hogy lásd a trendi darabjaidat!',
-      empty_missing: 'Még nincs adat a hiányzó trendekről. Töltsd fel a gardróbodat!',
-      trends_intro: 'E szezon legfontosabb trendjei',
-      trend_outerwear_desc: 'Oversized trench kabátok és laza blézerek uralják a szezont. A klasszikus bézs és kamufszi árnyalatok a legkeresettebbek.',
-      trend_tops_desc: 'A "Quiet Luxury" stílus folytatódik: letisztult vonalak, minőségi anyagok, semleges színek. A fehér póló és a finom kötött pulóverek továbbra is alapdarabok.',
-      trend_bottoms_desc: 'Széles szárú nadrágok és szövetnadrágok dominálnak. A 90-es évek inspirációjú magas derekú farmerek is visszatértek.',
-      trend_shoes_desc: 'Vastag talpú mokaszinok és retró sportcipők a slágerek. A kényelem és stílus ötvözete a kulcs.',
-      trend_accessories_desc: 'Mini táskák és arany ékszerdarabok a szezon kedvencei. A kevés több: egy látványos kiegészítő elég.',
-      trend_colors_desc: 'Vajas sárga, barack és pasztellzöld dominálják a palettát. A semleges árnyalatok mellé egy merész színfolt a tuti tipp.',
-
-      // Scoring explanation
-      scoring_title: 'Hogyan számoljuk a pontokat?',
-      scoring_explain: 'A kategória pontszámok a szekrényedben lévő darabok és az aktuális divattrendek egyezéséből származnak. Minden kategóriában a meglévő ruháidat összehasonlítjuk a szezon trendjeivel — minél több trendi darabod van, annál magasabb a pontszám.',
-      scoring_empty: 'A szekrényed jelenleg üres, ezért minden kategóriában 0 pontot látsz. Töltsd fel ruháidat a Szekrényben, és a pontszámok automatikusan frissülnek!',
-      scoring_note: 'Ez a grafikon a szekrényed és a trendek viszonyát mutatja, nem egyértelmű stílusértékelés.'
-    },
-    de: {
-      title: 'Trend Radar',
-      subtitle: 'KI-gestützte Modetrend-Analyse für deine Garderobe',
-      trend_score: 'Trend-Score',
-      category_radar: 'Kategorie-Radar',
-      tab_overview: 'Übersicht',
-      tab_trendy: 'Im Trend',
-      tab_missing: 'Fehlt',
-      category_breakdown: 'Kategorie-Aufschlüsselung',
-      top_rec_title: 'Dieses eine Stück lohnt sich anzuschaffen',
-      score_high: 'Ausgezeichnet',
-      score_mid: 'Gut',
-      score_low: 'Entwicklungsbedarf',
-      trendy_match: 'Übereinstimmung',
-      missing_priority: 'Priorität',
-      season_spring: 'Frühling',
-      season_summer: 'Sommer',
-      season_autumn: 'Herbst',
-      season_winter: 'Winter',
-      last_updated: 'Aktualisiert',
-      footer_info: 'Trenddaten stammen aus dem Internet (Wikipedia, Modeseiten). 7 Tage gecacht.',
-      refresh_tooltip: 'Trend-Daten aktualisieren',
-      back_to_closet: 'Zurück zum Kleiderschrank',
-      lang_label: 'DE',
-      loading: 'Laden…',
-      empty_trendy: 'Lade deine Kleidung im Kleiderschrank hoch, um deine trendigen Teile zu sehen!',
-      empty_missing: 'Noch keine Daten zu fehlenden Trends. Lade deine Garderobe hoch!',
-      // Trend descriptions
-      trends_intro: 'Die wichtigsten Trends dieser Saison',
-      trend_outerwear_desc: 'Oversized Trenchcoats und locker geschnittene Blazer dominieren die Saison. Klassische Beige- und Kamelfarben sind am gefragtesten.',
-      trend_tops_desc: 'Der "Quiet Luxury"-Stil setzt sich fort: klare Linien, hochwertige Materialien, neutrale Farben. Das weiße T-Shirt und feine Strickpullover bleiben Basisstücke.',
-      trend_bottoms_desc: 'Weite Hosen und Stoffhosen dominieren. Von den 90er Jahren inspirierte High-Waist-Jeans sind ebenfalls zurück.',
-      trend_shoes_desc: 'Chunky Loafers und Retro-Sneaker sind die Renner. Die Kombination aus Komfort und Stil ist der Schlüssel.',
-      trend_accessories_desc: 'Mini-Taschen und goldene Schmuckstücke sind die Favoriten der Saison. Weniger ist mehr: ein Statement-Accessoire reicht.',
-      trend_colors_desc: 'Buttergelb, Pfirsich und Pastellgrün dominieren die Palette. Zu neutralen Tönen ein mutiger Farbakzent ist der sichere Tipp.',
-
-      // Scoring explanation
-      scoring_title: 'Wie werden die Punkte berechnet?',
-      scoring_explain: 'Die Kategorie-Scores ergeben sich aus der Übereinstimmung deiner Garderobe mit den aktuellen Modetrends. In jeder Kategorie werden deine vorhandenen Teile mit den Saisontrends verglichen — je mehr trendige Teile du hast, desto höher der Score.',
-      scoring_empty: 'Dein Kleiderschrank ist derzeit leer, daher siehst du in jeder Kategorie 0 Punkte. Lade deine Kleidung im Schrank hoch und die Scores aktualisieren sich automatisch!',
-      scoring_note: 'Dieses Diagramm zeigt das Verhältnis zwischen deiner Garderobe und den Trends, keine absolute Stilbewertung.'
-    },
-    en: {
-      title: 'Trend Radar',
-      subtitle: 'AI-powered fashion trend analysis for your wardrobe',
-      trend_score: 'Trend Score',
-      category_radar: 'Category Radar',
-      tab_overview: 'Overview',
-      tab_trendy: 'Trendy',
-      tab_missing: 'Missing',
-      category_breakdown: 'Category Breakdown',
-      top_rec_title: 'This one piece is worth getting',
-      score_high: 'Excellent',
-      score_mid: 'Good',
-      score_low: 'Needs Work',
-      trendy_match: 'Match',
-      missing_priority: 'Priority',
-      season_spring: 'Spring',
-      season_summer: 'Summer',
-      season_autumn: 'Autumn',
-      season_winter: 'Winter',
-      last_updated: 'Updated',
-      footer_info: 'Trend data sourced from the internet (Wikipedia, fashion sites). Cached for 7 days.',
-      refresh_tooltip: 'Refresh trend data',
-      back_to_closet: 'Back to Closet',
-      lang_label: 'EN',
-      loading: 'Loading…',
-      empty_trendy: 'Upload your clothes in the Closet to see your trendy items!',
-      empty_missing: 'No missing trend data yet. Upload your wardrobe first!',
-      // Trend descriptions
-      trends_intro: 'Top trends this season',
-      trend_outerwear_desc: 'Oversized trench coats and relaxed-fit blazers dominate the season. Classic beige and camel shades are the most sought-after.',
-      trend_tops_desc: 'The "Quiet Luxury" aesthetic continues: clean lines, quality fabrics, neutral tones. The white tee and fine knit pullovers remain wardrobe staples.',
-      trend_bottoms_desc: 'Wide-leg trousers and tailored pants lead the way. 90s-inspired high-waisted jeans are also making a strong comeback.',
-      trend_shoes_desc: 'Chunky loafers and retro sneakers are the hits. The blend of comfort and style is key this season.',
-      trend_accessories_desc: 'Mini bags and gold jewelry pieces are the season favorites. Less is more: one statement accessory is enough.',
-      trend_colors_desc: 'Butter yellow, peach, and pastel green dominate the palette. Adding one bold color accent to neutrals is the go-to move.',
-
-      // Scoring explanation
-      scoring_title: 'How are scores calculated?',
-      scoring_explain: 'Category scores reflect how well your wardrobe matches current fashion trends. In each category, your existing items are compared against the season\'s trending styles — the more trendy pieces you own, the higher your score.',
-      scoring_empty: 'Your closet is currently empty, so every category shows 0 points. Upload your clothes in the Closet and the scores will update automatically!',
-      scoring_note: 'This chart shows the relationship between your wardrobe and current trends, not an absolute style rating.'
-    }
-  };
-
-  // ── Language Detection ──────────────────────────────────────
-  // Detects language at call time (not IIFE time) so that the
-  // module script's getLang() and localStorage are available.
-  var trLang = 'hu'; // safe default; updated in _detectLang()
-
-  function _detectLang() {
-    try {
-      var gl = (typeof window.getLang === 'function') ? window.getLang() : null;
-      if (gl && (gl === 'hu' || gl === 'de' || gl === 'en')) return gl;
-      var stored = localStorage.getItem('datescan.lang');
-      if (stored) {
-        var clean = stored.replace(/^auto:/, '');
-        if (clean === 'hu' || clean === 'de' || clean === 'en') return clean;
-      }
-    } catch(e) {}
-    return 'hu';
-  }
-
-  // ── Translate Helper ───────────────────────────────────────
-  function trT(key) {
-    var dict = window.trTranslations[trLang] || window.trTranslations.en;
-    return dict[key] || key;
-  }
-
-  // ── Season Detection ───────────────────────────────────────
-  function trGetCurrentSeason() {
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = now.getMonth(); // 0-indexed
-    var seasonKey, seasonLabel;
-    if (month >= 2 && month <= 4) { seasonKey = 'spring'; }
-    else if (month >= 5 && month <= 7) { seasonKey = 'summer'; }
-    else if (month >= 8 && month <= 10) { seasonKey = 'autumn'; }
-    else { seasonKey = 'winter'; }
-    seasonLabel = trT('season_' + seasonKey);
-    return { year: year, seasonKey: seasonKey, seasonLabel: seasonLabel };
-  }
-
-  // ── Get Real Wardrobe Items from IndexedDB ────────────────
-  function trGetWardrobeItems() {
-    // Try to read from the global userCloset (populated from IndexedDB on load)
-    var outfits = (window.userCloset && Array.isArray(window.userCloset.outfits)) ? window.userCloset.outfits : [];
-    var uploadedItems = outfits.filter(function(o) { return o.source === 'upload'; });
-    var scannedOutfits = outfits.filter(function(o) { return o.source !== 'upload'; });
-    var allItems = uploadedItems.concat(scannedOutfits);
-    return allItems;
-  }
-
-  // ── Calculate Category Scores from Real Closet ────────────
-  // Maps each closet item's type to a trend category, then scores
-  // based on how many items match the season's trending keywords.
-  function trCalculateCategoryScores(closetItems) {
-    var categoryNames = {
-      hu: { outerwear: 'Kabátok', tops: 'Felsők', bottoms: 'Nadrágok', shoes: 'Cipők', accessories: 'Kiegészítők', colors: 'Színek' },
-      de: { outerwear: 'Mäntel', tops: 'Oberteile', bottoms: 'Hosen', shoes: 'Schuhe', accessories: 'Accessoires', colors: 'Farben' },
-      en: { outerwear: 'Outerwear', tops: 'Tops', bottoms: 'Bottoms', shoes: 'Shoes', accessories: 'Accessories', colors: 'Colors' }
-    };
-    var cn = categoryNames[trLang] || categoryNames.en;
-
-    // Trending keywords per category for this season
-    var trendKeywords = {
-      outerwear: ['trench', 'blazer', 'oversized', 'coat', 'jacket', 'kabát', 'blézer', 'trenchcoat', 'mantel', 'blazer'],
-      tops: ['shirt', 'top', 'tshirt', 't-shirt', 'blouse', 'sweater', 'pullover', 'hoodie', 'póló', 'pulóver', 'felső', 'oberteil', 'pullover', 'shirt'],
-      bottoms: ['pants', 'jeans', 'trousers', 'shorts', 'skirt', 'nadrág', 'farmer', 'hose', 'jeans', 'rock'],
-      shoes: ['shoes', 'sneakers', 'boots', 'loafers', 'heels', 'cipő', 'sportcipő', 'bakancs', 'schuhe', 'sneaker', 'stiefel'],
-      accessories: ['bag', 'belt', 'hat', 'scarf', 'watch', 'jewelry', 'táska', 'öv', 'sapka', 'sál', 'tasche', 'gürtel', 'hut'],
-      colors: []  // Colors category scored by variety of colors in closet
-    };
-
-    // Type-to-category mapping (maps item.type to trend category)
-    var typeToCategory = {
-      jacket: 'outerwear', coat: 'outerwear', blazer: 'outerwear', vest: 'outerwear',
-      shirt: 'tops', top: 'tops', tshirt: 'tops', blouse: 'tops', sweater: 'tops', hoodie: 'tops', pullover: 'tops',
-      dress: 'tops',
-      pants: 'bottoms', jeans: 'bottoms', trousers: 'bottoms', shorts: 'bottoms', skirt: 'bottoms',
-      shoes: 'shoes', sneakers: 'shoes', boots: 'shoes', loafers: 'shoes', heels: 'shoes',
-      accessory: 'accessories', bag: 'accessories', belt: 'accessories', hat: 'accessories', scarf: 'accessories', watch: 'accessories'
-    };
-
-    // Infer category from item text when type is missing (e.g. scanned outfits)
-    function _inferCategory(item) {
-      var text = ((item.name || '') + ' ' + (item.occasion || '') + ' ' + ((item.tags || []).join(' '))).toLowerCase();
-      var infer = [
-        ['outerwear', ['jacket','coat','blazer','vest','kabát','blézer','mantel']],
-        ['shoes',     ['shoe','sneaker','boot','loafer','heel','cipő','bakancs','schuhe','stiefel']],
-        ['accessories',['bag','belt','hat','scarf','watch','jewelry','táska','öv','sapka','sál','tasche']],
-        ['bottoms',   ['pants','jeans','trousers','shorts','skirt','nadrág','farmer','hose','rock']],
-        ['tops',      ['shirt','top','blouse','sweater','hoodie','dress','póló','pulóver','felső','oberteil']]
-      ];
-      for (var i = 0; i < infer.length; i++) {
-        for (var j = 0; j < infer[i][1].length; j++) {
-          if (text.indexOf(infer[i][1][j]) !== -1) return infer[i][0];
-        }
-      }
-      return null;
-    }
-
-    // Count items per category
-    var catCounts = { outerwear: 0, tops: 0, bottoms: 0, shoes: 0, accessories: 0, colors: 0 };
-    var catTrendMatches = { outerwear: 0, tops: 0, bottoms: 0, shoes: 0, accessories: 0, colors: 0 };
-    var colorsFound = {};
-    var untypedCount = 0;
-
-    closetItems.forEach(function(item) {
-      var type = (item.type || '').toLowerCase();
-      var category = typeToCategory[type];
-      // Fallback: infer category from item text when type is missing
-      if (!category) category = _inferCategory(item);
-      // Last resort: count untyped items (scanned outfits) as general wardrobe
-      if (!category) {
-        untypedCount++;
-        // Distribute untyped items across tops+bottoms (full outfit scan)
-        catCounts.tops++;
-        catCounts.bottoms++;
-      }
-      if (category) {
-        catCounts[category]++;
-        // Check if item name/tags match trending keywords
-        var searchText = ((item.type || '') + ' ' + (item.name || '') + ' ' + (item.tags || []).join(' ')).toLowerCase();
-        var kw = trendKeywords[category] || [];
-        for (var i = 0; i < kw.length; i++) {
-          if (searchText.indexOf(kw[i]) !== -1) {
-            catTrendMatches[category]++;
-            break; // One match per item is enough
-          }
-        }
-      }
-      // Collect unique colors for the colors category
-      if (item.color) {
-        var c = item.color.toLowerCase();
-        if (c && c !== 'mixed' && c !== 'other') {
-          colorsFound[c] = true;
-        }
-      }
-    });
-
-    catCounts.colors = Object.keys(colorsFound).length;
-
-    // Score calculation:
-    // Base score from having items (0-50 scale: 0 items=0, 1=25, 2=40, 3+=50)
-    // Bonus from trend matches (0-50 scale)
-    // If closet is empty, all scores = 0
-    var isEmpty = closetItems.length === 0;
-    var scores = {};
-
-    var categoryKeys = ['outerwear', 'tops', 'bottoms', 'shoes', 'accessories', 'colors'];
-    categoryKeys.forEach(function(key) {
-      if (isEmpty) {
-        scores[key] = { name: cn[key], score: 0, trend: '', trendLabel: '' };
-        return;
-      }
-      var count = catCounts[key];
-      var matches = catTrendMatches[key];
-      // Base score: having items (max 50)
-      var base;
-      if (key === 'colors') {
-        base = Math.min(50, count * 10); // Each unique color = 10 pts, max 50
-      } else {
-        base = count === 0 ? 0 : (count === 1 ? 25 : (count === 2 ? 40 : 50));
-      }
-      // Trend bonus (max 50): percentage of items that match trends
-      var trendBonus = count > 0 ? Math.round((matches / count) * 50) : 0;
-      var total = Math.min(100, base + trendBonus);
-      scores[key] = { name: cn[key], score: total, trend: '', trendLabel: '' };
-    });
-
-    return scores;
-  }
-
-  // ── Calculate Overall Score from category scores ──────────
-  function trCalculateOverallScore(categories) {
-    var keys = Object.keys(categories);
-    if (keys.length === 0) return 0;
-    var sum = 0;
-    keys.forEach(function(k) { sum += (categories[k].score || 0); });
-    return Math.round(sum / keys.length);
-  }
-
-  // ── State ──────────────────────────────────────────────────
-  var _initialized = false;
-  var _loading = false;
-  var _lastFetch = 0;
-  var _refreshInterval = null;
-  var _lastDayStamp = '';
-  var _trendsData = null;
-  var _compareData = null;
-
-  // ── DOM Helpers ────────────────────────────────────────────
-  function $(id) { return document.getElementById(id); }
-
-  // ── API Fetch ──────────────────────────────────────────────
-  function trFetchTrends() {
-    return fetch('/api/trends?lang=' + trLang)
-      .then(function(r) { return r.json(); })
-      .catch(function(err) {
-        console.warn('[TrendRadar] fetch trends failed, using fallback', err);
-        return _getFallbackTrends();
-      });
-  }
-
-  function trFetchCompare(wardrobe, trends) {
-    return fetch('/api/trends/compare?lang=' + trLang, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wardrobe: wardrobe, trends: trends })
-    })
-    .then(function(r) { return r.json(); })
-    .catch(function(err) {
-      console.warn('[TrendRadar] fetch compare failed, using fallback', err);
-      return _getFallbackCompare();
-    });
-  }
-
-  // ── Fallback Data (when API is unavailable) ────────────────
-  function _getFallbackTrends() {
-    var season = trGetCurrentSeason();
-    var categories = trCalculateCategoryScores(trGetWardrobeItems());
-
-    return {
-      season: season.seasonKey,
-      year: season.year,
-      categories: categories,
-      trendyItems: _getFallbackTrendyItems(),
-      missingTrends: _getFallbackMissingTrends(),
-      topRecommendation: _getFallbackTopRec()
-    };
-  }
-
-  function _getFallbackTrendyItems() {
-    var trendyItems = {
-      hu: [
-        { name: 'Fekete bőrdzseki', match: 'oversized_trench', score: 82, desc: 'Klasszikus darab, jól párosítható az oversized trench trenddel' },
-        { name: 'Fehér póló', match: 'quiet_luxury', score: 90, desc: 'A minimalista fehér póló a Quiet Luxury alapja' },
-        { name: 'Bézs kabát', match: 'butter_yellow', score: 75, desc: 'A bézs árnyalat kiválóan illik a vajas sárga trendhez' }
-      ],
-      de: [
-        { name: 'Schwarze Lederjacke', match: 'oversized_trench', score: 82, desc: 'Klassisches Teil, passt gut zum Oversized-Trench-Trend' },
-        { name: 'Weißes T-Shirt', match: 'quiet_luxury', score: 90, desc: 'Das minimalistische weiße T-Shirt ist die Basis von Quiet Luxury' },
-        { name: 'Beiger Trenchcoat', match: 'butter_yellow', score: 75, desc: 'Der Beigeton passt hervorragend zum Buttergelb-Trend' }
-      ],
-      en: [
-        { name: 'Black leather jacket', match: 'oversized_trench', score: 82, desc: 'Classic piece, pairs well with the oversized trench trend' },
-        { name: 'White tee', match: 'quiet_luxury', score: 90, desc: 'The minimalist white tee is the foundation of Quiet Luxury' },
-        { name: 'Beige trench coat', match: 'butter_yellow', score: 75, desc: 'Beige shade complements the butter yellow trend beautifully' }
-      ]
-    };
-    return trendyItems[trLang] || trendyItems.en;
-  }
-
-  function _getFallbackMissingTrends() {
-    var missingTrends = {
-      hu: [
-        { name: 'Oversized trench kabát', category: 'outerwear', priority: 'high', desc: 'A szezon Must-Have darabja' },
-        { name: 'Vajas sárga kiegészítő', category: 'accessories', priority: 'medium', desc: 'A vajas sárga a szezon kedvelt színe' },
-        { name: 'Széles szárú nadrág', category: 'bottoms', priority: 'high', desc: 'A széles szárú nadrágok dominálják a szezont' },
-        { name: 'Vastag talpú mokaszin', category: 'shoes', priority: 'low', desc: 'Kényelmes és stílusos lábbeli trend' }
-      ],
-      de: [
-        { name: 'Oversized Trenchcoat', category: 'outerwear', priority: 'high', desc: 'Das Must-Have der Saison' },
-        { name: 'Buttergelb Accessoire', category: 'accessories', priority: 'medium', desc: 'Buttergelb ist die Trendfarbe der Saison' },
-        { name: 'Weite Hose', category: 'bottoms', priority: 'high', desc: 'Weite Hosen dominieren die Saison' },
-        { name: 'Chunky Loafers', category: 'shoes', priority: 'low', desc: 'Bequeme und stilvolle Schuhtrend' }
-      ],
-      en: [
-        { name: 'Oversized trench coat', category: 'outerwear', priority: 'high', desc: 'The must-have piece of the season' },
-        { name: 'Butter yellow accessory', category: 'accessories', priority: 'medium', desc: 'Butter yellow is the trending color this season' },
-        { name: 'Wide-leg trousers', category: 'bottoms', priority: 'high', desc: 'Wide-leg trousers are dominating the season' },
-        { name: 'Chunky loafers', category: 'shoes', priority: 'low', desc: 'Comfortable and stylish footwear trend' }
-      ]
-    };
-    return missingTrends[trLang] || missingTrends.en;
-  }
-
-  function _getFallbackTopRec() {
-    var topRec = {
-      hu: { title: 'Ezt az egyet érdemes beszerezned', name: 'Oversized trench kabát', reason: 'A szezon legnagyobb trendje, és a gardróbod legszembetűnőbb hiánya. Egy jó minőségű trench kabát évekig hordható és szinte mindenhez illik.', score: 95 },
-      de: { title: 'Dieses eine Stück lohnt sich anzuschaffen', name: 'Oversized Trenchcoat', reason: 'Der größte Trend der Saison und die auffälligste Lücke in deiner Garderobe. Ein hochwertiger Trenchcoat ist jahrelang tragbar und passt fast zu allem.', score: 95 },
-      en: { title: 'This one piece is worth getting', name: 'Oversized trench coat', reason: 'The biggest trend of the season and the most notable gap in your wardrobe. A quality trench coat lasts for years and goes with almost everything.', score: 95 }
-    };
-    return topRec[trLang] || topRec.en;
-  }
-
-  function _getFallbackCompare() {
-    var realCategories = trCalculateCategoryScores(trGetWardrobeItems());
-    var realScore = trCalculateOverallScore(realCategories);
-    return {
-      overallScore: realScore,
-      trendyCount: 0,
-      missingCount: 0,
-      breakdown: {}
-    };
-  }
-
-  // ── Online Trend Fetching (no backend needed) ────────────
-  // Fetches real fashion trend data from Wikipedia API
-  // and fashion websites via CORS proxy.
-  // Results are cached in localStorage for 7 days.
-
-  var _TREND_CACHE_KEY = 'tr_online_trends_v3';
-  var _TREND_CACHE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
-
-  function _getTrendCache() {
-    try {
-      var raw = localStorage.getItem(_TREND_CACHE_KEY);
-      if (!raw) return null;
-      var data = JSON.parse(raw);
-      if (Date.now() - data.ts > _TREND_CACHE_MS) {
-        localStorage.removeItem(_TREND_CACHE_KEY);
-        return null;
-      }
-      if (data.lang !== trLang) return null;
-      return data;
-    } catch(e) { return null; }
-  }
-
-  function _setTrendCache(data) {
-    try {
-      data.ts = Date.now();
-      data.lang = trLang;
-      localStorage.setItem(_TREND_CACHE_KEY, JSON.stringify(data));
-    } catch(e) {}
-  }
-
-  // Fetch with timeout to avoid hanging
-  function _fetchTimeout(url, ms) {
-    var timeout = ms || 3000;
-    return new Promise(function(resolve, reject) {
-      var done = false;
-      var timer = setTimeout(function() {
-        if (!done) { done = true; reject(new Error('timeout')); }
-      }, timeout);
-      try {
-        fetch(url).then(function(r) {
-          if (!done) { done = true; clearTimeout(timer); resolve(r); }
-        }).catch(function(e) {
-          if (!done) { done = true; clearTimeout(timer); reject(e); }
-        });
-      } catch(e) {
-        if (!done) { done = true; clearTimeout(timer); reject(e); }
-      }
-    });
-  }
-
-  function _fetchOnlineTrends() {
-    // Check cache first
-    var cached = _getTrendCache();
-    if (cached) return Promise.resolve(cached);
-
-    var year = new Date().getFullYear();
-    // Wikipedia supports CORS natively with origin=*
-    // Use English Wikipedia (most complete fashion articles)
-    var wikiBase = 'https://en.wikipedia.org/w/api.php?';
-    var wikiParams = 'action=query&prop=extracts&explaintext=true&format=json&origin=*';
-
-    // Try current year first, then previous year
-    var wikiUrls = [
-      wikiBase + wikiParams + '&titles=' + year + '_in_fashion',
-      wikiBase + wikiParams + '&titles=' + (year - 1) + '_in_fashion',
-      wikiBase + wikiParams + '&titles=' + (year - 2) + '_in_fashion',
-    ];
-
-    // Also try German Wikipedia if language is German
-    if (trLang === 'de') {
-      var deBase = 'https://de.wikipedia.org/w/api.php?';
-      wikiUrls.push(deBase + wikiParams + '&titles=Mode_' + year);
-      wikiUrls.push(deBase + wikiParams + '&titles=Mode_' + (year - 1));
-    }
-
-    // CORS proxy for fashion magazine content (secondary source)
-    var corsProxy = 'https://api.allorigins.win/raw?url=';
-    var fashionSources = [
-      corsProxy + encodeURIComponent('https://www.vogue.com/fashion/'),
-      corsProxy + encodeURIComponent('https://www.harpersbazaar.com/fashion/trends/'),
-    ];
-
-    // Fetch from Wikipedia (fast, CORS-friendly)
-    var wikiPromise = _fetchWikiTrends(wikiUrls);
-
-    // Fetch from fashion sites via CORS proxy (slower, may fail)
-    var corsPromise = _fetchCorsTrends(fashionSources);
-
-    return Promise.all([wikiPromise, corsPromise]).then(function(results) {
-      var wikiText = results[0] || '';
-      var corsText = results[1] || '';
-      var combined = (wikiText + ' ' + corsText).trim();
-
-      if (combined.length < 200) return null;
-
-      var parsed = _parseTrendKeywords(combined);
-      _setTrendCache(parsed);
-      return parsed;
-    }).catch(function() {
-      return null;
-    });
-  }
-
-  function _fetchWikiTrends(urls) {
-    // Try each Wikipedia URL in order, return first successful result
-    return urls.reduce(function(promise, url) {
-      return promise.then(function(text) {
-        if (text && text.length > 200) return text; // Already have good data
-        return _fetchTimeout(url, 3000)
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data && data.query && data.query.pages) {
-              var pages = data.query.pages;
-              var pid = Object.keys(pages)[0];
-              if (pid !== '-1' && pages[pid].extract) {
-                return pages[pid].extract;
-              }
-            }
-            return text || ''; // Keep previous result if this one failed
-          }).catch(function() { return text || ''; });
-      });
-    }, Promise.resolve(''));
-  }
-
-  function _fetchCorsTrends(sources) {
-    return sources.reduce(function(promise, url) {
-      return promise.then(function(text) {
-        if (text && text.length > 3000) return text; // Already have enough data
-        return _fetchTimeout(url, 4000)
-          .then(function(r) { return r.text(); })
-          .then(function(html) {
-            // Strip HTML tags and scripts
-            var clean = html
-              .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
-              .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-              .replace(/<[^>]+>/g, ' ')
-              .replace(/&nbsp;/g, ' ')
-              .replace(/&amp;/g, '&')
-              .replace(/\s+/g, ' ').trim();
-            return (text + ' ' + clean.substring(0, 5000)).trim();
-          }).catch(function() { return text || ''; });
-      });
-    }, Promise.resolve(''));
-  }
-
-  function _parseTrendKeywords(text) {
-    var lower = text.toLowerCase();
-
-    // Comprehensive trend keywords per category
-    var keywords = {
-      outerwear: ['trench coat', 'trench', 'blazer', 'overcoat', 'bomber jacket', 'leather jacket', 'puffer', 'puffer jacket', 'quilted jacket', 'parka', 'cape', 'poncho', 'denim jacket', 'fur coat', 'windbreaker', 'military jacket', 'shawl collar', 'double-breasted', 'oversized coat', 'teddy coat', 'faux fur', 'shearling'],
-      tops: ['shirt', 'blouse', 't-shirt', 'sweater', 'knitwear', 'cardigan', 'crop top', 'polo shirt', 'turtleneck', 'hoodie', 'tank top', 'corset', 'waistcoat', 'mesh top', 'ribbed', 'cashmere', 'silk blouse', 'oversized shirt', 'striped shirt', 'logo shirt', 'band tee', 'halter neck', 'one-shoulder'],
-      bottoms: ['trousers', 'wide-leg', 'cargo pants', 'pleated trousers', 'flare jeans', 'maxi skirt', 'mini skirt', 'midi skirt', 'culottes', 'bermuda shorts', 'high-waist', 'low-rise', 'straight-leg', 'baggy jeans', 'parachute pants', 'tailored trousers', 'denim', 'wide-leg jeans', 'barrel leg', 'carpenter pants'],
-      shoes: ['sneaker', 'loafer', 'chunky loafer', 'ballet flat', 'balletcore', 'kitten heel', 'platform', 'clog', 'mule', 'oxford', 'combat boot', 'knee-high boot', 'strappy sandal', 'espadrille', 'slingback', 'pointed toe', 'mary jane', 'thigh-high boot', 'retro sneaker', 'wedge'],
-      accessories: ['bag', 'mini bag', 'tote bag', 'crossbody', 'belt bag', 'bucket hat', 'beanie', 'scarf', 'sunglasses', 'pearl necklace', 'gold jewelry', 'chain necklace', 'hair clip', 'headband', 'gloves', 'shawl', 'brooch', 'earring', 'statement ring', 'woven bag', 'canvas tote', 'micro bag'],
-      colors: ['butter yellow', 'sage green', 'lavender', 'cobalt blue', 'cherry red', 'peach', 'terracotta', 'olive', 'chocolate brown', 'burgundy', 'mustard', 'navy', 'cream', 'beige', 'camel', 'blush pink', 'mint', 'coral', 'rust', 'slate', 'forest green', 'powder blue', 'lilac', 'neon', 'pastel', 'monochrome', 'earth tone', 'metallic']
-    };
-
-    var found = {};
-    var categoryKeys = Object.keys(keywords);
-    categoryKeys.forEach(function(cat) {
-      found[cat] = [];
-      keywords[cat].forEach(function(kw) {
-        if (lower.indexOf(kw) !== -1) {
-          found[cat].push(kw);
-        }
-      });
-    });
-
-    return {
-      foundKeywords: found,
-      rawTextLength: text.length,
-      source: 'internet'
-    };
-  }
-
-  // Build dynamic trend descriptions from online keywords
-  function _buildOnlineDescriptions(foundKeywords) {
-    var categoryLabels = {
-      hu: { outerwear: 'Kabátok', tops: 'Felsők', bottoms: 'Nadrágok', shoes: 'Cipők', accessories: 'Kiegészítők', colors: 'Színek' },
-      de: { outerwear: 'Mäntel', tops: 'Oberteile', bottoms: 'Hosen', shoes: 'Schuhe', accessories: 'Accessoires', colors: 'Farben' },
-      en: { outerwear: 'Outerwear', tops: 'Tops', bottoms: 'Bottoms', shoes: 'Shoes', accessories: 'Accessories', colors: 'Colors' }
-    };
-    var cn = categoryLabels[trLang] || categoryLabels.en;
-    var descs = {};
-
-    var keys = Object.keys(foundKeywords);
-    keys.forEach(function(cat) {
-      var items = foundKeywords[cat];
-      if (items.length === 0) return;
-
-      var topItems = items.slice(0, 4);
-      if (trLang === 'hu') {
-        descs[cat] = 'A szezon trendjei ' + cn[cat].toLowerCase() + ' kategóriában: ' + topItems.join(', ') + '. Ezek a darabok dominálják a divatlapokat és a kifutókat.';
-      } else if (trLang === 'de') {
-        descs[cat] = 'Die Trends dieser Saison bei ' + cn[cat].toLowerCase() + ': ' + topItems.join(', ') + '. Diese Stile dominieren die Modemagazine und Laufstege.';
-      } else {
-        descs[cat] = 'This season\'s trends in ' + cn[cat].toLowerCase() + ': ' + topItems.join(', ') + '. These styles are dominating fashion magazines and runways.';
-      }
-    });
-
-    return descs;
-  }
-
-  // Build trendy items from online keywords
-  function _buildOnlineTrendyItems(foundKeywords) {
-    var items = [];
-    var keys = Object.keys(foundKeywords);
-    keys.forEach(function(cat) {
-      var kws = foundKeywords[cat];
-      if (kws.length === 0) return;
-      // Top 2 keywords per category as trendy items
-      kws.slice(0, 2).forEach(function(kw) {
-        var score = 70 + Math.floor(Math.random() * 25); // 70-94
-        var descs = {
-          hu: 'Népszerű darab a szezonban, megtalálható a legfontosabb divatforrásokban',
-          de: 'Beliebtes Teil dieser Saison, in den wichtigsten Modequellen zu finden',
-          en: 'Popular piece this season, found across major fashion sources'
-        };
-        items.push({
-          name: kw.charAt(0).toUpperCase() + kw.slice(1),
-          match: kw.replace(/\s+/g, '_'),
-          score: score,
-          desc: descs[trLang] || descs.en
-        });
-      });
-    });
-    return items.slice(0, 8); // Max 8 items
-  }
-
-  // Build missing trends from online keywords that closet doesn't have
-  function _buildOnlineMissingTrends(foundKeywords, closetItems) {
-    var items = [];
-    var keys = Object.keys(foundKeywords);
-    var catNameMap = {
-      hu: { outerwear: 'Kabátok', tops: 'Felsők', bottoms: 'Nadrágok', shoes: 'Cipők', accessories: 'Kiegészítők', colors: 'Színek' },
-      de: { outerwear: 'Mäntel', tops: 'Oberteile', bottoms: 'Hosen', shoes: 'Schuhe', accessories: 'Accessoires', colors: 'Farben' },
-      en: { outerwear: 'Outerwear', tops: 'Tops', bottoms: 'Bottoms', shoes: 'Shoes', accessories: 'Accessories', colors: 'Colors' }
-    };
-    var cn = catNameMap[trLang] || catNameMap.en;
-    var priorityDescs = {
-      high: { hu: 'Fontos hiány a gardróbodban', de: 'Wichtige Lücke in deiner Garderobe', en: 'Key gap in your wardrobe' },
-      medium: { hu: 'Érdemes beszerezni', de: 'Lohnt sich anzuschaffen', en: 'Worth adding to your wardrobe' },
-      low: { hu: 'Opcionális kiegészítő', de: 'Optionale Ergänzung', en: 'Optional addition' }
-    };
-
-    keys.forEach(function(cat) {
-      var kws = foundKeywords[cat];
-      if (kws.length === 0) return;
-      // Take top keywords as missing items
-      kws.slice(0, 2).forEach(function(kw, i) {
-        var priority = i === 0 ? 'high' : 'medium';
-        var pd = priorityDescs[priority];
-        items.push({
-          name: kw.charAt(0).toUpperCase() + kw.slice(1),
-          category: cn[cat] || cat,
-          priority: priority,
-          desc: pd[trLang] || pd.en
-        });
-      });
-    });
-    return items.slice(0, 6); // Max 6 items
-  }
-
-  // ── Translate static data-i18n elements ────────────────────
-  function _applyStaticTranslations() {
-    var view = $('viewTrendRadar');
-    if (!view) return;
-    var els = view.querySelectorAll('[data-i18n]');
-    els.forEach(function(el) {
-      var key = el.getAttribute('data-i18n');
-      if (!key) return;
-      // data-i18n attributes use 'tr_' prefix (e.g. tr_title) but the
-      // translation dictionaries use unprefixed keys (e.g. title).
-      // Strip the prefix so the lookup succeeds.
-      var dictKey = key.replace(/^tr_/, '');
-      var translated = trT(dictKey);
-      if (translated && translated !== dictKey) {
-        // Only update text nodes that are direct children, not nested SVGs etc.
-        var hasOnlyText = true;
-        for (var i = 0; i < el.childNodes.length; i++) {
-          if (el.childNodes[i].nodeType === 1 && el.childNodes[i].tagName !== 'SVG') {
-            hasOnlyText = false;
-            break;
-          }
-        }
-        if (hasOnlyText) {
-          el.textContent = translated;
-        }
-      }
-    });
-  }
-
-  // ── Init ───────────────────────────────────────────────────
-  window.initTrendRadar = function() {
-    // Always re-detect language on init (the module script may have set
-    // getLang / localStorage since the IIFE first ran).
-    trLang = _detectLang();
-
-    if (_initialized && !_needsRefresh()) return;
-    _initialized = true;
-
-    // Translate static data-i18n elements now that we know the language
-    _applyStaticTranslations();
-
-    _loadData();
-    _setupAutoRefresh();
-
-    // Safety net: force render after 2 seconds if nothing appeared
-    // This ensures content is always visible even if something goes wrong
-    setTimeout(function() {
-      try {
-        var scoreEl = $('trScoreValue');
-        if (scoreEl && (scoreEl.textContent === '—' || scoreEl.textContent === '')) {
-          console.warn('[TrendRadar] Safety net triggered — forcing render');
-          _loading = false;
-          _lastFetch = 0;
-          trLang = _detectLang();
-          _applyStaticTranslations();
-          _loadData();
-        }
-      } catch(e) {
-        console.error('[TrendRadar] Safety net error:', e);
-      }
-    }, 2000);
-  };
-
-  function _needsRefresh() {
-    return (Date.now() - _lastFetch) > 30 * 60 * 1000; // 30 min
-  }
-
-  function _loadData() {
-    if (_loading) return;
-    _loading = true;
-
-    try {
-      var season = trGetCurrentSeason();
-      // Update season badge
-      var badge = $('trSeasonBadge');
-      if (badge) badge.textContent = season.seasonLabel + ' ' + season.year;
-
-      // Update language label
-      var langLabel = $('trLangLabel');
-      if (langLabel) langLabel.textContent = trLang.toUpperCase();
-
-      // Get REAL closet items from IndexedDB
-      var closetItems = trGetWardrobeItems();
-      // Calculate scores from real closet data
-      var realCategories = trCalculateCategoryScores(closetItems);
-      var realOverallScore = trCalculateOverallScore(realCategories);
-      var isEmpty = closetItems.length === 0;
-
-      // ── Render IMMEDIATELY with fallback data ──
-      var mergedData = {
-        season: season.seasonKey,
-        year: season.year,
-        categories: realCategories,
-        trendyItems: isEmpty ? [] : _getFallbackTrendyItems(),
-        missingTrends: isEmpty ? [] : _getFallbackMissingTrends(),
-        topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
-        isEmpty: isEmpty,
-        onlineSource: false
-      };
-
-      var emptyCompare = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
-      trRenderAll(mergedData, emptyCompare);
-      trRenderTrendScore(realOverallScore);
-
-      // Check if we have cached online data to overlay
-      var cached = _getTrendCache();
-      if (cached && cached.foundKeywords) {
-        _applyOnlineData(cached.foundKeywords, realCategories, realOverallScore, isEmpty, season, closetItems);
-      }
-
-      var upd = $('trLastUpdated');
-      if (upd) {
-        var srcLbl = (cached && cached.foundKeywords) ? ' (online)' : '';
-        upd.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + srcLbl;
-      }
-
-      _lastFetch = Date.now();
-      _loading = false;
-
-      // ── Background: fetch fresh online data if cache is old ──
-      var cacheAge = cached ? (Date.now() - (cached.ts || 0)) : _TREND_CACHE_MS;
-      if (cacheAge > 24 * 60 * 60 * 1000) {
-        _fetchOnlineTrends().then(function(onlineData) {
-          if (!onlineData || !onlineData.foundKeywords) return;
-          _applyOnlineData(onlineData.foundKeywords, realCategories, realOverallScore, isEmpty, season, closetItems);
-          var upd2 = $('trLastUpdated');
-          if (upd2) upd2.textContent = trT('last_updated') + ': ' + new Date().toLocaleTimeString() + ' (online)';
-        }).catch(function() { /* ignore */ });
-      }
-    } catch(e) {
-      console.error('[TrendRadar] _loadData error:', e);
-      _loading = false;
-      // Force render with minimal fallback data
-      try {
-        var fbSeason = trGetCurrentSeason();
-        var fbCategories = trCalculateCategoryScores([]);
-        var fbScore = trCalculateOverallScore(fbCategories);
-        var fbData = { season: fbSeason.seasonKey, year: fbSeason.year, categories: fbCategories, trendyItems: [], missingTrends: [], topRecommendation: {}, isEmpty: true, onlineSource: false };
-        trRenderAll(fbData, { overallScore: fbScore });
-      } catch(e2) {
-        console.error('[TrendRadar] fallback render also failed:', e2);
-      }
-    }
-  }
-
-  // Apply online data to the UI (used for both cached and fresh data)
-  function _applyOnlineData(foundKeywords, realCategories, realOverallScore, isEmpty, season, closetItems) {
-    try {
-      var onlineDescs = _buildOnlineDescriptions(foundKeywords);
-      var onlineTrendy = isEmpty ? [] : _buildOnlineTrendyItems(foundKeywords);
-      var onlineMissing = isEmpty ? [] : _buildOnlineMissingTrends(foundKeywords, closetItems);
-
-      // Override static trend descriptions with online data
-      var dict = window.trTranslations[trLang] || window.trTranslations.en;
-      var descKeys = ['trend_outerwear_desc', 'trend_tops_desc', 'trend_bottoms_desc', 'trend_shoes_desc', 'trend_accessories_desc', 'trend_colors_desc'];
-      var catKeys = ['outerwear', 'tops', 'bottoms', 'shoes', 'accessories', 'colors'];
-      catKeys.forEach(function(ck, i) {
-        if (onlineDescs[ck]) dict[descKeys[i]] = onlineDescs[ck];
-      });
-
-      var freshData = {
-        season: season.seasonKey, year: season.year,
-        categories: realCategories,
-        trendyItems: onlineTrendy,
-        missingTrends: onlineMissing,
-        topRecommendation: isEmpty ? {} : _getFallbackTopRec(),
-        isEmpty: isEmpty, onlineSource: true
-      };
-      var cmp = { trendyItems: [], missingTrends: [], topRecommendation: {}, overallScore: realOverallScore };
-      trRenderAll(freshData, cmp);
-      trRenderTrendScore(realOverallScore);
-    } catch(e) {
-      console.warn('[TrendRadar] _applyOnlineData error:', e);
-    }
-  }
-
-  // ── Render All ─────────────────────────────────────────────
-  window.trRenderAll = function(trends, compare) {
-    var score = (compare && (compare.overallScore || compare.trendScore)) || 0;
-    var isEmpty = trends.isEmpty || false;
-    trRenderTrendScore(score);
-    trRenderRadarChart(trends.categories || {});
-    trRenderTopRecommendation(trends.topRecommendation || {}, isEmpty);
-    trRenderTrendyItems(trends.trendyItems || []);
-    trRenderMissingTrends(trends.missingTrends || []);
-    trRenderCategoryBreakdown(trends.categories || {});
-    trRenderTrendsDescription(isEmpty);
-    trRenderScoringInfo(isEmpty);
-
-    // Footer
-    var footer = $('trFooterInfo');
-    if (footer) footer.textContent = trT('footer_info');
-  };
-
-  // ── Render Trend Score ─────────────────────────────────────
-  window.trRenderTrendScore = function(score) {
-    var svg = $('trScoreSvg');
-    var arc = $('trScoreArc');
-    var valueEl = $('trScoreValue');
-    var labelEl = $('trScoreLabel');
-    var descEl = $('trScoreDesc');
-
-    var circumference = 2 * Math.PI * 52; // r=52 → ~326.73
-    var offset = circumference - (score / 100) * circumference;
-    if (arc) arc.setAttribute('stroke-dasharray', (circumference - offset) + ' ' + circumference);
-
-    // Color based on score
-    var color = score >= 70 ? '#22c55e' : (score >= 50 ? '#f59e0b' : '#ef4444');
-    if (arc) arc.setAttribute('stroke', color);
-
-    if (valueEl) valueEl.textContent = score;
-    var label = score >= 70 ? trT('score_high') : (score >= 50 ? trT('score_mid') : trT('score_low'));
-    if (labelEl) labelEl.textContent = label;
-    if (descEl) descEl.textContent = label;
-  };
-
-  // ── Render Radar Chart ─────────────────────────────────────
-  window.trRenderRadarChart = function(categories) {
-    var svgEl = $('trRadarSvg');
-    if (!svgEl) return;
-
-    var keys = Object.keys(categories);
-    if (keys.length === 0) return;
-    var n = keys.length;
-    // Extra-large viewBox so long labels never get clipped
-    var vbW = 360, vbH = 360;
-    var cx = vbW / 2, cy = vbH / 2, maxR = 95;
-    var angleStep = (2 * Math.PI) / n;
-
-    svgEl.setAttribute('viewBox', '0 0 ' + vbW + ' ' + vbH);
-
-    var html = '';
-
-    // Background rings
-    [0.25, 0.5, 0.75, 1].forEach(function(ring) {
-      var r = maxR * ring;
-      var points = [];
-      for (var i = 0; i < n; i++) {
-        var angle = i * angleStep - Math.PI / 2;
-        points.push((cx + r * Math.cos(angle)).toFixed(1) + ',' + (cy + r * Math.sin(angle)).toFixed(1));
-      }
-      html += '<polygon points="' + points.join(' ') + '" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
-    });
-
-    // Axis lines
-    keys.forEach(function(key, i) {
-      var angle = i * angleStep - Math.PI / 2;
-      var ex = cx + maxR * Math.cos(angle);
-      var ey = cy + maxR * Math.sin(angle);
-      html += '<line x1="' + cx + '" y1="' + cy + '" x2="' + ex.toFixed(1) + '" y2="' + ey.toFixed(1) + '" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
-    });
-
-    // Data polygon
-    var dataPoints = [];
-    keys.forEach(function(key, i) {
-      var cat = categories[key];
-      var score = (cat && cat.score) || 0;
-      var r = maxR * (score / 100);
-      var angle = i * angleStep - Math.PI / 2;
-      dataPoints.push((cx + r * Math.cos(angle)).toFixed(1) + ',' + (cy + r * Math.sin(angle)).toFixed(1));
-    });
-    html += '<polygon points="' + dataPoints.join(' ') + '" fill="rgba(236,72,153,0.15)" stroke="rgba(236,72,153,0.6)" stroke-width="2"/>';
-
-    // Data dots + labels
-    keys.forEach(function(key, i) {
-      var cat = categories[key];
-      var score = (cat && cat.score) || 0;
-      var r = maxR * (score / 100);
-      var angle = i * angleStep - Math.PI / 2;
-      var dx = cx + r * Math.cos(angle);
-      var dy = cy + r * Math.sin(angle);
-      html += '<circle cx="' + dx.toFixed(1) + '" cy="' + dy.toFixed(1) + '" r="3.5" fill="#ec4899" stroke="#09090b" stroke-width="1.5"/>';
-
-      // Score number near the dot
-      if (score > 0) {
-        var scoreR = r + 10;
-        var sx = cx + scoreR * Math.cos(angle);
-        var sy = cy + scoreR * Math.sin(angle);
-        html += '<text x="' + sx.toFixed(1) + '" y="' + sy.toFixed(1) + '" text-anchor="middle" dominant-baseline="middle" fill="#ec4899" font-size="9" font-weight="700" font-family="Inter, system-ui, sans-serif">' + score + '</text>';
-      }
-
-      // Category name label — pushed well outside the chart
-      var name = (cat && cat.name) ? cat.name : key;
-      var labelR = maxR + 38;
-      var lx = cx + labelR * Math.cos(angle);
-      var ly = cy + labelR * Math.sin(angle);
-      var cosA = Math.cos(angle);
-      var sinA = Math.sin(angle);
-      var anchor, dy_adj;
-
-      // Smart positioning based on angle quadrant
-      if (Math.abs(cosA) < 0.15) {
-        anchor = 'middle';
-        dy_adj = sinA < 0 ? '-0.3em' : '1em';
-      } else {
-        anchor = cosA > 0 ? 'start' : 'end';
-        dy_adj = '0.35em';
-      }
-
-      html += '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="' + anchor + '" dominant-baseline="auto" fill="#e5e7eb" font-size="13" font-weight="600" font-family="Inter, system-ui, sans-serif" dy="' + dy_adj + '">' + _escHtml(name) + '</text>';
-    });
-
-    svgEl.innerHTML = html;
-  };
-
-  // ── Render Top Recommendation ──────────────────────────────
-  window.trRenderTopRecommendation = function(rec, isEmpty) {
-    var container = $('trTopRecContainer');
-    var card = $('trTopRecCard');
-    var titleEl = $('trTopRecTitle');
-    var descEl = $('trTopRecDesc');
-    var metaEl = $('trTopRecMeta');
-
-    // Hide the entire recommendation card when closet is empty
-    if (isEmpty || !rec || (!rec.name && !rec.reason && !rec.desc)) {
-      if (container) container.classList.add('hidden');
-      return;
-    }
-    if (container) container.classList.remove('hidden');
-
-    if (titleEl) titleEl.textContent = rec.title || rec.name || trT('top_rec_title');
-    if (descEl) descEl.textContent = rec.reason || rec.desc || '';
-    if (metaEl) {
-      var meta = '';
-      if (rec.name) {
-        meta += '<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-pink-500/15 text-pink-300 border border-pink-500/20">' + _escHtml(rec.name) + '</span>';
-      }
-      if (rec.score) {
-        meta += '<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/20">' + rec.score + '/100</span>';
-      }
-      metaEl.innerHTML = meta;
-    }
-  };
-
-  // ── Render Trendy Items ────────────────────────────────────
-  window.trRenderTrendyItems = function(items) {
-    var container = $('trTrendyItems');
-    if (!container) return;
-
-    if (!items.length) {
-      container.innerHTML = '<p class="text-sm text-gray-500 text-center py-6">' + _escHtml(trT('empty_trendy')) + '</p>';
-      return;
-    }
-
-    container.innerHTML = items.map(function(item) {
-      return '<div class="tr-item-card tr-glass-card p-4 flex items-start gap-3">' +
-        '<div class="shrink-0 w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center text-emerald-400">' +
-          '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
-        '</div>' +
-        '<div class="flex-1 min-w-0">' +
-          '<div class="flex items-center gap-2 mb-1">' +
-            '<span class="text-sm font-semibold text-white truncate">' + _escHtml(item.name) + '</span>' +
-            '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 shrink-0">' + (item.score || '') + '%</span>' +
-          '</div>' +
-          '<p class="text-xs text-gray-400 leading-relaxed">' + _escHtml(item.desc || '') + '</p>' +
-        '</div>' +
-      '</div>';
-    }).join('');
-  };
-
-  // ── Render Missing Trends ──────────────────────────────────
-  window.trRenderMissingTrends = function(trends) {
-    var container = $('trMissingItems');
-    if (!container) return;
-
-    if (!trends.length) {
-      container.innerHTML = '<p class="text-sm text-gray-500 text-center py-6">' + _escHtml(trT('empty_missing')) + '</p>';
-      return;
-    }
-
-    var priorityColors = {
-      high: { bg: 'bg-red-500/15', text: 'text-red-300', border: 'border-red-500/20' },
-      medium: { bg: 'bg-amber-500/15', text: 'text-amber-300', border: 'border-amber-500/20' },
-      low: { bg: 'bg-blue-500/15', text: 'text-blue-300', border: 'border-blue-500/20' }
-    };
-
-    container.innerHTML = trends.map(function(item) {
-      var pc = priorityColors[item.priority] || priorityColors.medium;
-      return '<div class="tr-item-card tr-glass-card p-4 flex items-start gap-3">' +
-        '<div class="shrink-0 w-10 h-10 rounded-xl bg-pink-500/15 border border-pink-500/20 flex items-center justify-center text-pink-400">' +
-          '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' +
-        '</div>' +
-        '<div class="flex-1 min-w-0">' +
-          '<div class="flex items-center gap-2 mb-1">' +
-            '<span class="text-sm font-semibold text-white truncate">' + _escHtml(item.name) + '</span>' +
-            '<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full ' + pc.bg + ' ' + pc.text + ' border ' + pc.border + ' shrink-0 uppercase">' + _escHtml(item.priority) + '</span>' +
-          '</div>' +
-          '<p class="text-xs text-gray-400 leading-relaxed">' + _escHtml(item.desc || '') + '</p>' +
-        '</div>' +
-      '</div>';
-    }).join('');
-  };
-
-  // ── Render Category Breakdown ──────────────────────────────
-  window.trRenderCategoryBreakdown = function(categories) {
-    var container = $('trCategoryBreakdown');
-    if (!container) return;
-
-    var keys = Object.keys(categories);
-    var html = '';
-    keys.forEach(function(key) {
-      var cat = categories[key];
-      if (!cat) return;
-      var score = cat.score || 0;
-      var color = score >= 70 ? '#22c55e' : (score >= 50 ? '#f59e0b' : '#ef4444');
-      html += '<div class="flex items-center gap-3">' +
-        '<span class="text-xs font-semibold text-gray-300 w-24 shrink-0 truncate">' + _escHtml(cat.name || key) + '</span>' +
-        '<div class="flex-1 tr-progress-track">' +
-          '<div class="tr-progress-fill" style="width:' + score + '%;background:' + color + '"></div>' +
-        '</div>' +
-        '<span class="text-xs font-bold w-8 text-right" style="color:' + color + '">' + score + '</span>' +
-      '</div>';
-    });
-    container.innerHTML = html;
-  };
-
-  // ── Render Season Trends Description ──────────────────────
-  window.trRenderTrendsDescription = function(isEmpty) {
-    var introEl = $('trTrendsIntro');
-    var listEl = $('trTrendsList');
-    if (!introEl || !listEl) return;
-
-    introEl.textContent = trT('trends_intro');
-
-    var trendCategories = [
-      { key: 'outerwear', icon: '🧥', labelKey: 'trend_outerwear_desc' },
-      { key: 'tops', icon: '👕', labelKey: 'trend_tops_desc' },
-      { key: 'bottoms', icon: '👖', labelKey: 'trend_bottoms_desc' },
-      { key: 'shoes', icon: '👟', labelKey: 'trend_shoes_desc' },
-      { key: 'accessories', icon: '👜', labelKey: 'trend_accessories_desc' },
-      { key: 'colors', icon: '🎨', labelKey: 'trend_colors_desc' }
-    ];
-
-    var categoryNames = {
-      hu: { outerwear: 'Kabátok', tops: 'Felsők', bottoms: 'Nadrágok', shoes: 'Cipők', accessories: 'Kiegészítők', colors: 'Színek' },
-      de: { outerwear: 'Mäntel', tops: 'Oberteile', bottoms: 'Hosen', shoes: 'Schuhe', accessories: 'Accessoires', colors: 'Farben' },
-      en: { outerwear: 'Outerwear', tops: 'Tops', bottoms: 'Bottoms', shoes: 'Shoes', accessories: 'Accessories', colors: 'Colors' }
-    };
-    var cn = categoryNames[trLang] || categoryNames.en;
-
-    var html = trendCategories.map(function(tc) {
-      return '<div class="flex items-start gap-3">' +
-        '<span class="text-base shrink-0 mt-0.5">' + tc.icon + '</span>' +
-        '<div class="flex-1 min-w-0">' +
-          '<span class="text-xs font-bold text-white/80">' + _escHtml(cn[tc.key]) + '</span>' +
-          '<p class="text-[11px] text-gray-500 leading-relaxed mt-0.5">' + _escHtml(trT(tc.labelKey)) + '</p>' +
-        '</div>' +
-      '</div>';
-    }).join('');
-
-    listEl.innerHTML = html;
-  };
-
-  // ── Render Scoring Explanation ─────────────────────────────
-  window.trRenderScoringInfo = function(isEmpty) {
-    var titleEl = $('trScoringTitle');
-    var explainEl = $('trScoringExplain');
-    var emptyEl = $('trScoringEmpty');
-    var noteEl = $('trScoringNote');
-    if (!titleEl || !explainEl) return;
-
-    titleEl.textContent = trT('scoring_title');
-    explainEl.textContent = trT('scoring_explain');
-    noteEl.textContent = trT('scoring_note');
-
-    if (emptyEl) {
-      if (isEmpty) {
-        emptyEl.textContent = trT('scoring_empty');
-        emptyEl.classList.remove('hidden');
-      } else {
-        emptyEl.classList.add('hidden');
-      }
-    }
-  };
-
-  // ── Language Switcher ──────────────────────────────────────
-  window.trSetLanguage = function(lang) {
-    if (lang !== 'hu' && lang !== 'de' && lang !== 'en') return;
-    trLang = lang;
-    try { localStorage.setItem('datescan.lang', lang); } catch(e) {}
-    // Update label
-    var label = $('trLangLabel');
-    if (label) label.textContent = lang.toUpperCase();
-    // Close dropdown
-    var dd = $('trLangDropdown');
-    if (dd) dd.classList.add('hidden');
-    // Re-translate static data-i18n elements
-    _applyStaticTranslations();
-    // Re-fetch data in new language
-    _lastFetch = 0;
-    _loadData();
-  };
-
-  // ── Refresh ────────────────────────────────────────────────
-  window.trRefresh = function() {
-    _lastFetch = 0;
-    _loadData();
-    // Spin the refresh icon briefly
-    var btn = $('trRefreshBtn');
-    if (btn) {
-      btn.classList.add('animate-spin');
-      setTimeout(function() { btn.classList.remove('animate-spin'); }, 800);
-    }
-  };
-
-  // ── Tab Switching ──────────────────────────────────────────
-  function _switchTab(tabId) {
-    var panels = { overview: $('trTabOverview'), trendy: $('trTabTrendy'), missing: $('trTabMissing') };
-    var btns = document.querySelectorAll('.tr-tab-btn');
-
-    btns.forEach(function(btn) {
-      var t = btn.getAttribute('data-tr-tab');
-      if (t === tabId) {
-        btn.className = btn.className.replace('tr-tab-inactive', 'tr-tab-active');
-        if (!btn.className.includes('tr-tab-active')) btn.classList.add('tr-tab-active');
-        btn.classList.remove('tr-tab-inactive');
-      } else {
-        btn.className = btn.className.replace('tr-tab-active', 'tr-tab-inactive');
-        if (!btn.className.includes('tr-tab-inactive')) btn.classList.add('tr-tab-inactive');
-        btn.classList.remove('tr-tab-active');
-      }
-    });
-
-    Object.keys(panels).forEach(function(k) {
-      var panel = panels[k];
-      if (!panel) return;
-      if (k === tabId) {
-        panel.classList.remove('hidden');
-      } else {
-        panel.classList.add('hidden');
-      }
-    });
-  }
-
-  // ── Auto-Refresh ───────────────────────────────────────────
-  function _setupAutoRefresh() {
-    if (_refreshInterval) return;
-    // 30-minute interval
-    _refreshInterval = setInterval(function() {
-      if (_needsRefresh()) _loadData();
-    }, 30 * 60 * 1000);
-
-    // Day-change detection
-    _lastDayStamp = new Date().toDateString();
-    document.addEventListener('visibilitychange', function() {
-      if (document.visibilityState === 'visible') {
-        var today = new Date().toDateString();
-        if (today !== _lastDayStamp || _needsRefresh()) {
-          _lastDayStamp = today;
-          _loadData();
-        }
-      }
-    });
-  }
-
-  // ── HTML Escape ────────────────────────────────────────────
-  function _escHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  // ── Event Listeners ────────────────────────────────────────
-  function _bindEvents() {
-    // Trend Radar button
-    var trendRadarBtn = $('trendRadarBtn');
-    if (trendRadarBtn) {
-      trendRadarBtn.addEventListener('click', function() {
-        if (typeof window.toggleView === 'function') window.toggleView('trendradar');
-        else if (typeof toggleView === 'function') toggleView('trendradar');
-      });
-    }
-
-    // Back button
-    var backBtn = $('trBackBtn');
-    if (backBtn) {
-      backBtn.addEventListener('click', function() {
-        if (typeof window.toggleView === 'function') window.toggleView('closet');
-        else if (typeof toggleView === 'function') toggleView('closet');
-      });
-    }
-
-    // Tab buttons
-    var tabBtns = document.querySelectorAll('.tr-tab-btn');
-    tabBtns.forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var tab = btn.getAttribute('data-tr-tab');
-        if (tab) _switchTab(tab);
-      });
-    });
-
-    // Language button
-    var langBtn = $('trLangBtn');
-    var langDropdown = $('trLangDropdown');
-    if (langBtn && langDropdown) {
-      langBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        langDropdown.classList.toggle('hidden');
-      });
-      // Language options
-      var langOpts = document.querySelectorAll('.tr-lang-opt');
-      langOpts.forEach(function(opt) {
-        opt.addEventListener('click', function() {
-          var lang = opt.getAttribute('data-tr-lang');
-          if (lang) trSetLanguage(lang);
-        });
-      });
-      // Close dropdown on outside click
-      document.addEventListener('click', function() {
-        if (langDropdown) langDropdown.classList.add('hidden');
-      });
-    }
-
-    // Refresh button
-    var refreshBtn = $('trRefreshBtn');
-    if (refreshBtn) {
-      refreshBtn.addEventListener('click', function() {
-        trRefresh();
-      });
-    }
-  }
-
-  // Bind events when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', _bindEvents);
-  } else {
-    _bindEvents();
-  }
-
-})();
-</script>
-
 <!-- ── Haptic Feedback: vibration on interactive element press ── -->
 <script>
 (function(){
@@ -35034,6 +33552,566 @@ applyOfflineState(!navigator.onLine);
       hapticTap(10);          // standard tap for buttons / controls
     }
   }, { passive: true });
+})();
+
+// ===== TREND RADAR MODULE =====
+// Fetches trend data from Wikipedia API, caches 7 days,
+// compares against closet items, renders radar + score.
+(function() {
+  var t = function(k,v) { return typeof window.t === 'function' ? window.t(k,v) : k; };
+  var modal = document.getElementById('trendRadarModal');
+  var openBtn = document.getElementById('trendRadarBtn');
+  var closeBtn = document.getElementById('trendRadarClose');
+  if (!modal || !openBtn) return;
+
+  if (modal.parentElement !== document.body) document.body.appendChild(modal);
+
+  var CACHE_KEY = 'datescan.trendRadar.cache';
+  var CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
+  var _trShowAllHave = false;
+  var _trShowAllMiss = false;
+
+  // ── Season helper ──
+  function getSeason() {
+    var m = new Date().getMonth();
+    var y = new Date().getFullYear();
+    if (m >= 2 && m <= 4) return { en: 'Spring', hu: 'Tavasz', de: 'Frühling', year: y };
+    if (m >= 5 && m <= 7) return { en: 'Summer', hu: 'Nyár', de: 'Sommer', year: y };
+    if (m >= 8 && m <= 10) return { en: 'Autumn', hu: 'Ősz', de: 'Herbst', year: y };
+    return { en: 'Winter', hu: 'Tél', de: 'Winter', year: y };
+  }
+
+  // ── Trend categories ──
+  var TREND_CATEGORIES = {
+    tops:       { emoji: '👕', hu: 'Felsők',       en: 'Tops',        de: 'Oberteile',    pattern: /shirt|top|tshirt|blouse|sweater|pullover|hoodie|polo|tank|vest/i },
+    bottoms:    { emoji: '👖', hu: 'Nadrágok',     en: 'Pants',       de: 'Hosen',        pattern: /pants|jeans|trousers|shorts|skirt|chinos|cargo|jogger|legging/i },
+    shoes:      { emoji: '👟', hu: 'Cipők',        en: 'Shoes',       de: 'Schuhe',       pattern: /shoes|sneakers|boots|loafers|sandals|heels|flats|oxford|derby/i },
+    outerwear:  { emoji: '🧥', hu: 'Felsőruházat', en: 'Outerwear',   de: 'Oberbekleidung',pattern: /jacket|coat|blazer|parka|windbreaker|trench|bomber|cardigan/i },
+    accessories:{ emoji: '👜', hu: 'Kiegészítők',  en: 'Accessories', de: 'Accessoires',  pattern: /accessor|watch|belt|scarf|jewelry|ring|necklace|bag|hat|sunglasses|bracelet/i },
+    colors:     { emoji: '🎨', hu: 'Színek',       en: 'Colors',      de: 'Farben',       pattern: /color|colour|hue|palette|tone|shade|tint|pigment/i }
+  };
+  function _trCatLabel(cat) { var lk = (typeof window.getLang === 'function' ? window.getLang() : 'en'); return cat[lk] || cat.en; }
+
+  // ── Hardcoded trend knowledge (baseline, enhanced by Wikipedia) ──
+  var TREND_DB = [
+    { hu:'Oversized blézer',      en:'Oversized blazer',       de:'Oversized Blazer',       cat:'outerwear',   keywords:['oversized','blazer','structured'],         relevance:92, descHu:'Nagyon felkapott darab, ami azonnal emeli az összhatást.',               descEn:'Highly popular piece that instantly elevates the overall look.',                descDe:'Ein sehr angesagtes Teil, das den Gesamtlook sofort aufwertet.' },
+    { hu:'Szűk farmer',           en:'Slim jeans',             de:'Slim-Jeans',             cat:'bottoms',     keywords:['slim','jeans','denim','skinny'],           relevance:88, descHu:'Nálad már van — ez idén trendi!',                                       descEn:'You already own these — they\'re trendy this year!',                            descDe:'Du hast sie schon — dieses Jahr sind sie trendy!' },
+    { hu:'Bőr hatású kabát',      en:'Leather-look jacket',    de:'Leder-Look-Jacke',       cat:'outerwear',   keywords:['leather','jacket','faux','moto'],          relevance:85, descHu:'Vagány, modern, sokoldalú.',                                            descEn:'Edgy, modern, versatile.',                                                     descDe:'Cool, modern, vielseitig.' },
+    { hu:'Fehér sneaker',         en:'White sneakers',         de:'Weiße Sneaker',          cat:'shoes',       keywords:['white','sneaker','clean','minimal'],       relevance:90, descHu:'Időtlen klasszikus, mindig trendi.',                                     descEn:'Timeless classic, always trendy.',                                              descDe:'Zeitloser Klassiker, immer im Trend.' },
+    { hu:'Cargo nadrág',          en:'Cargo pants',            de:'Cargohose',              cat:'bottoms',     keywords:['cargo','pants','utility','pocket'],        relevance:78, descHu:'Utility stílus visszatért.',                                             descEn:'Utility style is back.',                                                       descDe:'Der Utility-Stil ist zurück.' },
+    { hu:'Oversized póló',        en:'Oversized t-shirt',      de:'Oversized T-Shirt',      cat:'tops',        keywords:['oversized','tshirt','loose','boxy'],       relevance:82, descHu:'Laza, kényelmes, streetwear vibe.',                                      descEn:'Relaxed, comfortable, streetwear vibe.',                                       descDe:'Lässig, bequem, Streetwear-Vibe.' },
+    { hu:'Chunky sneaker',        en:'Chunky sneakers',        de:'Chunky Sneaker',         cat:'shoes',       keywords:['chunky','sneaker','platform','dad'],       relevance:75, descHu:'Vastag talpú sneaker, még mindig megy.',                                 descEn:'Thick-soled sneakers, still going strong.',                                    descDe:'Dicksohlige Sneaker, immer noch angesagt.' },
+    { hu:'Bomber kabát',          en:'Bomber jacket',          de:'Bomberjacke',            cat:'outerwear',   keywords:['bomber','jacket','aviator','flight'],      relevance:80, descHu:'Retro vibes, modern twist.',                                             descEn:'Retro vibes, modern twist.',                                                   descDe:'Retro-Vibes, moderner Twist.' },
+    { hu:'Lenvászon ing',         en:'Linen shirt',            de:'Leinenhemd',             cat:'tops',        keywords:['linen','shirt','breathable','natural'],    relevance:83, descHu:'Természetes anyag, nyári must-have.',                                    descEn:'Natural fabric, summer must-have.',                                            descDe:'Natürlicher Stoff, Sommer-Must-have.' },
+    { hu:'Selyem nyakkendő',      en:'Silk tie',               de:'Seidenkrawatte',         cat:'accessories', keywords:['silk','tie','necktie','formal'],           relevance:65, descHu:'Elegáns kiegészítő, formális alkalmakra.',                               descEn:'Elegant accessory for formal occasions.',                                      descDe:'Elegantes Accessoire für formelle Anlässe.' },
+    { hu:'Bubblegum pink',        en:'Bubblegum pink',         de:'Bubblegum-Pink',         cat:'colors',      keywords:['pink','bubblegum','pastel','rose'],        relevance:72, descHu:'Merész, fiatalos szín.',                                                 descEn:'Bold, youthful color.',                                                        descDe:'Mutige, jugendliche Farbe.' },
+    { hu:'Selyem nadrág',         en:'Silk trousers',          de:'Seidenhose',             cat:'bottoms',     keywords:['silk','trousers','flowing','wide'],        relevance:68, descHu:'Fényes, selymes hatású nadrágok elérhető megjelenéshez.',                descEn:'Shiny, silky trousers for an approachable look.',                              descDe:'Glänzende, seidige Hosen für einen zugänglichen Look.' },
+    { hu:'Napszemüveg (retro)',    en:'Retro sunglasses',       de:'Retro-Sonnenbrille',     cat:'accessories', keywords:['sunglasses','retro','aviator','round'],    relevance:77, descHu:'Retro formák visszatértek.',                                             descEn:'Retro shapes are back.',                                                       descDe:'Retro-Formen sind zurück.' },
+    { hu:'Garbó pulóver',         en:'Turtleneck sweater',     de:'Rollkragenpullover',     cat:'tops',        keywords:['turtleneck','sweater','roll','neck'],      relevance:70, descHu:'Minimalista elegancia.',                                                  descEn:'Minimalist elegance.',                                                         descDe:'Minimalistische Eleganz.' },
+    { hu:'Chelsea boots',         en:'Chelsea boots',          de:'Chelsea Boots',          cat:'shoes',       keywords:['chelsea','boots','ankle','elastic'],       relevance:86, descHu:'Elegáns, de laza — tökéletes átmenet.',                                  descEn:'Elegant yet relaxed — perfect transition.',                                    descDe:'Elegant und doch lässig — perfekter Übergang.' },
+    { hu:'Halvány kék',           en:'Light blue',             de:'Hellblau',               cat:'colors',      keywords:['blue','light','pastel','sky','baby'],      relevance:74, descHu:'Nyugodt, kifinomult szín.',                                              descEn:'Calm, refined color.',                                                         descDe:'Ruhige, raffinierte Farbe.' },
+    { hu:'Sportos cipzáras',      en:'Sporty zip-up',          de:'Sportlicher Zip-Up',     cat:'tops',        keywords:['zip','sporty','track','athletic'],         relevance:71, descHu:'Athleisure trend folytatódik.',                                           descEn:'Athleisure trend continues.',                                                  descDe:'Athleisure-Trend geht weiter.' },
+    { hu:'Széles nadrág',         en:'Wide leg pants',         de:'Weite Hose',             cat:'bottoms',     keywords:['wide','leg','pants','palazzo','flare'],    relevance:79, descHu:'Bő szárú nadrágok újra divatban.',                                       descEn:'Wide-leg pants are back in fashion.',                                          descDe:'Weite Hosen sind wieder in Mode.' },
+    { hu:'Oversized napszemüveg', en:'Oversized sunglasses',   de:'Oversized-Sonnenbrille', cat:'accessories', keywords:['oversized','sunglasses','shield','maxi'],  relevance:73, descHu:'Statement kiegészítő.',                                                  descEn:'Statement accessory.',                                                         descDe:'Statement-Accessoire.' },
+    { hu:'Nyilatkozat nyaklánc',  en:'Statement necklace',     de:'Statement-Kette',        cat:'accessories', keywords:['necklace','statement','chain','layered'],  relevance:69, descHu:'Egyedi, személyes stílus kiegészítő.',                                   descEn:'Unique, personal style accessory.',                                            descDe:'Einzigartiges, persönliches Stil-Accessoire.' },
+    { hu:'Khaki szín',            en:'Khaki color',            de:'Khaki-Farbe',            cat:'colors',      keywords:['khaki','olive','earth','military','green'],relevance:76, descHu:'Földszínek még mindig erősek.',                                           descEn:'Earth tones still going strong.',                                               descDe:'Erdtöne sind immer noch stark.' },
+    { hu:'Loafer cipő',           en:'Loafer shoes',           de:'Loafer-Schuhe',          cat:'shoes',       keywords:['loafer','slip','penny','moccasin'],        relevance:81, descHu:'Kényelmes elegancia, smart casual.',                                      descEn:'Comfortable elegance, smart casual.',                                          descDe:'Komfortable Eleganz, Smart Casual.' },
+    { hu:'Kötött kardigán',       en:'Knit cardigan',          de:'Strickjacke',            cat:'outerwear',   keywords:['cardigan','knit','cozy','button'],         relevance:67, descHu:'Kényelmes rétegezés.',                                                    descEn:'Cozy layering.',                                                               descDe:'Gemütliches Layering.' },
+    { hu:'Sportos shortok',       en:'Athletic shorts',        de:'Sport-Shorts',           cat:'bottoms',     keywords:['shorts','athletic','sport','running'],     relevance:66, descHu:'Nyári sportoláshoz és hétköznapra.',                                      descEn:'For summer sports and everyday wear.',                                         descDe:'Für Sommersport und Alltag.' },
+    { hu:'Bézs/Camel tónus',     en:'Beige/Camel tone',       de:'Beige/Camel-Ton',        cat:'colors',      keywords:['beige','camel','tan','neutral','sand'],    relevance:84, descHu:'Klasszikus neutrals, mindig működik.',                                   descEn:'Classic neutrals, always works.',                                               descDe:'Klassische Neutraltöne, funktionieren immer.' },
+  ];
+  function _trName(trend) { var lk = (typeof window.getLang === 'function' ? window.getLang() : 'en'); return trend[lk] || trend.en; }
+  function _trDesc(trend) { var lk = (typeof window.getLang === 'function' ? window.getLang() : 'en'); var k = 'desc' + lk.charAt(0).toUpperCase() + lk.slice(1); return trend[k] || trend.descEn; }
+
+  // ── Wikipedia API fetch ──
+  async function fetchWikiTrends() {
+    var cached = null;
+    try {
+      var raw = localStorage.getItem(CACHE_KEY);
+      if (raw) {
+        cached = JSON.parse(raw);
+        if (cached && cached.ts && (Date.now() - cached.ts < CACHE_TTL)) {
+          return cached.data;
+        }
+      }
+    } catch(e) {}
+
+    var season = getSeason();
+    var queries = [
+      season.year + ' in fashion',
+      'Fashion trend ' + season.en.toLowerCase() + ' ' + season.year,
+      '2020s in fashion'
+    ];
+
+    var extraKeywords = [];
+    for (var q = 0; q < queries.length; q++) {
+      try {
+        var url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=' +
+                  encodeURIComponent(queries[q]) +
+                  '&srlimit=3&format=json&origin=*';
+        var resp = await fetch(url, { signal: AbortSignal.timeout(8000) });
+        var json = await resp.json();
+        if (json.query && json.query.search) {
+          json.query.search.forEach(function(r) {
+            var snippet = (r.snippet || '').replace(/<[^>]+>/g, ' ').toLowerCase();
+            // Extract fashion-relevant words
+            var words = snippet.match(/\b(oversized|slim|wide[\s-]leg|cargo|leather|denim|linen|silk|velvet|corduroy|satin|cashmere|knit|chunky|platform|retro|vintage|minimalist|maximalist|layered|cropped|flared|pleated|tailored|relaxed|baggy|fitted|structured|deconstructed|sustainable|pastel|neon|earth[\s-]tone|monochrome|neutral|bold|muted|sneaker|loafer|boot|blazer|cardigan|hoodie|trench|bomber|parka|turtleneck|polo|tank|vest|shorts|jogger|chino|oxford)\b/gi);
+            if (words) extraKeywords = extraKeywords.concat(words.map(function(w) { return w.toLowerCase(); }));
+          });
+        }
+      } catch(e) { _dsLog('[TrendRadar] Wiki fetch error:', e); }
+    }
+
+    // Deduplicate
+    extraKeywords = [...new Set(extraKeywords)];
+
+    // Enhance TREND_DB with wiki data
+    if (extraKeywords.length > 0) {
+      TREND_DB.forEach(function(trend) {
+        var boost = 0;
+        trend.keywords.forEach(function(kw) {
+          if (extraKeywords.indexOf(kw.toLowerCase()) !== -1) boost += 5;
+        });
+        trend.relevance = Math.min(99, trend.relevance + boost);
+        trend.wikiConfirmed = boost > 0;
+      });
+    }
+
+    var result = { trends: TREND_DB, wikiKeywords: extraKeywords, season: season };
+
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: result }));
+    } catch(e) {}
+
+    return result;
+  }
+
+  // ── Get closet items ──
+  function getClosetItems() {
+    var outfits = (window.userCloset && Array.isArray(window.userCloset.outfits)) ? window.userCloset.outfits : [];
+    return outfits;
+  }
+
+  // ── Match closet items to trends ──
+  function matchTrends(trends, closetItems) {
+    var matched = [];
+    var missing = [];
+
+    trends.forEach(function(trend) {
+      var found = false;
+      for (var i = 0; i < closetItems.length; i++) {
+        var item = closetItems[i];
+        var searchText = ((item.type || '') + ' ' + (item.name || '') + ' ' + (item.color || '') + ' ' +
+                          ((item.meta && item.meta.colors) ? item.meta.colors.join(' ') : '')).toLowerCase();
+        var matchCount = 0;
+        trend.keywords.forEach(function(kw) {
+          if (searchText.indexOf(kw.toLowerCase()) !== -1) matchCount++;
+        });
+        if (matchCount >= 1) {
+          found = true;
+          matched.push({ trend: trend, item: item, matchStrength: matchCount });
+          break;
+        }
+      }
+      if (!found) missing.push(trend);
+    });
+
+    return { matched: matched, missing: missing };
+  }
+
+  // ── Category scores ──
+  function calcCategoryScores(trends, closetItems) {
+    var scores = {};
+    Object.keys(TREND_CATEGORIES).forEach(function(catKey) {
+      var catTrends = trends.filter(function(t) { return t.cat === catKey; });
+      var catItems = closetItems.filter(function(item) {
+        var cat = TREND_CATEGORIES[catKey];
+        return cat.pattern.test((item.type || '') + ' ' + (item.name || ''));
+      });
+      var maxScore = catTrends.length || 1;
+      var earnedScore = 0;
+      catTrends.forEach(function(tr) {
+        for (var i = 0; i < closetItems.length; i++) {
+          var searchText = ((closetItems[i].type || '') + ' ' + (closetItems[i].name || '') + ' ' + (closetItems[i].color || '')).toLowerCase();
+          var hits = 0;
+          tr.keywords.forEach(function(kw) { if (searchText.indexOf(kw) !== -1) hits++; });
+          if (hits >= 1) { earnedScore++; break; }
+        }
+      });
+      scores[catKey] = Math.round((earnedScore / maxScore) * 100);
+    });
+    return scores;
+  }
+
+  // ── Draw score ring ──
+  function drawScoreRing(score) {
+    var c = document.getElementById('trScoreRing');
+    if (!c) return;
+    var ctx = c.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    c.width = 140 * dpr; c.height = 140 * dpr;
+    c.style.width = '140px'; c.style.height = '140px';
+    ctx.scale(dpr, dpr);
+
+    var cx = 70, cy = 70, r = 58, lw = 8;
+    var startAngle = -Math.PI / 2;
+    var endAngle = startAngle + (2 * Math.PI * score / 100);
+
+    // Background ring
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = lw;
+    ctx.stroke();
+
+    // Score ring
+    if (score > 0) {
+      var grad = ctx.createLinearGradient(0, 0, 140, 140);
+      grad.addColorStop(0, '#fbbf24');
+      grad.addColorStop(1, '#f59e0b');
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, startAngle, endAngle);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = lw;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+  }
+
+  // ── Draw radar chart ──
+  function drawRadar(scores) {
+    var c = document.getElementById('trRadarCanvas');
+    if (!c) return;
+    var ctx = c.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    c.width = 280 * dpr; c.height = 260 * dpr;
+    c.style.width = '280px'; c.style.height = '260px';
+    ctx.scale(dpr, dpr);
+
+    var cats = Object.keys(TREND_CATEGORIES);
+    var cx = 140, cy = 125, maxR = 90;
+    var n = cats.length;
+    var angleStep = (2 * Math.PI) / n;
+    var startAngle = -Math.PI / 2;
+
+    function getPoint(i, val) {
+      var angle = startAngle + i * angleStep;
+      var r = (val / 100) * maxR;
+      return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+    }
+
+    // Grid levels
+    [0.25, 0.5, 0.75, 1.0].forEach(function(lvl) {
+      ctx.beginPath();
+      for (var i = 0; i <= n; i++) {
+        var angle = startAngle + (i % n) * angleStep;
+        var r = lvl * maxR;
+        var x = cx + r * Math.cos(angle);
+        var y = cy + r * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+
+    // Axis lines
+    for (var i = 0; i < n; i++) {
+      var p = getPoint(i, 100);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(p.x, p.y);
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Data polygon
+    ctx.beginPath();
+    cats.forEach(function(cat, i) {
+      var p = getPoint(i, scores[cat] || 0);
+      if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(236, 72, 153, 0.15)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(236, 72, 153, 0.7)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Data dots
+    cats.forEach(function(cat, i) {
+      var p = getPoint(i, scores[cat] || 0);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 3, 0, 2 * Math.PI);
+      ctx.fillStyle = '#ec4899';
+      ctx.fill();
+    });
+
+    // Labels
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '600 11px Inter, sans-serif';
+    ctx.fillStyle = 'rgba(209, 213, 219, 0.8)';
+    cats.forEach(function(cat, i) {
+      var angle = startAngle + i * angleStep;
+      var lr = maxR + 22;
+      var lx = cx + lr * Math.cos(angle);
+      var ly = cy + lr * Math.sin(angle);
+      ctx.fillText(_trCatLabel(TREND_CATEGORIES[cat]), lx, ly);
+    });
+  }
+
+  // ── Render a trend item row ──
+  function renderTrendRow(trend, matchItem, showBar) {
+    var row = document.createElement('div');
+    row.className = 'rounded-xl border border-white/5 bg-white/[0.03] p-3';
+    var matchPct = matchItem ? Math.min(100, matchItem.matchStrength * 33) : 0;
+    var catObj = TREND_CATEGORIES[trend.cat] || {};
+    var tagColors = trend.wikiConfirmed
+      ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+      : 'bg-white/5 text-gray-400 border-white/10';
+
+    row.innerHTML = '<div class="flex items-start gap-3">' +
+      '<div class="w-9 h-9 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-lg shrink-0">' + (catObj.emoji || '🔥') + '</div>' +
+      '<div class="flex-1 min-w-0">' +
+        '<div class="flex items-center gap-2 mb-0.5">' +
+          '<span class="font-semibold text-sm text-white truncate">' + _trName(trend) + '</span>' +
+          '<span class="px-1.5 py-0.5 rounded text-[8px] font-bold border ' + tagColors + ' shrink-0">' + _trCatLabel(catObj) + '</span>' +
+        '</div>' +
+        '<p class="text-[11px] text-gray-400 leading-relaxed mb-1.5">' + _trDesc(trend) + '</p>' +
+        (showBar ? (
+          '<div class="flex items-center gap-2">' +
+            '<div class="flex-1 h-1 rounded-full bg-white/10 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-700" style="width:' + matchPct + '%"></div></div>' +
+            '<span class="text-[10px] font-bold text-emerald-400 tabular-nums">' + matchPct + '%</span>' +
+          '</div>'
+        ) : (
+          '<div class="flex items-center gap-2">' +
+            '<div class="flex-1 h-1 rounded-full bg-white/10 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-brand-500 to-purple-500 transition-all duration-700" style="width:' + trend.relevance + '%"></div></div>' +
+            '<span class="text-[10px] font-bold text-brand-400 tabular-nums">' + trend.relevance + '%</span>' +
+          '</div>'
+        )) +
+      '</div>' +
+    '</div>';
+    return row;
+  }
+
+  // ── Render category breakdown ──
+  function renderCatBreakdown(catScores) {
+    var container = document.getElementById('trCatBreakdown');
+    if (!container) return;
+    container.innerHTML = '';
+
+    Object.keys(TREND_CATEGORIES).forEach(function(catKey) {
+      var cat = TREND_CATEGORIES[catKey];
+      var score = catScores[catKey] || 0;
+      var barColor = score >= 70 ? 'from-emerald-500 to-teal-500'
+                   : score >= 40 ? 'from-amber-500 to-orange-500'
+                   : 'from-brand-500 to-purple-500';
+
+      var div = document.createElement('div');
+      div.innerHTML = '<div class="flex items-center justify-between mb-1">' +
+        '<span class="text-sm font-semibold text-white flex items-center gap-2">' +
+          '<span class="text-base">' + cat.emoji + '</span>' + _trCatLabel(cat) +
+        '</span>' +
+        '<span class="text-xs font-bold tabular-nums ' + (score >= 70 ? 'text-emerald-400' : score >= 40 ? 'text-amber-400' : 'text-brand-400') + '">' + score + '%</span>' +
+      '</div>' +
+      '<div class="h-1.5 rounded-full bg-white/10 overflow-hidden">' +
+        '<div class="h-full rounded-full bg-gradient-to-r ' + barColor + ' transition-all duration-700" style="width:' + score + '%"></div>' +
+      '</div>';
+      container.appendChild(div);
+    });
+  }
+
+  // ── Tab switching ──
+  var tabs = modal.querySelectorAll('.tr-tab');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var target = tab.getAttribute('data-tr-tab');
+      tabs.forEach(function(t) {
+        t.classList.remove('bg-brand-500/20', 'text-brand-300', 'border-brand-500/30');
+        t.classList.add('bg-white/5', 'text-gray-400', 'border-transparent');
+      });
+      tab.classList.remove('bg-white/5', 'text-gray-400', 'border-transparent');
+      tab.classList.add('bg-brand-500/20', 'text-brand-300', 'border-brand-500/30');
+      modal.querySelectorAll('.tr-panel').forEach(function(p) { p.classList.add('hidden'); });
+      var panel = document.getElementById(target === 'overview' ? 'trOverview' : target === 'trending' ? 'trTrending' : 'trMissing');
+      if (panel) panel.classList.remove('hidden');
+    });
+  });
+
+  // ── Main render ──
+  async function renderTrendRadar() {
+    var data = await fetchWikiTrends();
+    var trends = data.trends || [];
+    var season = data.season || getSeason();
+    var closetItems = getClosetItems();
+    var result = matchTrends(trends, closetItems);
+    var catScores = calcCategoryScores(trends, closetItems);
+
+    // Season label
+    var langKey = (typeof window.getLang === 'function' ? window.getLang() : 'en');
+    var seasonLabel = document.getElementById('trSeasonLabel');
+    if (seasonLabel) {
+      var sName = langKey === 'hu' ? season.hu : langKey === 'de' ? season.de : season.en;
+      seasonLabel.textContent = sName + ' ' + season.year;
+    }
+
+    // Overall score
+    var totalCats = Object.keys(catScores).length || 1;
+    var totalScore = Math.round(Object.values(catScores).reduce(function(a, b) { return a + b; }, 0) / totalCats);
+    var scoreEl = document.getElementById('trScoreValue');
+    if (scoreEl) scoreEl.textContent = totalScore;
+    drawScoreRing(totalScore);
+
+    // Score message
+    var msgEl = document.getElementById('trScoreMsg');
+    if (msgEl) {
+      if (closetItems.length === 0) {
+        msgEl.textContent = langKey === 'hu' ? 'Szekrényed üres. Tölts fel ruhákat!' : langKey === 'de' ? 'Dein Schrank ist leer. Lade Kleidung hoch!' : 'Your closet is empty. Add items!';
+      } else if (totalScore >= 75) {
+        msgEl.textContent = langKey === 'hu' ? 'Szuper! Nagyon trendiesen öltözöl!' : langKey === 'de' ? 'Super! Du kleidest dich sehr trendig!' : 'Awesome! You dress very trendy!';
+      } else if (totalScore >= 40) {
+        msgEl.textContent = langKey === 'hu' ? 'Jó irány, néhány divatos darab hiányzik.' : langKey === 'de' ? 'Gute Richtung, einige trendige Teile fehlen.' : 'Good direction, some trendy pieces missing.';
+      } else {
+        msgEl.textContent = langKey === 'hu' ? 'Több trendi darabra lenne szükség.' : langKey === 'de' ? 'Mehr trendige Teile wären nötig.' : 'More trendy pieces needed.';
+      }
+    }
+
+    // Radar chart
+    drawRadar(catScores);
+
+    // Trend counts
+    var countHave = document.getElementById('trCountHave');
+    var countMiss = document.getElementById('trCountMissing');
+    if (countHave) countHave.textContent = result.matched.length;
+    if (countMiss) countMiss.textContent = result.missing.length;
+
+    // Featured card
+    var sortedMissing = result.missing.slice().sort(function(a, b) { return b.relevance - a.relevance; });
+    var featured = sortedMissing[0] || trends[0];
+    if (featured) {
+      var fName = document.getElementById('trFeaturedName');
+      var fDesc = document.getElementById('trFeaturedDesc');
+      var fBar = document.getElementById('trFeaturedBar');
+      var fPct = document.getElementById('trFeaturedPct');
+      var fTags = document.getElementById('trFeaturedTags');
+      var fMeta = document.getElementById('trFeaturedMeta');
+
+      if (fName) fName.textContent = _trName(featured);
+      if (fDesc) fDesc.textContent = _trDesc(featured);
+      if (fBar) fBar.style.width = featured.relevance + '%';
+      if (fPct) fPct.textContent = featured.relevance + '%';
+
+      if (fTags) {
+        fTags.innerHTML = '';
+        var catObj = TREND_CATEGORIES[featured.cat] || {};
+        fTags.innerHTML = '<span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-brand-500/15 text-brand-400 border border-brand-500/30">' + _trCatLabel(catObj) + '</span>';
+        if (featured.wikiConfirmed) {
+          var confirmLabel = langKey === 'hu' ? '✓ Megerősítve' : langKey === 'de' ? '✓ Bestätigt' : '✓ Confirmed';
+          fTags.innerHTML += '<span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">' + confirmLabel + '</span>';
+        }
+      }
+      if (fMeta) {
+        var priceStr = langKey === 'hu' ? '10 000 – 25 000 Ft' : langKey === 'de' ? '25 – 65 €' : '$30 – $70';
+        var storeStr = langKey === 'hu' ? 'Mango, Zara, H&M, helyi áruházak' : langKey === 'de' ? 'Mango, Zara, H&M, lokale Geschäfte' : 'Mango, Zara, H&M, local stores';
+        fMeta.innerHTML = '💰 <span class="text-gray-400">' + priceStr + '</span> &nbsp;|&nbsp; 🏬 <span class="text-gray-400">' + storeStr + '</span>';
+      }
+    }
+
+    // Category breakdown
+    renderCatBreakdown(catScores);
+
+    // Trending panel (matched items)
+    var haveList = document.getElementById('trHaveList');
+    var haveEmpty = document.getElementById('trHaveEmpty');
+    var haveMore = document.getElementById('trHaveMore');
+    if (haveList) {
+      haveList.innerHTML = '';
+      var matchedSorted = result.matched.slice().sort(function(a, b) { return b.trend.relevance - a.trend.relevance; });
+      var showHave = _trShowAllHave ? matchedSorted : matchedSorted.slice(0, 5);
+      showHave.forEach(function(m) {
+        haveList.appendChild(renderTrendRow(m.trend, m, true));
+      });
+      if (matchedSorted.length === 0) {
+        haveEmpty.classList.remove('hidden');
+        haveMore.classList.add('hidden');
+      } else {
+        haveEmpty.classList.add('hidden');
+        if (matchedSorted.length > 5 && !_trShowAllHave) {
+          haveMore.classList.remove('hidden');
+          haveMore.textContent = (langKey === 'hu' ? 'Összes trendi darab megtekintése (' : langKey === 'de' ? 'Alle trendigen Teile anzeigen (' : 'Show all trending items (') + matchedSorted.length + ') →';
+        } else {
+          haveMore.classList.add('hidden');
+        }
+      }
+    }
+
+    // Missing panel
+    var missList = document.getElementById('trMissList');
+    var missEmpty = document.getElementById('trMissEmpty');
+    var missMore = document.getElementById('trMissMore');
+    if (missList) {
+      missList.innerHTML = '';
+      var showMiss = _trShowAllMiss ? sortedMissing : sortedMissing.slice(0, 5);
+      showMiss.forEach(function(tr) {
+        missList.appendChild(renderTrendRow(tr, null, false));
+      });
+      if (sortedMissing.length === 0) {
+        missEmpty.classList.remove('hidden');
+        missMore.classList.add('hidden');
+      } else {
+        missEmpty.classList.add('hidden');
+        if (sortedMissing.length > 5 && !_trShowAllMiss) {
+          missMore.classList.remove('hidden');
+          missMore.textContent = (langKey === 'hu' ? 'Összes hiányzó trend megtekintése (' : langKey === 'de' ? 'Alle fehlenden Trends anzeigen (' : 'Show all missing trends (') + sortedMissing.length + ') →';
+        } else {
+          missMore.classList.add('hidden');
+        }
+      }
+    }
+
+    // Cache info
+    var cacheInfo = document.getElementById('trCacheInfo');
+    if (cacheInfo) {
+      try {
+        var raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+          var cData = JSON.parse(raw);
+          var cacheDate = new Date(cData.ts);
+          var expDate = new Date(cData.ts + CACHE_TTL);
+          var updLabel = langKey === 'hu' ? 'Frissítve: ' : langKey === 'de' ? 'Aktualisiert: ' : 'Updated: ';
+          var expLabel = langKey === 'hu' ? 'Lejár: ' : langKey === 'de' ? 'Läuft ab: ' : 'Expires: ';
+          var wkLabel = langKey === 'hu' ? ' Wikipedia kulcsszó' : langKey === 'de' ? ' Wikipedia-Schlüsselwörter' : ' Wikipedia keywords';
+          cacheInfo.textContent = updLabel +
+            cacheDate.toLocaleDateString() + ' — ' +
+            expLabel + expDate.toLocaleDateString() +
+            (data.wikiKeywords && data.wikiKeywords.length > 0 ? ' (' + data.wikiKeywords.length + wkLabel + ')' : '');
+        }
+      } catch(e) {}
+    }
+  }
+
+  // ── Show More buttons ──
+  var haveMoreBtn = document.getElementById('trHaveMore');
+  var missMoreBtn = document.getElementById('trMissMore');
+  if (haveMoreBtn) haveMoreBtn.addEventListener('click', function() { _trShowAllHave = true; renderTrendRadar(); });
+  if (missMoreBtn) missMoreBtn.addEventListener('click', function() { _trShowAllMiss = true; renderTrendRadar(); });
+
+  // ── Open / Close ──
+  openBtn.addEventListener('click', function() {
+    if (!window.isProUser || !window.isProUser()) {
+      if (typeof window.showPaywall === 'function') { window.showPaywall('trend_radar'); return; }
+    }
+    _trShowAllHave = false;
+    _trShowAllMiss = false;
+    modal.classList.remove('hidden');
+    renderTrendRadar();
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', function() { modal.classList.add('hidden'); });
+  modal.addEventListener('click', function(e) { if (e.target === modal) modal.classList.add('hidden'); });
 })();
 </script>
 
