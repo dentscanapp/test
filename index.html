@@ -8389,8 +8389,16 @@ store.subscribe((s) => {
     scanBtn.disabled = true;
     scanBtnText.innerHTML = t('scan_extracting');
   } else if (s.cameraReady) {
+    // When a free user has 0 points, still allow the scan (the result
+    // will be blurred as a conversion teaser), but change the button
+    // text so they KNOW they're out of points before they tap.
+    const outOfPoints = !isProUser() && getPoints() === 0;
     scanBtn.disabled = false;
-    scanBtnText.innerHTML = s.lastItems ? t('scan_again') : t('coach_empty_cta');
+    if (outOfPoints) {
+      scanBtnText.innerHTML = s.lastItems ? t('scan_again_locked') : t('scan_locked_cta');
+    } else {
+      scanBtnText.innerHTML = s.lastItems ? t('scan_again') : t('coach_empty_cta');
+    }
   } else {
     // Camera not ready yet — keep button ENABLED so the user can
     // tap it to trigger initCamera() within a user gesture context.
@@ -8542,14 +8550,22 @@ function getPointsResetMs() {
 }
 
 // Spend one point. Pro users are a no-op. Returns the new remaining.
+// When consuming a point, if bonus > 0 we also reduce it by 1 so that
+// bonus points are properly "spent" and not double-counted at the next
+// daily reset. Without this, the bonus field was never decremented,
+// causing bonusCarry to inflate the pool every 24h.
 function consumePoint() {
   if (isProUser()) return Infinity;
   const s = _readPointsState();
   const remaining = Math.max(0, s.remaining - 1);
+  // Reduce bonus proportionally when consuming points, so the bonus
+  // field tracks only UNSPENT bonus. This prevents bonus carry-over
+  // from inflating the pool at the next daily reset.
+  const bonus = (s.bonus > 0) ? Math.max(0, s.bonus - 1) : 0;
   // Start the 24h clock on the FIRST spend of a fresh pool.
   const firstAt = s.firstAt || Date.now();
   try {
-    localStorage.setItem(POINTS_KEY, JSON.stringify({ remaining, firstAt, bonus: s.bonus || 0 }));
+    localStorage.setItem(POINTS_KEY, JSON.stringify({ remaining, firstAt, bonus }));
   } catch(e) {}
   updatePointsBadge();
   return remaining;
@@ -8581,7 +8597,13 @@ window.DAILY_POINTS = DAILY_POINTS;
 // Add bonus points (from referrals, rewards, etc.) that persist across
 // daily resets.  The bonus stack is tracked separately in the storage
 // object so _readPointsState can carry it over when the 24h pool resets.
-function addBonusPoints(amount) {
+//
+// NOTE: When called right before consumePoint() (e.g. from the scan
+// streak bonus path), the `skipBadgeUpdate` flag prevents a redundant
+// updatePointsBadge() call — consumePoint() will update the badge itself
+// after deducting, so the user sees one clean transition instead of a
+// flickering "gained then lost" sequence.
+function addBonusPoints(amount, skipBadgeUpdate) {
   if (isProUser() || !amount || amount <= 0) return;
   const s = _readPointsState();
   const newBonus = (s.bonus || 0) + amount;
@@ -8593,7 +8615,7 @@ function addBonusPoints(amount) {
       bonus: newBonus,
     }));
   } catch(e) {}
-  updatePointsBadge();
+  if (!skipBadgeUpdate) updatePointsBadge();
   return newRemaining;
 }
 window.addBonusPoints = addBonusPoints;
@@ -8701,7 +8723,12 @@ function recordScanStreak() {
     else if (data.count <= 6) { bonus = 3; multiplierLabel = '2x'; }
     else { bonus = 5; multiplierLabel = '3x'; }
 
-    addBonusPoints(bonus);
+    // Pass skipBadgeUpdate=true because when called from the scan path,
+    // consumePoint() will update the badge right after this — avoiding a
+    // confusing flash where the badge briefly shows the bonus before the
+    // deduction. When called from other paths (e.g. daily reset), the
+    // badge is updated normally.
+    addBonusPoints(bonus, true);
     const msg = t('streak_bonus_toast').replace('{bonus}', bonus);
     if (typeof window.dsPrivacy?.showToast === 'function') {
       window.dsPrivacy.showToast(msg);
@@ -9444,8 +9471,12 @@ function updatePointsBadge() {
   const pts = getPoints();
   const s = _readPointsState();
   const hasBonus = (s.bonus || 0) > 0;
-  // Show e.g. "5 PTS" or "8 PTS" with bonus indicator, plus reset hint in title.
-  badge.innerHTML = `<span class="font-bold text-white tabular-nums">${_esc(pts)}</span><span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">${t('nav_pts')}</span>${hasBonus ? '<span class="text-[9px] font-bold text-green-400 ml-1.5">+' + _esc(s.bonus) + '</span>' : ''}`;
+  // Show total points (daily + bonus combined). The old "+N" green indicator
+  // was confusing — users thought they GAINED points after a scan because
+  // the streak bonus added back the point just deducted. Now the badge shows
+  // the total effective points as a single number. Bonus info is in the
+  // tooltip only, not in the visible badge text.
+  badge.innerHTML = `<span class="font-bold text-white tabular-nums">${_esc(pts)}</span><span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-1">${t('nav_pts')}</span>`;
   badge.classList.remove('bg-brand-500/10', 'border-brand-500/30');
   badge.classList.add('bg-white/5', 'border-white/10');
   if (pts === 0) {
@@ -9454,7 +9485,7 @@ function updatePointsBadge() {
     badge.classList.remove('text-gray-400');
   }
   const resetHint = formatPointsResetShort();
-  const bonusHint = hasBonus ? ` (+${s.bonus} bonus)` : '';
+  const bonusHint = hasBonus ? ` (+${s.bonus} bonus included)` : '';
   badge.title = resetHint
     ? `${pts} points left${bonusHint} · resets in ${resetHint}`
     : `${pts} points left${bonusHint}`;
@@ -10726,6 +10757,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ob_tap_items_hint: 'Tap items below to fill each slot',
       ob_picker_empty: 'No items yet. Upload clothes first!',
       scan_again: 'Scan Again',
+      scan_again_locked: 'Scan Again (0 pts — locked)',
+      scan_locked_cta: 'Scan (0 pts — locked)',
       badge_pro_active: 'Pro active — unlimited scans and chat',
       closet_count_limit: '{{count}}/200',
       error_webgl_title: 'WebGL not supported',
@@ -12740,6 +12773,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ob_tap_items_hint: 'Koppints az alábbi tárgyakra a helyek kitöltéséhez',
       ob_picker_empty: 'Még nincsenek tárgyak. Tölts fel ruhákat először!',
       scan_again: 'Szkennelés újra',
+      scan_again_locked: 'Szkennelés újra (0 pont — zárolt)',
+      scan_locked_cta: 'Szkennelés (0 pont — zárolt)',
       badge_pro_active: 'Pro aktív — korlátlan szkennelés és chat',
       closet_count_limit: '{{count}}/200',
       error_webgl_title: 'A WebGL nem támogatott',
@@ -13039,52 +13074,52 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       fb_blurry_text: 'A képnek nincs élessége.',
       fb_blurry_action: 'Tartsd mozdulatlanul és koppints az újraskenneléshez.',
       coach_pep_talk: 'Edző Bátorítása',
-      vibe_high_1: 'éles. tartsd ezt az energiát.',
-      vibe_high_2: 'beállítva',
-      vibe_high_3: 'ez működik. ne túlgondold.',
-      vibe_high_4: 'te leszel az, akit emlékezni fognak',
-      vibe_high_5: 'beragadt - mehetsz.',
-      vibe_high_6: 'jelenlét a poénok előtt.',
-      vibe_elite_1: 'felejthetetlen. uralj minden szobát.',
-      vibe_elite_2: 'következő szint. ne pazarold csevegésre.',
-      vibe_elite_3: 'észrevettek, mielőtt megszólaltál volna.',
-      vibe_elite_4: 'mágneses. nincs mit bizonyítani.',
-      vibe_elite_5: 'top 1 %. aszerint cselekedj.',
-      vibe_mid_1: 'takaros, de felejthető',
-      vibe_mid_2: 'biztos. túl biztos.',
-      vibe_mid_3: 'próbálkozó, nem találó',
-      vibe_mid_4: 'összerakott, nem felkapcsolt',
-      vibe_mid_5: 'megjelenő, nem felvágó',
-      vibe_mid_6: 'elfogadható. ez a plafon.',
-      vibe_mid_7: 'átmegy, nem ragyog',
-      vibe_mid_8: 'rendben. a rendben nem a cél.',
-      vibe_low_1: 'még nem randikész',
-      vibe_low_2: 'durva. javítsd az alapokat.',
+      vibe_high_1: 'Kiszúr. Tartsd ezt az energiát.',
+      vibe_high_2: 'Készen állsz',
+      vibe_high_3: 'Ez működik. Ne túlgondold.',
+      vibe_high_4: 'Te leszel az, akit emlékezni fognak',
+      vibe_high_5: 'Beindultál — mehetsz.',
+      vibe_high_6: 'Jelenlét, mielőtt megszólalnál.',
+      vibe_elite_1: 'Felejthetetlen. Uralod a teret.',
+      vibe_elite_2: 'Következő szint. Ne pazarold csevegésre.',
+      vibe_elite_3: 'Észrevettek, mielőtt megszólaltál volna.',
+      vibe_elite_4: 'Mágneses. Nincs mit bizonyítani.',
+      vibe_elite_5: 'Top 1%. Aszerint cselekedj.',
+      vibe_mid_1: 'Takaros, de felejthető',
+      vibe_mid_2: 'Biztos. Túl biztos.',
+      vibe_mid_3: 'Próbálkozik, de nem talál',
+      vibe_mid_4: 'Összeszedett, de nem kiemelkedő',
+      vibe_mid_5: 'Stílusos, de nem hivalkodó',
+      vibe_mid_6: 'Korrekt, de ez a plafon',
+      vibe_mid_7: 'Megnyerő, de nem ragyog',
+      vibe_mid_8: 'Rendben. De a rendben nem a cél.',
+      vibe_low_1: 'Még nem randikész',
+      vibe_low_2: 'Durva. Javítsd az alapokat.',
       vibe_low_3: 'Ez ma este nem fog összejönni',
-      vibe_low_4: 'a reménykedés nem elég - javítsd',
-      vibe_low_5: 'tudod, hogy ez nem az',
-      vibe_low_6: 'majdnem ott. még egy aprítás.',
-      vibe_rough_1: 'kezd elölről. komolyan.',
-      vibe_rough_2: 'a tükör nem hazudik. javítsd ezt.',
-      vibe_rough_3: 'először az alapok. a stílus később.',
-      vibe_rough_4: 'ez nem vibe. ez figyelmeztetés.',
-      vibe_rough_5: 'állíts mindent nullára és próbáld újra.',
+      vibe_low_4: 'A reménykedés nem elég — javíts',
+      vibe_low_5: 'Tudod, hogy ez nem az',
+      vibe_low_6: 'Majdnem ott. Még egy apró igazítás.',
+      vibe_rough_1: 'Kezd elölről. Komolyan.',
+      vibe_rough_2: 'A tükör nem hazudik. Javítsd ezt.',
+      vibe_rough_3: 'Először az alapok. A stílus később.',
+      vibe_rough_4: 'Ez nem stílus. Ez figyelmeztetés.',
+      vibe_rough_5: 'Állíts mindent nullára és próbáld újra.',
       booster_1: 'Lassíts. Tartsd a szemkontaktust.',
       booster_2: 'Sétálj be úgy, mintha oda tartoznál.',
-      booster_3: 'Hagyd abba az izgágaságot. Minden rándulás kiszivárogtatja az önbizalmadat.',
+      booster_3: 'Hagyd abba a fészkelődést. Minden apró mozdulat elárulja a bizonytalanságod.',
       booster_4: 'Szünet, mielőtt beszélsz.',
       booster_5: 'Hallgass és figyelj.',
       booster_6: 'Csak halkan mond.',
       booster_7: 'Kezeket ki a zsebből.',
       booster_8: 'Ne rontsd el azzal, hogy most kételkedsz.',
-      booster_9: 'Kérdezz valami váratlant. A kötelességbeszélgetés csapda.',
-      booster_10: 'Elköteleződj a köszönésnél. A habozás tönkreteszi.',
-      booster_11: 'Hagyd abba a szobapásztázást.',
+      booster_9: 'Kérdezz valami váratlant. A kötelező csevegés csapda.',
+      booster_10: 'Légy határozott a köszönésnél. A habozás mindent tönkreteszi.',
+      booster_11: 'Hagyd abba a körbenézegetést.',
       booster_12: 'Senki nem veszi észre a bizonytalanságod, amíg te nem mutatod.',
       booster_13: 'Energia először.',
       booster_14: 'Állj úgy, mintha a tiéd lenne a tér. Vállak hátra.',
       booster_15: 'Mosolyogj a szemeddel, nem csak a száddal.',
-      booster_16: 'Egy őszinte nevetés többet ér tíz udvariiasnál.',
+      booster_16: 'Egy őszinte nevetés többet ér tíz udvariásnál.',
       booster_17: 'Vedd át a szót. Ne csak kövesd.',
       booster_18: 'Dicsérj valami konkrétat. Az általános felejthető.',
       booster_19: 'Kevesebb magyarázkodás. Több kijelentés.',
@@ -13106,14 +13141,14 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       fb_too_close_action: 'Lépj egyet hátra.',
       fb_half_closed_title: 'Félzárt szemek',
       fb_half_closed_text: 'Fáradtnak vagy hunyorgónak tűnsz.',
-      fb_half_closed_action: 'Nyisd ki a szemed - sugározz éberséget.',
+      fb_half_closed_action: 'Nyisd ki a szemed — mutass éberséget.',
       fb_natural_smile_title: 'Természetes mosoly',
-      fb_natural_smile_text: 'Szemgörbék felemelve - melegnek hat.',
-      fb_natural_smile_action: 'Hozd ezt a pontos kifejezést ma este.',
+      fb_natural_smile_text: 'A szemed sarka felhúzódott — melegnek hat.',
+      fb_natural_smile_action: 'Őrizd meg ezt a kifejezést ma este.',
       fb_tense_mouth_title: 'Feszült száj',
-      fb_tense_mouth_text: 'Sarkak lefelé húzva.',
-      fb_tense_mouth_action: 'Lazítsd az állkapcsod - egy kis nyitás nyitottabbnak hat.',
-      fb_off_center_title: 'Középről eltérő',
+      fb_tense_mouth_text: 'A szájszél lefelé húzódik.',
+      fb_tense_mouth_action: 'Lazítsd az állkapcsod — egy kis nyitás nyitottabbnak hat.',
+      fb_off_center_title: 'Nem középen',
       fb_off_center_text: 'Nem vagy a kép közepén.',
       fb_off_center_action: 'Mozdulj egy kicsit.',
       fb_posture_title: 'Figyelj a tartásodra',
@@ -13121,19 +13156,19 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       fb_posture_action: 'Húzd vissza a vállad és állj egyenesen.',
       fb_head_tilt_title: 'Fejbiccentés',
       fb_head_tilt_text: 'A fejed kissé meg van döntve.',
-      fb_head_tilt_action: 'Egyenesítsd ki a nyakad, hogy erőt sugározz.',
+      fb_head_tilt_action: 'Egyenesítsd ki a nyakad — sugározz magabiztosságot.',
       fb_cam_high_title: 'Kameraszög túl magasan',
-      fb_cam_high_text: 'Felfelé nézés torzítja az arcvonásokat.',
-      fb_cam_high_action: 'Engeddd le a telefonodat szemmagasságba.',
+      fb_cam_high_text: 'Felső szögből torzítva az arcvonások.',
+      fb_cam_high_action: 'Engedd le a telefonodat szemmagasságba.',
       fb_cam_low_title: 'Kameraszög túl alacsonyan',
-      fb_cam_low_text: 'Lefelé nézés nem kedvező árnyékokat kelt.',
+      fb_cam_low_text: 'Alsó szögből nem kedvező az árnyékolás.',
       fb_cam_low_action: 'Emeld fel a telefonodat szemmagasságba.',
       fb_jawline_title: 'Erős állkapocs',
-      fb_jawline_text: 'Kiemelkedő alsó arcpróci.',
-      fb_jawline_action: 'Fésüld át a szakállad gyorsan.',
+      fb_jawline_text: 'Kifejezett állkapocs vonal.',
+      fb_jawline_action: 'Fésüld át gyorsan a szakállad.',
       fb_compact_title: 'Kompakt profil',
-      fb_compact_text: 'Az alsó arc viszonylag kompakt.',
-      fb_compact_action: 'Fésüld felfelé a hajad az egyensúlyért.',
+      fb_compact_text: 'Az alsó arcrész viszonylag tömör.',
+      fb_compact_action: 'Fésüld felfelé a hajad az arányok kiegyenlítéséhez.',
       fb_tired_eyes_title: 'Fáradt szemek',
       fb_tired_eyes_text: 'Látható pirosság.',
       fb_tired_eyes_action: 'Használj szemcseppet vagy hideg vizet.',
@@ -14754,6 +14789,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ob_tap_items_hint: 'Tippe auf Elemente unten, um jeden Platz zu füllen',
       ob_picker_empty: 'Noch keine Elemente. Lade zuerst Kleidung hoch!',
       scan_again: 'Erneut scannen',
+      scan_again_locked: 'Erneut scannen (0 Pkt — gesperrt)',
+      scan_locked_cta: 'Scannen (0 Pkt — gesperrt)',
       badge_pro_active: 'Pro aktiv — unbegrenzte Scans und Chat',
       closet_count_limit: '{{count}}/200',
       error_webgl_title: 'WebGL nicht unterstützt',
@@ -27107,9 +27144,18 @@ async function runScan() {
     // locked AND the outfit was successfully detected. If the scan
     // failed (no outfit detected), don't deduct any points.
     // consumePoint() is a no-op for Pro users (returns Infinity).
+    //
+    // IMPORTANT: recordScanStreak() must run BEFORE consumePoint().
+    // Previously the order was reversed, which meant addBonusPoints()
+    // from the streak bonus immediately added back the point that
+    // consumePoint() had just deducted — making the first scan of the
+    // day effectively free and showing a confusing "+1" on the badge.
+    // By recording the streak first, the bonus is added to the pool
+    // before the deduction, so the net change is correct and the
+    // badge only updates once (inside consumePoint → updatePointsBadge).
     if (!isLocked && detectedOutfitColor) {
-      consumePoint();
       recordScanStreak();
+      consumePoint();
     }
 
     // Peak-moment trigger: tease an improvement number 1s after the reveal.
