@@ -2719,9 +2719,6 @@ if (window.__DS_IS_ANDROID_APP) {
     animation: ag-pop 280ms cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
   }
-  @media not all and (pointer: coarse) {
-    #age-gate .ag-card { isolation: isolate; will-change: transform; }
-  }
   @media (pointer: coarse), (hover: none) {
     #age-gate .ag-card { isolation: auto; will-change: auto; }
     #age-gate .ag-actions { position: relative; z-index: 2; }
@@ -2810,11 +2807,7 @@ if (window.__DS_IS_ANDROID_APP) {
     position: relative;
     touch-action: auto;
   }
-  /* Desktop: keep isolation for visual correctness.
-     Mobile: remove isolation + will-change to prevent touch event swallowing */
-  @media not all and (pointer: coarse) {
-    .ds-consent .dsc-card { isolation: isolate; will-change: transform; }
-  }
+  /* Mobile: remove isolation + will-change to prevent touch event swallowing */
   .ds-consent .dsc-scroll {
     overflow-y: auto; flex: 1 1 auto; min-height: 0;
     -webkit-overflow-scrolling: touch;
@@ -4195,20 +4188,7 @@ if (window.__DS_IS_ANDROID_APP) {
       if (!modal || !yes || !no) { resolve(); return; }
       modal.hidden = false;
       dscLock();
-      // On desktop, force the card into its own compositing layer so touch
-      // events aren't swallowed by backdrop-filter on older WebViews.
-      // On mobile (pointer:coarse), do NOT set translateZ on the card —
-      // nested compositing layers (card + buttons both with translateZ)
-      // cause touch event swallowing on many Android WebViews.
       var card = modal.querySelector('.dsc-card');
-      var isMobile = window.matchMedia('(pointer: coarse)').matches;
-      if (card && !isMobile) {
-        card.style.transform = 'translateZ(0)';
-        card.addEventListener('animationend', function onEnd() {
-          card.removeEventListener('animationend', onEnd);
-          card.style.transform = 'translateZ(0)';
-        });
-      }
       var _resolved = false;
       function cleanup() {
         yes.removeEventListener('click', onYes);
@@ -4291,14 +4271,6 @@ if (window.__DS_IS_ANDROID_APP) {
       modal.hidden = false;
       dscLock();
       var card = modal.querySelector('.dsc-card');
-      var isMobile2 = window.matchMedia('(pointer: coarse)').matches;
-      if (card && !isMobile2) {
-        card.style.transform = 'translateZ(0)';
-        card.addEventListener('animationend', function onEnd() {
-          card.removeEventListener('animationend', onEnd);
-          card.style.transform = 'translateZ(0)';
-        });
-      }
       function onChange() { yes.disabled = !confirm.checked; }
       function cleanup() {
         yes.removeEventListener('click', onYes);
@@ -30169,8 +30141,14 @@ applyOfflineState(!navigator.onLine);
       modeShopBtn.addEventListener('click', function() {
         if (typeof window.triggerHaptic === 'function') window.triggerHaptic('tap');
 
-        // Free user → show inline teaser, don't switch mode
+        // Free user → animate pill briefly, show teaser, snap back
         if (typeof window.isProUser === 'function' && !window.isProUser()) {
+          // Animate pill to Shopping position
+          var toggleContainer = document.getElementById('chatModeToggle');
+          if (toggleContainer) toggleContainer.classList.add('shopping-toggle');
+          if (modeCoachBtn) modeCoachBtn.classList.remove('active');
+          if (modeShopBtn) { modeShopBtn.classList.add('active', 'shopping-active'); }
+
           if (!messagesEl.querySelector('.shopping-teaser')) {
             var teaser = document.createElement('div');
             teaser.className = 'flex gap-2.5 shopping-teaser';
@@ -30185,7 +30163,14 @@ applyOfflineState(!navigator.onLine);
             messagesEl.appendChild(teaser);
             messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
           }
-          return; // Don't switch mode for free users
+
+          // Snap pill back to Coach after animation completes
+          setTimeout(function() {
+            if (toggleContainer) toggleContainer.classList.remove('shopping-toggle');
+            if (modeCoachBtn) modeCoachBtn.classList.add('active');
+            if (modeShopBtn) { modeShopBtn.classList.remove('active', 'shopping-active'); }
+          }, 1200);
+          return; // Don't fully switch mode for free users
         }
 
         // Pro user → switch to shopping mode
