@@ -3342,25 +3342,23 @@ if (window.__DS_IS_ANDROID_APP) {
   #chatModeToggle {
     position: relative;
   }
-  /* Sliding pill indicator behind the active tab */
-  #chatModeToggle::before {
-    content: '';
+  /* Sliding pill indicator behind the active tab — real DOM element
+     sized dynamically by JS to match the active button's width. */
+  #chatModePill {
     position: absolute;
     top: 3px;
     left: 3px;
-    width: calc(50% - 3px);
     height: calc(100% - 6px);
     border-radius: 9999px;
     background: linear-gradient(135deg, rgba(147,51,234,0.55), rgba(168,85,247,0.45));
     box-shadow: 0 0 10px rgba(147,51,234,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
-    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.35s ease, box-shadow 0.35s ease;
+    transition: left 0.35s cubic-bezier(0.4,0,0.2,1), width 0.35s cubic-bezier(0.4,0,0.2,1), background 0.35s ease, box-shadow 0.35s ease;
     z-index: 0;
     pointer-events: none;
-    will-change: transform;
+    will-change: left, width;
   }
-  /* Shopping mode: pill slides to the right AND turns gold */
-  #chatModeToggle.shopping-toggle::before {
-    transform: translateX(100%);
+  /* Shopping mode: pill turns gold */
+  #chatModePill.shopping-pill {
     background: linear-gradient(135deg, rgba(245,158,11,0.55), rgba(217,119,6,0.45));
     box-shadow: 0 0 10px rgba(245,158,11,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
   }
@@ -6740,6 +6738,7 @@ if (window.__DS_IS_ANDROID_APP) {
             </button>
             <!-- Chat Mode Toggle: Style Coach / Shopping Concierge -->
             <div id="chatModeToggle" class="shrink-0 flex items-center rounded-full border border-white/10 bg-white/5 p-[3px] gap-0.5 transition-all duration-300">
+              <div id="chatModePill"></div>
               <button id="chatModeCoach" type="button" class="chat-mode-btn active text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-widest px-2 sm:px-3 py-1 rounded-full whitespace-nowrap text-center cursor-pointer" data-i18n="coach_mode_label">Style Coach</button>
               <button id="chatModeShopping" type="button" class="chat-mode-btn text-[9px] sm:text-[10px] font-sans font-bold uppercase tracking-widest px-2 sm:px-3 py-1 rounded-full whitespace-nowrap text-center cursor-pointer relative" data-i18n="shop_mode_label">Shopping</button>
             </div>
@@ -17210,7 +17209,11 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
   window.getDateLocale = getDateLocale;
   window.getSupportedLangs = getSupportedLangs;
   window.applyTranslations = applyTranslations;
+  window.translations = translations;
   window.__i18n = { SUPPORTED_LANGS: SUPPORTED_LANGS, LANG_NAMES: LANG_NAMES, SPEECH_LANGS: SPEECH_LANGS };
+
+  // Notify any classic scripts that were deferred waiting for translations
+  window.dispatchEvent(new CustomEvent('_dsTranslationsReady'));
 
   // Set initial HTML lang attribute
   document.documentElement.lang = currentLang;
@@ -31246,6 +31249,14 @@ applyOfflineState(!navigator.onLine);
     const askBtn = document.getElementById('weeklySummaryAsk');
     if (!card || !content) return;
 
+    // If the real window.t isn't ready yet (module script hasn't run),
+    // defer the render until it is.  Without this the stub window.t just
+    // returns the raw key, producing labels like "weekly_summary_scans".
+    if (typeof window.t !== 'function' || !window.translations) {
+      window.addEventListener('_dsTranslationsReady', _renderWeeklySummary, { once: true });
+      return;
+    }
+
     const stats = _getWeeklyStats();
 
     // Only show if there are scans this week
@@ -31259,12 +31270,12 @@ applyOfflineState(!navigator.onLine);
       else tip = '💪 Start with the basics: fit and color contrast make the biggest difference';
 
       content.innerHTML =
-        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-blue-200">' + stats.scans + '</div><div class="text-[10px] text-gray-400">' + t('weekly_summary_scans') + '</div></div>' +
-        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-purple-200">' + stats.avg + '</div><div class="text-[10px] text-gray-400">' + t('weekly_summary_avg') + '</div></div>' +
-        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-green-200">' + stats.best + '</div><div class="text-[10px] text-gray-400">' + t('weekly_summary_best') + '</div></div>' +
-        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-orange-200">' + stats.streak + '</div><div class="text-[10px] text-gray-400">' + t('weekly_summary_streak') + '</div></div>' +
-        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-yellow-200">+' + stats.xp + '</div><div class="text-[10px] text-gray-400">' + t('weekly_summary_xp') + '</div></div>' +
-        '<div class="bg-white/5 rounded-xl p-2.5 col-span-2 sm:col-span-1"><div class="text-[10px] text-gray-400 mb-0.5">' + t('weekly_summary_tip') + '</div><div class="text-[11px] text-gray-200">' + tip + '</div></div>';
+        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-blue-200">' + stats.scans + '</div><div class="text-[10px] text-gray-400" data-i18n="weekly_summary_scans">' + t('weekly_summary_scans') + '</div></div>' +
+        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-purple-200">' + stats.avg + '</div><div class="text-[10px] text-gray-400" data-i18n="weekly_summary_avg">' + t('weekly_summary_avg') + '</div></div>' +
+        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-green-200">' + stats.best + '</div><div class="text-[10px] text-gray-400" data-i18n="weekly_summary_best">' + t('weekly_summary_best') + '</div></div>' +
+        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-orange-200">' + stats.streak + '</div><div class="text-[10px] text-gray-400" data-i18n="weekly_summary_streak">' + t('weekly_summary_streak') + '</div></div>' +
+        '<div class="bg-white/5 rounded-xl p-2.5 text-center"><div class="text-lg font-bold text-yellow-200">+' + stats.xp + '</div><div class="text-[10px] text-gray-400" data-i18n="weekly_summary_xp">' + t('weekly_summary_xp') + '</div></div>' +
+        '<div class="bg-white/5 rounded-xl p-2.5 col-span-2 sm:col-span-1"><div class="text-[10px] text-gray-400 mb-0.5" data-i18n="weekly_summary_tip">' + t('weekly_summary_tip') + '</div><div class="text-[11px] text-gray-200">' + tip + '</div></div>';
     }
 
     // Show card (only on Mondays or first chat of the week)
@@ -31296,6 +31307,14 @@ applyOfflineState(!navigator.onLine);
       }
     });
   }
+
+  // Expose globally so the module script and langchange handler can call it
+  window._renderWeeklySummary = _renderWeeklySummary;
+
+  // Re-render weekly summary on language change so stat labels translate
+  window.addEventListener('langchange', function() {
+    if (typeof _renderWeeklySummary === 'function') _renderWeeklySummary();
+  });
 
   // ═══════════════════════════════════════════════════════════════════
   // ENHANCED MEMORY — recent scan results injected into prompt
@@ -31966,8 +31985,14 @@ applyOfflineState(!navigator.onLine);
 
       // Slide the pill indicator behind the active tab
       var toggleContainer = document.getElementById('chatModeToggle');
-      if (toggleContainer) {
-        toggleContainer.classList.toggle('shopping-toggle', mode === 'shopping');
+      var pill = document.getElementById('chatModePill');
+      if (toggleContainer && pill) {
+        var activeBtn = mode === 'shopping' ? modeShopBtn : modeCoachBtn;
+        if (activeBtn) {
+          pill.style.left = (activeBtn.offsetLeft) + 'px';
+          pill.style.width = (activeBtn.offsetWidth) + 'px';
+        }
+        pill.classList.toggle('shopping-pill', mode === 'shopping');
       }
 
       // Toggle shopping accent on chat container + background glow
@@ -32062,8 +32087,12 @@ applyOfflineState(!navigator.onLine);
         // Free user → animate pill briefly, show teaser, snap back
         if (typeof window.isProUser === 'function' && !window.isProUser()) {
           // Animate pill to Shopping position
-          var toggleContainer = document.getElementById('chatModeToggle');
-          if (toggleContainer) toggleContainer.classList.add('shopping-toggle');
+          var pill = document.getElementById('chatModePill');
+          if (pill && modeShopBtn) {
+            pill.style.left = modeShopBtn.offsetLeft + 'px';
+            pill.style.width = modeShopBtn.offsetWidth + 'px';
+            pill.classList.add('shopping-pill');
+          }
           if (modeCoachBtn) modeCoachBtn.classList.remove('active');
           if (modeShopBtn) { modeShopBtn.classList.add('active', 'shopping-active'); }
 
@@ -32084,7 +32113,12 @@ applyOfflineState(!navigator.onLine);
 
           // Snap pill back to Coach after animation completes
           setTimeout(function() {
-            if (toggleContainer) toggleContainer.classList.remove('shopping-toggle');
+            var pill = document.getElementById('chatModePill');
+            if (pill && modeCoachBtn) {
+              pill.style.left = modeCoachBtn.offsetLeft + 'px';
+              pill.style.width = modeCoachBtn.offsetWidth + 'px';
+              pill.classList.remove('shopping-pill');
+            }
             if (modeCoachBtn) modeCoachBtn.classList.add('active');
             if (modeShopBtn) { modeShopBtn.classList.remove('active', 'shopping-active'); }
           }, 1200);
@@ -32098,6 +32132,20 @@ applyOfflineState(!navigator.onLine);
 
     // Initial state: always coach
     setMode('coach');
+
+    // Recalculate pill position/width on language change (button text
+    // lengths differ per language — e.g. "Stílustanácsadó" vs "Style Coach")
+    window.addEventListener('langchange', function() {
+      var pill = document.getElementById('chatModePill');
+      var activeBtn = window._dsChatMode === 'shopping' ? modeShopBtn : modeCoachBtn;
+      if (pill && activeBtn) {
+        // Slight delay so the DOM has updated the button text first
+        setTimeout(function() {
+          pill.style.left = activeBtn.offsetLeft + 'px';
+          pill.style.width = activeBtn.offsetWidth + 'px';
+        }, 50);
+      }
+    });
   })();
 
 })();
