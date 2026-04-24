@@ -2717,9 +2717,20 @@ if (window.__DS_IS_ANDROID_APP) {
     box-shadow: 0 30px 80px -20px rgba(236, 72, 153, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.04);
     text-align: center;
     animation: ag-pop 280ms cubic-bezier(0.16, 1, 0.3, 1);
-    isolation: isolate;
-    will-change: transform;
     position: relative;
+  }
+  @media not all and (pointer: coarse) {
+    #age-gate .ag-card { isolation: isolate; will-change: transform; }
+  }
+  @media (pointer: coarse), (hover: none) {
+    #age-gate .ag-card { isolation: auto; will-change: auto; }
+    #age-gate .ag-actions { position: relative; z-index: 2; }
+    #age-gate button {
+      -webkit-touch-callout: none;
+      isolation: auto;
+      transform: translateZ(0);
+      pointer-events: auto !important;
+    }
   }
   @keyframes ag-pop {
     from { transform: translateY(12px) scale(0.97); opacity: 0; }
@@ -3071,7 +3082,6 @@ if (window.__DS_IS_ANDROID_APP) {
   /* ── Chat Mode Toggle (Style Coach / Shopping Concierge) ── */
   #chatModeToggle {
     position: relative;
-    overflow: hidden;
   }
   /* Sliding pill indicator behind the active tab */
   #chatModeToggle::before {
@@ -3084,9 +3094,10 @@ if (window.__DS_IS_ANDROID_APP) {
     border-radius: 9999px;
     background: linear-gradient(135deg, rgba(147,51,234,0.55), rgba(168,85,247,0.45));
     box-shadow: 0 0 10px rgba(147,51,234,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
-    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.35s ease, box-shadow 0.35s ease;
     z-index: 0;
     pointer-events: none;
+    will-change: transform;
   }
   /* Shopping mode: pill slides to the right AND turns gold */
   #chatModeToggle.shopping-toggle::before {
@@ -4165,6 +4176,10 @@ if (window.__DS_IS_ANDROID_APP) {
     no  && no.addEventListener('click', onNo);
     yes && yes.addEventListener('touchend', function handler(e) { e.preventDefault(); yes.removeEventListener('touchend', handler); onYes(); }, { passive: false });
     no  && no.addEventListener('touchend', function handler(e) { e.preventDefault(); no.removeEventListener('touchend', handler); onNo(); }, { passive: false });
+    // pointerdown fallback: catches touch on WebViews that swallow all
+    // touch events but still fire pointer events on the button.
+    yes && yes.addEventListener('pointerdown', function(e) { e.preventDefault(); onYes(); });
+    no  && no.addEventListener('pointerdown', function(e) { e.preventDefault(); onNo(); });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !modal.hidden) { e.preventDefault(); e.stopPropagation(); }
     }, true);
