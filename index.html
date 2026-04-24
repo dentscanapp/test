@@ -5318,18 +5318,13 @@ if (window.__DS_IS_ANDROID_APP) {
                <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                <span data-i18n="closet_weekly_planner">Weekly</span>
             </button>
-            <button id="closetUploadBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition">
-               <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><circle cx="9" cy="10" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="M19 2v6"/><path d="M22 5h-6"/></svg>
-               <span data-i18n="closet_add_item">Add Item</span>
-            </button>
-            <button id="duelOpenBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Compare two outfits head-to-head">
-               <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4l6 0 0 6"/><path d="M10 20l-6 0 0-6"/><path d="M20 4l-9 9"/><path d="M4 20l6-6"/></svg>
-               <span data-i18n="closet_ab_duel">A/B Duel</span>
-            </button>
-
             <button id="outfitBuilderBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 hover:from-emerald-500/30 hover:to-teal-500/30 active:scale-[0.98] transition" title="Build an outfit from your closet items">
                <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                <span data-i18n="closet_build_outfit">Build Outfit</span>
+            </button>
+            <button id="closetShopIqBtn" class="lg:hidden px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-brand-500/20 to-purple-500/20 border border-brand-500/30 text-brand-400 hover:from-brand-500/30 hover:to-purple-500/30 active:scale-[0.98] transition" title="Shopping IQ" onclick="if(typeof window.toggleView==='function')window.toggleView('shopping')">
+               <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+               <span data-i18n="nav_shopping">Shop IQ</span>
             </button>
             <div class="flex gap-1.5 shrink-0 w-full">
                <button id="closetExportBtn" class="flex-1 px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center md:px-3 md:py-2.5 md:rounded-xl md:text-sm bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Export closet backup">
@@ -5339,6 +5334,16 @@ if (window.__DS_IS_ANDROID_APP) {
                <button id="closetImportBtn" class="flex-1 px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center md:px-3 md:py-2.5 md:rounded-xl md:text-sm bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Import closet backup">
                   <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                   <span data-i18n="closet_import">Import</span>
+               </button>
+            </div>
+            <div class="flex gap-1.5 shrink-0 w-full">
+               <button id="closetUploadBtn" class="flex-1 px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center md:px-3 md:py-2.5 md:rounded-xl md:text-sm bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Add item to closet">
+                  <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><circle cx="9" cy="10" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="M19 2v6"/><path d="M22 5h-6"/></svg>
+                  <span data-i18n="closet_add_item">Add Item</span>
+               </button>
+               <button id="duelOpenBtn" class="flex-1 px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center md:px-3 md:py-2.5 md:rounded-xl md:text-sm bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Compare two outfits head-to-head">
+                  <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4l6 0 0 6"/><path d="M10 20l-6 0 0-6"/><path d="M20 4l-9 9"/><path d="M4 20l6-6"/></svg>
+                  <span data-i18n="closet_ab_duel">A/B Duel</span>
                </button>
             </div>
             <input type="file" id="closetImportInput" accept=".json" class="hidden">
@@ -7101,7 +7106,7 @@ if (window.__DS_IS_ANDROID_APP) {
 
 <!-- Mobile / Tablet Bottom Nav -->
 <nav id="mobileBottomNav" class="lg:hidden fixed bottom-0 left-0 right-0 z-[80] px-3 pt-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] bg-gradient-to-t from-[#09090b] via-[#09090b]/95 to-transparent pointer-events-none">
-  <div class="max-w-md mx-auto grid grid-cols-5 gap-2 pointer-events-auto">
+  <div class="max-w-md mx-auto grid grid-cols-4 gap-2 pointer-events-auto">
     <button id="mobileNavScan" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-colors duration-200 active:scale-95 is-active">
       <svg class="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M4 8V6a2 2 0 0 1 2-2h2"/>
@@ -7125,7 +7130,7 @@ if (window.__DS_IS_ANDROID_APP) {
       </svg>
       <span class="text-[10px] font-bold uppercase tracking-widest text-white" data-i18n="nav_chat">AI Chat</span>
     </button>
-    <button id="mobileNavShopping" class="mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-colors duration-200 active:scale-95">
+    <button id="mobileNavShopping" class="hidden mobile-nav-btn bg-dark-950/80 backdrop-blur-xl rounded-2xl p-3 border border-white/10 flex flex-col items-center gap-1 transition-colors duration-200 active:scale-95">
       <svg class="w-[22px] h-[22px] text-white" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
       </svg>
