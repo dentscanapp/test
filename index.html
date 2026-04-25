@@ -4323,12 +4323,12 @@ if (window.__DS_IS_ANDROID_APP) {
   #viewAlterego .al-hero h2{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:500;color:#fff;margin-bottom:8px;letter-spacing:-0.02em}
   #viewAlterego .al-hero h2 em{font-style:italic;background:linear-gradient(90deg,#f472b6,#c084fc,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
   #viewAlterego .al-hero p{font-size:0.8125rem;color:#9ca3af;max-width:420px;margin:0 auto;line-height:1.6}
-  #viewAlterego .al-overview{border-radius:16px;border:1px solid rgba(255,255,255,0.1);background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));backdrop-filter:blur(20px);padding:20px;margin-bottom:24px}
-  #viewAlterego .al-overview-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-  #viewAlterego .al-stat{border-radius:12px;padding:12px 8px;text-align:center}
+  #viewAlterego .al-overview{border-radius:16px;border:1px solid rgba(255,255,255,0.1);background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));backdrop-filter:blur(20px);padding:16px 0 16px 0;margin-bottom:24px;overflow:hidden}
+  #viewAlterego .al-overview-stats{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 16px 4px 16px;scrollbar-width:none}
+  #viewAlterego .al-stat{border-radius:12px;padding:12px 8px;text-align:center;flex-shrink:0;min-width:72px}
   #viewAlterego .al-stat-val{font-size:1.25rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
   #viewAlterego .al-stat-lbl{font-size:9px;font-weight:600;margin-top:2px;text-transform:uppercase;letter-spacing:0.08em}
-  #viewAlterego .al-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
+  #viewAlterego .al-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:24px}@media(min-width:600px){#viewAlterego .al-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}}
   #viewAlterego .al-card{position:relative;border-radius:16px;border:1px solid rgba(255,255,255,0.1);background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));backdrop-filter:blur(20px);overflow:hidden;cursor:pointer;transition:all 0.25s}
   #viewAlterego .al-card:hover{border-color:rgba(255,255,255,0.2);transform:translateY(-4px);box-shadow:0 8px 30px rgba(236,72,153,0.12)}
   #viewAlterego .al-card-bar{height:6px;width:100%}
@@ -4351,7 +4351,7 @@ if (window.__DS_IS_ANDROID_APP) {
   #viewAlterego .al-add-text{font-size:13px;font-weight:600;color:#9ca3af}
   #viewAlterego .al-add-sub{font-size:10px;color:#6b7280;margin-top:4px}
   /* Detail modal */
-  #alteregoDetailModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:115;align-items:flex-start;justify-content:center;padding:16px;padding-top:96px;padding-bottom:100px;overflow-y:auto}
+  #alteregoDetailModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:125;align-items:flex-start;justify-content:center;padding:16px;padding-top:16px;padding-bottom:100px;overflow-y:auto}
   #alteregoDetailModal.show{display:flex}
   #alteregoDetailModal .al-modal{background:#0c0c10;border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:560px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
   #alteregoDetailModal .al-modal-head{padding:20px 20px 12px;position:relative}
@@ -4363,7 +4363,7 @@ if (window.__DS_IS_ANDROID_APP) {
   #alteregoDetailModal .al-tab.active{color:#f472b6;border-bottom-color:#ec4899}
   #alteregoDetailModal .al-tab:hover{color:#9ca3af}
   /* Create modal */
-  #alteregoCreateModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:115;align-items:flex-start;justify-content:center;padding:16px;padding-top:96px;padding-bottom:100px;overflow-y:auto}
+  #alteregoCreateModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:125;align-items:flex-start;justify-content:center;padding:16px;padding-top:16px;padding-bottom:100px;overflow-y:auto}
   #alteregoCreateModal.show{display:flex}
   #alteregoCreateModal .al-modal{background:#0c0c10;border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:24px;position:relative}
   #alteregoCreateModal .al-preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
@@ -4390,7 +4390,7 @@ if (window.__DS_IS_ANDROID_APP) {
   /* How-it-works */
   #viewAlterego .al-how{border-radius:16px;border:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);padding:24px;margin-top:24px}
   #viewAlterego .al-how h3{font-size:13px;font-weight:700;color:#fff;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-  #viewAlterego .al-how-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  #viewAlterego .al-how-grid{display:grid;grid-template-columns:1fr;gap:12px}@media(min-width:480px){#viewAlterego .al-how-grid{grid-template-columns:1fr 1fr 1fr}}
   #viewAlterego .al-how-step{text-align:center;padding:12px}
   #viewAlterego .al-how-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:1.25rem}
   #viewAlterego .al-how-title{font-size:11px;font-weight:700;color:#fff;margin-bottom:4px}
@@ -7488,36 +7488,6 @@ if (window.__DS_IS_ANDROID_APP) {
     </div>
   </div>
 
-  <!-- Alteregó Detail Modal -->
-  <div id="alteregoDetailModal">
-    <div class="al-modal">
-      <div class="al-modal-head" id="alDetailHead"></div>
-      <div class="al-tabs" id="alDetailTabs">
-        <div class="al-tab active" data-tab="scan">Scan</div>
-        <div class="al-tab" data-tab="closet" data-i18n="al_tab_closet">Szekrény</div>
-        <div class="al-tab" data-tab="goals" data-i18n="al_tab_goals">Célok</div>
-        <div class="al-tab" data-tab="ai" data-i18n="al_tab_ai">AI Tanács</div>
-      </div>
-      <div class="al-modal-body" id="alDetailBody"></div>
-    </div>
-  </div>
-
-  <!-- Alteregó Create Modal -->
-  <div id="alteregoCreateModal">
-    <div class="al-modal">
-      <div class="al-modal-close" onclick="window._alCloseCreate()">✕</div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
-        <div style="width:36px;height:36px;border-radius:10px;background:rgba(236,72,153,0.2);display:flex;align-items:center;justify-content:center;font-size:14px">✨</div>
-        <h2 style="font-size:1.125rem;font-weight:700;color:#fff" data-i18n="al_create_title">Új Alteregó Létrehozása</h2>
-      </div>
-      <div id="alCreateContent"></div>
-    </div>
-  </div>
-
-  <!-- Alteregó Celebration Overlay -->
-  <div id="alteregoCelebrate">
-    <div id="alCelebrateContent"></div>
-  </div>
 
   <!-- ============================================================
        TINDER-STYLE FULL-BLEED SPLASH / LOADING SCREEN
@@ -7564,6 +7534,37 @@ if (window.__DS_IS_ANDROID_APP) {
   </div>
 
 </main>
+
+  <!-- Alteregó Detail Modal -->
+  <div id="alteregoDetailModal">
+    <div class="al-modal">
+      <div class="al-modal-head" id="alDetailHead"></div>
+      <div class="al-tabs" id="alDetailTabs">
+        <div class="al-tab active" data-tab="scan">Scan</div>
+        <div class="al-tab" data-tab="closet" data-i18n="al_tab_closet">Szekrény</div>
+        <div class="al-tab" data-tab="goals" data-i18n="al_tab_goals">Célok</div>
+        <div class="al-tab" data-tab="ai" data-i18n="al_tab_ai">AI Tanács</div>
+      </div>
+      <div class="al-modal-body" id="alDetailBody"></div>
+    </div>
+  </div>
+
+  <!-- Alteregó Create Modal -->
+  <div id="alteregoCreateModal">
+    <div class="al-modal">
+      <div class="al-modal-close" onclick="window._alCloseCreate()">✕</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <div style="width:36px;height:36px;border-radius:10px;background:rgba(236,72,153,0.2);display:flex;align-items:center;justify-content:center;font-size:14px">✨</div>
+        <h2 style="font-size:1.125rem;font-weight:700;color:#fff" data-i18n="al_create_title">Új Alteregó Létrehozása</h2>
+      </div>
+      <div id="alCreateContent"></div>
+    </div>
+  </div>
+
+  <!-- Alteregó Celebration Overlay -->
+  <div id="alteregoCelebrate">
+    <div id="alCelebrateContent"></div>
+  </div>
 
 <!-- Footer -->
 <footer class="relative z-20 w-full bg-[#09090b] border-t border-white/10 pt-14 pb-32 lg:pb-12 mt-8 overflow-hidden">
