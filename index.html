@@ -4351,7 +4351,7 @@ if (window.__DS_IS_ANDROID_APP) {
   #viewAlterego .al-add-text{font-size:13px;font-weight:600;color:#9ca3af}
   #viewAlterego .al-add-sub{font-size:10px;color:#6b7280;margin-top:4px}
   /* Detail modal */
-  #alteregoDetailModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:115;align-items:center;justify-content:center;padding:16px;padding-bottom:100px;overflow-y:auto}
+  #alteregoDetailModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:115;align-items:flex-start;justify-content:center;padding:16px;padding-top:96px;padding-bottom:100px;overflow-y:auto}
   #alteregoDetailModal.show{display:flex}
   #alteregoDetailModal .al-modal{background:#0c0c10;border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:560px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
   #alteregoDetailModal .al-modal-head{padding:20px 20px 12px;position:relative}
@@ -4363,7 +4363,7 @@ if (window.__DS_IS_ANDROID_APP) {
   #alteregoDetailModal .al-tab.active{color:#f472b6;border-bottom-color:#ec4899}
   #alteregoDetailModal .al-tab:hover{color:#9ca3af}
   /* Create modal */
-  #alteregoCreateModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:115;align-items:center;justify-content:center;padding:16px;padding-bottom:100px;overflow-y:auto}
+  #alteregoCreateModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:115;align-items:flex-start;justify-content:center;padding:16px;padding-top:96px;padding-bottom:100px;overflow-y:auto}
   #alteregoCreateModal.show{display:flex}
   #alteregoCreateModal .al-modal{background:#0c0c10;border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:24px;position:relative}
   #alteregoCreateModal .al-preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
@@ -7431,15 +7431,20 @@ if (window.__DS_IS_ANDROID_APP) {
   <div id="viewAlterego" class="hidden opacity-0 translate-y-8 transition-all duration-500 pb-12 pt-4">
     <div class="max-w-4xl mx-auto w-full px-2 sm:px-4">
 
-      <!-- Back button (mobile) + Header -->
-      <div class="al-header">
-<div class="al-header-icon">
-          <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+      <!-- Header + Close button -->
+      <div class="al-header" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="al-header-icon">
+            <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+          </div>
+          <div>
+            <h1 class="al-title">Alteregó Lab<span style="color:#ec4899">.</span></h1>
+            <p class="al-subtitle" data-i18n="al_subtitle">Alteregó Építő</p>
+          </div>
         </div>
-        <div>
-          <h1 class="al-title">Alteregó Lab<span style="color:#ec4899">.</span></h1>
-          <p class="al-subtitle" data-i18n="al_subtitle">Alteregó Építő</p>
-        </div>
+        <button class="al-back-btn" onclick="if(typeof window.toggleView==='function')window.toggleView('closet')" aria-label="Back to Closet" style="flex-shrink:0">
+          <svg width="18" height="18" fill="none" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <!-- Hero -->
