@@ -1090,8 +1090,12 @@ window._dsLog = function() { if (window.__DS_DEBUG) console.log.apply(console, a
   }
   .scorecal-weekday-cell {
     text-align: center;
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 600;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: #6b7280;
@@ -4412,7 +4416,7 @@ if (window.__DS_IS_ANDROID_APP) {
   .ocal-nav-btn:active{transform:scale(.95)}
 
   .ocal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
-  .ocal-weekday{text-align:center;font-size:9px;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.1em;padding:6px 0}
+  .ocal-weekday{text-align:center;font-size:8px;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.05em;padding:6px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.2}
 
   .ocal-date-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
   .ocal-day{position:relative;aspect-ratio:1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;border:1px solid transparent;background:rgba(255,255,255,0.02);gap:2px;overflow:hidden}
@@ -4932,7 +4936,7 @@ if (window.__DS_IS_ANDROID_APP) {
 <!-- Onboarding Modal — REMOVED (not needed) -->
 
 <!-- Header -->
-<header class="relative z-[110] px-6 py-5 flex items-center justify-between max-w-7xl mx-auto">
+<header class="sticky top-0 z-[110] px-6 py-5 flex items-center justify-between max-w-7xl mx-auto bg-[#09090b]/95 backdrop-blur-xl">
   <div class="flex items-center gap-3 cursor-pointer" id="logoBtn">
     <div class="w-12 h-12 flex items-center justify-center shrink-0">
       <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_0_8px_rgba(236,72,153,0.4)]">
@@ -7247,13 +7251,13 @@ if (window.__DS_IS_ANDROID_APP) {
 
         <!-- Weekday Headers -->
         <div class="scorecal-weekday-row">
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_sun">Sun</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_mon">Mon</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_tue">Tue</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_wed">Wed</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_thu">Thu</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_fri">Fri</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_sat">Sat</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_sun">Sunday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_mon">Monday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_tue">Tuesday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_wed">Wednesday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_thu">Thursday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_fri">Friday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_sat">Saturday</div>
         </div>
 
         <!-- Date Grid -->
@@ -7295,13 +7299,13 @@ if (window.__DS_IS_ANDROID_APP) {
         </div>
 
         <div class="scorecal-weekday-row">
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_sun">Sun</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_mon">Mon</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_tue">Tue</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_wed">Wed</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_thu">Thu</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_fri">Fri</div>
-          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_sat">Sat</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_sun">Sunday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_mon">Monday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_tue">Tuesday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_wed">Wednesday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_thu">Thursday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_fri">Friday</div>
+          <div class="scorecal-weekday-cell" data-i18n="cal_weekday_sat">Saturday</div>
         </div>
 
         <div class="stylecal-date-grid" id="stylecalDateGrid">
@@ -12219,13 +12223,13 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       story_timeline: 'Timeline',
       story_level_progress: 'Level Progress',
       cal_today: 'Today',
-      cal_weekday_sun: 'Sun',
-      cal_weekday_mon: 'Mon',
-      cal_weekday_tue: 'Tue',
-      cal_weekday_wed: 'Wed',
-      cal_weekday_thu: 'Thu',
-      cal_weekday_fri: 'Fri',
-      cal_weekday_sat: 'Sat',
+      cal_weekday_sun: 'Sunday',
+      cal_weekday_mon: 'Monday',
+      cal_weekday_tue: 'Tuesday',
+      cal_weekday_wed: 'Wednesday',
+      cal_weekday_thu: 'Thursday',
+      cal_weekday_fri: 'Friday',
+      cal_weekday_sat: 'Saturday',
       cal_legend_no_scan: 'No scan',
       cal_legend_low: '40–59',
       cal_legend_mid: '60–79',
@@ -13701,13 +13705,13 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ocal_score: 'Score',
       ocal_no_plan: 'No outfit planned for this day',
       ocal_add_plan: 'Plan an Outfit',
-      ocal_weekday_mon: 'Mon',
-      ocal_weekday_tue: 'Tue',
-      ocal_weekday_wed: 'Wed',
-      ocal_weekday_thu: 'Thu',
-      ocal_weekday_fri: 'Fri',
-      ocal_weekday_sat: 'Sat',
-      ocal_weekday_sun: 'Sun',
+      ocal_weekday_mon: 'Monday',
+      ocal_weekday_tue: 'Tuesday',
+      ocal_weekday_wed: 'Wednesday',
+      ocal_weekday_thu: 'Thursday',
+      ocal_weekday_fri: 'Friday',
+      ocal_weekday_sat: 'Saturday',
+      ocal_weekday_sun: 'Sunday',
       ocal_month_1: 'Jan', ocal_month_2: 'Feb', ocal_month_3: 'Mar', ocal_month_4: 'Apr',
       ocal_month_5: 'May', ocal_month_6: 'Jun', ocal_month_7: 'Jul', ocal_month_8: 'Aug',
       ocal_month_9: 'Sep', ocal_month_10: 'Oct', ocal_month_11: 'Nov', ocal_month_12: 'Dec',
@@ -14504,13 +14508,13 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       story_timeline: 'Idővonal',
       story_level_progress: 'Szintelőrehaladás',
       cal_today: 'Ma',
-      cal_weekday_sun: 'Vas',
-      cal_weekday_mon: 'Hét',
-      cal_weekday_tue: 'Ked',
-      cal_weekday_wed: 'Sze',
-      cal_weekday_thu: 'Csü',
-      cal_weekday_fri: 'Pén',
-      cal_weekday_sat: 'Szo',
+      cal_weekday_sun: 'Vasárnap',
+      cal_weekday_mon: 'Hétfő',
+      cal_weekday_tue: 'Kedd',
+      cal_weekday_wed: 'Szerda',
+      cal_weekday_thu: 'Csütörtök',
+      cal_weekday_fri: 'Péntek',
+      cal_weekday_sat: 'Szombat',
       cal_legend_no_scan: 'Nincs szkenn',
       cal_legend_low: '40–59',
       cal_legend_mid: '60–79',
@@ -15985,8 +15989,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ocal_score: 'Pontszám',
       ocal_no_plan: 'Nincs tervezett outfit erre a napra',
       ocal_add_plan: 'Outfit tervezése',
-      ocal_weekday_mon: 'Hé', ocal_weekday_tue: 'Ke', ocal_weekday_wed: 'Sze',
-      ocal_weekday_thu: 'Csü', ocal_weekday_fri: 'Pé', ocal_weekday_sat: 'Szo', ocal_weekday_sun: 'Vas',
+      ocal_weekday_mon: 'Hétfő', ocal_weekday_tue: 'Kedd', ocal_weekday_wed: 'Szerda',
+      ocal_weekday_thu: 'Csütörtök', ocal_weekday_fri: 'Péntek', ocal_weekday_sat: 'Szombat', ocal_weekday_sun: 'Vasárnap',
       ocal_month_1: 'Jan', ocal_month_2: 'Feb', ocal_month_3: 'Már', ocal_month_4: 'Ápr',
       ocal_month_5: 'Máj', ocal_month_6: 'Jún', ocal_month_7: 'Júl', ocal_month_8: 'Aug',
       ocal_month_9: 'Sze', ocal_month_10: 'Okt', ocal_month_11: 'Nov', ocal_month_12: 'Dec',
@@ -16784,13 +16788,13 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       story_timeline: 'Zeitleiste',
       story_level_progress: 'Level-Fortschritt',
       cal_today: 'Heute',
-      cal_weekday_sun: 'So',
-      cal_weekday_mon: 'Mo',
-      cal_weekday_tue: 'Di',
-      cal_weekday_wed: 'Mi',
-      cal_weekday_thu: 'Do',
-      cal_weekday_fri: 'Fr',
-      cal_weekday_sat: 'Sa',
+      cal_weekday_sun: 'Sonntag',
+      cal_weekday_mon: 'Montag',
+      cal_weekday_tue: 'Dienstag',
+      cal_weekday_wed: 'Mittwoch',
+      cal_weekday_thu: 'Donnerstag',
+      cal_weekday_fri: 'Freitag',
+      cal_weekday_sat: 'Samstag',
       cal_legend_no_scan: 'Kein Scan',
       cal_legend_low: '40–59',
       cal_legend_mid: '60–79',
@@ -18265,8 +18269,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ocal_score: 'Punktzahl',
       ocal_no_plan: 'Kein Outfit für diesen Tag geplant',
       ocal_add_plan: 'Outfit planen',
-      ocal_weekday_mon: 'Mo', ocal_weekday_tue: 'Di', ocal_weekday_wed: 'Mi',
-      ocal_weekday_thu: 'Do', ocal_weekday_fri: 'Fr', ocal_weekday_sat: 'Sa', ocal_weekday_sun: 'So',
+      ocal_weekday_mon: 'Montag', ocal_weekday_tue: 'Dienstag', ocal_weekday_wed: 'Mittwoch',
+      ocal_weekday_thu: 'Donnerstag', ocal_weekday_fri: 'Freitag', ocal_weekday_sat: 'Samstag', ocal_weekday_sun: 'Sonntag',
       ocal_month_1: 'Jan', ocal_month_2: 'Feb', ocal_month_3: 'Mär', ocal_month_4: 'Apr',
       ocal_month_5: 'Mai', ocal_month_6: 'Jun', ocal_month_7: 'Jul', ocal_month_8: 'Aug',
       ocal_month_9: 'Sep', ocal_month_10: 'Okt', ocal_month_11: 'Nov', ocal_month_12: 'Dez',
@@ -23001,7 +23005,7 @@ window.saveCurrentOutfit = function() {
     dayWeathers.forEach(function(dw, idx) {
       var date = new Date(now);
       date.setDate(date.getDate() + idx);
-      var dayName = date.toLocaleDateString(typeof window.t === 'function' ? (window.currentLang || 'en') : 'en', { weekday: 'short' });
+      var dayName = date.toLocaleDateString(typeof window.t === 'function' ? (window.currentLang || 'en') : 'en', { weekday: 'long' });
 
       var icon = getWeatherIcon(dw.minTemp, dw.rain, dw.wind);
       var cls = dw.rain >= RAIN_THRESHOLD ? ' rain' : (dw.minTemp <= 5 ? ' cold' : (dw.maxTemp >= 28 ? ' warm' : ''));
@@ -23099,7 +23103,7 @@ window.saveCurrentOutfit = function() {
     dailyPlan.forEach(function(day) {
       var date = new Date(now);
       date.setDate(date.getDate() + day.day);
-      var dateStr = date.toLocaleDateString(typeof window.t === 'function' ? (window.currentLang || 'en') : 'en', { weekday: 'short', month: 'short', day: 'numeric' });
+      var dateStr = date.toLocaleDateString(typeof window.t === 'function' ? (window.currentLang || 'en') : 'en', { weekday: 'long', month: 'short', day: 'numeric' });
       var icon = getWeatherIcon(day.weather.minTemp, day.weather.rain, day.weather.wind);
 
       html += '<div class="trip-daily-card">';
@@ -35371,7 +35375,7 @@ applyOfflineState(!navigator.onLine);
   function _scorecalFormatDate(key) {
     const parts = key.split('-').map(Number);
     const d = new Date(parts[0], parts[1] - 1, parts[2]);
-    return d.toLocaleDateString(window.getLang?.() || 'en', { weekday: 'short', month: 'short', day: 'numeric' });
+    return d.toLocaleDateString(window.getLang?.() || 'en', { weekday: 'long', month: 'short', day: 'numeric' });
   }
 
   function _scorecalBuildCell(day, key, score, isOtherMonth, isToday) {
