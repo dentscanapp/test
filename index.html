@@ -4498,6 +4498,76 @@ if (window.__DS_IS_ANDROID_APP) {
   #siqEditModal .siq-btn-primary{background:linear-gradient(135deg,#ec4899,#9333ea);color:#fff;box-shadow:0 4px 14px rgba(236,72,153,0.3)}
   #siqEditModal .siq-btn-outline{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)}
 
+  /* ===== Second Date / Randi Utáni Reflekszió ===== */
+  .sd-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+  .sd-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;background:linear-gradient(135deg,#f472b6,#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sd-close-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s}
+  .sd-close-btn:hover{background:rgba(255,255,255,0.1);color:#fff}
+  .sd-tabs{display:flex;gap:4px;margin-bottom:20px;background:rgba(255,255,255,0.03);border-radius:14px;padding:4px;border:1px solid rgba(255,255,255,0.06)}
+  .sd-tab{flex:1;padding:10px 8px;border-radius:10px;font-size:11px;font-weight:700;text-align:center;cursor:pointer;transition:.2s;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.06em;border:none;background:none}
+  .sd-tab:hover{color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.03)}
+  .sd-tab.active{background:linear-gradient(135deg,rgba(236,72,153,0.15),rgba(168,85,247,0.15));color:#f9a8d4;border:1px solid rgba(236,72,153,0.2)}
+  .sd-panel{display:none}.sd-panel.active{display:block}
+  .sd-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px;margin-bottom:12px;transition:.2s}
+  .sd-card:hover{border-color:rgba(236,72,153,0.2)}
+  .sd-card-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+  .sd-card-subtitle{font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:12px}
+  .sd-stars{display:flex;gap:6px;margin:12px 0}
+  .sd-star{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;font-size:18px;color:rgba(255,255,255,0.2)}
+  .sd-star:hover,.sd-star.lit{background:linear-gradient(135deg,rgba(251,191,36,0.2),rgba(234,179,8,0.2));border-color:rgba(251,191,36,0.4);color:#fbbf24}
+  .sd-correlation-bar{height:8px;border-radius:4px;background:rgba(255,255,255,0.05);overflow:hidden;margin:6px 0 2px}
+  .sd-correlation-fill{height:100%;border-radius:4px;transition:width .6s ease}
+  .sd-grooming-item{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;margin-bottom:8px}
+  .sd-grooming-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .sd-grooming-info{flex:1;min-width:0}
+  .sd-grooming-label{font-size:13px;font-weight:600;color:#fff}
+  .sd-grooming-meta{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
+  .sd-grooming-actions{display:flex;gap:6px;flex-shrink:0}
+  .sd-grooming-btn{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5)}
+  .sd-grooming-btn:hover{background:rgba(255,255,255,0.1);color:#fff}
+  .sd-grooming-btn.primary{background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(168,85,247,0.2));border-color:rgba(236,72,153,0.3);color:#f9a8d4}
+  .sd-share-link{display:flex;align-items:center;gap:10px;padding:14px;background:rgba(255,255,255,0.03);border:1px dashed rgba(236,72,153,0.3);border-radius:12px;margin-top:12px}
+  .sd-share-link input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 12px;color:#fff;font-size:12px;font-family:ui-monospace,monospace;outline:none}
+  .sd-share-link input:focus{border-color:rgba(236,72,153,0.4)}
+  .sd-share-copy{padding:8px 14px;border-radius:8px;background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(168,85,247,0.2));border:1px solid rgba(236,72,153,0.3);color:#f9a8d4;font-size:11px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
+  .sd-share-copy:hover{background:linear-gradient(135deg,rgba(236,72,153,0.3),rgba(168,85,247,0.3))}
+  .sd-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  .sd-badge--date{background:rgba(236,72,153,0.15);color:#f472b6;border:1px solid rgba(236,72,153,0.25)}
+  .sd-badge--business{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.25)}
+  .sd-badge--casual{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.25)}
+  .sd-empty-state{text-align:center;padding:40px 20px;color:rgba(255,255,255,0.3)}
+  .sd-empty-state .sd-empty-icon{font-size:48px;margin-bottom:12px;opacity:.5}
+  .sd-empty-state .sd-empty-title{font-size:16px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px}
+  .sd-empty-state .sd-empty-desc{font-size:12px;color:rgba(255,255,255,0.3);max-width:260px;margin:0 auto}
+  .sd-insight-card{background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(168,85,247,0.08));border:1px solid rgba(236,72,153,0.15);border-radius:14px;padding:16px;margin-bottom:12px}
+  .sd-insight-card .sd-insight-emoji{font-size:28px;margin-bottom:8px}
+  .sd-insight-card .sd-insight-text{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5}
+  .sd-insight-card .sd-insight-highlight{color:#f472b6;font-weight:700}
+  .sd-date-list-item{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:.2s}
+  .sd-date-list-item:hover{background:rgba(255,255,255,0.05);border-color:rgba(236,72,153,0.2)}
+  .sd-date-list-item .sd-dli-score{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0}
+  .sd-date-list-item .sd-dli-info{flex:1;min-width:0}
+  .sd-date-list-item .sd-dli-date{font-size:13px;font-weight:600;color:#fff}
+  .sd-date-list-item .sd-dli-detail{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
+  .sd-date-list-item .sd-dli-stars{font-size:12px;letter-spacing:2px}
+  .sd-form-group{margin-bottom:14px}
+  .sd-form-group label{display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+  .sd-form-input{width:100%;padding:10px 14px;font-size:13px;font-weight:500;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;outline:none;transition:.2s}
+  .sd-form-input:focus{border-color:rgba(236,72,153,0.4);box-shadow:0 0 0 3px rgba(236,72,153,0.1)}
+  .sd-form-select{appearance:none;-webkit-appearance:none;width:100%;padding:10px 14px;font-size:13px;font-weight:500;border-radius:10px;background:rgba(255,255,255,0.05) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23999' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E") no-repeat right 12px center;border:1px solid rgba(255,255,255,0.1);color:#fff;outline:none;transition:.2s}
+  .sd-form-select:focus{border-color:rgba(236,72,153,0.4)}
+  .sd-form-select option{background:#1a1a2e;color:#fff}
+  .sd-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:700;padding:10px 18px;border-radius:12px;transition:.2s;letter-spacing:.02em;border:none;cursor:pointer}
+  .sd-btn:active{transform:scale(.96)}
+  .sd-btn-primary{background:linear-gradient(135deg,#ec4899,#9333ea);color:#fff;box-shadow:0 4px 14px rgba(236,72,153,0.3)}
+  .sd-btn-outline{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)}
+  .sd-btn-outline:hover{background:rgba(255,255,255,0.1);color:#fff}
+  #sdSurveyModal .sd-modal{background:#0c0c10;border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:440px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column}
+  #sdSurveyModal .sd-modal-head{padding:20px 20px 12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+  #sdSurveyModal .sd-modal-body{padding:16px 20px 20px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  body:has(#sdSurveyModal:not(.hidden)) #mobileBottomNav,
+  body:has(#sdGroomingModal:not(.hidden)) #mobileBottomNav{display:none!important}
+
 </style>
 
 <!-- ===== AGE GATE (18+) ===== -->
@@ -5805,6 +5875,10 @@ if (window.__DS_IS_ANDROID_APP) {
             <button id="closetOutfitCalendarBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-300 hover:from-amber-500/30 hover:to-orange-500/30 active:scale-[0.98] transition" title="Outfit Naptár / Tervező" onclick="if(typeof window.toggleView==='function')window.toggleView('outfitcalendar')">
                <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                <span data-i18n="nav_calendar">Naptár</span>
+            </button>
+            <button id="closetSecondDateBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-rose-500/20 to-purple-500/20 border border-rose-500/30 text-rose-300 hover:from-rose-500/30 hover:to-purple-500/30 active:scale-[0.98] transition" title="Randi Utáni Reflekszió" onclick="if(typeof window.toggleView==='function')window.toggleView('seconddate')">
+               <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+               <span data-i18n="nav_second_date">Reflekszió</span>
             </button>
             <div class="flex gap-1.5 shrink-0 w-full">
                <button id="closetExportBtn" class="flex-1 px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center md:px-3 md:py-2.5 md:rounded-xl md:text-sm bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Export closet backup">
@@ -7598,6 +7672,219 @@ if (window.__DS_IS_ANDROID_APP) {
       </div>
       <div class="ocal-modal-body" id="ocalModalBody">
         <!-- Dynamic content rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECOND DATE / RANDI UTÁNI REFLEKSZIÓ — Modul
+       ═══════════════════════════════════════════════════════ -->
+  <div id="viewSecondDate" class="hidden opacity-0 translate-y-8 transition-all duration-500 pb-12 pt-4">
+    <div class="max-w-4xl mx-auto w-full px-2 sm:px-4">
+
+      <!-- Header -->
+      <div class="sd-header">
+        <div>
+          <h2 class="sd-title" data-i18n="sd_title">Randi Utáni Reflekszió</h2>
+          <p class="text-[11px] text-gray-400 mt-1" data-i18n="sd_subtitle">Tanulj a múltból, készülj a következő randira</p>
+        </div>
+        <button class="sd-close-btn" onclick="if(typeof window.toggleView==='function')window.toggleView('closet')" aria-label="Close">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="sd-tabs" id="sdTabs">
+        <button class="sd-tab active" data-sd-tab="reflections" data-i18n="sd_tab_reflections">Refleksziók</button>
+        <button class="sd-tab" data-sd-tab="insights" data-i18n="sd_tab_insights">Meglátások</button>
+        <button class="sd-tab" data-sd-tab="grooming" data-i18n="sd_tab_grooming">Ápolás</button>
+        <button class="sd-tab" data-sd-tab="partner" data-i18n="sd_tab_partner">Partner</button>
+      </div>
+
+      <!-- Panel: Reflections -->
+      <div class="sd-panel active" id="sdPanelReflections">
+        <div class="sd-card">
+          <div class="sd-card-title">
+            <span>📝</span>
+            <span data-i18n="sd_new_reflection">Új randi reflekszió</span>
+          </div>
+          <div class="sd-card-subtitle" data-i18n="sd_new_reflection_desc">Hogyan érezted magad az outfitben a randin?</div>
+
+          <div class="sd-form-group">
+            <label data-i18n="sd_form_date">Randi dátuma</label>
+            <input type="date" class="sd-form-input" id="sdReflectDate">
+          </div>
+
+          <div class="sd-form-group">
+            <label data-i18n="sd_form_event_type">Esemény típusa</label>
+            <select class="sd-form-select" id="sdReflectEventType">
+              <option value="date" data-i18n="sd_event_date">Randi</option>
+              <option value="business" data-i18n="sd_event_business">Üzleti meeting</option>
+              <option value="casual" data-i18n="sd_event_casual">Casual</option>
+              <option value="party" data-i18n="sd_event_party">Buli</option>
+            </select>
+          </div>
+
+          <div class="sd-form-group">
+            <label data-i18n="sd_form_outfit">Mit viseltél?</label>
+            <select class="sd-form-select" id="sdReflectOutfit">
+              <option value="" data-i18n="sd_select_outfit">Válassz outfitet a szekrényből...</option>
+            </select>
+          </div>
+
+          <div class="sd-form-group">
+            <label data-i18n="sd_form_comfort">Milyen kényelmes volt az outfit? (1-5 csillag)</label>
+            <div class="sd-stars" id="sdComfortStars">
+              <span class="sd-star" data-val="1">★</span>
+              <span class="sd-star" data-val="2">★</span>
+              <span class="sd-star" data-val="3">★</span>
+              <span class="sd-star" data-val="4">★</span>
+              <span class="sd-star" data-val="5">★</span>
+            </div>
+          </div>
+
+          <div class="sd-form-group">
+            <label data-i18n="sd_form_confidence">Mennyire érezted magad magabiztosnak? (1-5 csillag)</label>
+            <div class="sd-stars" id="sdConfidenceStars">
+              <span class="sd-star" data-val="1">★</span>
+              <span class="sd-star" data-val="2">★</span>
+              <span class="sd-star" data-val="3">★</span>
+              <span class="sd-star" data-val="4">★</span>
+              <span class="sd-star" data-val="5">★</span>
+            </div>
+          </div>
+
+          <div class="sd-form-group">
+            <label data-i18n="sd_form_notes">Megjegyzések</label>
+            <textarea class="sd-form-input" id="sdReflectNotes" rows="3" data-i18n-placeholder="sd_notes_placeholder" placeholder="Mit mondtak? Mi volt a reakció?"></textarea>
+          </div>
+
+          <button class="sd-btn sd-btn-primary w-full" id="sdSaveReflection" data-i18n="sd_save_reflection">Reflekszió mentése</button>
+        </div>
+
+        <!-- Past reflections list -->
+        <div id="sdReflectionsList"></div>
+      </div>
+
+      <!-- Panel: Insights (Correlation + Second Date Prep) -->
+      <div class="sd-panel" id="sdPanelInsights">
+        <div id="sdInsightsContent">
+          <!-- Dynamically rendered -->
+        </div>
+      </div>
+
+      <!-- Panel: Grooming Tracker -->
+      <div class="sd-panel" id="sdPanelGrooming">
+        <div class="sd-card">
+          <div class="sd-card-title">
+            <span>💈</span>
+            <span data-i18n="sd_grooming_title">Ápolási ütemező</span>
+          </div>
+          <div class="sd-card-subtitle" data-i18n="sd_grooming_desc">Tervezd meg a következő randi előtti ápolást</div>
+
+          <div class="sd-form-group">
+            <label data-i18n="sd_grooming_next_date">Következő randi dátuma</label>
+            <input type="date" class="sd-form-input" id="sdGroomingNextDate">
+          </div>
+
+          <button class="sd-btn sd-btn-primary w-full mb-4" id="sdCalcGrooming" data-i18n="sd_grooming_calc">Ápolási terv generálása</button>
+
+          <div id="sdGroomingPlan"></div>
+        </div>
+      </div>
+
+      <!-- Panel: Partner Feedback -->
+      <div class="sd-panel" id="sdPanelPartner">
+        <div class="sd-card">
+          <div class="sd-card-title">
+            <span>💑</span>
+            <span data-i18n="sd_partner_title">Partner visszajelzés</span>
+          </div>
+          <div class="sd-card-subtitle" data-i18n="sd_partner_desc">Küldj egy linket a partnerednek — kérd meg, értékelje a stílusodat!</div>
+
+          <div class="sd-form-group">
+            <label data-i18n="sd_partner_select_reflection">Válassz egy randit</label>
+            <select class="sd-form-select" id="sdPartnerReflection">
+              <option value="" data-i18n="sd_select_reflection">Válassz korábbi randit...</option>
+            </select>
+          </div>
+
+          <div id="sdPartnerLinkArea" style="display:none">
+            <div class="sd-share-link">
+              <input type="text" id="sdPartnerLinkInput" readonly>
+              <button class="sd-share-copy" id="sdCopyPartnerLink" data-i18n="sd_copy_link">Másolás</button>
+            </div>
+            <p class="text-[10px] text-gray-500 mt-2" data-i18n="sd_partner_disclaimer">A link névtelen — a partnered nem látja a profilod, csak az outfitet értékelheti.</p>
+          </div>
+        </div>
+
+        <!-- Partner feedback received -->
+        <div id="sdPartnerFeedbackList"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Second Date — Survey Modal (for quick survey after scanning) -->
+  <div id="sdSurveyModal" class="hidden fixed inset-0 z-[115] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="z-index:120">
+    <div class="sd-modal">
+      <div class="sd-modal-head">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-serif text-lg font-semibold text-white" data-i18n="sd_survey_title">Hogy érezted magad?</h3>
+            <p class="text-[11px] text-gray-400 mt-1" data-i18n="sd_survey_subtitle">Gyors reflekszió a legutóbbi outról</p>
+          </div>
+          <button id="sdSurveyModalClose" type="button" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 flex items-center justify-center transition" aria-label="Close">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="sd-modal-body">
+        <div class="sd-form-group">
+          <label data-i18n="sd_form_comfort">Kényelem</label>
+          <div class="sd-stars" id="sdSurveyComfortStars">
+            <span class="sd-star" data-val="1">★</span>
+            <span class="sd-star" data-val="2">★</span>
+            <span class="sd-star" data-val="3">★</span>
+            <span class="sd-star" data-val="4">★</span>
+            <span class="sd-star" data-val="5">★</span>
+          </div>
+        </div>
+        <div class="sd-form-group">
+          <label data-i18n="sd_form_confidence">Magabiztosság</label>
+          <div class="sd-stars" id="sdSurveyConfStars">
+            <span class="sd-star" data-val="1">★</span>
+            <span class="sd-star" data-val="2">★</span>
+            <span class="sd-star" data-val="3">★</span>
+            <span class="sd-star" data-val="4">★</span>
+            <span class="sd-star" data-val="5">★</span>
+          </div>
+        </div>
+        <div class="sd-form-group">
+          <label data-i18n="sd_form_notes">Megjegyzések</label>
+          <textarea class="sd-form-input" id="sdSurveyNotes" rows="2" placeholder="Gyors jegyzet..."></textarea>
+        </div>
+        <button class="sd-btn sd-btn-primary w-full" id="sdSurveySave" data-i18n="sd_save_reflection">Mentés</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second Date — Grooming Add Modal -->
+  <div id="sdGroomingModal" class="hidden fixed inset-0 z-[115] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="z-index:120">
+    <div class="sd-modal">
+      <div class="sd-modal-head">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-serif text-lg font-semibold text-white" id="sdGroomingModalTitle">Ápolás hozzáadása</h3>
+            <p class="text-[11px] text-gray-400 mt-1" id="sdGroomingModalSub">Tervezd meg az időpontot</p>
+          </div>
+          <button id="sdGroomingModalClose" type="button" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 flex items-center justify-center transition" aria-label="Close">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="sd-modal-body" id="sdGroomingModalBody">
+        <!-- Dynamic content -->
       </div>
     </div>
   </div>
@@ -10822,6 +11109,7 @@ function toggleView(targetView, opts) {
     const viewShopping = $("viewShopping");
     const viewAlterego = $("viewAlterego");
     const viewOutfitCalendar = $("viewOutfitCalendar");
+    const viewSecondDate = $("viewSecondDate");
     const navBtn = $("navClosetBtn");
     const storyBtn = $("navStoryModeBtn");
     const aiChatBtn = $("navAiChatBtn");
@@ -10933,6 +11221,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewShopping);
         hideOverlay(viewAlterego);
         hideOverlay(viewOutfitCalendar);
+        hideOverlay(viewSecondDate);
         showOverlay(viewCloset);
         resetStoryNavBtn();
         resetAiChatNavBtn();
@@ -10965,6 +11254,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewShopping);
         hideOverlay(viewAlterego);
         hideOverlay(viewOutfitCalendar);
+        hideOverlay(viewSecondDate);
         showOverlay(viewChat);
         resetClosetNavBtn();
         resetStoryNavBtn();
@@ -10985,6 +11275,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewShopping);
         hideOverlay(viewAlterego);
         hideOverlay(viewOutfitCalendar);
+        hideOverlay(viewSecondDate);
         showOverlay(viewHistory);
         resetClosetNavBtn();
         activateStoryNavBtn();
@@ -11008,6 +11299,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewHistory);
         hideOverlay(viewAlterego);
         hideOverlay(viewOutfitCalendar);
+        hideOverlay(viewSecondDate);
         showOverlay(viewShopping);
         resetClosetNavBtn();
         resetStoryNavBtn();
@@ -11030,6 +11322,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewHistory);
         hideOverlay(viewShopping);
         hideOverlay(viewOutfitCalendar);
+        hideOverlay(viewSecondDate);
         showOverlay(viewAlterego);
         resetClosetNavBtn();
         resetStoryNavBtn();
@@ -11055,6 +11348,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewShopping);
         hideOverlay(viewAlterego);
         hideOverlay(viewOutfitCalendar);
+        hideOverlay(viewSecondDate);
         showOverlay(viewOutfitCalendar);
         resetClosetNavBtn();
         resetStoryNavBtn();
@@ -11072,6 +11366,32 @@ function toggleView(targetView, opts) {
             if (_skipPush) history.replaceState({ view: 'outfitcalendar' }, '', '#calendar');
             else history.pushState({ view: 'outfitcalendar' }, '', '#calendar');
         }
+    } else if (targetView === 'seconddate') {
+        hideScanner();
+        hideOverlay(viewCloset);
+        hideOverlay(viewChat);
+        hideOverlay(viewHistory);
+        hideOverlay(viewShopping);
+        hideOverlay(viewAlterego);
+        hideOverlay(viewOutfitCalendar);
+        hideOverlay(viewSecondDate);
+        showOverlay(viewSecondDate);
+        resetClosetNavBtn();
+        resetStoryNavBtn();
+        resetAiChatNavBtn();
+        resetShoppingNavBtn();
+        resetAlteregoNavBtn();
+        stopCameraIfLeavingScanner();
+
+        // Render Second Date module
+        if (typeof window._sdRender === 'function') {
+            window._sdRender();
+        }
+        store.set({ activeView: 'seconddate' });
+        if (location.hash !== '#reflection') {
+            if (_skipPush) history.replaceState({ view: 'seconddate' }, '', '#reflection');
+            else history.pushState({ view: 'seconddate' }, '', '#reflection');
+        }
     } else {
         // targetView === 'scanner' (or any unrecognized value — default).
         hideOverlay(viewCloset);
@@ -11080,6 +11400,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewShopping);
         hideOverlay(viewAlterego);
         hideOverlay(viewOutfitCalendar);
+        hideOverlay(viewSecondDate);
         // Scanner comes back in after the overlay fade-down completes
         // so the two transitions don't visually fight.
         setTimeout(showScanner, 300);
@@ -11224,7 +11545,7 @@ window.unlockBodyScroll = unlockBodyScroll;
 window.addEventListener('popstate', function(e) {
   try {
     var hash = location.hash.replace('#', '');
-    var viewMap = { closet: 'closet', chat: 'chat', story: 'history', shopping: 'shopping', alterego: 'alterego', calendar: 'outfitcalendar' };
+    var viewMap = { closet: 'closet', chat: 'chat', story: 'history', shopping: 'shopping', alterego: 'alterego', calendar: 'outfitcalendar', reflection: 'seconddate' };
     var targetView = viewMap[hash] || 'scanner';
     var currentView = store.get().activeView;
     // Only switch if the view actually changed (avoid redundant transitions)
@@ -13401,6 +13722,61 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ocal_plan_saved: 'Plan saved!',
       ocal_plan_deleted: 'Plan removed!',
       ocal_from_closet: 'From Closet',
+      nav_second_date: 'Reflection',
+      sd_title: 'Post-Date Reflection',
+      sd_subtitle: 'Learn from the past, prep for the next date',
+      sd_tab_reflections: 'Reflections',
+      sd_tab_insights: 'Insights',
+      sd_tab_grooming: 'Grooming',
+      sd_tab_partner: 'Partner',
+      sd_new_reflection: 'New Date Reflection',
+      sd_new_reflection_desc: 'How did you feel in your outfit on the date?',
+      sd_form_date: 'Date of the date',
+      sd_form_event_type: 'Event type',
+      sd_form_outfit: 'What did you wear?',
+      sd_form_comfort: 'How comfortable was the outfit? (1-5 stars)',
+      sd_form_confidence: 'How confident did you feel? (1-5 stars)',
+      sd_form_notes: 'Notes',
+      sd_notes_placeholder: 'What did they say? What was the reaction?',
+      sd_save_reflection: 'Save Reflection',
+      sd_event_date: 'Date',
+      sd_event_business: 'Business Meeting',
+      sd_event_casual: 'Casual',
+      sd_event_party: 'Party',
+      sd_select_outfit: 'Choose an outfit from your closet...',
+      sd_no_reflections: 'No reflections yet...',
+      sd_no_reflections_desc: 'After your next date, come back and rate how you felt!',
+      sd_reflection_saved: 'Reflection saved!',
+      sd_grooming_title: 'Grooming Scheduler',
+      sd_grooming_desc: 'Plan your grooming before the next date',
+      sd_grooming_next_date: 'Next date',
+      sd_grooming_calc: 'Generate Grooming Plan',
+      sd_grooming_haircut: 'Haircut',
+      sd_grooming_shave: 'Shave / Trim',
+      sd_grooming_skincare: 'Skincare',
+      sd_grooming_nails: 'Nail Care',
+      sd_grooming_days_before: '{n} days before',
+      sd_grooming_day_before: '1 day before',
+      sd_grooming_done: 'Done',
+      sd_grooming_schedule: 'Schedule',
+      sd_partner_title: 'Partner Feedback',
+      sd_partner_desc: 'Send a link to your partner — ask them to rate your style!',
+      sd_partner_select_reflection: 'Choose a date',
+      sd_select_reflection: 'Choose a past date...',
+      sd_copy_link: 'Copy',
+      sd_partner_disclaimer: 'The link is anonymous — your partner won\'t see your profile, only rate the outfit.',
+      sd_partner_feedback: 'Partner Feedback',
+      sd_partner_no_feedback: 'No feedback received yet',
+      sd_survey_title: 'How did you feel?',
+      sd_survey_subtitle: 'Quick reflection on your last outing',
+      sd_insight_top_outfit: 'Your Top Outfit',
+      sd_insight_top_outfit_desc: 'When you wore this outfit, you scored an average of {score} points',
+      sd_insight_second_date: 'Second Date Prep',
+      sd_insight_second_date_desc: 'The {item} worked well last time — try the {suggestion} variant!',
+      sd_insight_no_data: 'Not enough data yet',
+      sd_insight_no_data_desc: 'Save at least 3 reflections to unlock outfit correlations and second date suggestions.',
+      sd_correlation_title: 'Outfit-Score Correlation',
+      sd_correlation_avg: 'Avg. score',
       siq_heading: 'Shopping IQ',
       siq_subheading: 'Wardrobe investment tracker.',
       siq_tab_log: 'Log',
@@ -15625,6 +16001,61 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ocal_plan_saved: 'Terv elmentve!',
       ocal_plan_deleted: 'Terv törölve!',
       ocal_from_closet: 'A szekrényből',
+      nav_second_date: 'Reflekszió',
+      sd_title: 'Randi Utáni Reflekszió',
+      sd_subtitle: 'Tanulj a múltból, készülj a következő randira',
+      sd_tab_reflections: 'Refleksziók',
+      sd_tab_insights: 'Meglátások',
+      sd_tab_grooming: 'Ápolás',
+      sd_tab_partner: 'Partner',
+      sd_new_reflection: 'Új randi reflekszió',
+      sd_new_reflection_desc: 'Hogyan érezted magad az outfitben a randin?',
+      sd_form_date: 'Randi dátuma',
+      sd_form_event_type: 'Esemény típusa',
+      sd_form_outfit: 'Mit viseltél?',
+      sd_form_comfort: 'Milyen kényelmes volt az outfit? (1-5 csillag)',
+      sd_form_confidence: 'Mennyire érezted magad magabiztosnak? (1-5 csillag)',
+      sd_form_notes: 'Megjegyzések',
+      sd_notes_placeholder: 'Mit mondtak? Mi volt a reakció?',
+      sd_save_reflection: 'Reflekszió mentése',
+      sd_event_date: 'Randi',
+      sd_event_business: 'Üzleti meeting',
+      sd_event_casual: 'Casual',
+      sd_event_party: 'Buli',
+      sd_select_outfit: 'Válassz outfitet a szekrényből...',
+      sd_no_reflections: 'Még nincsenek refleksziók...',
+      sd_no_reflections_desc: 'A következő randi után gyere vissza és értékeld, hogyan érezted magad!',
+      sd_reflection_saved: 'Reflekszió elmentve!',
+      sd_grooming_title: 'Ápolási ütemező',
+      sd_grooming_desc: 'Tervezd meg a következő randi előtti ápolást',
+      sd_grooming_next_date: 'Következő randi dátuma',
+      sd_grooming_calc: 'Ápolási terv generálása',
+      sd_grooming_haircut: 'Hajvágás',
+      sd_grooming_shave: 'Borotválkozás / Trim',
+      sd_grooming_skincare: 'Bőrápolás',
+      sd_grooming_nails: 'Körömápolás',
+      sd_grooming_days_before: '{n} nappal előtte',
+      sd_grooming_day_before: '1 nappal előtte',
+      sd_grooming_done: 'Kész',
+      sd_grooming_schedule: 'Ütemezés',
+      sd_partner_title: 'Partner visszajelzés',
+      sd_partner_desc: 'Küldj egy linket a partnerednek — kérd meg, értékelje a stílusodat!',
+      sd_partner_select_reflection: 'Válassz egy randit',
+      sd_select_reflection: 'Válassz korábbi randit...',
+      sd_copy_link: 'Másolás',
+      sd_partner_disclaimer: 'A link névtelen — a partnered nem látja a profilod, csak az outfitet értékelheti.',
+      sd_partner_feedback: 'Partner visszajelzés',
+      sd_partner_no_feedback: 'Még nem érkezett visszajelzés',
+      sd_survey_title: 'Hogy érezted magad?',
+      sd_survey_subtitle: 'Gyors reflekszió a legutóbbi outról',
+      sd_insight_top_outfit: 'Legjobb outfit',
+      sd_insight_top_outfit_desc: 'Ebben az outfitben átlagosan {score} pontot kaptál',
+      sd_insight_second_date: 'Második randi felkészítés',
+      sd_insight_second_date_desc: 'A(z) {item} jött be a múltkor — próbáld meg a {suggestion} változatot!',
+      sd_insight_no_data: 'Még nincs elég adat',
+      sd_insight_no_data_desc: 'Ments legalább 3 refleksziót az outfit-korrelációk és második randi javaslatok feloldásához.',
+      sd_correlation_title: 'Outfit-Pontszám korreláció',
+      sd_correlation_avg: 'Átl. pontszám',
       siq_heading: 'Shopping IQ',
       siq_subheading: 'Gardróbbefektetés-követő.',
       siq_tab_log: 'Napló',
@@ -17850,6 +18281,61 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ocal_plan_saved: 'Plan gespeichert!',
       ocal_plan_deleted: 'Plan entfernt!',
       ocal_from_closet: 'Aus dem Kleiderschrank',
+      nav_second_date: 'Reflexion',
+      sd_title: 'Post-Date Reflexion',
+      sd_subtitle: 'Lerne aus der Vergangenheit, bereite dich aufs nächste Date vor',
+      sd_tab_reflections: 'Reflexionen',
+      sd_tab_insights: 'Erkenntnisse',
+      sd_tab_grooming: 'Pflege',
+      sd_tab_partner: 'Partner',
+      sd_new_reflection: 'Neue Date-Reflexion',
+      sd_new_reflection_desc: 'Wie hast du dich in deinem Outfit beim Date gefühlt?',
+      sd_form_date: 'Datum des Dates',
+      sd_form_event_type: 'Event-Typ',
+      sd_form_outfit: 'Was hast du getragen?',
+      sd_form_comfort: 'Wie bequem war das Outfit? (1-5 Sterne)',
+      sd_form_confidence: 'Wie selbstbewusst hast du dich gefühlt? (1-5 Sterne)',
+      sd_form_notes: 'Notizen',
+      sd_notes_placeholder: 'Was haben sie gesagt? Wie war die Reaktion?',
+      sd_save_reflection: 'Reflexion speichern',
+      sd_event_date: 'Date',
+      sd_event_business: 'Geschäftstreffen',
+      sd_event_casual: 'Casual',
+      sd_event_party: 'Party',
+      sd_select_outfit: 'Outfit aus dem Kleiderschrank wählen...',
+      sd_no_reflections: 'Noch keine Reflexionen...',
+      sd_no_reflections_desc: 'Nach deinem nächsten Date, komm zurück und bewerte wie du dich gefühlt hast!',
+      sd_reflection_saved: 'Reflexion gespeichert!',
+      sd_grooming_title: 'Pflegeplaner',
+      sd_grooming_desc: 'Plane deine Pflege vor dem nächsten Date',
+      sd_grooming_next_date: 'Nächstes Date',
+      sd_grooming_calc: 'Pflegeplan generieren',
+      sd_grooming_haircut: 'Haarschnitt',
+      sd_grooming_shave: 'Rasur / Trimmen',
+      sd_grooming_skincare: 'Hautpflege',
+      sd_grooming_nails: 'Nagelpflege',
+      sd_grooming_days_before: '{n} Tage vorher',
+      sd_grooming_day_before: '1 Tag vorher',
+      sd_grooming_done: 'Erledigt',
+      sd_grooming_schedule: 'Terminieren',
+      sd_partner_title: 'Partner-Feedback',
+      sd_partner_desc: 'Sende einen Link an deinen Partner — bitte ihn, deinen Stil zu bewerten!',
+      sd_partner_select_reflection: 'Wähle ein Date',
+      sd_select_reflection: 'Wähle ein vergangenes Date...',
+      sd_copy_link: 'Kopieren',
+      sd_partner_disclaimer: 'Der Link ist anonym — dein Partner sieht dein Profil nicht, nur die Outfit-Bewertung.',
+      sd_partner_feedback: 'Partner-Feedback',
+      sd_partner_no_feedback: 'Noch kein Feedback erhalten',
+      sd_survey_title: 'Wie hast du dich gefühlt?',
+      sd_survey_subtitle: 'Schnelle Reflexion zu deinem letzten Ausgehen',
+      sd_insight_top_outfit: 'Dein Top-Outfit',
+      sd_insight_top_outfit_desc: 'Mit diesem Outfit hast du durchschnittlich {score} Punkte erzielt',
+      sd_insight_second_date: 'Zweites Date Vorbereitung',
+      sd_insight_second_date_desc: 'Das {item} hat beim letzten Mal funktioniert — probiere die {suggestion} Variante!',
+      sd_insight_no_data: 'Noch nicht genug Daten',
+      sd_insight_no_data_desc: 'Speichere mindestens 3 Reflexionen, um Outfit-Korrelationen und Second-Date-Vorschläge freizuschalten.',
+      sd_correlation_title: 'Outfit-Punkte-Korrelation',
+      sd_correlation_avg: 'Durchschn. Punkte',
       siq_heading: 'Shopping IQ',
       siq_subheading: 'Garderoben-Investitions-Tracker.',
       siq_tab_log: 'Protokoll',
@@ -40073,6 +40559,619 @@ applyOfflineState(!navigator.onLine);
   });
 
   _dsLog && _dsLog('[Outfit Calendar] Module loaded');
+})();
+</script>
+<script>
+// ============================================================
+// SECOND DATE / RANDI UTÁNI REFLEKSZIÓ — Module
+// ============================================================
+(function() {
+  'use strict';
+
+  var _t = function(key, vals) {
+    if (typeof window.t === 'function') return window.t(key, vals);
+    return key;
+  };
+  var $ = function(id) { return document.getElementById(id); };
+
+  // ── Storage ──
+  var REFLECT_KEY = 'datescan.sdReflections';
+  var GROOM_KEY = 'datescan.sdGrooming';
+  var PARTNER_FB_KEY = 'datescan.sdPartnerFeedback';
+
+  function _loadReflections() {
+    try { return JSON.parse(localStorage.getItem(REFLECT_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function _saveReflections(data) {
+    try { localStorage.setItem(REFLECT_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+  function _loadGrooming() {
+    try { return JSON.parse(localStorage.getItem(GROOM_KEY) || '{}'); } catch(e) { return {}; }
+  }
+  function _saveGrooming(data) {
+    try { localStorage.setItem(GROOM_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+  function _loadPartnerFeedback() {
+    try { return JSON.parse(localStorage.getItem(PARTNER_FB_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function _savePartnerFeedback(data) {
+    try { localStorage.setItem(PARTNER_FB_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+
+  // ── Stars interaction ──
+  function _initStars(containerId, callback) {
+    var container = $(containerId);
+    if (!container) return;
+    var stars = container.querySelectorAll('.sd-star');
+    var currentVal = 0;
+    stars.forEach(function(star) {
+      star.addEventListener('click', function() {
+        currentVal = parseInt(this.getAttribute('data-val'), 10);
+        stars.forEach(function(s) {
+          var v = parseInt(s.getAttribute('data-val'), 10);
+          s.classList.toggle('lit', v <= currentVal);
+        });
+        if (callback) callback(currentVal);
+      });
+    });
+    return function() { return currentVal; };
+  }
+
+  // ── Populate outfit dropdown ──
+  function _populateOutfitDropdown(selectId) {
+    var sel = $(selectId);
+    if (!sel) return;
+    // Clear existing options except the first placeholder
+    while (sel.options.length > 1) sel.remove(1);
+    // Try to access closet outfits
+    if (typeof window.userCloset !== 'undefined' && window.userCloset && window.userCloset.outfits) {
+      window.userCloset.outfits.forEach(function(outfit) {
+        var opt = document.createElement('option');
+        opt.value = outfit.id;
+        var label = (outfit.color || '') + ' ' + (outfit.garmentType || outfit.type || 'Outfit');
+        opt.textContent = label.trim() + (outfit.score ? ' (' + outfit.score + ' pts)' : '');
+        sel.appendChild(opt);
+      });
+    }
+  }
+
+  // ── Tab switching ──
+  function _initTabs() {
+    var tabs = document.querySelectorAll('#sdTabs .sd-tab');
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var target = this.getAttribute('data-sd-tab');
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.sd-panel').forEach(function(p) { p.classList.remove('active'); });
+        var panelMap = { reflections: 'sdPanelReflections', insights: 'sdPanelInsights', grooming: 'sdPanelGrooming', partner: 'sdPanelPartner' };
+        var panel = $(panelMap[target]);
+        if (panel) panel.classList.add('active');
+        // Re-render on tab switch
+        if (target === 'insights') _renderInsights();
+        if (target === 'partner') _renderPartnerPanel();
+      });
+    });
+  }
+
+  // ── Save Reflection ──
+  var _getComfort, _getConfidence;
+
+  function _initReflectionForm() {
+    _getComfort = _initStars('sdComfortStars');
+    _getConfidence = _initStars('sdConfidenceStars');
+    _populateOutfitDropdown('sdReflectOutfit');
+
+    var saveBtn = $('sdSaveReflection');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', function() {
+        var dateVal = $('sdReflectDate').value;
+        var eventType = $('sdReflectEventType').value;
+        var outfitId = $('sdReflectOutfit').value;
+        var comfort = _getComfort ? _getComfort() : 0;
+        var confidence = _getConfidence ? _getConfidence() : 0;
+        var notes = $('sdReflectNotes').value;
+
+        if (!dateVal) {
+          if (typeof window._dsToast === 'function') window._dsToast(_t('sd_form_date'));
+          return;
+        }
+
+        // Get outfit details if selected
+        var outfitName = '';
+        var outfitScore = null;
+        if (outfitId && typeof window.userCloset !== 'undefined' && window.userCloset) {
+          var found = window.userCloset.outfits.find(function(o) { return o.id === outfitId; });
+          if (found) {
+            outfitName = (found.color || '') + ' ' + (found.garmentType || found.type || 'Outfit');
+            outfitScore = found.score || null;
+          }
+        }
+
+        var reflections = _loadReflections();
+        reflections.push({
+          id: 'ref_' + Date.now(),
+          date: dateVal,
+          eventType: eventType,
+          outfitId: outfitId || null,
+          outfitName: outfitName.trim() || _t('sd_select_outfit'),
+          outfitScore: outfitScore,
+          comfort: comfort,
+          confidence: confidence,
+          notes: notes,
+          ts: Date.now()
+        });
+        _saveReflections(reflections);
+
+        // Reset form
+        $('sdReflectDate').value = '';
+        $('sdReflectNotes').value = '';
+        document.querySelectorAll('#sdComfortStars .sd-star, #sdConfidenceStars .sd-star').forEach(function(s) { s.classList.remove('lit'); });
+
+        if (typeof window._dsToast === 'function') window._dsToast(_t('sd_reflection_saved'));
+        _renderReflectionsList();
+      });
+    }
+  }
+
+  // ── Render Reflections List ──
+  function _renderReflectionsList() {
+    var container = $('sdReflectionsList');
+    if (!container) return;
+    var reflections = _loadReflections();
+
+    if (reflections.length === 0) {
+      container.innerHTML = '<div class="sd-empty-state"><div class="sd-empty-icon">📝</div><div class="sd-empty-title">' + _t('sd_no_reflections') + '</div><div class="sd-empty-desc">' + _t('sd_no_reflections_desc') + '</div></div>';
+      return;
+    }
+
+    var html = '';
+    // Show most recent first
+    var sorted = reflections.slice().reverse();
+    sorted.forEach(function(ref) {
+      var badgeClass = 'sd-badge--date';
+      if (ref.eventType === 'business') badgeClass = 'sd-badge--business';
+      else if (ref.eventType === 'casual') badgeClass = 'sd-badge--casual';
+
+      var starsHtml = '';
+      for (var i = 1; i <= 5; i++) {
+        starsHtml += i <= ref.comfort ? '★' : '☆';
+      }
+
+      var scoreHtml = '';
+      if (ref.outfitScore) {
+        scoreHtml = '<div class="sd-dli-score" style="background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(168,85,247,0.2))">' + ref.outfitScore + '</div>';
+      } else {
+        scoreHtml = '<div class="sd-dli-score" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.3)">—</div>';
+      }
+
+      html += '<div class="sd-date-list-item" data-ref-id="' + ref.id + '">' +
+        scoreHtml +
+        '<div class="sd-dli-info">' +
+          '<div class="sd-dli-date">' + ref.date + ' <span class="sd-badge ' + badgeClass + '">' + _t('sd_event_' + ref.eventType) + '</span></div>' +
+          '<div class="sd-dli-detail">' + ref.outfitName + '</div>' +
+          (ref.notes ? '<div class="sd-dli-detail" style="color:rgba(255,255,255,0.3);margin-top:4px;font-style:italic">"' + _escHtml(ref.notes.substring(0, 80)) + '"</div>' : '') +
+        '</div>' +
+        '<div class="sd-dli-stars" style="color:#fbbf24">' + starsHtml + '</div>' +
+      '</div>';
+    });
+
+    container.innerHTML = html;
+
+    // Add delete on long-press/click
+    container.querySelectorAll('.sd-date-list-item').forEach(function(item) {
+      var deleteBtn = document.createElement('button');
+      deleteBtn.className = 'sd-btn sd-btn-outline';
+      deleteBtn.style.cssText = 'position:absolute;top:8px;right:8px;padding:4px 8px;font-size:10px;opacity:0;transition:opacity .2s';
+      deleteBtn.textContent = '✕';
+      deleteBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var id = item.getAttribute('data-ref-id');
+        var refs = _loadReflections().filter(function(r) { return r.id !== id; });
+        _saveReflections(refs);
+        _renderReflectionsList();
+      });
+      item.style.position = 'relative';
+      item.appendChild(deleteBtn);
+      item.addEventListener('mouseenter', function() { deleteBtn.style.opacity = '1'; });
+      item.addEventListener('mouseleave', function() { deleteBtn.style.opacity = '0'; });
+    });
+  }
+
+  function _escHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ── Insights: Outfit-Score Correlation ──
+  function _renderInsights() {
+    var container = $('sdInsightsContent');
+    if (!container) return;
+    var reflections = _loadReflections();
+
+    if (reflections.length < 3) {
+      container.innerHTML = '<div class="sd-empty-state"><div class="sd-empty-icon">📊</div><div class="sd-empty-title">' + _t('sd_insight_no_data') + '</div><div class="sd-empty-desc">' + _t('sd_insight_no_data_desc') + '</div></div>';
+      return;
+    }
+
+    var html = '';
+
+    // ── Correlation: Group by outfit and calculate average score ──
+    var outfitScores = {};
+    var outfitComforts = {};
+    reflections.forEach(function(ref) {
+      var key = ref.outfitId || ref.outfitName;
+      if (!outfitScores[key]) {
+        outfitScores[key] = { name: ref.outfitName, scores: [], comforts: [], confidences: [] };
+      }
+      if (ref.outfitScore) outfitScores[key].scores.push(ref.outfitScore);
+      outfitScores[key].comforts.push(ref.comfort);
+      outfitScores[key].confidences.push(ref.confidence);
+    });
+
+    html += '<div class="sd-card"><div class="sd-card-title"><span>📈</span> <span>' + _t('sd_correlation_title') + '</span></div>';
+
+    var sorted = Object.values(outfitScores).sort(function(a, b) {
+      var avgA = a.scores.length ? a.scores.reduce(function(s, v) { return s + v; }, 0) / a.scores.length : 0;
+      var avgB = b.scores.length ? b.scores.reduce(function(s, v) { return s + v; }, 0) / b.scores.length : 0;
+      return avgB - avgA;
+    });
+
+    sorted.forEach(function(item) {
+      var avgScore = item.scores.length ? Math.round(item.scores.reduce(function(s, v) { return s + v; }, 0) / item.scores.length) : 0;
+      var avgComfort = item.comforts.length ? (item.comforts.reduce(function(s, v) { return s + v; }, 0) / item.comforts.length).toFixed(1) : 0;
+      var pct = Math.min(100, avgScore);
+
+      var gradient = avgScore >= 80 ? 'background:linear-gradient(90deg,#34d399,#10b981)' :
+                     avgScore >= 60 ? 'background:linear-gradient(90deg,#fbbf24,#f59e0b)' :
+                     'background:linear-gradient(90deg,#f87171,#ef4444)';
+
+      html += '<div style="margin-bottom:10px">' +
+        '<div class="flex items-center justify-between mb-1">' +
+          '<span class="text-xs font-bold text-white truncate" style="max-width:60%">' + _escHtml(item.name) + '</span>' +
+          '<span class="text-xs font-bold text-gray-400">' + _t('sd_correlation_avg') + ': <span class="text-white">' + avgScore + '</span></span>' +
+        '</div>' +
+        '<div class="sd-correlation-bar"><div class="sd-correlation-fill" style="width:' + pct + '%;' + gradient + '"></div></div>' +
+        '<div class="text-[10px] text-gray-500 mt-1">' + _t('sd_form_comfort').replace('(1-5 csillag)','').replace('(1-5 stars)','').replace('(1-5 Sterne)','') + ': ' + avgComfort + '/5 · ' + item.scores.length + 'x worn</div>' +
+      '</div>';
+    });
+
+    html += '</div>';
+
+    // ── Top Outfit Insight Card ──
+    if (sorted.length > 0 && sorted[0].scores.length > 0) {
+      var top = sorted[0];
+      var topAvg = Math.round(top.scores.reduce(function(s, v) { return s + v; }, 0) / top.scores.length);
+      html += '<div class="sd-insight-card">' +
+        '<div class="sd-insight-emoji">🏆</div>' +
+        '<div class="sd-insight-text">' + _t('sd_insight_top_outfit_desc').replace('{score}', '<span class="sd-insight-highlight">' + topAvg + '</span>') + '</div>' +
+        '<div class="text-xs text-white mt-2 font-bold">' + _escHtml(top.name) + '</div>' +
+      '</div>';
+    }
+
+    // ── Second Date Prep ──
+    if (sorted.length > 0) {
+      var bestItem = sorted[0];
+      var colorSuggestions = {
+        'black': 'dark grey', 'white': 'light grey', 'blue': 'navy', 'navy': 'royal blue',
+        'grey': 'charcoal', 'red': 'burgundy', 'green': 'olive', 'brown': 'tan',
+        'fekete': 'sötétszürke', 'fehér': 'világosszürke', 'kék': 'tengerkék',
+        'szürke': 'szénaszürke', 'piros': 'bordó', 'zöld': 'olív', 'barna': 'homokszín'
+      };
+      var baseColor = bestItem.name.toLowerCase().split(' ')[0];
+      var suggestion = colorSuggestions[baseColor] || 'different shade';
+
+      html += '<div class="sd-insight-card">' +
+        '<div class="sd-insight-emoji">💡</div>' +
+        '<div class="sd-insight-text">' + _t('sd_insight_second_date_desc').replace('{item}', '<span class="sd-insight-highlight">' + _escHtml(bestItem.name) + '</span>').replace('{suggestion}', '<span class="sd-insight-highlight">' + suggestion + '</span>') + '</div>' +
+      '</div>';
+    }
+
+    container.innerHTML = html;
+  }
+
+  // ── Grooming Scheduler ──
+  function _initGrooming() {
+    var calcBtn = $('sdCalcGrooming');
+    if (calcBtn) {
+      calcBtn.addEventListener('click', function() {
+        var nextDate = $('sdGroomingNextDate').value;
+        if (!nextDate) return;
+        _renderGroomingPlan(nextDate);
+      });
+    }
+  }
+
+  function _renderGroomingPlan(nextDate) {
+    var container = $('sdGroomingPlan');
+    if (!container) return;
+
+    var target = new Date(nextDate);
+    var now = new Date();
+    var daysUntil = Math.ceil((target - now) / (1000 * 60 * 60 * 24));
+
+    if (daysUntil < 0) {
+      container.innerHTML = '<div class="sd-empty-state"><div class="sd-empty-icon">⚠️</div><div class="sd-empty-title">Past date</div></div>';
+      return;
+    }
+
+    var tasks = [
+      { key: 'haircut', icon: '✂️', daysBefore: 3, label: _t('sd_grooming_haircut'), bgColor: 'rgba(168,85,247,0.15)' },
+      { key: 'skincare', icon: '🧴', daysBefore: 2, label: _t('sd_grooming_skincare'), bgColor: 'rgba(59,130,246,0.15)' },
+      { key: 'shave', icon: '🪒', daysBefore: 1, label: _t('sd_grooming_shave'), bgColor: 'rgba(16,185,129,0.15)' },
+      { key: 'nails', icon: '💅', daysBefore: 1, label: _t('sd_grooming_nails'), bgColor: 'rgba(236,72,153,0.15)' }
+    ];
+
+    var grooming = _loadGrooming();
+    var html = '';
+
+    tasks.forEach(function(task) {
+      var scheduledDate = new Date(target);
+      scheduledDate.setDate(scheduledDate.getDate() - task.daysBefore);
+      var dateStr = scheduledDate.toISOString().split('T')[0];
+      var taskKey = nextDate + '_' + task.key;
+      var isDone = grooming[taskKey] === true;
+      var daysLabel = task.daysBefore === 1 ? _t('sd_grooming_day_before') : _t('sd_grooming_days_before').replace('{n}', task.daysBefore);
+
+      html += '<div class="sd-grooming-item">' +
+        '<div class="sd-grooming-icon" style="background:' + task.bgColor + '">' + task.icon + '</div>' +
+        '<div class="sd-grooming-info">' +
+          '<div class="sd-grooming-label">' + task.label + '</div>' +
+          '<div class="sd-grooming-meta">' + dateStr + ' · ' + daysLabel + '</div>' +
+        '</div>' +
+        '<div class="sd-grooming-actions">' +
+          '<button class="sd-grooming-btn' + (isDone ? ' primary' : '') + '" data-task-key="' + taskKey + '" onclick="window._sdToggleGrooming(\'' + taskKey + '\')">' +
+            (isDone ? _t('sd_grooming_done') : _t('sd_grooming_schedule')) +
+          '</button>' +
+        '</div>' +
+      '</div>';
+    });
+
+    container.innerHTML = html;
+  }
+
+  window._sdToggleGrooming = function(taskKey) {
+    var grooming = _loadGrooming();
+    grooming[taskKey] = !grooming[taskKey];
+    _saveGrooming(grooming);
+    // Re-render with the same date
+    var nextDate = $('sdGroomingNextDate').value;
+    if (nextDate) _renderGroomingPlan(nextDate);
+  };
+
+  // ── Partner Feedback ──
+  function _renderPartnerPanel() {
+    var sel = $('sdPartnerReflection');
+    if (!sel) return;
+
+    // Populate dropdown
+    while (sel.options.length > 1) sel.remove(1);
+    var reflections = _loadReflections();
+    reflections.forEach(function(ref) {
+      var opt = document.createElement('option');
+      opt.value = ref.id;
+      opt.textContent = ref.date + ' — ' + ref.outfitName;
+      sel.appendChild(opt);
+    });
+
+    // Generate link button
+    sel.onchange = function() {
+      var linkArea = $('sdPartnerLinkArea');
+      if (sel.value) {
+        linkArea.style.display = 'block';
+        // Generate a pseudo-anonymous link
+        var link = window.location.origin + window.location.pathname + '?partner_feedback=' + btoa(sel.value).replace(/=/g, '');
+        $('sdPartnerLinkInput').value = link;
+      } else {
+        linkArea.style.display = 'none';
+      }
+    };
+
+    // Copy button
+    var copyBtn = $('sdCopyPartnerLink');
+    if (copyBtn) {
+      copyBtn.onclick = function() {
+        var input = $('sdPartnerLinkInput');
+        if (input && input.value) {
+          try {
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(input.value);
+            } else {
+              input.select();
+              document.execCommand('copy');
+            }
+            if (typeof window._dsToast === 'function') window._dsToast('📋 Copied!');
+          } catch(e) {}
+        }
+      };
+    }
+
+    // Show received feedback
+    var fbList = $('sdPartnerFeedbackList');
+    var feedbacks = _loadPartnerFeedback();
+    if (fbList) {
+      if (feedbacks.length === 0) {
+        fbList.innerHTML = '<div class="sd-empty-state" style="padding:20px"><div class="sd-empty-icon">💬</div><div class="sd-empty-title">' + _t('sd_partner_no_feedback') + '</div></div>';
+      } else {
+        var fbHtml = '<div class="sd-card"><div class="sd-card-title"><span>💬</span> <span>' + _t('sd_partner_feedback') + '</span></div>';
+        feedbacks.forEach(function(fb) {
+          var starsHtml = '';
+          for (var i = 1; i <= 5; i++) starsHtml += i <= fb.rating ? '★' : '☆';
+          fbHtml += '<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">' +
+            '<div class="flex items-center justify-between"><span class="text-xs text-white font-bold">' + _escHtml(fb.reflectionDate || 'Date') + '</span><span style="color:#fbbf24;font-size:12px;letter-spacing:2px">' + starsHtml + '</span></div>' +
+            (fb.comment ? '<div class="text-xs text-gray-400 mt-1">"' + _escHtml(fb.comment) + '"</div>' : '') +
+          '</div>';
+        });
+        fbHtml += '</div>';
+        fbList.innerHTML = fbHtml;
+      }
+    }
+  }
+
+  // ── Quick Survey Modal (after scan) ──
+  function _initSurveyModal() {
+    var getSurveyComfort = _initStars('sdSurveyComfortStars');
+    var getSurveyConf = _initStars('sdSurveyConfStars');
+
+    var saveBtn = $('sdSurveySave');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', function() {
+        var comfort = getSurveyComfort ? getSurveyComfort() : 0;
+        var confidence = getSurveyConf ? getSurveyConf() : 0;
+        var notes = $('sdSurveyNotes').value;
+
+        var reflections = _loadReflections();
+        var today = new Date().toISOString().split('T')[0];
+
+        // Find the most recent scan score
+        var lastScore = null;
+        try {
+          var hist = JSON.parse(localStorage.getItem('datescan.history') || '[]');
+          if (hist.length > 0) lastScore = hist[hist.length - 1].score;
+        } catch(e) {}
+
+        reflections.push({
+          id: 'ref_' + Date.now(),
+          date: today,
+          eventType: 'date',
+          outfitId: null,
+          outfitName: 'Recent Scan Outfit',
+          outfitScore: lastScore,
+          comfort: comfort,
+          confidence: confidence,
+          notes: notes,
+          ts: Date.now()
+        });
+        _saveReflections(reflections);
+
+        // Close modal
+        $('sdSurveyModal').classList.add('hidden');
+        // Reset
+        $('sdSurveyNotes').value = '';
+        document.querySelectorAll('#sdSurveyComfortStars .sd-star, #sdSurveyConfStars .sd-star').forEach(function(s) { s.classList.remove('lit'); });
+
+        if (typeof window._dsToast === 'function') window._dsToast(_t('sd_reflection_saved'));
+      });
+    }
+
+    // Close buttons
+    var closeBtn = $('sdSurveyModalClose');
+    if (closeBtn) closeBtn.addEventListener('click', function() { $('sdSurveyModal').classList.add('hidden'); });
+    var modal = $('sdSurveyModal');
+    if (modal) modal.addEventListener('click', function(e) { if (e.target === modal) modal.classList.add('hidden'); });
+
+    // Grooming modal close
+    var groomCloseBtn = $('sdGroomingModalClose');
+    if (groomCloseBtn) groomCloseBtn.addEventListener('click', function() { $('sdGroomingModal').classList.add('hidden'); });
+    var groomModal = $('sdGroomingModal');
+    if (groomModal) groomModal.addEventListener('click', function(e) { if (e.target === groomModal) groomModal.classList.add('hidden'); });
+  }
+
+  // ── Check for partner feedback in URL ──
+  function _checkPartnerFeedback() {
+    try {
+      var params = new URLSearchParams(location.search);
+      var fbParam = params.get('partner_feedback');
+      if (fbParam) {
+        try {
+          var refId = atob(fbParam + '=='.substring(0, (4 - fbParam.length % 4) % 4));
+          // Show a simple partner feedback form
+          _showPartnerFeedbackForm(refId);
+        } catch(e) {}
+      }
+    } catch(e) {}
+  }
+
+  function _showPartnerFeedbackForm(refId) {
+    var modal = $('sdGroomingModal');
+    var title = $('sdGroomingModalTitle');
+    var sub = $('sdGroomingModalSub');
+    var body = $('sdGroomingModalBody');
+    if (!modal || !body) return;
+
+    title.textContent = 'Rate This Style';
+    sub.textContent = 'How would you rate this outfit?';
+
+    body.innerHTML = '<div class="sd-form-group"><label>Style Rating (1-5)</label>' +
+      '<div class="sd-stars" id="sdPartnerRateStars">' +
+        '<span class="sd-star" data-val="1">★</span>' +
+        '<span class="sd-star" data-val="2">★</span>' +
+        '<span class="sd-star" data-val="3">★</span>' +
+        '<span class="sd-star" data-val="4">★</span>' +
+        '<span class="sd-star" data-val="5">★</span>' +
+      '</div></div>' +
+      '<div class="sd-form-group"><label>Comment (optional)</label>' +
+        '<textarea class="sd-form-input" id="sdPartnerComment" rows="2" placeholder="What did you think?"></textarea>' +
+      '</div>' +
+      '<button class="sd-btn sd-btn-primary w-full" id="sdPartnerSubmit">Submit Feedback</button>';
+
+    var getRating = _initStars('sdPartnerRateStars');
+
+    var submitBtn = $('sdPartnerSubmit');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function() {
+        var rating = getRating ? getRating() : 0;
+        var comment = $('sdPartnerComment').value;
+
+        // Find reflection for date
+        var reflections = _loadReflections();
+        var ref = reflections.find(function(r) { return r.id === refId; });
+
+        var feedbacks = _loadPartnerFeedback();
+        feedbacks.push({
+          reflectionId: refId,
+          reflectionDate: ref ? ref.date : 'Unknown',
+          rating: rating,
+          comment: comment,
+          ts: Date.now()
+        });
+        _savePartnerFeedback(feedbacks);
+
+        modal.classList.add('hidden');
+        if (typeof window._dsToast === 'function') window._dsToast('Thank you for your feedback!');
+        else alert('Thank you for your feedback!');
+      });
+    }
+
+    modal.classList.remove('hidden');
+  }
+
+  // ── Public render function ──
+  window._sdRender = function() {
+    _populateOutfitDropdown('sdReflectOutfit');
+    _renderReflectionsList();
+
+    // Set default date to today
+    var dateInput = $('sdReflectDate');
+    if (dateInput && !dateInput.value) {
+      dateInput.value = new Date().toISOString().split('T')[0];
+    }
+  };
+
+  // ── Public function to open quick survey ──
+  window._sdOpenSurvey = function() {
+    var modal = $('sdSurveyModal');
+    if (modal) modal.classList.remove('hidden');
+  };
+
+  // ── Init on DOMContentLoaded ──
+  window.addEventListener('DOMContentLoaded', function() {
+    _initTabs();
+    _initReflectionForm();
+    _initGrooming();
+    _initSurveyModal();
+    _checkPartnerFeedback();
+  });
+
+  // ── Language change ──
+  window.addEventListener('langchange', function() {
+    _renderReflectionsList();
+    var nextDate = $('sdGroomingNextDate');
+    if (nextDate && nextDate.value) _renderGroomingPlan(nextDate.value);
+  });
+
+  _dsLog && _dsLog('[Second Date] Module loaded');
 })();
 </script>
 </html>
