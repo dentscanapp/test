@@ -7702,7 +7702,6 @@ if (window.__DS_IS_ANDROID_APP) {
         <button class="sd-tab active" data-sd-tab="reflections" data-i18n="sd_tab_reflections">Refleksziók</button>
         <button class="sd-tab" data-sd-tab="insights" data-i18n="sd_tab_insights">Meglátások</button>
         <button class="sd-tab" data-sd-tab="grooming" data-i18n="sd_tab_grooming">Ápolás</button>
-        <button class="sd-tab" data-sd-tab="partner" data-i18n="sd_tab_partner">Partner</button>
       </div>
 
       <!-- Panel: Reflections -->
@@ -7795,35 +7794,6 @@ if (window.__DS_IS_ANDROID_APP) {
 
           <div id="sdGroomingPlan"></div>
         </div>
-      </div>
-
-      <!-- Panel: Partner Feedback -->
-      <div class="sd-panel" id="sdPanelPartner">
-        <div class="sd-card">
-          <div class="sd-card-title">
-            <span>💑</span>
-            <span data-i18n="sd_partner_title">Partner visszajelzés</span>
-          </div>
-          <div class="sd-card-subtitle" data-i18n="sd_partner_desc">Küldj egy linket a partnerednek — kérd meg, értékelje a stílusodat!</div>
-
-          <div class="sd-form-group">
-            <label data-i18n="sd_partner_select_reflection">Válassz egy randit</label>
-            <select class="sd-form-select" id="sdPartnerReflection">
-              <option value="" data-i18n="sd_select_reflection">Válassz korábbi randit...</option>
-            </select>
-          </div>
-
-          <div id="sdPartnerLinkArea" style="display:none">
-            <div class="sd-share-link">
-              <input type="text" id="sdPartnerLinkInput" readonly>
-              <button class="sd-share-copy" id="sdCopyPartnerLink" data-i18n="sd_copy_link">Másolás</button>
-            </div>
-            <p class="text-[10px] text-gray-500 mt-2" data-i18n="sd_partner_disclaimer">A link névtelen — a partnered nem látja a profilod, csak az outfitet értékelheti.</p>
-          </div>
-        </div>
-
-        <!-- Partner feedback received -->
-        <div id="sdPartnerFeedbackList"></div>
       </div>
 
     </div>
@@ -13762,6 +13732,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       sd_grooming_days_before: '{n} days before',
       sd_grooming_day_before: '1 day before',
       sd_grooming_done: 'Done',
+      sd_grooming_past_date: 'Past date',
       sd_grooming_schedule: 'Schedule',
       sd_partner_title: 'Partner Feedback',
       sd_partner_desc: 'Send a link to your partner — ask them to rate your style!',
@@ -16041,6 +16012,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       sd_grooming_days_before: '{n} nappal előtte',
       sd_grooming_day_before: '1 nappal előtte',
       sd_grooming_done: 'Kész',
+      sd_grooming_past_date: 'Múltbeli dátum',
       sd_grooming_schedule: 'Ütemezés',
       sd_partner_title: 'Partner visszajelzés',
       sd_partner_desc: 'Küldj egy linket a partnerednek — kérd meg, értékelje a stílusodat!',
@@ -18321,6 +18293,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       sd_grooming_days_before: '{n} Tage vorher',
       sd_grooming_day_before: '1 Tag vorher',
       sd_grooming_done: 'Erledigt',
+      sd_grooming_past_date: 'Vergangenes Datum',
       sd_grooming_schedule: 'Terminieren',
       sd_partner_title: 'Partner-Feedback',
       sd_partner_desc: 'Sende einen Link an deinen Partner — bitte ihn, deinen Stil zu bewerten!',
@@ -40648,12 +40621,11 @@ applyOfflineState(!navigator.onLine);
         tabs.forEach(function(t) { t.classList.remove('active'); });
         this.classList.add('active');
         document.querySelectorAll('.sd-panel').forEach(function(p) { p.classList.remove('active'); });
-        var panelMap = { reflections: 'sdPanelReflections', insights: 'sdPanelInsights', grooming: 'sdPanelGrooming', partner: 'sdPanelPartner' };
+        var panelMap = { reflections: 'sdPanelReflections', insights: 'sdPanelInsights', grooming: 'sdPanelGrooming' };
         var panel = $(panelMap[target]);
         if (panel) panel.classList.add('active');
         // Re-render on tab switch
         if (target === 'insights') _renderInsights();
-        if (target === 'partner') _renderPartnerPanel();
       });
     });
   }
@@ -40749,10 +40721,11 @@ applyOfflineState(!navigator.onLine);
         scoreHtml = '<div class="sd-dli-score" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.3)">—</div>';
       }
 
+      var displayDate = ref.date ? new Date(ref.date + 'T00:00:00').toLocaleDateString(typeof window.getLang === 'function' ? window.getLang() : 'en', { year: 'numeric', month: 'short', day: 'numeric' }) : ref.date;
       html += '<div class="sd-date-list-item" data-ref-id="' + ref.id + '">' +
         scoreHtml +
         '<div class="sd-dli-info">' +
-          '<div class="sd-dli-date">' + ref.date + ' <span class="sd-badge ' + badgeClass + '">' + _t('sd_event_' + ref.eventType) + '</span></div>' +
+          '<div class="sd-dli-date">' + displayDate + ' <span class="sd-badge ' + badgeClass + '">' + _t('sd_event_' + ref.eventType) + '</span></div>' +
           '<div class="sd-dli-detail">' + ref.outfitName + '</div>' +
           (ref.notes ? '<div class="sd-dli-detail" style="color:rgba(255,255,255,0.3);margin-top:4px;font-style:italic">"' + _escHtml(ref.notes.substring(0, 80)) + '"</div>' : '') +
         '</div>' +
@@ -40896,7 +40869,7 @@ applyOfflineState(!navigator.onLine);
     var daysUntil = Math.ceil((target - now) / (1000 * 60 * 60 * 24));
 
     if (daysUntil < 0) {
-      container.innerHTML = '<div class="sd-empty-state"><div class="sd-empty-icon">⚠️</div><div class="sd-empty-title">Past date</div></div>';
+      container.innerHTML = '<div class="sd-empty-state"><div class="sd-empty-icon">⚠️</div><div class="sd-empty-title">' + _t('sd_grooming_past_date') + '</div></div>';
       return;
     }
 
@@ -40913,7 +40886,7 @@ applyOfflineState(!navigator.onLine);
     tasks.forEach(function(task) {
       var scheduledDate = new Date(target);
       scheduledDate.setDate(scheduledDate.getDate() - task.daysBefore);
-      var dateStr = scheduledDate.toISOString().split('T')[0];
+      var dateStr = scheduledDate.toLocaleDateString(typeof window.getLang === 'function' ? window.getLang() : 'en', { year: 'numeric', month: 'short', day: 'numeric' });
       var taskKey = nextDate + '_' + task.key;
       var isDone = grooming[taskKey] === true;
       var daysLabel = task.daysBefore === 1 ? _t('sd_grooming_day_before') : _t('sd_grooming_days_before').replace('{n}', task.daysBefore);
