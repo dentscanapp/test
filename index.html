@@ -3236,7 +3236,8 @@ if (window.__DS_IS_ANDROID_APP) {
   body:has(#dateOutfitModal:not(.hidden)) #mobileBottomNav,
   body:has(#weeklyPlannerModal:not(.hidden)) #mobileBottomNav,
   body:has(#styleProfileModal:not(.hidden)) #mobileBottomNav,
-  body:has(#trendRadarModal:not(.hidden)) #mobileBottomNav {
+  body:has(#trendRadarModal:not(.hidden)) #mobileBottomNav,
+  body:has(#ocalDayModal:not(.hidden)) #mobileBottomNav {
     display: none !important;
   }
   /* Hide header (PNT / PRO / lang icons) when modals are open so
@@ -4275,12 +4276,12 @@ if (window.__DS_IS_ANDROID_APP) {
   #viewShopping .siq-cpw-counter button{width:32px;height:32px;border-radius:10px;font-size:16px;font-weight:700;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:.15s;cursor:pointer;color:#fff}
   #viewShopping .siq-cpw-counter button:hover{background:rgba(236,72,153,0.15);border-color:rgba(236,72,153,0.3)}
   #viewShopping .siq-cpw-counter .count{font-size:18px;font-weight:800;min-width:32px;text-align:center}
-  #viewShopping .siq-score-ring{position:relative;width:100px;height:100px;margin:0 auto 12px}
+  #viewShopping .siq-score-ring{position:relative;width:140px;height:140px;margin:0 auto 12px}
   #viewShopping .siq-score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
   #viewShopping .siq-score-ring .bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:8}
   #viewShopping .siq-score-ring .fg{fill:none;stroke:url(#siqScoreGrad);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
-  #viewShopping .siq-score-ring .score-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;font-weight:800}
-  #viewShopping .siq-score-ring .score-lbl{font-size:8px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+  #viewShopping .siq-score-ring .score-val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:36px;font-weight:800}
+  #viewShopping .siq-score-ring .score-lbl{font-size:7px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;max-width:80px;text-align:center;line-height:1.3}
   #viewShopping .siq-tip{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:12px;padding:12px 14px;margin-bottom:8px;font-size:12px;color:rgba(167,243,208,0.9);line-height:1.5}
   #viewShopping .siq-warning{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:12px;color:#fcd34d;display:flex;align-items:flex-start;gap:8px;line-height:1.4}
   #viewShopping .siq-replace-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px;margin-bottom:10px}
@@ -4387,6 +4388,7 @@ if (window.__DS_IS_ANDROID_APP) {
   #alteregoCreateModal input[type="text"]:focus{border-color:rgba(236,72,153,0.5)}
   #alteregoCreateModal input[type="text"]::placeholder{color:rgba(255,255,255,0.25)}
   /* Celebration overlay */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
   #alteregoCelebrate{display:none;position:fixed;inset:0;z-index:116;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;text-align:center;padding:32px}
   #alteregoCelebrate.show{display:flex}
   /* How-it-works */
@@ -4397,6 +4399,91 @@ if (window.__DS_IS_ANDROID_APP) {
   #viewAlterego .al-how-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:1.25rem}
   #viewAlterego .al-how-title{font-size:11px;font-weight:700;color:#fff;margin-bottom:4px}
   #viewAlterego .al-how-desc{font-size:10px;color:#9ca3af;line-height:1.5}
+
+  /* ===== Outfit Calendar / Planner ===== */
+  .ocal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+  .ocal-title{font-size:1rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+  .ocal-nav-group{display:flex;align-items:center;gap:6px}
+  .ocal-today-btn{font-size:10px;font-weight:700;padding:5px 12px;border-radius:8px;background:rgba(236,72,153,0.15);border:1px solid rgba(236,72,153,0.3);color:#f472b6;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.05em}
+  .ocal-today-btn:hover{background:rgba(236,72,153,0.25)}
+  .ocal-month-label{font-size:12px;font-weight:700;color:#fff;min-width:110px;text-align:center;text-transform:uppercase;letter-spacing:.05em}
+  .ocal-nav-btn{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#d1d5db;font-size:16px;font-weight:700;cursor:pointer;transition:all .15s}
+  .ocal-nav-btn:hover{background:rgba(236,72,153,0.15);border-color:rgba(236,72,153,0.3);color:#f472b6}
+  .ocal-nav-btn:active{transform:scale(.95)}
+
+  .ocal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
+  .ocal-weekday{text-align:center;font-size:9px;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.1em;padding:6px 0}
+
+  .ocal-date-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+  .ocal-day{position:relative;aspect-ratio:1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;border:1px solid transparent;background:rgba(255,255,255,0.02);gap:2px;overflow:hidden}
+  .ocal-day:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1)}
+  .ocal-day--empty{cursor:default;opacity:.3;pointer-events:none}
+  .ocal-day--today{border-color:rgba(236,72,153,0.4);background:rgba(236,72,153,0.08)}
+  .ocal-day--today:hover{background:rgba(236,72,153,0.15)}
+  .ocal-day--selected{border-color:rgba(236,72,153,0.7)!important;background:rgba(236,72,153,0.18)!important;box-shadow:0 0 12px rgba(236,72,153,0.2)}
+  .ocal-day--has-plan{border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.06)}
+  .ocal-day--has-outfit{border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.06)}
+  .ocal-day--repeat-warn{border-color:rgba(245,158,11,0.4)!important;background:rgba(245,158,11,0.08)!important}
+
+  .ocal-day-num{font-size:11px;font-weight:700;color:#fff;line-height:1}
+  .ocal-day--empty .ocal-day-num{color:rgba(255,255,255,0.15)}
+  .ocal-day-weather{font-size:8px;color:rgba(147,197,253,0.8);line-height:1}
+  .ocal-day-dots{display:flex;gap:2px;position:absolute;bottom:4px}
+  .ocal-dot{width:4px;height:4px;border-radius:50%}
+  .ocal-dot--plan{background:#34d399}
+  .ocal-dot--outfit{background:#a855f7}
+  .ocal-dot--warn{background:#fbbf24}
+  .ocal-dot--date{background:#ec4899}
+
+  /* Day detail modal */
+  #ocalDayModal .ocal-modal{background:#0c0c10;border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:480px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column}
+  #ocalDayModal .ocal-modal-head{padding:20px 20px 12px;position:relative;border-bottom:1px solid rgba(255,255,255,0.06)}
+  #ocalDayModal .ocal-modal-body{padding:16px 20px 20px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .ocal-event-type-btn{padding:8px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#9ca3af;flex:1;justify-content:center}
+  .ocal-event-type-btn:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.15)}
+  .ocal-event-type-btn.sel{border-color:rgba(236,72,153,0.5);background:rgba(236,72,153,0.15);color:#f472b6}
+  .ocal-event-type-btn[data-type="date"] .ocal-evt-icon{color:#ec4899}
+  .ocal-event-type-btn[data-type="business"] .ocal-evt-icon{color:#3b82f6}
+  .ocal-event-type-btn[data-type="casual"] .ocal-evt-icon{color:#34d399}
+  .ocal-event-type-btn[data-type="party"] .ocal-evt-icon{color:#a855f7}
+  .ocal-event-type-btn[data-type="workout"] .ocal-evt-icon{color:#f97316}
+
+  .ocal-outfit-pick{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:all .15s}
+  .ocal-outfit-pick:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.12)}
+  .ocal-outfit-pick.sel{border-color:rgba(236,72,153,0.5);background:rgba(236,72,153,0.1)}
+  .ocal-outfit-pick img{width:48px;height:48px;border-radius:10px;object-fit:cover}
+  .ocal-outfit-pick .info{flex:1;min-width:0}
+  .ocal-outfit-pick .name{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ocal-outfit-pick .meta{font-size:10px;color:#9ca3af;margin-top:2px}
+
+  .ocal-weather-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.15);font-size:12px;color:#93c5fd}
+  .ocal-weather-bar .temp{font-size:18px;font-weight:800;color:#fff}
+
+  .ocal-repeat-warn{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);font-size:11px;color:#fcd34d}
+
+  .ocal-upcoming-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);transition:all .15s;cursor:pointer}
+  .ocal-upcoming-item:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.12)}
+  .ocal-upcoming-item .date-col{min-width:44px;text-align:center}
+  .ocal-upcoming-item .date-day{font-size:20px;font-weight:800;color:#fff;line-height:1}
+  .ocal-upcoming-item .date-month{font-size:9px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+  .ocal-upcoming-item .info-col{flex:1;min-width:0}
+  .ocal-upcoming-item .event-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+  .ocal-upcoming-item .event-label{font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ocal-upcoming-item .event-weather{font-size:10px;color:#93c5fd;margin-top:2px}
+  .ocal-upcoming-item .outfit-thumb{width:40px;height:40px;border-radius:10px;object-fit:cover}
+
+  .ocal-tabs{display:flex;gap:4px;margin-bottom:16px}
+  .ocal-tab{flex:1;padding:8px 12px;border-radius:10px;font-size:11px;font-weight:700;text-align:center;cursor:pointer;transition:all .15s;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:#9ca3af}
+  .ocal-tab:hover{background:rgba(255,255,255,0.08)}
+  .ocal-tab.active{background:rgba(236,72,153,0.15);border-color:rgba(236,72,153,0.3);color:#f472b6}
+
+  .ocal-empty-state{text-align:center;padding:32px 16px}
+  .ocal-empty-state .icon{font-size:2rem;margin-bottom:12px;opacity:.5}
+  .ocal-empty-state .msg{font-size:13px;color:#9ca3af;line-height:1.5}
+
+  /* Save to calendar CTA on scan result */
+  .scan-save-calendar-btn{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(16,185,129,0.3);background:rgba(16,185,129,0.08);color:#34d399;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
+  .scan-save-calendar-btn:hover{background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.4)}
 
   /* SIQ Edit Modal — lives outside #viewShopping for z-index reasons */
   #siqEditModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:200;align-items:center;justify-content:center;padding:20px}
@@ -4821,7 +4908,7 @@ if (window.__DS_IS_ANDROID_APP) {
     </button>
     <button id="navAlteregoBtn" class="hidden lg:flex text-xs font-bold px-3 py-2 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors items-center gap-1.5" title="Alteregó Lab">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
-      <span class="hidden sm:inline">Alteregó</span>
+      <span class="hidden sm:inline" data-i18n="al_brand_short">Alteregó</span>
     </button>
     <!-- Points pill (replaces the old "Free Scans Left" badge).
          Populated by updatePointsBadge(). Always visible — shows the
@@ -5713,7 +5800,11 @@ if (window.__DS_IS_ANDROID_APP) {
             </button>
             <button id="closetAlteregoBtn" class="lg:hidden px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-pink-500/20 to-fuchsia-500/20 border border-pink-500/30 text-pink-300 hover:from-pink-500/30 hover:to-fuchsia-500/30 active:scale-[0.98] transition" title="Alteregó Lab" onclick="if(typeof window.toggleView==='function')window.toggleView('alterego')">
                <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
-               <span>Alteregó</span>
+               <span data-i18n="al_brand_short">Alteregó</span>
+            </button>
+            <button id="closetOutfitCalendarBtn" class="px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center flex-1 md:flex-none md:px-4 md:py-2.5 md:rounded-xl md:text-sm bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-300 hover:from-amber-500/30 hover:to-orange-500/30 active:scale-[0.98] transition" title="Outfit Naptár / Tervező" onclick="if(typeof window.toggleView==='function')window.toggleView('outfitcalendar')">
+               <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+               <span data-i18n="nav_calendar">Naptár</span>
             </button>
             <div class="flex gap-1.5 shrink-0 w-full">
                <button id="closetExportBtn" class="flex-1 px-2.5 py-2 rounded-lg text-xs font-bold flex gap-1.5 items-center justify-center md:px-3 md:py-2.5 md:rounded-xl md:text-sm bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98] transition" title="Export closet backup">
@@ -5991,7 +6082,7 @@ if (window.__DS_IS_ANDROID_APP) {
   <!-- ===== SMART SHOPPING LIST MODAL ===== -->
   <div id="smartShopModal" class="hidden fixed inset-0 z-[115] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="z-index:120">
     <div class="premium-glass rounded-3xl border border-amber-500/20 max-w-lg w-full p-6 sm:p-7 relative max-h-[92vh] overflow-y-auto">
-      <button id="smartShopClose" type="button" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 flex items-center justify-center transition" aria-label="Close">
+      <button id="smartShopClose" type="button" onclick="document.getElementById('smartShopModal').classList.add('hidden')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 flex items-center justify-center transition" aria-label="Close">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
       <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500/20 to-orange-500/20 border border-amber-500/30 flex items-center justify-center mb-4 mx-auto">
@@ -7278,9 +7369,14 @@ if (window.__DS_IS_ANDROID_APP) {
   <div id="viewShopping" class="hidden opacity-0 translate-y-8 transition-all duration-500 pb-12 pt-4">
     <div class="max-w-2xl mx-auto w-full">
 
-      <div class="mb-6">
-        <h2 class="font-serif text-3xl md:text-4xl font-medium mb-2 leading-tight bg-gradient-to-r from-[#ec4899] to-[#9333ea] bg-clip-text text-transparent" data-i18n="siq_heading">Shopping IQ</h2>
-        <p class="text-gray-400 text-sm font-medium" data-i18n="siq_subheading">Wardrobe investment tracker.</p>
+      <div class="mb-6" style="display:flex;align-items:flex-start;justify-content:space-between">
+        <div>
+          <h2 class="font-serif text-3xl md:text-4xl font-medium mb-2 leading-tight bg-gradient-to-r from-[#ec4899] to-[#9333ea] bg-clip-text text-transparent" data-i18n="siq_heading">Shopping IQ</h2>
+          <p class="text-gray-400 text-sm font-medium" data-i18n="siq_subheading">Wardrobe investment tracker.</p>
+        </div>
+        <button onclick="if(typeof window.toggleView==='function')window.toggleView('closet')" aria-label="Close" style="flex-shrink:0;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.2s;color:#d1d5db;margin-top:4px" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       <!-- Sub-tabs -->
@@ -7391,6 +7487,121 @@ if (window.__DS_IS_ANDROID_APP) {
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════════════
+       OUTFIT CALENDAR / PLANNER — Outfit Tervező Modul
+       ═══════════════════════════════════════════════════════ -->
+  <div id="viewOutfitCalendar" class="hidden opacity-0 translate-y-8 transition-all duration-500 pb-12 pt-4">
+    <div class="max-w-4xl mx-auto w-full px-2 sm:px-4">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6 px-2">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-brand-500/20 border border-emerald-500/30 flex items-center justify-center">
+            <svg width="20" height="20" fill="none" stroke="#34d399" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+          </div>
+          <div>
+            <h1 class="font-serif text-xl font-semibold text-white">Outfit Calendar<span style="color:#34d399">.</span></h1>
+            <p class="text-[11px] text-gray-400" data-i18n="ocal_subtitle">Tervezd előre, mit veszel fel</p>
+          </div>
+        </div>
+        <button class="w-9 h-9 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 flex items-center justify-center transition" onclick="if(typeof window.toggleView==='function')window.toggleView('closet')" aria-label="Close">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Tabs: Calendar / Upcoming -->
+      <div class="ocal-tabs" id="ocalMainTabs">
+        <button class="ocal-tab active" data-ocal-tab="calendar" onclick="window._ocalSwitchTab('calendar')">
+          <span data-i18n="ocal_tab_calendar">Naptár</span>
+        </button>
+        <button class="ocal-tab" data-ocal-tab="upcoming" onclick="window._ocalSwitchTab('upcoming')">
+          <span data-i18n="ocal_tab_upcoming">Közelgő</span>
+        </button>
+      </div>
+
+      <!-- Calendar Panel -->
+      <div id="ocalPanelCalendar">
+        <!-- Calendar Card -->
+        <div class="premium-glass rounded-[28px] p-4 sm:p-6 relative overflow-hidden mb-6">
+          <div class="glow-orb glow-orb--pink" style="opacity:.4"></div>
+          <div class="glow-orb glow-orb--purple" style="opacity:.3"></div>
+
+          <div class="ocal-header relative z-10">
+            <div class="ocal-title">
+              <svg width="16" height="16" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+              <span data-i18n="ocal_calendar_title">Outfit Naptár</span>
+            </div>
+            <div class="ocal-nav-group">
+              <button class="ocal-today-btn" onclick="typeof window._ocalGoToday==='function'&&window._ocalGoToday()" data-i18n="ocal_today">Ma</button>
+              <button class="ocal-nav-btn" onclick="typeof window._ocalChangeMonth==='function'&&window._ocalChangeMonth(-1)">&#8249;</button>
+              <span class="ocal-month-label" id="ocalMonthLabel"></span>
+              <button class="ocal-nav-btn" onclick="typeof window._ocalChangeMonth==='function'&&window._ocalChangeMonth(1)">&#8250;</button>
+            </div>
+          </div>
+
+          <div class="ocal-weekdays relative z-10" id="ocalWeekdays"></div>
+          <div class="ocal-date-grid relative z-10" id="ocalDateGrid"></div>
+        </div>
+
+        <!-- Quick Tips -->
+        <div class="premium-glass rounded-2xl p-4 mb-6">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-sm">💡</span>
+            <span class="text-xs font-bold text-gray-300" data-i18n="ocal_tips_title">Gyors tippek</span>
+          </div>
+          <div class="space-y-2" id="ocalTipsList">
+            <div class="flex items-start gap-2">
+              <span class="ocal-dot ocal-dot--plan mt-1.5 shrink-0"></span>
+              <span class="text-[11px] text-gray-400" data-i18n="ocal_tip_plan">Zöld pont = tervezett outfit</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="ocal-dot ocal-dot--outfit mt-1.5 shrink-0"></span>
+              <span class="text-[11px] text-gray-400" data-i18n="ocal_tip_outfit">Lila pont = korábbi outfit</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="ocal-dot ocal-dot--warn mt-1.5 shrink-0"></span>
+              <span class="text-[11px] text-gray-400" data-i18n="ocal_tip_repeat">Sárga pont = ismétlődés!</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="ocal-dot ocal-dot--date mt-1.5 shrink-0"></span>
+              <span class="text-[11px] text-gray-400" data-i18n="ocal_tip_date">Rózsaszín pont = randi nap</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Panel -->
+      <div id="ocalPanelUpcoming" class="hidden">
+        <div class="premium-glass rounded-[28px] p-4 sm:p-6 relative overflow-hidden mb-6">
+          <div class="glow-orb glow-orb--pink" style="opacity:.3"></div>
+          <h3 class="font-serif text-lg font-semibold text-white mb-4 relative z-10" data-i18n="ocal_upcoming_title">Közelgő események</h3>
+          <div id="ocalUpcomingList" class="space-y-3 relative z-10"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Outfit Calendar — Day Detail Modal -->
+  <div id="ocalDayModal" class="hidden fixed inset-0 z-[115] bg-black/85 backdrop-blur-md flex items-center justify-center p-4" style="z-index:120">
+    <div class="ocal-modal">
+      <div class="ocal-modal-head">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-serif text-xl font-semibold text-white" id="ocalModalDate"></h3>
+            <p class="text-[11px] text-gray-400 mt-1" id="ocalModalSub"></p>
+          </div>
+          <button id="ocalDayModalClose" type="button" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 flex items-center justify-center transition" aria-label="Close">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="ocal-modal-body" id="ocalModalBody">
+        <!-- Dynamic content rendered by JS -->
+      </div>
+    </div>
+  </div>
+
   <!-- Outfit Duplicate Detector — Confirm Modal (top-level so it works from any view) -->
   <div id="dupCheckModal" class="hidden fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="premium-glass rounded-3xl max-w-md w-full overflow-hidden">
@@ -7440,7 +7651,7 @@ if (window.__DS_IS_ANDROID_APP) {
             <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
           </div>
           <div>
-            <h1 class="al-title">Alteregó Lab<span style="color:#ec4899">.</span></h1>
+            <h1 class="al-title" id="alBrandTitle">Alteregó Lab<span style="color:#ec4899">.</span></h1>
             <p class="al-subtitle" data-i18n="al_subtitle">Alteregó Építő</p>
           </div>
         </div>
@@ -7700,7 +7911,7 @@ if (window.__DS_IS_ANDROID_APP) {
       </svg>
       <span class="text-[10px] font-bold uppercase tracking-widest text-white" data-i18n="nav_story">Story</span>
     </button>
-    <!-- Alteregó removed from mobile nav — accessible from Closet view instead -->
+    <!-- Calendar & Alteregó removed from mobile nav — accessible from Closet view instead -->
   </div>
 </nav>
 
@@ -10610,6 +10821,7 @@ function toggleView(targetView, opts) {
     const viewHistory = $("viewHistory");
     const viewShopping = $("viewShopping");
     const viewAlterego = $("viewAlterego");
+    const viewOutfitCalendar = $("viewOutfitCalendar");
     const navBtn = $("navClosetBtn");
     const storyBtn = $("navStoryModeBtn");
     const aiChatBtn = $("navAiChatBtn");
@@ -10720,6 +10932,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewHistory);
         hideOverlay(viewShopping);
         hideOverlay(viewAlterego);
+        hideOverlay(viewOutfitCalendar);
         showOverlay(viewCloset);
         resetStoryNavBtn();
         resetAiChatNavBtn();
@@ -10751,6 +10964,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewHistory);
         hideOverlay(viewShopping);
         hideOverlay(viewAlterego);
+        hideOverlay(viewOutfitCalendar);
         showOverlay(viewChat);
         resetClosetNavBtn();
         resetStoryNavBtn();
@@ -10770,6 +10984,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewChat);
         hideOverlay(viewShopping);
         hideOverlay(viewAlterego);
+        hideOverlay(viewOutfitCalendar);
         showOverlay(viewHistory);
         resetClosetNavBtn();
         activateStoryNavBtn();
@@ -10792,6 +11007,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewChat);
         hideOverlay(viewHistory);
         hideOverlay(viewAlterego);
+        hideOverlay(viewOutfitCalendar);
         showOverlay(viewShopping);
         resetClosetNavBtn();
         resetStoryNavBtn();
@@ -10813,6 +11029,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewChat);
         hideOverlay(viewHistory);
         hideOverlay(viewShopping);
+        hideOverlay(viewOutfitCalendar);
         showOverlay(viewAlterego);
         resetClosetNavBtn();
         resetStoryNavBtn();
@@ -10830,6 +11047,31 @@ function toggleView(targetView, opts) {
             if (_skipPush) history.replaceState({ view: 'alterego' }, '', '#alterego');
             else history.pushState({ view: 'alterego' }, '', '#alterego');
         }
+    } else if (targetView === 'outfitcalendar') {
+        hideScanner();
+        hideOverlay(viewCloset);
+        hideOverlay(viewChat);
+        hideOverlay(viewHistory);
+        hideOverlay(viewShopping);
+        hideOverlay(viewAlterego);
+        hideOverlay(viewOutfitCalendar);
+        showOverlay(viewOutfitCalendar);
+        resetClosetNavBtn();
+        resetStoryNavBtn();
+        resetAiChatNavBtn();
+        resetShoppingNavBtn();
+        resetAlteregoNavBtn();
+        stopCameraIfLeavingScanner();
+
+        // Render outfit calendar
+        if (typeof window._ocalRender === 'function') {
+            window._ocalRender();
+        }
+        store.set({ activeView: 'outfitcalendar' });
+        if (location.hash !== '#calendar') {
+            if (_skipPush) history.replaceState({ view: 'outfitcalendar' }, '', '#calendar');
+            else history.pushState({ view: 'outfitcalendar' }, '', '#calendar');
+        }
     } else {
         // targetView === 'scanner' (or any unrecognized value — default).
         hideOverlay(viewCloset);
@@ -10837,6 +11079,7 @@ function toggleView(targetView, opts) {
         hideOverlay(viewHistory);
         hideOverlay(viewShopping);
         hideOverlay(viewAlterego);
+        hideOverlay(viewOutfitCalendar);
         // Scanner comes back in after the overlay fade-down completes
         // so the two transitions don't visually fight.
         setTimeout(showScanner, 300);
@@ -10981,7 +11224,7 @@ window.unlockBodyScroll = unlockBodyScroll;
 window.addEventListener('popstate', function(e) {
   try {
     var hash = location.hash.replace('#', '');
-    var viewMap = { closet: 'closet', chat: 'chat', story: 'history', shopping: 'shopping', alterego: 'alterego' };
+    var viewMap = { closet: 'closet', chat: 'chat', story: 'history', shopping: 'shopping', alterego: 'alterego', calendar: 'outfitcalendar' };
     var targetView = viewMap[hash] || 'scanner';
     var currentView = store.get().activeView;
     // Only switch if the view actually changed (avoid redundant transitions)
@@ -13105,6 +13348,59 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
 
       // ── Shopping IQ Module ──
       nav_shopping: 'Shop IQ',
+      nav_calendar: 'Plan',
+      ocal_subtitle: 'Plan ahead what to wear',
+      ocal_tab_calendar: 'Calendar',
+      ocal_tab_upcoming: 'Upcoming',
+      ocal_calendar_title: 'Outfit Calendar',
+      ocal_today: 'Today',
+      ocal_tips_title: 'Quick tips',
+      ocal_tip_plan: 'Green dot = planned outfit',
+      ocal_tip_outfit: 'Purple dot = past outfit',
+      ocal_tip_repeat: 'Yellow dot = repeat!',
+      ocal_tip_date: 'Pink dot = date day',
+      ocal_upcoming_title: 'Upcoming Events',
+      ocal_empty_upcoming: 'No upcoming events planned yet. Tap a day on the calendar to plan your outfit!',
+      ocal_modal_event: 'Event Type',
+      ocal_modal_event_date: 'Date Night',
+      ocal_modal_event_business: 'Business',
+      ocal_modal_event_casual: 'Casual',
+      ocal_modal_event_party: 'Party',
+      ocal_modal_event_workout: 'Workout',
+      ocal_modal_label: 'Label (optional)',
+      ocal_modal_label_placeholder: 'e.g. Dinner with Alex',
+      ocal_modal_pick_outfit: 'Pick an Outfit from Closet',
+      ocal_modal_no_outfits: 'No outfits in your closet yet. Scan or upload outfits first!',
+      ocal_modal_save: 'Save Plan',
+      ocal_modal_delete: 'Remove Plan',
+      ocal_modal_weather: 'Weather Forecast',
+      ocal_modal_no_weather: 'Weather data not available',
+      ocal_modal_repeat_warn: 'You wore this outfit recently!',
+      ocal_modal_repeat_days: 'days ago',
+      ocal_score: 'Score',
+      ocal_no_plan: 'No outfit planned for this day',
+      ocal_add_plan: 'Plan an Outfit',
+      ocal_weekday_mon: 'Mon',
+      ocal_weekday_tue: 'Tue',
+      ocal_weekday_wed: 'Wed',
+      ocal_weekday_thu: 'Thu',
+      ocal_weekday_fri: 'Fri',
+      ocal_weekday_sat: 'Sat',
+      ocal_weekday_sun: 'Sun',
+      ocal_month_1: 'Jan', ocal_month_2: 'Feb', ocal_month_3: 'Mar', ocal_month_4: 'Apr',
+      ocal_month_5: 'May', ocal_month_6: 'Jun', ocal_month_7: 'Jul', ocal_month_8: 'Aug',
+      ocal_month_9: 'Sep', ocal_month_10: 'Oct', ocal_month_11: 'Nov', ocal_month_12: 'Dec',
+      ocal_weather_cold: 'Cold', ocal_weather_warm: 'Warm', ocal_weather_hot: 'Hot',
+      ocal_weather_rain: 'Rain expected', ocal_weather_perfect: 'Perfect',
+      ocal_save_to_calendar: 'Add to Calendar',
+      ocal_saved_to_calendar: 'Added to Calendar!',
+      ocal_select_date: 'Select a date',
+      ocal_tomorrow: 'Tomorrow',
+      ocal_in_days: 'in {n} days',
+      ocal_outfit_color: 'Color',
+      ocal_plan_saved: 'Plan saved!',
+      ocal_plan_deleted: 'Plan removed!',
+      ocal_from_closet: 'From Closet',
       siq_heading: 'Shopping IQ',
       siq_subheading: 'Wardrobe investment tracker.',
       siq_tab_log: 'Log',
@@ -13187,6 +13483,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       siq_ph_price: '29',
       siq_ph_budget: '200',
       // Alteregó Lab
+      al_brand: 'Alter Ego Lab',
+      al_brand_short: 'Alter Ego',
+      al_scan_need_items: 'Add at least 3 items to your closet before running an analysis.',
+      al_scan_need_items_btn: 'Add items first →',
       al_subtitle: 'Alter Ego Builder',
       al_hero_h2: 'Build your <em>style alter egos</em>',
       al_hero_p: 'A different persona for every occasion. Create alter egos for your wardrobe, level them up with scans, and earn XP for your style awareness!',
@@ -15277,6 +15577,54 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
 
       // ── Shopping IQ Module ──
       nav_shopping: 'Shop IQ',
+      nav_calendar: 'Terv',
+      ocal_subtitle: 'Tervezd előre, mit veszel fel',
+      ocal_tab_calendar: 'Naptár',
+      ocal_tab_upcoming: 'Közelgő',
+      ocal_calendar_title: 'Outfit Naptár',
+      ocal_today: 'Ma',
+      ocal_tips_title: 'Gyors tippek',
+      ocal_tip_plan: 'Zöld pont = tervezett outfit',
+      ocal_tip_outfit: 'Lila pont = korábbi outfit',
+      ocal_tip_repeat: 'Sárga pont = ismétlődés!',
+      ocal_tip_date: 'Rózsaszín pont = randi nap',
+      ocal_upcoming_title: 'Közelgő események',
+      ocal_empty_upcoming: 'Még nincs tervezett esemény. Koppints egy napra a naptárban az outfit tervezéséhez!',
+      ocal_modal_event: 'Esemény típus',
+      ocal_modal_event_date: 'Randi',
+      ocal_modal_event_business: 'Üzleti',
+      ocal_modal_event_casual: 'Casual',
+      ocal_modal_event_party: 'Buli',
+      ocal_modal_event_workout: 'Edzés',
+      ocal_modal_label: 'Címke (opcionális)',
+      ocal_modal_label_placeholder: 'pl. Vacsora Alexszel',
+      ocal_modal_pick_outfit: 'Válassz outfitet a szekrényből',
+      ocal_modal_no_outfits: 'Még nincs outfit a szekrényben. Scannelj vagy tölts fel először!',
+      ocal_modal_save: 'Terv mentése',
+      ocal_modal_delete: 'Terv törlése',
+      ocal_modal_weather: 'Időjárás előrejelzés',
+      ocal_modal_no_weather: 'Időjárás adat nem elérhető',
+      ocal_modal_repeat_warn: 'Ezt az outfitet mostanában hordtad!',
+      ocal_modal_repeat_days: 'napja',
+      ocal_score: 'Pontszám',
+      ocal_no_plan: 'Nincs tervezett outfit erre a napra',
+      ocal_add_plan: 'Outfit tervezése',
+      ocal_weekday_mon: 'Hé', ocal_weekday_tue: 'Ke', ocal_weekday_wed: 'Sze',
+      ocal_weekday_thu: 'Csü', ocal_weekday_fri: 'Pé', ocal_weekday_sat: 'Szo', ocal_weekday_sun: 'Vas',
+      ocal_month_1: 'Jan', ocal_month_2: 'Feb', ocal_month_3: 'Már', ocal_month_4: 'Ápr',
+      ocal_month_5: 'Máj', ocal_month_6: 'Jún', ocal_month_7: 'Júl', ocal_month_8: 'Aug',
+      ocal_month_9: 'Sze', ocal_month_10: 'Okt', ocal_month_11: 'Nov', ocal_month_12: 'Dec',
+      ocal_weather_cold: 'Hideg', ocal_weather_warm: 'Meleg', ocal_weather_hot: 'Hőség',
+      ocal_weather_rain: 'Eső várható', ocal_weather_perfect: 'Tökéletes',
+      ocal_save_to_calendar: 'Hozzáadás a naptárhoz',
+      ocal_saved_to_calendar: 'Hozzáadva a naptárhoz!',
+      ocal_select_date: 'Válassz dátumot',
+      ocal_tomorrow: 'Holnap',
+      ocal_in_days: '{n} nap múlva',
+      ocal_outfit_color: 'Szín',
+      ocal_plan_saved: 'Terv elmentve!',
+      ocal_plan_deleted: 'Terv törölve!',
+      ocal_from_closet: 'A szekrényből',
       siq_heading: 'Shopping IQ',
       siq_subheading: 'Gardróbbefektetés-követő.',
       siq_tab_log: 'Napló',
@@ -15360,6 +15708,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       siq_ph_budget: '50000',
 
       // Alteregó Lab
+      al_brand: 'Alteregó Lab',
+      al_brand_short: 'Alteregó',
+      al_scan_need_items: 'Adj hozzá legalább 3 ruhadarabot a szekrényedhez az elemzés előtt.',
+      al_scan_need_items_btn: 'Ruhadarabok hozzáadása →',
       al_subtitle: 'Alteregó Építő',
       al_hero_h2: 'Építsd a <em>stílusalteregóidat</em>',
       al_hero_p: 'Minden alkalomhoz más személyiség. Hozz létre alteregókat a ruhatáradhoz, fejleszd őket scannel, és érdemelj XP-t a stílustudatodért!',
@@ -17450,6 +17802,54 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
 
       // ── Shopping IQ Module ──
       nav_shopping: 'Shop IQ',
+      nav_calendar: 'Plan',
+      ocal_subtitle: 'Plane im Voraus, was du trägst',
+      ocal_tab_calendar: 'Kalender',
+      ocal_tab_upcoming: 'Demnächst',
+      ocal_calendar_title: 'Outfit-Kalender',
+      ocal_today: 'Heute',
+      ocal_tips_title: 'Schnelltipps',
+      ocal_tip_plan: 'Grüner Punkt = geplantes Outfit',
+      ocal_tip_outfit: 'Lila Punkt = vergangenes Outfit',
+      ocal_tip_repeat: 'Gelber Punkt = Wiederholung!',
+      ocal_tip_date: 'Pink Punkt = Date-Tag',
+      ocal_upcoming_title: 'Demnächste Events',
+      ocal_empty_upcoming: 'Noch keine Events geplant. Tippe auf einen Tag im Kalender um dein Outfit zu planen!',
+      ocal_modal_event: 'Event-Typ',
+      ocal_modal_event_date: 'Date-Night',
+      ocal_modal_event_business: 'Business',
+      ocal_modal_event_casual: 'Casual',
+      ocal_modal_event_party: 'Party',
+      ocal_modal_event_workout: 'Workout',
+      ocal_modal_label: 'Label (optional)',
+      ocal_modal_label_placeholder: 'z.B. Abendessen mit Alex',
+      ocal_modal_pick_outfit: 'Outfit aus dem Kleiderschrank wählen',
+      ocal_modal_no_outfits: 'Noch keine Outfits im Kleiderschrank. Scanne oder lade zuerst welche hoch!',
+      ocal_modal_save: 'Plan speichern',
+      ocal_modal_delete: 'Plan entfernen',
+      ocal_modal_weather: 'Wettervorhersage',
+      ocal_modal_no_weather: 'Wetterdaten nicht verfügbar',
+      ocal_modal_repeat_warn: 'Du hast dieses Outfit kürzlich getragen!',
+      ocal_modal_repeat_days: 'Tage her',
+      ocal_score: 'Punktzahl',
+      ocal_no_plan: 'Kein Outfit für diesen Tag geplant',
+      ocal_add_plan: 'Outfit planen',
+      ocal_weekday_mon: 'Mo', ocal_weekday_tue: 'Di', ocal_weekday_wed: 'Mi',
+      ocal_weekday_thu: 'Do', ocal_weekday_fri: 'Fr', ocal_weekday_sat: 'Sa', ocal_weekday_sun: 'So',
+      ocal_month_1: 'Jan', ocal_month_2: 'Feb', ocal_month_3: 'Mär', ocal_month_4: 'Apr',
+      ocal_month_5: 'Mai', ocal_month_6: 'Jun', ocal_month_7: 'Jul', ocal_month_8: 'Aug',
+      ocal_month_9: 'Sep', ocal_month_10: 'Okt', ocal_month_11: 'Nov', ocal_month_12: 'Dez',
+      ocal_weather_cold: 'Kalt', ocal_weather_warm: 'Warm', ocal_weather_hot: 'Heiß',
+      ocal_weather_rain: 'Regen erwartet', ocal_weather_perfect: 'Perfekt',
+      ocal_save_to_calendar: 'Zum Kalender hinzufügen',
+      ocal_saved_to_calendar: 'Zum Kalender hinzugefügt!',
+      ocal_select_date: 'Datum wählen',
+      ocal_tomorrow: 'Morgen',
+      ocal_in_days: 'in {n} Tagen',
+      ocal_outfit_color: 'Farbe',
+      ocal_plan_saved: 'Plan gespeichert!',
+      ocal_plan_deleted: 'Plan entfernt!',
+      ocal_from_closet: 'Aus dem Kleiderschrank',
       siq_heading: 'Shopping IQ',
       siq_subheading: 'Garderoben-Investitions-Tracker.',
       siq_tab_log: 'Protokoll',
@@ -17533,6 +17933,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       siq_ph_budget: '200',
 
       // Alteregó Lab
+      al_brand: 'Alter Ego Lab',
+      al_brand_short: 'Alter Ego',
+      al_scan_need_items: 'Füge mindestens 3 Kleidungsstücke hinzu, bevor du eine Analyse startest.',
+      al_scan_need_items_btn: 'Kleidung hinzufügen →',
       al_subtitle: 'Alter Ego Baukasten',
       al_hero_h2: 'Baue deine <em>Stil-Alter-Egos</em>',
       al_hero_p: 'Für jeden Anlass eine andere Persönlichkeit. Erstelle Alter Egos für deine Garderobe, entwickle sie mit Scans weiter und verdiene XP für dein Stilbewusstsein!',
@@ -19800,6 +20204,24 @@ window.saveCurrentOutfit = function() {
             btn.innerHTML = `<span>✓ ${t('closet_saved_to_closet')}</span>`;
             btn.classList.remove("bg-white/5", "border-white/20", "text-white");
             btn.classList.add("bg-emerald-500/10", "border-emerald-500/40", "text-emerald-400");
+
+            // ── Add "Save to Calendar" button after successful save ──
+            try {
+              var calBtn = document.getElementById('saveOutfitCalendarBtn');
+              if (calBtn) calBtn.remove(); // remove old if exists
+              calBtn = document.createElement('button');
+              calBtn.id = 'saveOutfitCalendarBtn';
+              calBtn.className = 'scan-save-calendar-btn';
+              calBtn.innerHTML = '📅 ' + (typeof t === 'function' ? t('ocal_save_to_calendar') : 'Add to Calendar');
+              calBtn.onclick = function() {
+                if (typeof window._ocalSaveFromScan === 'function') {
+                  window._ocalSaveFromScan(newOutfit.id);
+                }
+                calBtn.innerHTML = '✓ ' + (typeof t === 'function' ? t('ocal_saved_to_calendar') : 'Added to Calendar!');
+                calBtn.style.pointerEvents = 'none';
+              };
+              btn.parentNode.insertBefore(calBtn, btn.nextSibling);
+            } catch(e) {}
 
             if(store.get().activeView === 'closet') renderCloset();
         } catch(e) {
@@ -28795,6 +29217,7 @@ async function runScan() {
     // including thrown exceptions from analyzers.
     endScan();
     showResultsLayout();
+
   }
 }
 
@@ -28869,6 +29292,7 @@ function endScan() {
   }
   setTimeout(clearHUD, 500);
 }
+window.runScan = runScan;
 
 const _recent = {};
 function pickFresh(key, pool, memory = 4) {
@@ -38249,6 +38673,9 @@ applyOfflineState(!navigator.onLine);
 (function() {
   'use strict';
 
+  // Local alias for current language
+  function _lang() { return (typeof window.getLang === 'function') ? window.getLang() : 'en'; }
+
   var STORAGE_KEY = 'datescan.alteregos';
 
   // ─── Data Layer ───
@@ -38345,35 +38772,123 @@ applyOfflineState(!navigator.onLine);
     return a;
   }
 
-  // ─── Run Scan ───
+  // ─── Run Scan — Wardrobe Readiness Analysis ───
+  // Analyzes closet composition for the selected occasion.
+  // No camera needed — scores are based on wardrobe data.
+
+  var OCCASION_NEEDS = {
+    casual:       { must: ['top','bottom','shoes'], bonus: ['accessory'], weight: {top:1,bottom:1,shoes:1,accessory:0.5,outerwear:0.3,dress:0.3} },
+    first_date:   { must: ['top','bottom','shoes'], bonus: ['accessory','outerwear'], weight: {top:1,bottom:1,shoes:1,accessory:1,outerwear:0.7,dress:0.8} },
+    night_out:    { must: ['top','bottom','shoes'], bonus: ['accessory'], weight: {top:1,bottom:1,shoes:1,accessory:0.8,outerwear:0.5,dress:0.7} },
+    fancy:        { must: ['top','bottom','shoes','outerwear'], bonus: ['accessory'], weight: {top:1,bottom:1,shoes:1,accessory:0.8,outerwear:1,dress:1} },
+    professional: { must: ['top','bottom','shoes','outerwear'], bonus: ['accessory'], weight: {top:1,bottom:1,shoes:1,accessory:0.6,outerwear:1,dress:0.5} }
+  };
+
+  function _analyzeColors(items) {
+    var colors = items.map(function(i) { return (i.color || '').toLowerCase().trim(); }).filter(Boolean);
+    if (colors.length === 0) return { score: 30, tip: '' };
+    var unique = [];
+    colors.forEach(function(c) { if (unique.indexOf(c) === -1) unique.push(c); });
+    var variety = Math.min(unique.length / 3, 1);        // 3+ colors = full variety
+    var neutrals = ['fekete','fehér','szürke','bézs','barna','black','white','grey','gray','beige','brown','navy','schwarz','weiß','grau','braun'];
+    var neutralCnt = 0;
+    unique.forEach(function(c) { if (neutrals.indexOf(c) >= 0) neutralCnt++; });
+    var hasNeutralBase = neutralCnt > 0 ? 1 : 0.6;       // neutral base = good
+    var score = Math.round(Math.min(100, 30 + variety * 35 + hasNeutralBase * 20 + Math.min(colors.length, 5) * 3));
+    return { score: score, unique: unique, variety: variety };
+  }
+
+  function _analyzeWardrobe(items, occasion) {
+    var needs = OCCASION_NEEDS[occasion] || OCCASION_NEEDS.casual;
+    var cats = {};
+    items.forEach(function(i) { cats[i.category] = (cats[i.category] || 0) + 1; });
+
+    // Coverage: which required categories are present?
+    var mustHave = needs.must.length;
+    var mustMet = 0;
+    var missing = [];
+    needs.must.forEach(function(c) { if (cats[c]) mustMet++; else missing.push(c); });
+    var coverageScore = Math.round((mustMet / mustHave) * 70);  // max 70 from must-haves
+
+    // Bonus categories
+    var bonusMet = 0;
+    needs.bonus.forEach(function(c) { if (cats[c]) bonusMet++; });
+    coverageScore += Math.round((bonusMet / Math.max(needs.bonus.length, 1)) * 30);
+
+    // Depth: having multiple options per category
+    var depthScore = 0;
+    var totalWeighted = 0;
+    Object.keys(needs.weight).forEach(function(cat) {
+      var w = needs.weight[cat];
+      var cnt = cats[cat] || 0;
+      depthScore += Math.min(cnt / 2, 1) * w;  // 2+ items per cat = full depth for that cat
+      totalWeighted += w;
+    });
+    depthScore = Math.round((depthScore / totalWeighted) * 100);
+
+    return { coverageScore: coverageScore, depthScore: depthScore, missing: missing, cats: cats };
+  }
+
   function runScan(alteregoId, occasion) {
     var list = _load();
     var idx = list.findIndex(function(a) { return a.id === alteregoId; });
     if (idx === -1) return null;
     var a = list[idx];
-
-    var itemCnt = a.items.length;
-    var base = 40 + Math.min(itemCnt * 3, 25);
-    var r = function() { return Math.random() * 20 - 10; };
-    var cs = Math.min(100, Math.max(20, base + r() + (itemCnt >= 5 ? 10 : 0)));
-    var fs = Math.min(100, Math.max(20, base + r() + 5));
-    var gs = Math.min(100, Math.max(20, base + r() + 8));
-    var ov = Math.round((cs + fs + gs) / 3 * 10) / 10;
-
-    var vibes = [t('al_vibe_mysterious'),t('al_vibe_confident'),t('al_vibe_creative'),t('al_vibe_elegant'),t('al_vibe_relaxed'),t('al_vibe_cool'),t('al_vibe_romantic'),t('al_vibe_on_fire')];
-    var vibe = vibes[Math.floor(Math.random() * vibes.length)];
-
-    var fb = '';
     var _oName = a.nameKey ? t(a.nameKey) : a.name;
-    if (ov >= 85) fb = _oName + (currentLang==='de'?' sieht heute fantastisch aus! Farbwelt, Sitz und Präsenz harmonieren.':currentLang==='hu'?' stílusa ma elképesztő! A színvilág, az illeszkedés és a jelenlét mind harmonizál.':'\'s style today is incredible! Color, fit, and presence all harmonize.') + ' ' + (occasion==='first_date'?(currentLang==='de'?'Dieses Date gehört dir!':currentLang==='hu'?'Ez a randi a tiéd!':'This date is yours!'):(currentLang==='de'?'Alle werden es bemerken!':currentLang==='hu'?'Mindenki észre fogja venni!':'Everyone will notice!'));
-    else if (ov >= 70) fb = (currentLang==='de'?'Sehr gute Basis, ':currentLang==='hu'?'Nagyon jó az alap, ':'Great base, ') + _oName + '! ' + (occasion==='first_date'?(currentLang==='de'?'Ein feines Accessoire macht den Date-Look perfekt.':currentLang==='hu'?'Egy finom kiegészítő még tökéletesebbé teszi a randi lookot.':'A subtle accessory will perfect the date look.'):(currentLang==='de'?'Ein kleiner Twist und es wird perfekt.':currentLang==='hu'?'Egy apró csavar és tökéletes leszez.':'One small tweak and it\'s perfect.')) + ' ' + (currentLang==='de'?'Probiere einen kontrastfarbigen Gürtel oder eine Uhr!':currentLang==='hu'?'Próbálj egy kontrasztos színű övet vagy órát!':'Try a contrasting belt or watch!');
-    else if (ov >= 50) fb = (currentLang==='de'?'Die Grundlage ist da, ':currentLang==='hu'?'Az alapok megvannak, ':'The basics are there, ') + _oName + (currentLang==='de'?', aber es gibt Raum für Verbesserungen! ':currentLang==='hu'?', de van hova fejlődni! ':',  but there\'s room to grow! ') + (occasion==='night_out'?(currentLang==='de'?'Für das Ausgehen würde eine mutigere Farbe oder Textur gut stehen.':currentLang==='hu'?'A bulira egy merészebb szín vagy textúra is jól állna.':'For the night out, a bolder color or texture would work well.'):(currentLang==='de'?'Verbesserung der Farbharmonie würde einen großen Unterschied machen.':currentLang==='hu'?'A színharmonia javítása nagyot dobna a összhatáson.':'Improving the color harmony would make a big difference.'));
-    else fb = _oName + (currentLang==='de'?', dieser Look ist noch im Entstehen! Keine Sorge – Stil ist eine Reise. Beginne mit der Abstimmung der Farben und einem gut sitzenden Grundstück!':currentLang==='hu'?', ez a look még formálódik! Ne aggódj – a stílus egy utazás. Kezdd a színek összehangolásával és egy jól ülő alapdarabbal!':',  this look is still taking shape! Don\'t worry – style is a journey. Start with color coordination and a well-fitting basic piece!');
+
+    // ── Analyze ──
+    var colorResult = _analyzeColors(a.items);
+    var wardrobeResult = _analyzeWardrobe(a.items, occasion);
+
+    var cs = colorResult.score;                         // Color Harmony
+    var ws = wardrobeResult.coverageScore;              // Wardrobe Coverage
+    var ds = wardrobeResult.depthScore;                 // Wardrobe Depth
+    var ov = Math.round((cs * 0.3 + ws * 0.45 + ds * 0.25) * 10) / 10;  // Overall
+
+    // ── Vibe label ──
+    var vibes = [t('al_vibe_mysterious'),t('al_vibe_confident'),t('al_vibe_creative'),t('al_vibe_elegant'),t('al_vibe_relaxed'),t('al_vibe_cool'),t('al_vibe_romantic'),t('al_vibe_on_fire')];
+    var vIdx = ov >= 85 ? 7 : ov >= 75 ? 1 : ov >= 60 ? 3 : ov >= 40 ? 4 : 0;
+    var vibe = vibes[vIdx] || vibes[0];
+
+    // ── Feedback — specific, actionable ──
+    var fb = '';
+    var missingLabels = wardrobeResult.missing.map(function(cat) {
+      var c = CLOTHING_CATS.find(function(x) { return x.v === cat; });
+      return c ? t(c.lk) : cat;
+    });
+    var occLabel = t((OCCASIONS.find(function(o) { return o.v === occasion; }) || {}).lk || '') || occasion;
+
+    if (a.items.length === 0) {
+      // Empty closet
+      fb = _lang()==='de' ? _oName + ' hat noch keine Kleidung! Füge Kleidungsstücke zum Schrank hinzu, um eine bessere Bewertung zu bekommen. Beginne mit den Basics: Oberteil, Unterteil und Schuhe.'
+         : _lang()==='hu' ? _oName + ' szekrénye még üres! Adj hozzá ruhadarabokat a jobb eredményhez. Kezdd az alapokkal: felső, alsó és cipő.'
+         : _oName + '\'s closet is empty! Add items to get a better score. Start with the basics: top, bottom, and shoes.';
+    } else if (ov >= 85) {
+      fb = _lang()==='de' ? _oName + ' ist perfekt ausgestattet für «' + occLabel + '»! Die Garderobe hat alles — Farbharmonie, Vielfalt und Tiefe. Bereit für jeden Anlass!'
+         : _lang()==='hu' ? _oName + ' tökéletesen felszerelt a «' + occLabel + '» alkalomra! A szekrény mindent tartalmaz — színharmonia, változatosság és mélység. Bármire kész!'
+         : _oName + ' is perfectly equipped for «' + occLabel + '»! The wardrobe has it all — color harmony, variety, and depth. Ready for anything!';
+    } else if (wardrobeResult.missing.length > 0) {
+      fb = _lang()==='de' ? _oName + ' fehlt noch: ' + missingLabels.join(', ') + ' für «' + occLabel + '». Füge diese Kategorie(n) hinzu, um deine Bewertung deutlich zu verbessern!'
+         : _lang()==='hu' ? _oName + ' szekrényéből hiányzik: ' + missingLabels.join(', ') + ' a «' + occLabel + '» alkalomhoz. Add hozzá ezeket a kategóriákat a nagyobb pontszámért!'
+         : _oName + ' is missing: ' + missingLabels.join(', ') + ' for «' + occLabel + '». Add these categories to boost your score significantly!';
+    } else if (cs < 50) {
+      fb = _lang()==='de' ? 'Die Grundkategorien sind abgedeckt, ' + _oName + '! Tipp: Füge Farbinfos zu deinen Kleidungsstücken hinzu und achte auf eine Basis aus neutralen Farben (schwarz, weiß, grau) mit 1-2 Akzentfarben.'
+         : _lang()==='hu' ? 'Az alapkategóriák megvannak, ' + _oName + '! Tipp: Adj meg színeket a ruhadarabjaidhoz, és építs egy neutrális alapot (fekete, fehér, szürke) 1-2 akcentszínnel.'
+         : 'The basic categories are covered, ' + _oName + '! Tip: Add color info to your items and build a neutral base (black, white, grey) with 1-2 accent colors.';
+    } else if (ds < 60) {
+      fb = _lang()==='de' ? 'Gute Farbauswahl, ' + _oName + '! Für «' + occLabel + '» brauchst du mehr Optionen. Füge pro Kategorie mindestens 2 Teile hinzu, damit du Outfits kombinieren kannst.'
+         : _lang()==='hu' ? 'Jó a színválasztás, ' + _oName + '! A «' + occLabel + '» alkalomhoz több opció kell. Adj hozzá kategóriánként legalább 2 darabot, hogy outfit-öket kombinálhass.'
+         : 'Good color choices, ' + _oName + '! For «' + occLabel + '» you need more options. Add at least 2 items per category so you can mix and match outfits.';
+    } else {
+      fb = _lang()==='de' ? 'Solide Garderobe, ' + _oName + '! Um die 90+ zu erreichen, erweitere mit Accessoires und experimentiere mit kontrastierenden Farben.'
+         : _lang()==='hu' ? 'Stabil szekrény, ' + _oName + '! A 90+ pontszámhoz bővíts kiegészítőkkel és kísérletezz kontrasztos színekkel.'
+         : 'Solid wardrobe, ' + _oName + '! To reach 90+, expand with accessories and experiment with contrasting colors.';
+    }
 
     var xpEarned = Math.round(ov / 5) + 5;
     var scan = {
       id: _uuid(), overallScore: ov,
-      colorScore: Math.round(cs*10)/10, fitScore: Math.round(fs*10)/10, groomingScore: Math.round(gs*10)/10,
+      colorScore: cs, fitScore: ws, groomingScore: ds,
       vibeLabel: vibe, feedback: fb, xpEarned: xpEarned,
       createdAt: new Date().toISOString()
     };
@@ -38381,9 +38896,10 @@ applyOfflineState(!navigator.onLine);
     if (a.scans.length > 20) a.scans = a.scans.slice(0, 20);
 
     // Update XP & level
+    var oldLevel = a.level;
     a.xp += xpEarned;
     while (xpForLevel(a.level + 1) <= a.xp) a.level++;
-    var leveledUp = a.level > list[idx].level;
+    var leveledUp = a.level > oldLevel;
 
     // Streak
     var now = new Date();
@@ -38397,13 +38913,13 @@ applyOfflineState(!navigator.onLine);
     // Check goals
     a.goals.forEach(function(g) {
       if (g.isCompleted) return;
-      if (g.title.indexOf('scan') >= 0 || g.title.indexOf('analízis') >= 0 || g.title.indexOf('Scan') >= 0) {
+      if (g.title.indexOf('scan') >= 0 || g.title.indexOf('anal') >= 0 || g.title.indexOf('Scan') >= 0 || g.title === t('al_goal_1_title')) {
         g.isCompleted = true; g.completedAt = now.toISOString(); a.xp += g.xpReward;
       }
-      if (g.title.indexOf('80%') >= 0 && ov >= 80) {
+      if ((g.title.indexOf('80%') >= 0 || g.title === t('al_goal_3_title')) && ov >= 80) {
         g.isCompleted = true; g.completedAt = now.toISOString(); a.xp += g.xpReward;
       }
-      if (g.title.indexOf('3 ruhadarab') >= 0 && a.items.length >= 3) {
+      if ((g.title.indexOf('3') >= 0 || g.title === t('al_goal_2_title')) && a.items.length >= 3) {
         g.isCompleted = true; g.completedAt = now.toISOString(); a.xp += g.xpReward;
       }
     });
@@ -38516,7 +39032,7 @@ applyOfflineState(!navigator.onLine);
           '<div class="al-stats-row">' +
             '<div class="al-mini-stat"><div class="al-mini-stat-val"><svg width="12" height="12" fill="none" stroke="' + a.color + '" stroke-width="2" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg> ' + a.items.length + '</div><div class="al-mini-stat-lbl">Darab</div></div>' +
             '<div class="al-mini-stat"><div class="al-mini-stat-val"><svg width="12" height="12" fill="none" stroke="' + a.color + '" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> ' + a.scans.length + '</div><div class="al-mini-stat-lbl">Scan</div></div>' +
-            '<div class="al-mini-stat"><div class="al-mini-stat-val" style="color:#fb923c">🔥 ' + a.streak + '</div><div class="al-mini-stat-lbl">Sorozat</div></div>' +
+            '<div class="al-mini-stat"><div class="al-mini-stat-val" style="color:#fb923c">🔥 ' + a.streak + '</div><div class="al-mini-stat-lbl">' + t('al_streak_lbl') + '</div></div>' +
           '</div>' +
         '</div></div>';
     });
@@ -38551,9 +39067,9 @@ applyOfflineState(!navigator.onLine);
       '<div class="al-xp-bar"><div class="al-xp-fill" style="width:' + p.pct + '%;background:linear-gradient(90deg,' + a.color + ',' + a.color + 'aa)"></div></div>' +
       '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:8px">' +
         '<div style="border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);padding:8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums">' + a.scans.length + '</div><div style="font-size:8px;color:#6b7280">Scan</div></div>' +
-        '<div style="border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);padding:8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums">' + avgScore + '</div><div style="font-size:8px;color:#6b7280">Átlag</div></div>' +
-        '<div style="border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);padding:8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums">' + bestScore + '</div><div style="font-size:8px;color:#6b7280">Legjobb</div></div>' +
-        '<div style="border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);padding:8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#fb923c;font-variant-numeric:tabular-nums">' + a.streak + '🔥</div><div style="font-size:8px;color:#6b7280">Sorozat</div></div>' +
+        '<div style="border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);padding:8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums">' + avgScore + '</div><div style="font-size:8px;color:#6b7280">' + t('al_avg') + '</div></div>' +
+        '<div style="border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);padding:8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums">' + bestScore + '</div><div style="font-size:8px;color:#6b7280">' + t('al_best') + '</div></div>' +
+        '<div style="border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);padding:8px;text-align:center"><div style="font-size:14px;font-weight:700;color:#fb923c;font-variant-numeric:tabular-nums">' + a.streak + '🔥</div><div style="font-size:8px;color:#6b7280">' + t('al_streak_lbl') + '</div></div>' +
       '</div>';
 
     _renderTab();
@@ -38566,20 +39082,53 @@ applyOfflineState(!navigator.onLine);
     if (!body) return;
 
     if (_currentTab === 'scan') {
+      // Show last scan result if exists
+      var _lr = window._alLastScanResult || null;
+      var resultHtml = '';
+      if (_lr) {
+        var s = _lr.scan;
+        var _sc = function(v) { return v >= 80 ? '#34d399' : v >= 60 ? '#fbbf24' : '#fb923c'; };
+        resultHtml =
+          '<div style="border-radius:16px;border:1px solid rgba(236,72,153,0.3);background:linear-gradient(135deg,rgba(236,72,153,0.08),rgba(147,51,234,0.08));padding:20px;margin-bottom:20px;animation:fadeIn 0.4s ease">' +
+            '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">' +
+              '<div style="display:flex;align-items:baseline;gap:6px"><span style="font-size:2.5rem;font-weight:800;color:#fff">' + s.overallScore + '</span><span style="font-size:1rem;color:#6b7280">/100</span></div>' +
+              '<div style="text-align:right"><span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(236,72,153,0.15);border:1px solid rgba(236,72,153,0.3);color:#f9a8d4">' + s.vibeLabel + '</span>' +
+              '<div style="font-size:10px;color:#9ca3af;margin-top:4px">+' + _lr.xpEarned + ' XP</div></div>' +
+            '</div>' +
+            '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">' +
+              '<div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:10px;color:#9ca3af">🎨 Color</span><span style="font-size:10px;font-weight:700;color:' + _sc(s.colorScore) + '">' + s.colorScore + '</span></div><div style="height:6px;border-radius:3px;background:rgba(255,255,255,0.06)"><div style="height:100%;border-radius:3px;width:' + s.colorScore + '%;background:' + _sc(s.colorScore) + ';transition:width 0.6s ease"></div></div></div>' +
+              '<div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:10px;color:#9ca3af">👔 Fit</span><span style="font-size:10px;font-weight:700;color:' + _sc(s.fitScore) + '">' + s.fitScore + '</span></div><div style="height:6px;border-radius:3px;background:rgba(255,255,255,0.06)"><div style="height:100%;border-radius:3px;width:' + s.fitScore + '%;background:' + _sc(s.fitScore) + ';transition:width 0.6s ease"></div></div></div>' +
+              '<div><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:10px;color:#9ca3af">✨ Grooming</span><span style="font-size:10px;font-weight:700;color:' + _sc(s.groomingScore) + '">' + s.groomingScore + '</span></div><div style="height:6px;border-radius:3px;background:rgba(255,255,255,0.06)"><div style="height:100%;border-radius:3px;width:' + s.groomingScore + '%;background:' + _sc(s.groomingScore) + ';transition:width 0.6s ease"></div></div></div>' +
+            '</div>' +
+            '<div style="border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);padding:14px;font-size:12px;line-height:1.6;color:#d1d5db">' + s.feedback + '</div>' +
+          '</div>';
+        window._alLastScanResult = null;  // clear after showing
+      }
+
       var occHtml = OCCASIONS.map(function(o) {
         return '<button onclick="window._alScanOcc=\'' + o.v + '\';document.querySelectorAll(\'.al-occ-btn\').forEach(function(b){b.style.background=\'rgba(255,255,255,0.04)\';b.style.borderColor=\'rgba(255,255,255,0.05)\';b.style.color=\'#9ca3af\'});this.style.background=\'rgba(236,72,153,0.2)\';this.style.borderColor=\'rgba(236,72,153,0.4)\';this.style.color=\'#f9a8d4\'" class="al-occ-btn" style="display:inline-flex;align-items:center;gap:6px;border-radius:12px;padding:8px 12px;font-size:11px;font-weight:700;border:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.04);color:#9ca3af;cursor:pointer;transition:all 0.2s' + (o.v === (window._alScanOcc || 'casual') ? ';background:rgba(236,72,153,0.2);border-color:rgba(236,72,153,0.4);color:#f9a8d4' : '') + '">' + o.e + ' ' + t(o.lk) + '</button>';
       }).join(' ');
 
-      body.innerHTML =
+      body.innerHTML = resultHtml +
         '<div style="margin-bottom:16px"><p style="font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">' + t('al_occasion_label') + '</p>' +
         '<div style="display:flex;flex-wrap:wrap;gap:8px">' + occHtml + '</div></div>' +
-        '<button onclick="window._alRunScan(\'' + a.id + '\')" style="width:100%;height:52px;border-radius:16px;border:none;background:linear-gradient(90deg,#ec4899,#9333ea);color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(236,72,153,0.3);display:flex;align-items:center;justify-content:center;gap:8px">' + t('al_scan_btn') + '</button>' +
+        (a.items.length >= 3 ?
+          '<button onclick="window._alRunScan(\'' + a.id + '\')" style="width:100%;height:52px;border-radius:16px;border:none;background:linear-gradient(90deg,#ec4899,#9333ea);color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(236,72,153,0.3);display:flex;align-items:center;justify-content:center;gap:8px">' + t('al_scan_btn') + '</button>'
+        :
+          '<div style="text-align:center;padding:24px 16px;border-radius:16px;background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.1)">' +
+            '<p style="font-size:28px;margin-bottom:8px">📦</p>' +
+            '<p style="font-size:13px;color:#9ca3af;line-height:1.5;margin-bottom:12px">' + t('al_scan_need_items') + '</p>' +
+            '<div style="width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,0.06);margin-bottom:8px"><div style="height:100%;border-radius:3px;width:' + Math.round(a.items.length/3*100) + '%;background:linear-gradient(90deg,#ec4899,#9333ea);transition:width 0.4s"></div></div>' +
+            '<p style="font-size:11px;color:#6b7280;margin-bottom:12px">' + a.items.length + ' / 3 ' + t('al_stat_items') + '</p>' +
+            '<button onclick="window._alSwitchTab(\'' + a.id + '\',\'closet\')" style="padding:10px 24px;border-radius:12px;border:1px solid rgba(236,72,153,0.3);background:rgba(236,72,153,0.1);color:#f9a8d4;font-size:12px;font-weight:600;cursor:pointer">' + t('al_scan_need_items_btn') + '</button>' +
+          '</div>'
+        ) +
         (a.scans.length > 0 ?
           '<div style="margin-top:16px"><p style="font-size:10px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">' + t('al_scan_history') + '</p>' +
           a.scans.slice(0, 5).map(function(s) {
             return '<div style="display:flex;align-items:center;gap:12px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);padding:10px;margin-bottom:6px">' +
               '<div style="font-size:18px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums">' + s.overallScore + '</div>' +
-              '<div style="flex:1;min-width:0"><p style="font-size:11px;color:#e5e7eb;font-weight:500">' + (s.vibeLabel || '') + '</p><p style="font-size:9px;color:#6b7280">' + new Date(s.createdAt).toLocaleDateString('hu-HU') + '</p></div>' +
+              '<div style="flex:1;min-width:0"><p style="font-size:11px;color:#e5e7eb;font-weight:500">' + (s.vibeLabel || '') + '</p><p style="font-size:9px;color:#6b7280">' + new Date(s.createdAt).toLocaleDateString(window.LOCALE_MAP && window.LOCALE_MAP[_lang()] || 'hu-HU') + '</p></div>' +
               '<span style="font-size:9px;padding:3px 8px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);color:#9ca3af">+' + s.xpEarned + ' XP</span></div>';
           }).join('') + '</div>'
         : '');
@@ -38766,13 +39315,23 @@ applyOfflineState(!navigator.onLine);
   };
 
   window._alRunScan = function(id) {
-    var result = runScan(id, window._alScanOcc || 'casual');
-    if (!result) return;
+    try {
+      console.log('[Alteregó] runScan called for:', id);
+      var occasion = window._alScanOcc || 'casual';
+      var result = runScan(id, occasion);
+      console.log('[Alteregó] runScan result:', result);
+      if (!result) { console.warn('[Alteregó] runScan returned null'); return; }
 
-    // Re-render detail
-    renderDetail(id);
+      // Show result inline
+      window._alLastScanResult = result;
+      _currentTab = 'scan';
+      renderDetail(id);
 
-    // Show celebration if leveled up
+      // Scroll modal body to top so user sees result
+      var mb = document.getElementById('alDetailBody');
+      if (mb) mb.scrollTop = 0;
+
+    // Celebration if leveled up
     if (result.leveledUp) {
       var list = _load();
       var a = list.find(function(x) { return x.id === id; });
@@ -38788,6 +39347,17 @@ applyOfflineState(!navigator.onLine);
         cel.classList.add('show');
       }
     }
+    } catch(err) {
+      console.error('[Alteregó] _alRunScan error:', err);
+      // error logged to console
+    }
+  };
+
+  window._alSwitchTab = function(id, tab) {
+    _currentTab = tab;
+    var tabs = document.querySelectorAll('#alDetailTabs .al-tab');
+    tabs.forEach(function(el) { el.classList.toggle('active', el.getAttribute('data-tab') === tab); });
+    _renderTab();
   };
 
   window._alAddItem = function(id) {
@@ -38941,10 +39511,568 @@ applyOfflineState(!navigator.onLine);
 
   // Re-render on language change
   window.addEventListener('langchange', function() {
-    try { renderGrid(); } catch(e) {}
+    try {
+      renderGrid();
+      var bt = document.getElementById('alBrandTitle');
+      if (bt) bt.innerHTML = t('al_brand') + '<span style="color:#ec4899">.</span>';
+    } catch(e) {}
   });
 
   _dsLog && _dsLog('[Alteregó Lab] Module loaded');
+})();
+</script>
+<script>
+// ============================================================
+// OUTFIT CALENDAR / PLANNER MODULE
+// ============================================================
+(function() {
+  'use strict';
+  var _t = function(k,v) { return typeof window.t === 'function' ? window.t(k,v) : k; };
+  var $ = function(id) { return document.getElementById(id); };
+
+  // ── State ──
+  var _year, _month; // current calendar month
+  var _selectedDate = null; // "YYYY-MM-DD"
+  var _activeTab = 'calendar';
+  var _weatherCache = {}; // dateStr -> { high, low, code, wind, humidity }
+  var _plans = {}; // dateStr -> { eventType, label, outfitId, ts }
+
+  var STORAGE_KEY = 'datescan.outfitCalendar';
+  var WEATHER_CACHE_KEY = 'datescan.ocalWeatherCache';
+
+  var EVENT_ICONS = { date: '🍷', business: '💼', casual: '☕', party: '🎉', workout: '🏃' };
+  var EVENT_COLORS = { date: '#ec4899', business: '#3b82f6', casual: '#34d399', party: '#a855f7', workout: '#f97316' };
+
+  // Weather code → icon (WMO)
+  var WMO_ICONS = { 0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',56:'🌧️',57:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',66:'🌧️',67:'🌧️',71:'🌨️',73:'🌨️',75:'🌨️',77:'🌨️',80:'🌦️',81:'🌦️',82:'🌧️',85:'🌨️',86:'🌨️',95:'⛈️',96:'⛈️',99:'⛈️' };
+
+  // ── Persistence ──
+  function _loadPlans() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) _plans = JSON.parse(raw);
+    } catch(e) { _plans = {}; }
+  }
+  function _savePlans() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(_plans)); } catch(e) {}
+  }
+  function _loadWeatherCache() {
+    try {
+      var raw = localStorage.getItem(WEATHER_CACHE_KEY);
+      if (raw) {
+        var obj = JSON.parse(raw);
+        // Discard cache older than 6 hours
+        var now = Date.now();
+        Object.keys(obj).forEach(function(k) {
+          if (obj[k].ts && (now - obj[k].ts > 6 * 3600000)) delete obj[k];
+        });
+        _weatherCache = obj;
+      }
+    } catch(e) { _weatherCache = {}; }
+  }
+  function _saveWeatherCache() {
+    try { localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify(_weatherCache)); } catch(e) {}
+  }
+
+  // ── Date helpers ──
+  function _dayKey(y, m, d) {
+    return y + '-' + (m + 1) + '-' + d;
+  }
+  function _todayKey() {
+    var d = new Date();
+    return _dayKey(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+  function _isToday(y, m, d) {
+    var t = new Date();
+    return y === t.getFullYear() && m === t.getMonth() && d === t.getDate();
+  }
+  function _isFuture(y, m, d) {
+    var today = new Date(); today.setHours(0,0,0,0);
+    var target = new Date(y, m, d); target.setHours(0,0,0,0);
+    return target >= today;
+  }
+  function _daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
+  function _firstDayOfWeek(y, m) { return new Date(y, m, 1).getDay(); } // 0=Sun
+
+  // ── Weather fetching (open-meteo 7-day) ──
+  function _fetchWeather7d() {
+    var lat = null, lon = null;
+    try {
+      var wd = JSON.parse(localStorage.getItem('datescan.weather') || 'null');
+      if (wd && wd.lat && wd.lon) { lat = wd.lat; lon = wd.lon; }
+    } catch(e) {}
+    // Try navigator.geolocation as fallback
+    if (lat === null && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        _fetchWeather7dByCoords(pos.coords.latitude, pos.coords.longitude);
+      }, function() {}, { timeout: 5000 });
+      return;
+    }
+    if (lat !== null) _fetchWeather7dByCoords(lat, lon);
+  }
+  function _fetchWeather7dByCoords(lat, lon) {
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat.toFixed(2) + '&longitude=' + lon.toFixed(2) + '&daily=temperature_2m_max,temperature_2m_min,weather_code,wind_speed_10m_max&timezone=auto&forecast_days=7';
+    fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+      if (!data || !data.daily) return;
+      var dates = data.daily.time || [];
+      var highs = data.daily.temperature_2m_max || [];
+      var lows = data.daily.temperature_2m_min || [];
+      var codes = data.daily.weather_code || [];
+      var winds = data.daily.wind_speed_10m_max || [];
+      for (var i = 0; i < dates.length; i++) {
+        var parts = dates[i].split('-');
+        var key = parseInt(parts[0]) + '-' + parseInt(parts[1]) + '-' + parseInt(parts[2]);
+        _weatherCache[key] = { high: Math.round(highs[i]), low: Math.round(lows[i]), code: codes[i], wind: Math.round(winds[i]), ts: Date.now() };
+      }
+      _saveWeatherCache();
+      if (_activeTab === 'calendar') _renderCalendar();
+      else _renderUpcoming();
+    }).catch(function() {});
+  }
+
+  // ── Repeat detection ──
+  function _getRecentOutfitIds(dateKey, days) {
+    // Look back N days from dateKey, collect outfit IDs worn
+    var ids = [];
+    var parts = dateKey.split('-');
+    var base = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    for (var i = 1; i <= days; i++) {
+      var d = new Date(base); d.setDate(d.getDate() - i);
+      var key = _dayKey(d.getFullYear(), d.getMonth(), d.getDate());
+      if (_plans[key] && _plans[key].outfitId) ids.push(_plans[key].outfitId);
+    }
+    // Also check closet items with lastWorn within the period
+    try {
+      var closet = window.userCloset && window.userCloset.outfits ? window.userCloset.outfits : [];
+      var cutoff = base.getTime() - days * 86400000;
+      closet.forEach(function(item) {
+        if (item.lastWorn && item.lastWorn >= cutoff && item.lastWorn < base.getTime()) {
+          if (ids.indexOf(item.id) === -1) ids.push(item.id);
+        }
+      });
+    } catch(e) {}
+    return ids;
+  }
+
+  // ── Calendar rendering ──
+  function _renderWeekdays() {
+    var el = $('ocalWeekdays');
+    if (!el) return;
+    var days = ['sun','mon','tue','wed','thu','fri','sat'];
+    // Start from Monday (European convention)
+    var ordered = ['mon','tue','wed','thu','fri','sat','sun'];
+    var html = '';
+    ordered.forEach(function(d) {
+      html += '<div class="ocal-weekday">' + _t('ocal_weekday_' + d) + '</div>';
+    });
+    el.innerHTML = html;
+  }
+
+  function _renderCalendar() {
+    if (!_year && _year !== 0) { var now = new Date(); _year = now.getFullYear(); _month = now.getMonth(); }
+
+    // Month label
+    var label = $('ocalMonthLabel');
+    if (label) label.textContent = _t('ocal_month_' + (_month + 1)) + ' ' + _year;
+
+    var grid = $('ocalDateGrid');
+    if (!grid) return;
+
+    var totalDays = _daysInMonth(_year, _month);
+    var firstDay = _firstDayOfWeek(_year, _month);
+    // Convert Sunday=0 to Monday-start: Mon=0, Tue=1...Sun=6
+    var startOffset = (firstDay + 6) % 7;
+
+    var html = '';
+    var todayKey = _todayKey();
+
+    // Previous month padding
+    var prevMonth = _month === 0 ? 11 : _month - 1;
+    var prevYear = _month === 0 ? _year - 1 : _year;
+    var prevDays = _daysInMonth(prevYear, prevMonth);
+    for (var i = startOffset - 1; i >= 0; i--) {
+      var d = prevDays - i;
+      html += '<div class="ocal-day ocal-day--empty"><span class="ocal-day-num">' + d + '</span></div>';
+    }
+
+    // Current month days
+    for (var day = 1; day <= totalDays; day++) {
+      var key = _dayKey(_year, _month, day);
+      var isToday = key === todayKey;
+      var plan = _plans[key];
+      var hasPlan = !!plan;
+      var hasOutfit = hasPlan && plan.outfitId;
+      var isDate = hasPlan && plan.eventType === 'date';
+      var weather = _weatherCache[key];
+
+      // Repeat detection for future days
+      var isRepeat = false;
+      if (hasOutfit && _isFuture(_year, _month, day)) {
+        var recentIds = _getRecentOutfitIds(key, 3);
+        if (recentIds.indexOf(plan.outfitId) !== -1) isRepeat = true;
+      }
+
+      var classes = 'ocal-day';
+      if (isToday) classes += ' ocal-day--today';
+      if (_selectedDate === key) classes += ' ocal-day--selected';
+      if (hasPlan) classes += ' ocal-day--has-plan';
+      if (hasOutfit && !hasPlan) classes += ' ocal-day--has-outfit';
+      if (isRepeat) classes += ' ocal-day--repeat-warn';
+
+      var weatherIcon = '';
+      if (weather && _isFuture(_year, _month, day)) {
+        weatherIcon = '<span class="ocal-day-weather">' + (WMO_ICONS[weather.code] || '') + (weather.high || '') + '°</span>';
+      }
+
+      var dots = '';
+      if (hasPlan) {
+        dots += '<div class="ocal-day-dots">';
+        if (isDate) dots += '<span class="ocal-dot ocal-dot--date"></span>';
+        if (hasOutfit) dots += '<span class="ocal-dot ocal-dot--plan"></span>';
+        if (isRepeat) dots += '<span class="ocal-dot ocal-dot--warn"></span>';
+        dots += '</div>';
+      }
+
+      // Also show past outfit dots (from closet scan history)
+      if (!hasPlan) {
+        try {
+          var closet = window.userCloset && window.userCloset.outfits ? window.userCloset.outfits : [];
+          var dayMs = new Date(_year, _month, day).getTime();
+          var nextMs = dayMs + 86400000;
+          var hasPast = closet.some(function(o) { return o.date >= dayMs && o.date < nextMs; });
+          if (hasPast) {
+            dots += '<div class="ocal-day-dots"><span class="ocal-dot ocal-dot--outfit"></span></div>';
+          }
+        } catch(e) {}
+      }
+
+      html += '<div class="' + classes + '" data-date="' + key + '" onclick="window._ocalOpenDay(\'' + key + '\')">' +
+        '<span class="ocal-day-num">' + day + '</span>' +
+        weatherIcon + dots +
+        '</div>';
+    }
+
+    // Next month padding
+    var totalCells = startOffset + totalDays;
+    var remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+    for (var j = 1; j <= remaining; j++) {
+      html += '<div class="ocal-day ocal-day--empty"><span class="ocal-day-num">' + j + '</span></div>';
+    }
+
+    grid.innerHTML = html;
+  }
+
+  // ── Upcoming panel ──
+  function _renderUpcoming() {
+    var el = $('ocalUpcomingList');
+    if (!el) return;
+
+    var today = new Date(); today.setHours(0,0,0,0);
+    var upcoming = [];
+
+    // Look ahead 30 days
+    for (var i = 0; i <= 30; i++) {
+      var d = new Date(today); d.setDate(d.getDate() + i);
+      var key = _dayKey(d.getFullYear(), d.getMonth(), d.getDate());
+      if (_plans[key]) upcoming.push({ dateKey: key, date: d, plan: _plans[key] });
+    }
+
+    if (upcoming.length === 0) {
+      el.innerHTML = '<div class="ocal-empty-state"><div class="icon">📅</div><div class="msg">' + _t('ocal_empty_upcoming') + '</div></div>';
+      return;
+    }
+
+    var html = '';
+    upcoming.forEach(function(item) {
+      var p = item.plan;
+      var daysUntil = Math.round((item.date - today) / 86400000);
+      var when = daysUntil === 0 ? _t('ocal_today') : daysUntil === 1 ? _t('ocal_tomorrow') : _t('ocal_in_days', {n: daysUntil});
+      var weather = _weatherCache[item.dateKey];
+      var weatherStr = '';
+      if (weather) weatherStr = (WMO_ICONS[weather.code] || '') + ' ' + weather.high + '°/' + weather.low + '°';
+
+      var outfitThumb = '';
+      try {
+        var closet = window.userCloset && window.userCloset.outfits ? window.userCloset.outfits : [];
+        var outfit = closet.find(function(o) { return o.id === p.outfitId; });
+        if (outfit && outfit.image) outfitThumb = '<img class="outfit-thumb" src="' + outfit.image + '" alt="">';
+      } catch(e) {}
+
+      html += '<div class="ocal-upcoming-item" onclick="window._ocalOpenDay(\'' + item.dateKey + '\')">' +
+        '<div class="date-col"><div class="date-day">' + item.date.getDate() + '</div><div class="date-month">' + _t('ocal_month_' + (item.date.getMonth() + 1)) + '</div></div>' +
+        '<div class="info-col">' +
+          '<div class="event-type" style="color:' + (EVENT_COLORS[p.eventType] || '#34d399') + '">' + (EVENT_ICONS[p.eventType] || '') + ' ' + _t('ocal_modal_event_' + p.eventType) + '</div>' +
+          '<div class="event-label">' + (p.label || _t('ocal_modal_event_' + p.eventType)) + '</div>' +
+          (weatherStr ? '<div class="event-weather">' + weatherStr + '</div>' : '') +
+          '<div class="text-[10px] text-gray-500 mt-1">' + when + '</div>' +
+        '</div>' +
+        outfitThumb +
+        '</div>';
+    });
+
+    el.innerHTML = html;
+  }
+
+  // ── Day detail modal ──
+  function _openDayModal(dateKey) {
+    _selectedDate = dateKey;
+    var modal = $('ocalDayModal');
+    var body = $('ocalModalBody');
+    var dateEl = $('ocalModalDate');
+    var subEl = $('ocalModalSub');
+    if (!modal || !body) return;
+
+    var parts = dateKey.split('-');
+    var y = parseInt(parts[0]), m = parseInt(parts[1]), d = parseInt(parts[2]);
+    var dateObj = new Date(y, m - 1, d);
+    var dayNames = ['ocal_weekday_sun','ocal_weekday_mon','ocal_weekday_tue','ocal_weekday_wed','ocal_weekday_thu','ocal_weekday_fri','ocal_weekday_sat'];
+    dateEl.textContent = d + ' ' + _t('ocal_month_' + m) + ' ' + y + ', ' + _t(dayNames[dateObj.getDay()]);
+    subEl.textContent = _isToday(y, m-1, d) ? _t('ocal_today') : (_isFuture(y, m-1, d) ? '⏳' : '📋');
+
+    var plan = _plans[dateKey] || {};
+    var weather = _weatherCache[dateKey];
+    var closet = window.userCloset && window.userCloset.outfits ? window.userCloset.outfits : [];
+
+    var html = '';
+
+    // Weather bar (for future dates)
+    if (weather && _isFuture(y, m-1, d)) {
+      var weatherDesc = '';
+      if (weather.high < 10) weatherDesc = _t('ocal_weather_cold');
+      else if (weather.high < 22) weatherDesc = _t('ocal_weather_warm');
+      else if (weather.high >= 30) weatherDesc = _t('ocal_weather_hot');
+      else weatherDesc = _t('ocal_weather_perfect');
+      if (weather.code >= 51 && weather.code <= 67) weatherDesc = _t('ocal_weather_rain');
+      if (weather.code >= 80) weatherDesc = _t('ocal_weather_rain');
+
+      html += '<div class="mb-4"><div class="text-[10px] uppercase tracking-widest font-bold text-blue-400 mb-2">' + _t('ocal_modal_weather') + '</div>' +
+        '<div class="ocal-weather-bar"><span style="font-size:1.3rem">' + (WMO_ICONS[weather.code] || '🌡️') + '</span><span class="temp">' + weather.high + '°</span><span>' + weather.low + '°</span><span style="margin-left:auto">' + weatherDesc + '</span></div></div>';
+    }
+
+    // Event type selector
+    html += '<div class="mb-4"><div class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2">' + _t('ocal_modal_event') + '</div>' +
+      '<div class="flex gap-2 flex-wrap">';
+    ['date','business','casual','party','workout'].forEach(function(et) {
+      var sel = plan.eventType === et ? ' sel' : '';
+      html += '<button class="ocal-event-type-btn' + sel + '" data-type="' + et + '" onclick="window._ocalSetEventType(\'' + et + '\')">' +
+        '<span class="ocal-evt-icon">' + EVENT_ICONS[et] + '</span><span>' + _t('ocal_modal_event_' + et) + '</span></button>';
+    });
+    html += '</div></div>';
+
+    // Label input
+    html += '<div class="mb-4"><label class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2 block">' + _t('ocal_modal_label') + '</label>' +
+      '<input type="text" id="ocalLabelInput" class="w-full px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm font-medium outline-none focus:border-brand-500/50 transition" placeholder="' + _t('ocal_modal_label_placeholder') + '" value="' + (plan.label || '').replace(/"/g, '&quot;') + '"></div>';
+
+    // Outfit picker
+    html += '<div class="mb-4"><div class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2">' + _t('ocal_modal_pick_outfit') + '</div>';
+    if (closet.length === 0) {
+      html += '<div class="text-xs text-gray-500 text-center py-4">' + _t('ocal_modal_no_outfits') + '</div>';
+    } else {
+      html += '<div class="space-y-2 max-h-[200px] overflow-y-auto">';
+      // "No outfit" option
+      html += '<div class="ocal-outfit-pick' + (!plan.outfitId ? ' sel' : '') + '" onclick="window._ocalSelectOutfit(null)">' +
+        '<div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg">🚫</div>' +
+        '<div class="info"><div class="name text-gray-400">—</div></div></div>';
+
+      closet.slice(0, 20).forEach(function(item) {
+        var sel = plan.outfitId === item.id ? ' sel' : '';
+        var img = item.image ? '<img src="' + item.image + '" alt="">' : '<div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">👕</div>';
+        html += '<div class="ocal-outfit-pick' + sel + '" onclick="window._ocalSelectOutfit(\'' + item.id + '\')">' +
+          img + '<div class="info"><div class="name">' + (item.color || _t('ocal_from_closet')) + '</div>' +
+          '<div class="meta">' + _t('ocal_score') + ': ' + (item.score || '—') + '</div></div></div>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+
+    // Repeat warning
+    if (plan.outfitId) {
+      var recentIds = _getRecentOutfitIds(dateKey, 3);
+      if (recentIds.indexOf(plan.outfitId) !== -1) {
+        html += '<div class="ocal-repeat-warn mb-4"><span>⚠️</span><span>' + _t('ocal_modal_repeat_warn') + ' (' + _t('ocal_modal_repeat_days') + ')</span></div>';
+      }
+    }
+
+    // Save / Delete buttons
+    html += '<div class="flex gap-3 mt-6">';
+    html += '<button class="flex-1 py-3 rounded-xl text-sm font-bold transition bg-gradient-to-r from-brand-500 to-purple-500 text-white hover:opacity-90 active:scale-[0.98]" onclick="window._ocalSavePlan()">' + _t('ocal_modal_save') + '</button>';
+    if (_plans[dateKey]) {
+      html += '<button class="py-3 px-4 rounded-xl text-sm font-bold transition bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20" onclick="window._ocalDeletePlan()">' + _t('ocal_modal_delete') + '</button>';
+    }
+    html += '</div>';
+
+    body.innerHTML = html;
+    modal.classList.remove('hidden');
+
+    // Re-render calendar to show selection
+    _renderCalendar();
+  }
+
+  function _closeDayModal() {
+    var modal = $('ocalDayModal');
+    if (modal) modal.classList.add('hidden');
+    _selectedDate = null;
+    _renderCalendar();
+  }
+
+  // ── Modal state (temporary) ──
+  var _modalEventType = 'casual';
+  var _modalOutfitId = null;
+
+  window._ocalSetEventType = function(type) {
+    _modalEventType = type;
+    document.querySelectorAll('.ocal-event-type-btn').forEach(function(btn) {
+      btn.classList.toggle('sel', btn.getAttribute('data-type') === type);
+    });
+  };
+
+  window._ocalSelectOutfit = function(id) {
+    _modalOutfitId = id;
+    document.querySelectorAll('.ocal-outfit-pick').forEach(function(el) {
+      el.classList.remove('sel');
+    });
+    // Find and select the clicked one
+    if (id === null) {
+      var first = document.querySelector('.ocal-outfit-pick');
+      if (first) first.classList.add('sel');
+    } else {
+      document.querySelectorAll('.ocal-outfit-pick').forEach(function(el) {
+        var onclick = el.getAttribute('onclick') || '';
+        if (onclick.indexOf("'" + id + "'") !== -1) el.classList.add('sel');
+      });
+    }
+  };
+
+  window._ocalSavePlan = function() {
+    if (!_selectedDate) return;
+    var labelEl = $('ocalLabelInput');
+    var label = labelEl ? labelEl.value.trim() : '';
+    _plans[_selectedDate] = {
+      eventType: _modalEventType,
+      label: label,
+      outfitId: _modalOutfitId,
+      ts: Date.now()
+    };
+    _savePlans();
+    _closeDayModal();
+    _renderCalendar();
+    _renderUpcoming();
+    // Toast
+    if (typeof window.showToast === 'function') window.showToast(_t('ocal_plan_saved'), 'success');
+  };
+
+  window._ocalDeletePlan = function() {
+    if (!_selectedDate) return;
+    delete _plans[_selectedDate];
+    _savePlans();
+    _closeDayModal();
+    _renderCalendar();
+    _renderUpcoming();
+    if (typeof window.showToast === 'function') window.showToast(_t('ocal_plan_deleted'), 'info');
+  };
+
+  window._ocalOpenDay = function(dateKey) {
+    _modalEventType = _plans[dateKey] ? _plans[dateKey].eventType : 'casual';
+    _modalOutfitId = _plans[dateKey] ? _plans[dateKey].outfitId : null;
+    _openDayModal(dateKey);
+  };
+
+  // ── Tab switching ──
+  window._ocalSwitchTab = function(tab) {
+    _activeTab = tab;
+    document.querySelectorAll('#ocalMainTabs .ocal-tab').forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-ocal-tab') === tab);
+    });
+    $('ocalPanelCalendar').classList.toggle('hidden', tab !== 'calendar');
+    $('ocalPanelUpcoming').classList.toggle('hidden', tab !== 'upcoming');
+    if (tab === 'upcoming') _renderUpcoming();
+  };
+
+  // ── Navigation ──
+  window._ocalChangeMonth = function(delta) {
+    _month += delta;
+    if (_month < 0) { _month = 11; _year--; }
+    if (_month > 11) { _month = 0; _year++; }
+    _renderCalendar();
+  };
+
+  window._ocalGoToday = function() {
+    var now = new Date();
+    _year = now.getFullYear();
+    _month = now.getMonth();
+    _selectedDate = _todayKey();
+    _renderCalendar();
+  };
+
+  // ── Main render (called by toggleView) ──
+  window._ocalRender = function() {
+    if (!_year && _year !== 0) { var now = new Date(); _year = now.getFullYear(); _month = now.getMonth(); }
+    _loadPlans();
+    _loadWeatherCache();
+    _renderWeekdays();
+    _renderCalendar();
+    _renderUpcoming();
+    _fetchWeather7d();
+  };
+
+  // ── Save to Calendar from scan (global hook) ──
+  window._ocalSaveFromScan = function(outfitId) {
+    _loadPlans();
+    // Show a quick date picker — for now, default to tomorrow
+    var tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    var key = _dayKey(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate());
+    _plans[key] = {
+      eventType: 'casual',
+      label: '',
+      outfitId: outfitId,
+      ts: Date.now()
+    };
+    _savePlans();
+    // Now open the modal on that date so the user can customize
+    _modalEventType = 'casual';
+    _modalOutfitId = outfitId;
+    _openDayModal(key);
+  };
+
+  // ── Close modal handlers ──
+  document.addEventListener('DOMContentLoaded', function() {
+    var closeBtn = $('ocalDayModalClose');
+    if (closeBtn) closeBtn.addEventListener('click', _closeDayModal);
+    var modal = $('ocalDayModal');
+    if (modal) modal.addEventListener('click', function(e) { if (e.target === modal) _closeDayModal(); });
+  });
+
+  // ── Mobile nav active state ──
+  var _origToggleView = window.toggleView;
+  // We'll update the mobile nav buttons when entering outfitcalendar
+  var _updateMobileNav = function(view) {
+    ['mobileNavScan','mobileNavCloset','mobileNavChat','mobileNavStory'].forEach(function(id) {
+      var btn = $(id);
+      if (!btn) return;
+      var isActive = (view === 'scanner' && id === 'mobileNavScan') ||
+                     (view === 'closet' && id === 'mobileNavCloset') ||
+                     (view === 'chat' && id === 'mobileNavChat') ||
+                     (view === 'history' && id === 'mobileNavStory');
+      btn.classList.toggle('is-active', isActive);
+    });
+  };
+  // Patch into toggleView
+  var _prevToggleView = window.toggleView;
+  window.toggleView = function(target, opts) {
+    _prevToggleView(target, opts);
+    _updateMobileNav(target);
+  };
+
+  // ── Closet button — "Plan Outfit" is now a static HTML button (#closetOutfitCalendarBtn) ──
+
+  // ── Language change ──
+  window.addEventListener('langchange', function() {
+    _renderWeekdays();
+    _renderCalendar();
+    _renderUpcoming();
+  });
+
+  _dsLog && _dsLog('[Outfit Calendar] Module loaded');
 })();
 </script>
 </html>
