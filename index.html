@@ -1838,6 +1838,37 @@ window._dsLog = function() { if (window.__DS_DEBUG) console.log.apply(console, a
     --glow-to: rgba(236,72,153,0.35);
   }
 
+  /* Challenges card accent */
+  #challengesCard {
+    --glow-from: rgba(245,158,11,0.3);
+    --glow-to: rgba(236,72,153,0.3);
+  }
+
+  /* Close button — overflow-safe for German & long-text languages */
+  .close-btn-safe {
+    width: 32px; height: 32px;
+    min-width: 32px; min-height: 32px;
+    max-width: 32px; max-height: 32px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  /* Challenge row hover glow */
+  #dailyChallengeList > div:hover,
+  #weeklyChallengeList > div:hover,
+  #proChallengeList > div:hover {
+    border-color: rgba(255,255,255,0.12) !important;
+  }
+
+  /* Streak banner pulse */
+  @keyframes streak-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(236,72,153,0.15); }
+    50% { box-shadow: 0 0 12px 2px rgba(236,72,153,0.1); }
+  }
+  #streakBanner { animation: streak-pulse 3s ease infinite; }
+
   /* Style DNA card accent */
   #styleDnaCard {
     --glow-from: rgba(168,85,247,0.35);
@@ -4505,9 +4536,9 @@ if (window.__DS_IS_ANDROID_APP) {
   #siqEditModal .siq-btn-outline{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)}
 
   /* ===== Second Date / Randi Utáni Reflekszió ===== */
-  .sd-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+  .sd-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}.sd-header>div:first-child{min-width:0;overflow:hidden}
   .sd-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;background:linear-gradient(135deg,#f472b6,#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .sd-close-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s}
+  .sd-close-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;flex-shrink:0}
   .sd-close-btn:hover{background:rgba(255,255,255,0.1);color:#fff}
   .sd-tabs{display:flex;gap:4px;margin-bottom:20px;background:rgba(255,255,255,0.03);border-radius:14px;padding:4px;border:1px solid rgba(255,255,255,0.06)}
   .sd-tab{flex:1;padding:10px 8px;border-radius:10px;font-size:11px;font-weight:700;text-align:center;cursor:pointer;transition:.2s;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.06em;border:none;background:none}
@@ -5153,6 +5184,148 @@ if (window.__DS_IS_ANDROID_APP) {
                 <span data-i18n="referral_btn">Share Invite Link</span>
               </button>
             </div>
+
+            <!-- ============================================================
+                 CHALLENGES & GAMIFICATION — Daily, Weekly, Streak, Achievements, PRO
+                 ============================================================ -->
+            <div id="challengesCard" class="premium-glass rounded-[32px] p-6 relative overflow-hidden mt-6 fade-up">
+              <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-amber-500/10 blur-3xl pointer-events-none"></div>
+              <div class="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-brand-500/8 blur-2xl pointer-events-none"></div>
+
+              <div class="relative z-10">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-5">
+                  <div>
+                    <div class="text-[10px] uppercase tracking-widest text-amber-400 font-bold mb-1" data-i18n="challenges_title">Challenges</div>
+                    <h2 class="font-serif text-xl font-semibold" data-i18n="challenges_subtitle">Level Up Your Style</h2>
+                  </div>
+                  <div class="flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/25 rounded-full px-3 py-1.5 shrink-0">
+                    <span class="text-amber-400 text-sm">⭐</span>
+                    <span id="challengePts" class="text-amber-300 text-xs font-bold tabular-nums">0</span>
+                    <span class="text-amber-400/70 text-[10px] font-semibold">PTS</span>
+                  </div>
+                </div>
+
+                <!-- Streak Banner -->
+                <div id="streakBanner" class="flex items-center gap-3 bg-gradient-to-r from-brand-500/10 via-amber-500/5 to-purple-500/10 border border-brand-500/20 rounded-2xl p-3.5 mb-5 cursor-pointer transition-colors hover:border-brand-500/30" onclick="window._openStreakModal && window._openStreakModal()">
+                  <span class="text-2xl shrink-0">🔥</span>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2">
+                      <span id="streakCountText" class="text-base font-bold text-amber-300" data-i18n="streak_day_count">0-day streak</span>
+                      <span id="streakMultiplier" class="text-[9px] font-bold text-brand-400 bg-brand-500/15 px-1.5 py-0.5 rounded-md shrink-0 hidden"></span>
+                    </div>
+                    <div class="mt-1.5 h-1 bg-white/10 rounded-full overflow-hidden">
+                      <div id="streakProgressBar" class="h-full bg-gradient-to-r from-brand-500 to-amber-400 rounded-full transition-all duration-500" style="width:0%"></div>
+                    </div>
+                    <span class="text-[10px] text-gray-500 mt-1 block truncate" data-i18n="streak_keep_going">Scan tomorrow to keep it going</span>
+                  </div>
+                  <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </div>
+
+                <!-- Daily Challenges -->
+                <div class="mb-5">
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                      <div class="w-4 h-4 rounded bg-gradient-to-br from-brand-500/20 to-amber-500/20 border border-brand-500/30 flex items-center justify-center">
+                        <svg class="w-2.5 h-2.5 text-brand-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/></svg>
+                      </div>
+                      <span class="text-[10px] uppercase tracking-widest font-bold text-brand-400" data-i18n="daily_challenges_title">Daily Challenges</span>
+                    </div>
+                    <span id="dailyResetBadge" class="text-[9px] text-gray-500 bg-white/5 px-2 py-0.5 rounded-md font-semibold shrink-0" data-i18n="daily_resets_in">Resets in 6h</span>
+                  </div>
+                  <div id="dailyChallengeList" class="space-y-2.5">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+
+                <!-- Weekly Challenges -->
+                <div class="mb-5">
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                      <div class="w-4 h-4 rounded bg-gradient-to-br from-purple-500/20 to-brand-500/20 border border-purple-500/30 flex items-center justify-center">
+                        <svg class="w-2.5 h-2.5 text-purple-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      </div>
+                      <span class="text-[10px] uppercase tracking-widest font-bold text-purple-400" data-i18n="weekly_challenges_title">Weekly Challenges</span>
+                    </div>
+                    <span id="weeklyResetBadge" class="text-[9px] text-gray-500 bg-white/5 px-2 py-0.5 rounded-md font-semibold shrink-0" data-i18n="weekly_days_left">4 days left</span>
+                  </div>
+                  <div id="weeklyChallengeList" class="space-y-2.5">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+
+                <!-- Achievements Mini-Grid -->
+                <div class="mb-5">
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                      <div class="w-4 h-4 rounded bg-gradient-to-br from-emerald-500/20 to-brand-500/20 border border-emerald-500/30 flex items-center justify-center">
+                        <svg class="w-2.5 h-2.5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                      </div>
+                      <span class="text-[10px] uppercase tracking-widest font-bold text-emerald-400" data-i18n="challenges_achievements_title">Achievements</span>
+                    </div>
+                    <span id="challengeBadgeCount" class="text-[9px] text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded-md font-bold border border-emerald-500/20 shrink-0">0/10</span>
+                  </div>
+                  <div id="challengeBadgeGrid" class="flex flex-wrap gap-2">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+
+                <!-- PRO Challenges -->
+                <div id="proChallengesSection">
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                      <div class="w-4 h-4 rounded bg-gradient-to-br from-amber-500/20 to-brand-500/20 border border-amber-500/30 flex items-center justify-center">
+                        <svg class="w-2.5 h-2.5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      </div>
+                      <span class="text-[10px] uppercase tracking-widest font-bold text-amber-400" data-i18n="pro_challenges_title">PRO Challenges</span>
+                    </div>
+                    <span class="text-[9px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-brand-500 to-purple-500 text-white px-2 py-0.5 rounded-md shrink-0">PRO</span>
+                  </div>
+                  <div id="proChallengeList" class="space-y-2.5">
+                    <!-- Populated by JS -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Streak Detail Modal -->
+            <div id="streakModal" class="fixed inset-0 z-[200] flex items-end justify-center opacity-0 pointer-events-none transition-opacity duration-250" style="transition: opacity 0.25s ease;">
+              <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="window._closeStreakModal && window._closeStreakModal()"></div>
+              <div class="relative w-full max-w-[480px] bg-[#18181b] border-t border-white/10 rounded-t-[20px] p-5 pb-[calc(20px+env(safe-area-inset-bottom))] max-h-[80vh] overflow-y-auto transform translate-y-full transition-transform duration-300" style="transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);" id="streakSheet">
+                <div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4"></div>
+                <div class="flex items-center gap-3 mb-5">
+                  <div class="flex-1 min-w-0">
+                    <h3 class="text-lg font-bold text-white" data-i18n="streak_modal_title">Your Streak</h3>
+                    <p class="text-xs text-gray-400 mt-0.5" data-i18n="streak_modal_sub">Keep scanning daily for bonus points</p>
+                  </div>
+                  <button class="w-8 h-8 min-w-[32px] min-h-[32px] max-w-[32px] max-h-[32px] flex-shrink-0 flex items-center justify-center rounded-full bg-white/10 text-gray-400 hover:text-white hover:bg-white/20 transition overflow-hidden p-0 text-base leading-none" onclick="window._closeStreakModal && window._closeStreakModal()" aria-label="Close">✕</button>
+                </div>
+                <div class="text-center py-3">
+                  <div class="text-5xl leading-none">🔥</div>
+                  <div id="streakModalCount" class="text-4xl font-extrabold text-amber-300 mt-2 tabular-nums">0</div>
+                  <div class="text-sm text-gray-400 mt-1" data-i18n="streak_modal_days">consecutive days</div>
+                  <div class="flex justify-center gap-6 mt-5 mb-5">
+                    <div class="text-center">
+                      <div class="text-xl font-extrabold text-brand-400">+100</div>
+                      <div class="text-[10px] text-gray-500" data-i18n="streak_bonus_5">5-day bonus</div>
+                    </div>
+                    <div class="text-center">
+                      <div class="text-xl font-extrabold text-purple-400">+250</div>
+                      <div class="text-[10px] text-gray-500" data-i18n="streak_bonus_7">7-day bonus</div>
+                    </div>
+                    <div class="text-center">
+                      <div class="text-xl font-extrabold text-amber-400">+500</div>
+                      <div class="text-[10px] text-gray-500" data-i18n="streak_bonus_30">30-day bonus</div>
+                    </div>
+                  </div>
+                  <div class="bg-brand-500/10 border border-brand-500/15 rounded-2xl p-3.5 text-left">
+                    <div class="text-xs font-semibold text-white mb-1" data-i18n="streak_tip_title">💡 Streak Tip</div>
+                    <p class="text-[11px] text-gray-300 leading-relaxed break-words" data-i18n="streak_tip_text">Even a quick scan counts! You don't need a perfect outfit — just keep the habit going. Your streak resets at midnight local time.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <!-- Secondary Tools Grid -->
@@ -9193,15 +9366,30 @@ localStorage.setItem = function(key, value) {
 // when the user taps "Scan", so a fire-and-forget import is both safer and
 // faster (the 20MB bundle no longer blocks the entire module from evaluating).
 let FilesetResolver, FaceLandmarker;
-import("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs")
-  .then(visionModule => {
-    FilesetResolver = visionModule.FilesetResolver;
-    FaceLandmarker = visionModule.FaceLandmarker;
-    window._dsLog('[ai] MediaPipe vision module loaded successfully');
-  })
-  .catch(e => {
-    console.warn('[ai] MediaPipe vision module import failed — AI scan will be unavailable:', e.message);
-  });
+
+// Retry logic: try up to 3 times with a short delay, using alternative CDN on retry
+(async function loadVisionModule() {
+  const CDN_URLS = [
+    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs",
+    "https://unpkg.com/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs"
+  ];
+  for (let attempt = 0; attempt < 3; attempt++) {
+    for (let cdnIdx = 0; cdnIdx < CDN_URLS.length; cdnIdx++) {
+      try {
+        const visionModule = await import(CDN_URLS[cdnIdx]);
+        FilesetResolver = visionModule.FilesetResolver;
+        FaceLandmarker = visionModule.FaceLandmarker;
+        window._dsLog('[ai] MediaPipe vision module loaded successfully (attempt ' + (attempt+1) + ', CDN ' + (cdnIdx+1) + ')');
+        return; // success
+      } catch (e) {
+        console.warn('[ai] MediaPipe import failed (attempt ' + (attempt+1) + ', CDN ' + (cdnIdx+1) + '):', e.message);
+      }
+    }
+    // Wait before retrying
+    if (attempt < 2) await new Promise(r => setTimeout(r, 2000));
+  }
+  console.error('[ai] All MediaPipe import attempts failed — scan will be unavailable');
+})();
 
 window._deferredInstallPrompt = null;
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -12384,6 +12572,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       toast_already_rewarded: 'Already rewarded for this',
       toast_shared_xp: 'Shared! +5 XP',
       toast_cpu_mode: 'Running in CPU mode — analysis may be slower',
+      toast_basic_mode: 'Basic analysis — face detection unavailable',
       feedback_uneven_lighting: 'Uneven Lighting',
       feedback_uneven_lighting_text: 'Half your face is shadowed.',
       feedback_uneven_lighting_fix: 'Rotate slightly to your left/right.',
@@ -12422,9 +12611,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_count_limit: '{{count}}/200',
       error_webgl_title: 'WebGL not supported',
       error_webgl_msg: 'Your browser or device doesn\'t support WebGL, which is needed for analysis. You can also enable Private Mode to use the slower CPU backend.',
-      error_ai_engine: 'AI Engine Unavailable',
+      error_ai_engine: 'Style Engine Unavailable',
       error_system: 'System Error',
-      error_ai_model_load: 'AI Model Load Failed',
+      error_ai_model_load: 'Style Model Load Failed',
       feedback_detection_error: 'Detection Error',
       feedback_face_not_visible: 'I couldn\'t see your face properly.',
       feedback_face_visible_action: 'Make sure your face is clearly visible.',
@@ -12455,10 +12644,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       score_sharp: 'SHARP',
       score_elite: 'ELITE',
       score_needs_work: 'NEEDS WORK',
-      error_ai_engine_load: 'The AI engine couldn\'t load. Please check your connection and refresh.',
-      error_ai_engine_browser: 'The AI engine couldn\'t start on this browser. Please refresh, or try a different browser.',
-      error_ai_engine_device: 'The AI engine couldn\'t start on this device. Please try a different browser or update your graphics driver.',
-      error_ai_engine_refresh: 'The AI engine couldn\'t load. Please refresh and try again.',
+      error_ai_engine_load: 'The style engine couldn\'t load. Please check your connection and refresh.',
+      error_ai_engine_browser: 'The style engine couldn\'t start on this browser. Please refresh, or try a different browser.',
+      error_ai_engine_device: 'The style engine couldn\'t start on this device. Please try a different browser or update your graphics driver.',
+      error_ai_engine_refresh: 'The style engine couldn\'t load. Please refresh and try again.',
       error_camera_no_support: 'Your browser doesn\'t support camera access.',
       cam_error_not_allowed: 'Camera access is blocked. Allow it from the lock icon in the address bar and tap Retry.',
       cam_error_not_found: 'No camera was found on this device.',
@@ -13078,6 +13267,53 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       streak_protected_toast: '🛡️ Streak protected!',
       challenge_complete_toast: '🎯 Challenge completed! +3 PTS +25 XP',
       streak_multiplier_label: '{multiplier}x multiplier',
+
+      // Challenges & Gamification
+      challenges_title: 'Challenges',
+      challenges_subtitle: 'Level Up Your Style',
+      streak_day_count: '{count}-day streak',
+      streak_keep_going: 'Scan tomorrow to keep it going',
+      daily_challenges_title: 'Daily Challenges',
+      daily_resets_in: 'Resets in {h}h',
+      weekly_challenges_title: 'Weekly Challenges',
+      weekly_days_left: '{d} days left',
+      challenges_achievements_title: 'Achievements',
+      pro_challenges_title: 'PRO Challenges',
+      ch_daily_green_name: 'Wear Something Green',
+      ch_daily_green_desc: 'Add a green piece to your outfit today',
+      ch_daily_pattern_name: 'Mix Two Patterns',
+      ch_daily_pattern_desc: 'Combine stripes with plaid or any two patterns',
+      ch_daily_scan3_name: 'Scan 3 Outfits',
+      ch_daily_scan3_desc: 'Get AI feedback on three different looks today',
+      ch_daily_accessory_name: 'Add an Accessory',
+      ch_daily_accessory_desc: 'Complete your look with one accessory',
+      ch_weekly_avg80_name: 'Score 80+ Average This Week',
+      ch_weekly_avg80_desc: 'Maintain an average style score above 80',
+      ch_weekly_5styles_name: 'Try 5 Different Styles',
+      ch_weekly_5styles_desc: 'Scan outfits from 5 distinct style categories',
+      ch_weekly_10scans_name: 'Scan 10 Outfits',
+      ch_weekly_10scans_desc: 'Complete 10 outfit scans this week',
+      ch_pro_marathon_name: 'Style Marathon',
+      ch_pro_marathon_desc: 'Score 90+ on 7 consecutive scans',
+      ch_pro_monochrome_name: 'Color Harmony Expert',
+      ch_pro_monochrome_desc: 'Create 5 monochromatic outfits rated 85+',
+      ch_pro_seasonal_name: 'Seasonal Showcase',
+      ch_pro_seasonal_desc: 'Wear season-appropriate outfits for 14 days straight',
+      ch_pts_reward: '+{pts} PTS',
+      ch_progress: '{current}/{target}',
+      ch_completed: '✅ Completed!',
+      ch_complete_btn: 'Complete',
+      ch_pro_locked_title: 'Unlock PRO Challenges',
+      ch_pro_locked_desc: 'Get exclusive harder challenges, bonus points, and special badges with PRO',
+      ch_pro_cta: 'Upgrade to PRO',
+      streak_modal_title: 'Your Streak',
+      streak_modal_sub: 'Keep scanning daily for bonus points',
+      streak_modal_days: 'consecutive days',
+      streak_bonus_5: '5-day bonus',
+      streak_bonus_7: '7-day bonus',
+      streak_bonus_30: '30-day bonus',
+      streak_tip_title: '💡 Streak Tip',
+      streak_tip_text: 'Even a quick scan counts! You don\'t need a perfect outfit — just keep the habit going. Your streak resets at midnight local time.',
 
       // Badge / Achievement system
       badge_title: 'Achievements',
@@ -14670,6 +14906,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       toast_already_rewarded: 'Ezért már kaptál jutalmat',
       toast_shared_xp: 'Megosztva! +5 XP',
       toast_cpu_mode: 'CPU módban fut — az elemzés kissé lassabb lehet',
+      toast_basic_mode: 'Alapvető elemzés — arcfelismerés nem elérhető',
       feedback_uneven_lighting: 'Egyenetlen megvilágítás',
       feedback_uneven_lighting_text: 'Az arcod fele árnyékban van.',
       feedback_uneven_lighting_fix: 'Fordulj kicsit balra/jobbra.',
@@ -14708,9 +14945,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_count_limit: '{{count}}/200',
       error_webgl_title: 'A WebGL nem támogatott',
       error_webgl_msg: 'A böngésződ vagy eszközöd nem támogatja a WebGL-t, ami az elemzéshez szükséges. Engedélyezd a Privát módot a lassabb CPU háttérprogram használatához.',
-      error_ai_engine: 'AI Motor nem elérhető',
+      error_ai_engine: 'Stílusanalizáló nem elérhető',
       error_system: 'Rendszerhiba',
-      error_ai_model_load: 'AI modell betöltése sikertelen',
+      error_ai_model_load: 'Stílusanalizáló betöltése sikertelen',
       feedback_detection_error: 'Felismerési hiba',
       feedback_face_not_visible: 'Nem láttam jól az arcodat.',
       feedback_face_visible_action: 'Győződj meg róla, hogy az arcod tisztán látható.',
@@ -14741,10 +14978,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       score_elite: 'KIVÁLÓ',
       score_sharp: 'KIFINOMULT',
       score_solid: 'MEGBÍZHATÓ',
-      error_ai_engine_load: 'Az AI motor nem tölthető be. Ellenőrizd a kapcsolatot és frissítsd az oldalt.',
-      error_ai_engine_browser: 'Az AI motor nem indult el ezen a böngészőn. Frissítsd vagy próbálj másik böngészőt.',
-      error_ai_engine_device: 'Az AI motor nem indult el ezen az eszközön. Próbálj másik böngészőt vagy frissítsd a grafikus illesztőt.',
-      error_ai_engine_refresh: 'Az AI motor nem tölthető be. Frissítsd és próbáld újra.',
+      error_ai_engine_load: 'A stílusanalizáló nem tölthető be. Ellenőrizd a kapcsolatot és frissítsd az oldalt.',
+      error_ai_engine_browser: 'A stílusanalizáló nem indult el ezen a böngészőn. Frissítsd vagy próbálj másik böngészőt.',
+      error_ai_engine_device: 'A stílusanalizáló nem indult el ezen az eszközön. Próbálj másik böngészőt vagy frissítsd a grafikus illesztőt.',
+      error_ai_engine_refresh: 'A stílusanalizáló nem tölthető be. Frissítsd és próbáld újra.',
       error_camera_no_support: 'A böngésződ nem támogatja a kamera hozzáférést.',
       cam_error_not_allowed: 'A kamera hozzáférés blokkolva. Engedélyezd a címsor lakat ikonjából és kattints az Újra gombra.',
       cam_error_not_found: 'Nem található kamera ezen az eszközön.',
@@ -15363,6 +15600,53 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       streak_protected_toast: '🛡️ Streak védve!',
       challenge_complete_toast: '🎯 Kihívás teljesítve! +3 PT +25 XP',
       streak_multiplier_label: '{multiplier}x szorzó',
+
+      // Kihívások & Gamifikáció
+      challenges_title: 'Kihívások',
+      challenges_subtitle: 'Emeld a stílusod szintjét',
+      streak_day_count: '{count} napos sorozat',
+      streak_keep_going: 'Holnap is szkennelj, hogy folytatódjon',
+      daily_challenges_title: 'Napi kihívások',
+      daily_resets_in: '{h} óra múlva új',
+      weekly_challenges_title: 'Heti kihívások',
+      weekly_days_left: 'Még {d} nap',
+      challenges_achievements_title: 'Teljesítmények',
+      pro_challenges_title: 'PRO kihívások',
+      ch_daily_green_name: 'Viselj valami zöldet',
+      ch_daily_green_desc: 'Adj hozzá egy zöld darabot a mai szettedhez',
+      ch_daily_pattern_name: 'Kombinálj két mintát',
+      ch_daily_pattern_desc: 'Párosíts csíkosat kockással vagy bármilyen két mintát',
+      ch_daily_scan3_name: 'Szkennelj 3 szettet',
+      ch_daily_scan3_desc: 'Kérj KI visszajelzést három különböző lookra ma',
+      ch_daily_accessory_name: 'Adj hozzá kiegészítőt',
+      ch_daily_accessory_desc: 'Teljesítsd a looked egy kiegészítővel',
+      ch_weekly_avg80_name: 'Érj el 80+ átlagpontot a héten',
+      ch_weekly_avg80_desc: 'Tartsd 80 pont felett az átlagos stílusértékelésedet',
+      ch_weekly_5styles_name: 'Próbálj ki 5 különböző stílust',
+      ch_weekly_5styles_desc: 'Szkennelj szetteket 5 különböző stílus kategóriából',
+      ch_weekly_10scans_name: 'Szkennelj 10 szettet',
+      ch_weekly_10scans_desc: 'Végez el 10 szett szkennelést ezen a héten',
+      ch_pro_marathon_name: 'Stílusmaraton',
+      ch_pro_marathon_desc: 'Érj el 90+ pontot 7 egymást követő szkennelésnél',
+      ch_pro_monochrome_name: 'Színharmonia szakértő',
+      ch_pro_monochrome_desc: 'Készíts 5 monokróm szettet 85+ értékeléssel',
+      ch_pro_seasonal_name: 'Szezonális bemutató',
+      ch_pro_seasonal_desc: 'Viselj szezonális szetteket 14 egymást követő napon',
+      ch_pts_reward: '+{pts} PTS',
+      ch_progress: '{current}/{target}',
+      ch_completed: '✅ Teljesítve!',
+      ch_complete_btn: 'Teljesítés',
+      ch_pro_locked_title: 'PRO kihívások feloldása',
+      ch_pro_locked_desc: 'Szerezz exkluzív nehezebb kihívásokat, bónuszpontokat és különleges jelvényeket a PRO-val',
+      ch_pro_cta: 'Válts PRO-ra',
+      streak_modal_title: 'Sorozatod',
+      streak_modal_sub: 'Szkennelj naponta, hogy bónuszpontokat szerezz',
+      streak_modal_days: 'egymást követő nap',
+      streak_bonus_5: '5 napos bónusz',
+      streak_bonus_7: '7 napos bónusz',
+      streak_bonus_30: '30 napos bónusz',
+      streak_tip_title: '💡 Sorozat tipp',
+      streak_tip_text: 'Még egy gyors szkennelés is számít! Nem kell tökéletes szett — csak tartsd fenn a szokást. A sorozatod éjfélkor helyi idő szerint nullázódik.',
 
       // Badge / Eredmény rendszer
       badge_title: 'Eredmények',
@@ -16378,7 +16662,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       nav_scanner: 'Scanner',
       nav_points_left: '{pts} von {max} Punkten',
       ob_welcome: 'Willkommen bei DateScan',
-      ob_subtitle: 'Dein AI-Wingman. In 3 Schritten bereit:',
+      ob_subtitle: 'Dein KI-Wingman. In 3 Schritten bereit:',
       ob_step1_title: '1. Kamera erlauben',
       ob_step1_desc: 'Wir müssen dein Outfit sehen. 100% privat.',
       ob_step2_title: '2. Gutes Licht',
@@ -16461,7 +16745,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       gamify_logged: 'Geloggt! (+50 XP)',
       toast_streak_bonus: '{multiplier}x Strähne-Bonus! +{bonus} XP',
       toast_improvement_possible: '+{n} Verbesserung möglich',
-      coach_title: 'AI Stil-Coach',
+      coach_title: 'KI Stil-Coach',
       coach_status_active: 'Aktiv',
       coach_description: 'Tiefe Analyse deines Outfits — Farbe, Kontrast und Koordination.',
       coach_empty_title: 'Ich bin bereit',
@@ -16694,7 +16978,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       ob_clear: 'Löschen',
       ob_save: 'Speichern',
       ob_save_as_new: 'Als neu speichern',
-      ob_ask_ai: 'AI fragen',
+      ob_ask_ai: 'KI fragen',
       vibe_check_title: 'Wie war es?',
       vibe_check_subtitle: 'Kurzer Vibe-Check — +10 XP.',
       vibe_chemistry: 'Chemie',
@@ -16705,7 +16989,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       vibe_check_successful_desc: '(z.B. zweites Date vereinbart). Das Outfit bekommt das Glücks-Outfit-Abzeichen.',
       vibe_check_save: 'Vibe speichern',
       style_profile_title: 'Dein Stil-Profil',
-      style_profile_subtitle: 'Erzähl deinem AI-Coach von deinen Vorlieben für personalisierte Tipps.',
+      style_profile_subtitle: 'Erzähl deinem KI-Coach von deinen Vorlieben für personalisierte Tipps.',
       sp_color_palette: 'Farbpalette',
       sp_color_desc: 'Zu welcher Farbe ziehst du dich hin? Wähle eine.',
       sp_formality: 'Formalitätsgrad',
@@ -16730,10 +17014,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       sp_vibe_vintage: 'Vintage',
       sp_vibe_techwear: 'Techwear',
       sp_save: 'Profil speichern',
-      chat_view_title: 'AI Stil-Coach',
+      chat_view_title: 'KI Stil-Coach',
       chat_view_subtitle: 'Lade ein Foto hoch, wähle aus dem Kleiderschrank oder frag einfach — ich sehe es und helfe.',
       chat_with_coach: 'Chat mit dem Coach',
-      chat_vision_ai: 'Vision AI',
+      chat_vision_ai: 'Vision KI',
       chat_point_per_msg: '<strong class="text-brand-400">1 Punkt</strong> pro Nachricht',
       chat_welcome: 'Hallo! Ich bin dein KI-Stil-Coach mit Vision. Lade einfach ein Foto hoch oder stelle direkt deine Frage – ich berate dich gerne!',
       chat_closet_picker_title: 'Aus dem Kleiderschrank wählen',
@@ -16843,7 +17127,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       share_download_png: 'PNG herunterladen',
       share_text: 'Mein DateScan-Score: {{score}}/100',
       share_card_cta: 'Hol deinen Score',
-      share_cta: 'AI hat mein Outfit bewertet. Probier es auch',
+      share_cta: 'KI hat mein Outfit bewertet. Probier es auch',
       share_item_text: 'Schau dir mein Kleiderschrank-Item auf DateScan an',
       share_native_title: 'Mein DateScan Score',
       share_confidence_title: 'SELBSTBEWUSSTSEIN-OPTIMIERER FÜR DATES',
@@ -16851,7 +17135,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       share_my_score: 'MEIN SCORE',
       paywall_title: 'Eine kleine Änderung bis zum besseren ersten Eindruck.',
       paywall_subtitle: 'Die meisten Nutzer erleben eine echte Verbesserung in der Wahrnehmung. Entdecke ein Angebot, das zum Vibe deines nächsten Dates passt, oder starte kostenlos — ohne Verpflichtungen.',
-      paywall_feature_1: 'Unbegrenztes AI-Coaching',
+      paywall_feature_1: 'Unbegrenztes KI-Coaching',
       paywall_feature_2: 'Vollständige Verbesserungsanalyse',
       paywall_feature_3: 'Fortschritt verfolgen',
       paywall_try_it_out: 'Probier es aus',
@@ -16868,17 +17152,17 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       privacy_title: 'Was dein Gerät verlässt',
       privacy_item_camera: '<strong class="text-white">Kamera-Scan &amp; Analyse.</strong> Läuft 100% lokal auf deinem Gerät mit MediaPipe + WebAssembly. Deine Videobilder verlassen nie den Browser.',
       privacy_item_closet: '<strong class="text-white">Kleiderschrank &amp; Historie.</strong> Lokal in der IndexedDB deines Browsers gespeichert. Nichts wird irgendwohin gesendet.',
-      privacy_item_chat_text: '<strong class="text-white">AI Style Coach Chat — Text.</strong> Deine Nachrichten werden an <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code> gesendet und an ein Vision-Language-Modell weitergeleitet, damit du eine Antwort erhältst.',
-      privacy_item_chat_images: '<strong class="text-white">AI Style Coach Chat — Bilder.</strong> Wenn du ein Foto anhängst oder aus deinem Kleiderschrank wählst, wird das Bild mit deiner Nachricht hochgeladen, damit das Modell es „sehen" kann. Es wird nur für diese eine Anfrage verarbeitet und nach der Antwort nicht auf unserem Server behalten. Wir nutzen Chat-Inhalte nicht zum Trainieren von Modellen.',
+      privacy_item_chat_text: '<strong class="text-white">KI Style Coach Chat — Text.</strong> Deine Nachrichten werden an <code class="text-[11px] bg-white/10 px-1.5 py-0.5 rounded">api.datescan.app</code> gesendet und an ein Vision-Language-Modell weitergeleitet, damit du eine Antwort erhältst.',
+      privacy_item_chat_images: '<strong class="text-white">KI Style Coach Chat — Bilder.</strong> Wenn du ein Foto anhängst oder aus deinem Kleiderschrank wählst, wird das Bild mit deiner Nachricht hochgeladen, damit das Modell es „sehen" kann. Es wird nur für diese eine Anfrage verarbeitet und nach der Antwort nicht auf unserem Server behalten. Wir nutzen Chat-Inhalte nicht zum Trainieren von Modellen.',
       privacy_private_mode: 'Privater Modus',
       privacy_private_mode_desc: 'Blockiert Bild-Uploads im Chat und erzwingt das CPU-Backend.',
       privacy_status_off: 'Status: <span class="text-gray-300">Aus</span> — Bild-Uploads im Chat nach Zustimmung erlaubt.',
-      privacy_status_on: 'Status: <span class="text-brand-400 font-semibold">An</span> — Chat-Bild-Uploads blockiert, On-Device-AI nutzt CPU-Backend.',
+      privacy_status_on: 'Status: <span class="text-brand-400 font-semibold">An</span> — Chat-Bild-Uploads blockiert, On-Device-KI nutzt CPU-Backend.',
       privacy_delete_title: 'Account & Daten löschen',
       privacy_delete_desc: 'Account-ID anzeigen und alles dauerhaft löschen.',
       privacy_open_page: 'Datenschutz-Seite öffnen',
       privacy_done: 'Fertig',
-      chat_consent_title: 'Dieses Bild an die AI senden?',
+      chat_consent_title: 'Dieses Bild an die KI senden?',
       chat_consent_desc: 'Für die Analyse laden wir das Bild an api.datescan.app hoch. Es wird nicht gespeichert.',
       chat_consent_remember: 'Auf diesem Gerät nicht mehr fragen',
       chat_consent_send: 'Senden',
@@ -16907,8 +17191,8 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       cam_bullet_4_text: 'Richte die Kamera auf dich selbst, nicht auf andere.',
       cam_bullet_4: '<strong>Nur Selbst-Scan.</strong> Richte die Kamera auf <strong>dich selbst</strong>, nicht auf andere. Das Scannen anderer ohne Einwilligung ist laut AGB verboten.',
       cam_bullet_5_title: 'Hinweis:',
-      cam_bullet_5_text: 'Der AI-Stil-Coach-Chat ist anders — dort hochgeladene Fotos gehen an unsere Server.',
-      cam_bullet_5: '<strong>Hinweis:</strong> Der AI-Stil-Coach-<strong>Chat</strong> ist anders — wenn du dort ein Foto hochlädst, wird es an unser Vision-Modell gesendet. Beim ersten Mal erhältst du einen separaten Hinweis.',
+      cam_bullet_5_text: 'Der KI-Stil-Coach-Chat ist anders — dort hochgeladene Fotos gehen an unsere Server.',
+      cam_bullet_5: '<strong>Hinweis:</strong> Der KI-Stil-Coach-<strong>Chat</strong> ist anders — wenn du dort ein Foto hochlädst, wird es an unser Vision-Modell gesendet. Beim ersten Mal erhältst du einen separaten Hinweis.',
       cam_consent_yes: 'Verstanden — Kamera starten',
       cam_consent_no: 'Nicht jetzt',
       cam_consent_fineprint: 'Siehe <a href="privacy.html">Datenschutz</a> und <a href="terms.html">AGB</a> für Details.',
@@ -16925,7 +17209,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       upload_bullet_3_text: 'Das Bild wird für eine einzige Anfrage an das Vision-Modell gesendet.',
       upload_bullet_4_title: 'Ich bin 18+',
       upload_bullet_4_text: 'und besitze das Bild oder habe das Nutzungsrecht.',
-      report_label: 'AI-Antwort melden',
+      report_label: 'KI-Antwort melden',
       report_title: 'Was stimmt mit dieser Antwort nicht?',
       report_desc: 'Deine Meldung geht an unser Moderationsteam.',
       report_offensive: 'Anstößig oder hasserfüllt',
@@ -16951,6 +17235,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       toast_already_rewarded: 'Bereits belohnt',
       toast_shared_xp: 'Geteilt! +5 XP',
       toast_cpu_mode: 'CPU-Modus — Analyse kann etwas langsamer sein',
+      toast_basic_mode: 'Basis-Analyse — Gesichtserkennung nicht verfügbar',
       feedback_uneven_lighting: 'Ungleichmäßige Beleuchtung',
       feedback_uneven_lighting_text: 'Dein Gesicht ist halb im Schatten.',
       feedback_uneven_lighting_fix: 'Drehe dich leicht nach links/rechts.',
@@ -16964,7 +17249,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       feedback_first_scan: 'Dein erster Scan. Weiter so!',
       feedback_steady: 'Stetig — 0 Punkte Unterschied zum früheren Scan.',
       feedback_no_outfit: 'Outfit nicht klar erkennbar.',
-      footer_brand_desc: 'Dein AI-Wingman. Scanne dein Outfit, erhalte sofortiges Stil- und Pflege-Feedback.',
+      footer_brand_desc: 'Dein KI-Wingman. Scanne dein Outfit, erhalte sofortiges Stil- und Pflege-Feedback.',
       footer_on_device: 'Kamera-Scans laufen lokal',
       footer_legal: 'Rechtliches',
       footer_privacy: 'Datenschutz',
@@ -16974,7 +17259,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       footer_support: 'Support',
       footer_contact: 'Support kontaktieren',
       footer_follow: 'Folgen',
-      footer_disclaimer: 'Hinweis: DateScan ist ein AI-basiertes Unterhaltungstool. Wir garantieren keinen Dating-Erfolg.',
+      footer_disclaimer: 'Hinweis: DateScan ist ein KI-basiertes Unterhaltungstool. Wir garantieren keinen Dating-Erfolg.',
       loading_brand: 'DateScan.',
 
       cam_consent_fineprint: 'Siehe unsere <a href="privacy.html">Datenschutzrichtlinie</a> und <a href="terms.html">Nutzungsbedingungen</a> für Details.',
@@ -16989,9 +17274,9 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_count_limit: '{{count}}/200',
       error_webgl_title: 'WebGL nicht unterstützt',
       error_webgl_msg: 'Dein Browser oder Gerät unterstützt kein WebGL, das für die Analyse benötigt wird. Aktiviere den Privaten Modus, um das langsamere CPU-Backend zu nutzen.',
-      error_ai_engine: 'KI-Engine nicht verfügbar',
+      error_ai_engine: 'Stil-Engine nicht verfügbar',
       error_system: 'Systemfehler',
-      error_ai_model_load: 'KI-Modell Laden fehlgeschlagen',
+      error_ai_model_load: 'Stil-Modell Laden fehlgeschlagen',
       feedback_detection_error: 'Erkennungsfehler',
       feedback_face_not_visible: 'Ich konnte dein Gesicht nicht richtig erkennen.',
       feedback_face_visible_action: 'Stelle sicher, dass dein Gesicht deutlich sichtbar ist.',
@@ -17022,10 +17307,10 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       score_sharp: 'STILVOLL',
       score_elite: 'ELITE',
       score_needs_work: 'VERBESSERUNGSFÄHIG',
-      error_ai_engine_load: 'Die KI-Engine konnte nicht laden. Prüfe deine Verbindung und lade neu.',
-      error_ai_engine_browser: 'Die KI-Engine konnte in diesem Browser nicht starten. Bitte lade neu oder probiere einen anderen Browser.',
-      error_ai_engine_device: 'Die KI-Engine konnte auf diesem Gerät nicht starten. Probiere einen anderen Browser oder aktualisiere deinen Grafiktreiber.',
-      error_ai_engine_refresh: 'Die KI-Engine konnte nicht laden. Bitte lade neu und versuche es erneut.',
+      error_ai_engine_load: 'Die Stil-Engine konnte nicht laden. Prüfe deine Verbindung und lade neu.',
+      error_ai_engine_browser: 'Die Stil-Engine konnte in diesem Browser nicht starten. Bitte lade neu oder probiere einen anderen Browser.',
+      error_ai_engine_device: 'Die Stil-Engine konnte auf diesem Gerät nicht starten. Probiere einen anderen Browser oder aktualisiere deinen Grafiktreiber.',
+      error_ai_engine_refresh: 'Die Stil-Engine konnte nicht laden. Bitte lade neu und versuche es erneut.',
       error_camera_no_support: 'Dein Browser unterstützt keinen Kamerazugriff.',
       cam_error_not_allowed: 'Kamerazugriff blockiert. Erlaube ihn über das Schloss-Symbol in der Adressleiste und tippe auf Erneut versuchen.',
       cam_error_not_found: 'Keine Kamera auf diesem Gerät gefunden.',
@@ -17086,7 +17371,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       closet_upload_rule4: 'Ich bin <strong class="text-white">18+</strong> und besitze oder habe das Recht, das Bild zu verwenden.',
       closet_upload_accept: 'Ich akzeptiere diese Regeln und die <a href="terms.html" class="text-brand-400 underline">AGB</a> und <a href="privacy.html" class="text-brand-400 underline">Datenschutzrichtlinie</a>.',
       coach_scan_hint: 'Tippe oben auf <span class="text-brand-400 font-semibold">Outfit & Gesicht scannen</span> und ich analysiere deinen Look in Sekunden.',
-      paywall_feature1: 'Unbegrenztes AI-Coaching',
+      paywall_feature1: 'Unbegrenztes KI-Coaching',
       paywall_feature2: 'Vollständige Verbesserungsanalyse',
       paywall_feature3: 'Verfolge deinen Fortschritt',
       on_device_analysis: 'Geräteinterne Analyse · Fotos verlassen nie deinen Browser',
@@ -17187,7 +17472,7 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       btn_refresh: 'Seite neu laden',
       out_of_points: 'Du hast heute keine Punkte mehr.',
       upgrade_for_unlimited: 'Upgrade auf Pro für unbegrenzte Scans und Chat — oder warte auf die tägliche Auffüllung.',
-      unlock_ai_coach: 'AI-Coach freischalten',
+      unlock_ai_coach: 'KI-Coach freischalten',
       origin_vibe_title: 'Das ist dein Ursprungs-Vibe',
       origin_vibe_baseline: '— die Basis für jeden zukünftigen Scan.',
       trend_improving: '↗ Verbessernd',
@@ -17644,6 +17929,53 @@ const yieldToUI = () => new Promise(resolve => setTimeout(resolve, 0));
       streak_protected_toast: '🛡️ Streak geschützt!',
       challenge_complete_toast: '🎯 Herausforderung geschafft! +3 PTS +25 XP',
       streak_multiplier_label: '{multiplier}x Multiplikator',
+
+      // Herausforderungen & Gamifikation
+      challenges_title: 'Herausforderungen',
+      challenges_subtitle: 'Steigere deinen Stil',
+      streak_day_count: '{count}-Tage-Serie',
+      streak_keep_going: 'Scanne morgen, um sie weiterzuführen',
+      daily_challenges_title: 'Tägliche Herausforderungen',
+      daily_resets_in: 'Reset in {h} Std.',
+      weekly_challenges_title: 'Wöchentliche Herausforderungen',
+      weekly_days_left: 'Noch {d} Tage',
+      challenges_achievements_title: 'Erfolge',
+      pro_challenges_title: 'PRO-Herausforderungen',
+      ch_daily_green_name: 'Trag etwas Grünes',
+      ch_daily_green_desc: 'Füge heute ein grünes Teil zu deinem Outfit hinzu',
+      ch_daily_pattern_name: 'Kombiniere zwei Muster',
+      ch_daily_pattern_desc: 'Kombiniere Streifen mit Karo oder zwei beliebige Muster',
+      ch_daily_scan3_name: 'Scanne 3 Outfits',
+      ch_daily_scan3_desc: 'Hole KI-Feedback zu drei verschiedenen Looks heute',
+      ch_daily_accessory_name: 'Füg ein Accessoire hinzu',
+      ch_daily_accessory_desc: 'Vervollständige deinen Look mit einem Accessoire',
+      ch_weekly_avg80_name: 'Erziele 80+ Durchschnitt diese Woche',
+      ch_weekly_avg80_desc: 'Halte einen durchschnittlichen Stil-Score über 80',
+      ch_weekly_5styles_name: 'Probier 5 verschiedene Stile',
+      ch_weekly_5styles_desc: 'Scanne Outfits aus 5 verschiedenen Stil-Kategorien',
+      ch_weekly_10scans_name: 'Scanne 10 Outfits',
+      ch_weekly_10scans_desc: 'Schliesse 10 Outfit-Scans diese Woche ab',
+      ch_pro_marathon_name: 'Stil-Marathon',
+      ch_pro_marathon_desc: 'Erziele 90+ bei 7 aufeinanderfolgenden Scans',
+      ch_pro_monochrome_name: 'Farbharmonie-Experte',
+      ch_pro_monochrome_desc: 'Erstelle 5 monochrome Outfits mit Bewertung 85+',
+      ch_pro_seasonal_name: 'Saisonale Schau',
+      ch_pro_seasonal_desc: 'Trage 14 Tage lang saisonale Outfits',
+      ch_pts_reward: '+{pts} PTS',
+      ch_progress: '{current}/{target}',
+      ch_completed: '✅ Erledigt!',
+      ch_complete_btn: 'Abschliessen',
+      ch_pro_locked_title: 'PRO-Herausforderungen freischalten',
+      ch_pro_locked_desc: 'Erhalte exklusivere Herausforderungen, Bonuspunkte und spezielle Abzeichen mit PRO',
+      ch_pro_cta: 'Auf PRO upgraden',
+      streak_modal_title: 'Deine Serie',
+      streak_modal_sub: 'Scanne täglich, um Bonuspunkte zu verdienen',
+      streak_modal_days: 'aufeinanderfolgende Tage',
+      streak_bonus_5: '5-Tage-Bonus',
+      streak_bonus_7: '7-Tage-Bonus',
+      streak_bonus_30: '30-Tage-Bonus',
+      streak_tip_title: '💡 Serien-Tipp',
+      streak_tip_text: 'Auch ein schneller Scan zählt! Du brauchst kein perfektes Outfit — halte nur die Gewohnheit aufrecht. Deine Serie wird um Mitternacht Ortszeit zurückgesetzt.',
 
       // Badge / Achievement-System
       badge_title: 'Erfolge',
@@ -25852,18 +26184,18 @@ async function initFaceLandmarker() {
 
   if (!browserSupportsAIEngine()) {
     throw new AIEngineError(
-      "Your browser is too old to run the AI engine. Please update your browser or try Chrome, Edge, Safari 15+, or Firefox.",
+      t('error_ai_engine_browser'),
       { kind: 'unsupported', retryable: false }
     );
   }
 
   // Wait for the MediaPipe vision module to finish loading (fire-and-forget
-  // import at the top of this module). If it hasn't resolved within 30 s,
-  // treat it as a network failure.
+  // import at the top of this module). If it hasn't resolved within 45 s,
+  // treat it as a network failure (increased from 30s for slower connections).
   if (!FilesetResolver || !FaceLandmarker) {
-    const deadline = Date.now() + 30000;
+    const deadline = Date.now() + 45000;
     while ((!FilesetResolver || !FaceLandmarker) && Date.now() < deadline) {
-      await new Promise(r => setTimeout(r, 200));
+      await new Promise(r => setTimeout(r, 300));
     }
     if (!FilesetResolver || !FaceLandmarker) {
       throw new AIEngineError(
@@ -25874,14 +26206,24 @@ async function initFaceLandmarker() {
   }
 
   let fileset;
-  try {
-    fileset = await FilesetResolver.forVisionTasks(
-      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm"
-    );
-  } catch (e) {
-    console.error('[ai] WASM fileset fetch failed', e);
-    // Network-layer failures from fetch surface as TypeError in every browser.
-    if (e instanceof TypeError || /fetch|network|load/i.test(e?.message || '')) {
+  const WASM_URLS = [
+    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm",
+    "https://unpkg.com/@mediapipe/tasks-vision/wasm"
+  ];
+  let wasmError = null;
+  for (let i = 0; i < WASM_URLS.length; i++) {
+    try {
+      fileset = await FilesetResolver.forVisionTasks(WASM_URLS[i]);
+      break; // success
+    } catch (e) {
+      wasmError = e;
+      console.warn('[ai] WASM fileset fetch failed (CDN ' + (i+1) + '):', e.message);
+      if (i < WASM_URLS.length - 1) continue; // try next CDN
+    }
+  }
+  if (!fileset) {
+    console.error('[ai] All WASM CDN attempts failed', wasmError);
+    if (wasmError instanceof TypeError || /fetch|network|load/i.test(wasmError?.message || '')) {
       throw new AIEngineError(
         t('error_ai_engine_load'),
         { kind: 'network', retryable: true }
@@ -27810,6 +28152,44 @@ function analyzeOutfitColor(landmarks, W, H) {
   return OUTFIT_COLORS[winningJ];
 }
 
+// Basic outfit color detection WITHOUT face landmarks.
+// Samples the lower-center region of the frame (where the outfit/torso is)
+// as a fallback when the face landmarker is unavailable.
+function analyzeOutfitColorBasic(W, H) {
+  // Sample a rectangle in the lower-center of the frame (torso/outfit area)
+  const xStart = Math.floor(W * 0.3);
+  const xEnd = Math.floor(W * 0.7);
+  const yStart = Math.floor(H * 0.4);
+  const yEnd = Math.floor(H * 0.7);
+  const actualW = xEnd - xStart;
+  const actualH = yEnd - yStart;
+
+  if (actualW < 10 || actualH < 10) return null;
+  const data = ctx.getImageData(xStart, yStart, actualW, actualH).data;
+
+  OC_VOTES.fill(0);
+  const len = data.length;
+  for (let i = 0; i < len; i += 40) {
+    const r = data[i], g = data[i+1], b = data[i+2];
+    if (r < 15 && g < 15 && b < 15) continue;
+    let minDist = Infinity, bestJ = -1;
+    for (let j = 0; j < OC_LEN; j++) {
+      const dr = r - OC_R[j], dg = g - OC_G[j], db = b - OC_B[j];
+      const dist = dr*dr + dg*dg + db*db;
+      if (dist < minDist) { minDist = dist; bestJ = j; }
+    }
+    if (bestJ >= 0) OC_VOTES[bestJ]++;
+  }
+
+  let maxVotes = -1, winningJ = -1;
+  for (let j = 0; j < OC_LEN; j++) {
+    if (OC_VOTES[j] > maxVotes) { maxVotes = OC_VOTES[j]; winningJ = j; }
+  }
+  if (winningJ < 0 || maxVotes === 0) return null;
+
+  return OUTFIT_COLORS[winningJ];
+}
+
 function addXP(amount) {
   try {
     const m = JSON.parse(localStorage.getItem(MISSIONS_KEY) || '{"count":0,"log":[],"xp":0}');
@@ -29203,16 +29583,14 @@ async function runScan() {
     try {
       await initFaceLandmarker();
     } catch (e) {
-      thinkingOverlay.classList.remove("scale-100");
-      thinkingOverlay.classList.add("opacity-0", "scale-95", "pointer-events-none");
-      thinkingText.textContent = prevText;
-      triggerHaptic('error');
-      if (e && e.name === 'AIEngineError') {
-        showError(t('error_ai_engine'), e.message, { retryable: e.retryable });
-      } else {
-        showError(t('error_ai_model_load'), (e && e.message) || String(e));
+      // Don't block the scan — continue in "basic mode" without face landmarks.
+      // The user will still get outfit color detection, brightness checks,
+      // blur detection, shoulder analysis, and a general style score.
+      // Only face-specific feedback (symmetry, eye redness, etc.) is skipped.
+      console.warn('[runScan] FaceLandmarker unavailable, continuing in basic mode:', e?.message);
+      if (window.dsPrivacy && typeof window.dsPrivacy.showToast === 'function') {
+        window.dsPrivacy.showToast(t('toast_basic_mode') || 'Basic analysis mode', 3000);
       }
-      return;
     }
     // Re-read state after the await — faceLandmarker now exists on it.
   }
@@ -29318,13 +29696,17 @@ async function runScan() {
     } catch (e) {}
 
     let result;
-    try { result = store.get().faceLandmarker.detect(analysisCanvas); }
-    catch (e) {
-      triggerHaptic('error');
-      var detectionErrorItems = [{ category: "env", tone: "error", title: t('fb_detection_error'), text: t('feedback_face_not_visible'), action: t('fb_face_visible'), _titleKey: 'fb_detection_error', _textKey: 'feedback_face_not_visible', _actionKey: 'fb_face_visible' }];
-      store.set({ lastItems: detectionErrorItems });
-      renderActionPlan(detectionErrorItems, false);
-      return;
+    const faceLandmarker = store.get().faceLandmarker;
+    if (faceLandmarker && typeof faceLandmarker.detect === 'function') {
+      try { result = faceLandmarker.detect(analysisCanvas); }
+      catch (e) {
+        // Face detection failed but we continue — basic mode
+        console.warn('[runScan] faceLandmarker.detect failed, basic mode:', e?.message);
+        result = { faceLandmarks: [] };
+      }
+    } else {
+      // No face landmarker available — basic mode (no face analysis)
+      result = { faceLandmarks: [] };
     }
 
     if (result.faceLandmarks?.length) drawHUD(result.faceLandmarks[0], cap.w, cap.h);
@@ -29543,6 +29925,10 @@ async function runScan() {
 
       // Outfit color
       var detectedOutfitColor = workerResults.outfitColor || null;
+      // Fallback: if no outfit color from worker (e.g. no face landmarks), try basic detection
+      if (!detectedOutfitColor) {
+        detectedOutfitColor = analyzeOutfitColorBasic(cap.w, cap.h);
+      }
 
     } else {
       // ---- MAIN-THREAD FALLBACK ----
@@ -29564,6 +29950,8 @@ async function runScan() {
       var detectedOutfitColor = null;
 
       if (!result.faceLandmarks?.length) {
+        // No face detected — try basic outfit color from lower-center of frame
+        detectedOutfitColor = analyzeOutfitColorBasic(cap.w, cap.h);
         items.push(withKeys({ category: "env", tone: "warn", icon: "👤", title: t('fb_no_face_title'), text: t('fb_no_face_text'), action: t('fb_no_face_action') }, 'fb_no_face_title', 'fb_no_face_text', 'fb_no_face_action'));
       } else {
         const lm = result.faceLandmarks[0];
@@ -30698,6 +31086,482 @@ window.addEventListener('pagehide', stopCameraTracks);
   // Expose for debugging / manual testing
   window.checkPendingRewards = checkPendingRewards;
   window.shareReferralLink = shareReferralLink;
+})();
+
+// ============================================================
+// CHALLENGES & GAMIFICATION MODULE
+// Daily challenges, Weekly challenges, Streak display,
+// Achievements mini-grid, PRO challenges
+// ============================================================
+(function initChallengesGamification() {
+  'use strict';
+  var t = function(k,v) { return typeof window.t === 'function' ? window.t(k,v) : k; };
+
+  // ── Storage keys ──
+  var CHALLENGE_KEY = 'datescan.challenges';
+  var WEEKLY_KEY = 'datescan.weeklyChallenges';
+
+  // ── Challenge definitions ──
+  var DAILY_DEFS = [
+    { id: 'd_green',    icon: '🌿', nameKey: 'ch_daily_green_name',    descKey: 'ch_daily_green_desc',    pts: 50,  target: 1 },
+    { id: 'd_pattern',  icon: '🎨', nameKey: 'ch_daily_pattern_name',  descKey: 'ch_daily_pattern_desc',  pts: 75,  target: 1 },
+    { id: 'd_scan3',    icon: '📸', nameKey: 'ch_daily_scan3_name',    descKey: 'ch_daily_scan3_desc',    pts: 100, target: 3 },
+    { id: 'd_accessory',icon: '💍', nameKey: 'ch_daily_accessory_name', descKey: 'ch_daily_accessory_desc',pts: 60,  target: 1 }
+  ];
+
+  var WEEKLY_DEFS = [
+    { id: 'w_avg80',    icon: '🏆', nameKey: 'ch_weekly_avg80_name',    descKey: 'ch_weekly_avg80_desc',    pts: 200, target: 80 },
+    { id: 'w_5styles',  icon: '👔', nameKey: 'ch_weekly_5styles_name',  descKey: 'ch_weekly_5styles_desc',  pts: 150, target: 5 },
+    { id: 'w_10scans',  icon: '🔥', nameKey: 'ch_weekly_10scans_name',  descKey: 'ch_weekly_10scans_desc',  pts: 250, target: 10 }
+  ];
+
+  var PRO_DEFS = [
+    { id: 'p_marathon',    icon: '🏅', nameKey: 'ch_pro_marathon_name',    descKey: 'ch_pro_marathon_desc',    pts: 500, target: 7 },
+    { id: 'p_monochrome',  icon: '🎭', nameKey: 'ch_pro_monochrome_name',  descKey: 'ch_pro_monochrome_desc',  pts: 400, target: 5 },
+    { id: 'p_seasonal',    icon: '🌸', nameKey: 'ch_pro_seasonal_name',    descKey: 'ch_pro_seasonal_desc',    pts: 600, target: 14 }
+  ];
+
+  // ── Helpers ──
+  function _readChallengeState(key) {
+    try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch(e) { return {}; }
+  }
+  function _writeChallengeState(key, state) {
+    try { localStorage.setItem(key, JSON.stringify(state)); } catch(e) {}
+  }
+  function _getDayKey() {
+    var d = new Date(); return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+  }
+  function _getWeekKey() {
+    var d = new Date();
+    var start = new Date(d.getFullYear(), 0, 1);
+    var diff = d - start;
+    var oneWeek = 604800000;
+    return d.getFullYear() + '-W' + (Math.floor(diff / oneWeek) + 1);
+  }
+  function _hoursUntilMidnight() {
+    var now = new Date();
+    var midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    return Math.ceil((midnight - now) / 3600000);
+  }
+  function _daysUntilWeekEnd() {
+    var now = new Date();
+    var day = now.getDay();
+    return day === 0 ? 0 : 7 - day;
+  }
+  function _isPro() {
+    try {
+      if (localStorage.getItem('datescan.pro') === 'true') return true;
+      if (localStorage.getItem('is_pro') === 'true') {
+        var exp = parseInt(localStorage.getItem('premium_until') || '0', 10);
+        return (exp === 0 || exp > Date.now());
+      }
+    } catch(e) {}
+    return false;
+  }
+
+  // ── Read / init challenge progress ──
+  function _getDailyProgress() {
+    var state = _readChallengeState(CHALLENGE_KEY);
+    var dayKey = _getDayKey();
+    if (state.dayKey !== dayKey) {
+      // New day — reset daily progress
+      state = { dayKey: dayKey, daily: {}, weekly: state.weekly || {}, weekKey: state.weekKey || '' };
+    }
+    return state;
+  }
+
+  function _getWeeklyProgress() {
+    var state = _getDailyProgress();
+    var weekKey = _getWeekKey();
+    if (state.weekKey !== weekKey) {
+      state.weekKey = weekKey;
+      state.weekly = {};
+      _writeChallengeState(CHALLENGE_KEY, state);
+    }
+    return state;
+  }
+
+  // ── Render a single challenge row ──
+  function _renderChallengeRow(def, progress, isPro) {
+    var current = (progress && progress.current) || 0;
+    var completed = current >= def.target;
+    var pct = Math.min(100, Math.round((current / def.target) * 100));
+    var progressText = t('ch_progress', { current: Math.min(current, def.target), target: def.target });
+
+    var iconBg = completed ? 'bg-emerald-500/15' :
+                 (def.icon === '🌿' ? 'bg-emerald-500/15' :
+                  def.icon === '🎨' ? 'bg-brand-500/15' :
+                  def.icon === '📸' ? 'bg-amber-500/15' :
+                  def.icon === '💍' ? 'bg-purple-500/15' :
+                  def.icon === '🏆' ? 'bg-purple-500/15' :
+                  def.icon === '👔' ? 'bg-blue-500/15' :
+                  def.icon === '🔥' ? 'bg-amber-500/15' :
+                  def.icon === '🏅' ? 'bg-brand-500/15' :
+                  def.icon === '🎭' ? 'bg-purple-500/15' :
+                  def.icon === '🌸' ? 'bg-amber-500/15' : 'bg-brand-500/15');
+
+    var opacity = completed ? 'opacity-60' : '';
+    var borderCol = completed ? 'border-emerald-500/20' : 'border-white/5';
+
+    var html = '<div class="flex items-center gap-3 bg-black/20 border ' + borderCol + ' rounded-xl p-3 ' + opacity + ' transition-colors">';
+    html += '<span class="text-lg shrink-0 ' + iconBg + ' w-9 h-9 rounded-lg flex items-center justify-center">' + def.icon + '</span>';
+    html += '<div class="flex-1 min-w-0">';
+    html += '<div class="text-xs font-semibold text-white truncate">' + t(def.nameKey) + '</div>';
+    html += '<div class="text-[10px] text-gray-500 truncate">' + t(def.descKey) + '</div>';
+    html += '<div class="flex items-center gap-2 mt-1.5">';
+    html += '<span class="text-[10px] font-bold text-amber-300 shrink-0">' + t('ch_pts_reward', { pts: def.pts }) + '</span>';
+
+    if (completed) {
+      html += '<span class="text-[10px] text-emerald-400 font-semibold shrink-0">' + t('ch_completed') + '</span>';
+    } else {
+      html += '<div class="flex-1 h-1 bg-white/10 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-brand-500 to-purple-500 rounded-full transition-all duration-500" style="width:' + pct + '%"></div></div>';
+      html += '<span class="text-[10px] text-gray-500 shrink-0 tabular-nums">' + progressText + '</span>';
+    }
+    html += '</div></div>';
+
+    // No manual ✓ button — challenges auto-track based on actual user actions
+    // (scans, colors detected, scores, streak, etc.)
+
+    html += '</div>';
+    return html;
+  }
+
+  // ── Render all sections ──
+  function renderChallenges() {
+    var state = _getWeeklyProgress();
+    var isProUser = _isPro();
+    var _t = typeof window.t === 'function' ? window.t : function(k){return k;};
+
+    // ── Streak ──
+    var streakData = { count: 0 };
+    try {
+      streakData = JSON.parse(localStorage.getItem('datescan.scanStreak') || '{}');
+    } catch(e) {}
+    var streakCount = streakData.count || 0;
+
+    // Update streak banner
+    var streakTextEl = document.getElementById('streakCountText');
+    if (streakTextEl) streakTextEl.textContent = _t('streak_day_count', { count: streakCount });
+
+    var streakMultEl = document.getElementById('streakMultiplier');
+    if (streakMultEl) {
+      if (streakCount >= 7) { streakMultEl.textContent = '3x'; streakMultEl.classList.remove('hidden'); }
+      else if (streakCount >= 5) { streakMultEl.textContent = '2x'; streakMultEl.classList.remove('hidden'); }
+      else if (streakCount >= 3) { streakMultEl.textContent = '1.5x'; streakMultEl.classList.remove('hidden'); }
+      else { streakMultEl.classList.add('hidden'); }
+    }
+
+    var streakProgressEl = document.getElementById('streakProgressBar');
+    if (streakProgressEl) {
+      var nextMilestone = streakCount >= 7 ? 100 : (streakCount >= 5 ? (streakCount / 7 * 100) : (streakCount >= 3 ? (streakCount / 5 * 100) : (streakCount / 3 * 100)));
+      streakProgressEl.style.width = Math.min(100, nextMilestone) + '%';
+    }
+
+    // Update streak modal count
+    var streakModalCountEl = document.getElementById('streakModalCount');
+    if (streakModalCountEl) streakModalCountEl.textContent = streakCount;
+
+    // ── Bonus points display ──
+    var bonusPts = 0;
+    try { bonusPts = parseInt(localStorage.getItem('datescan.bonusPoints') || '0', 10); } catch(e) {}
+    var ptsEl = document.getElementById('challengePts');
+    if (ptsEl) ptsEl.textContent = bonusPts.toLocaleString();
+
+    // ── Reset badges ──
+    var hoursLeft = _hoursUntilMidnight();
+    var dailyResetEl = document.getElementById('dailyResetBadge');
+    if (dailyResetEl) dailyResetEl.textContent = _t('daily_resets_in', { h: hoursLeft });
+
+    var daysLeft = _daysUntilWeekEnd();
+    var weeklyResetEl = document.getElementById('weeklyResetBadge');
+    if (weeklyResetEl) weeklyResetEl.textContent = _t('weekly_days_left', { d: daysLeft });
+
+    // ── Daily challenges ──
+    var dailyList = document.getElementById('dailyChallengeList');
+    if (dailyList) {
+      var dailyHtml = '';
+      DAILY_DEFS.forEach(function(def) {
+        var progress = state.daily[def.id] || { current: 0 };
+        dailyHtml += _renderChallengeRow(def, progress, false);
+      });
+      dailyList.innerHTML = dailyHtml;
+    }
+
+    // ── Weekly challenges ──
+    var weeklyList = document.getElementById('weeklyChallengeList');
+    if (weeklyList) {
+      var weeklyHtml = '';
+      WEEKLY_DEFS.forEach(function(def) {
+        var progress = state.weekly[def.id] || { current: 0 };
+        weeklyHtml += _renderChallengeRow(def, progress, false);
+      });
+      weeklyList.innerHTML = weeklyHtml;
+    }
+
+    // ── Achievements mini-grid (reuse existing badge system) ──
+    var badgeGridEl = document.getElementById('challengeBadgeGrid');
+    var badgeCountEl = document.getElementById('challengeBadgeCount');
+    if (badgeGridEl && typeof BADGE_DEFS !== 'undefined') {
+      var badges = {};
+      try { badges = JSON.parse(localStorage.getItem('datescan.badges') || '{}'); } catch(e) {}
+      var unlocked = 0;
+      var badgeHtml = '';
+      // Show first 6 badges (compact view)
+      var showCount = Math.min(BADGE_DEFS.length, 6);
+      for (var i = 0; i < showCount; i++) {
+        var def = BADGE_DEFS[i];
+        var isUnlocked = !!badges[def.id];
+        if (isUnlocked) unlocked++;
+        badgeHtml += '<div class="flex items-center gap-1.5 bg-black/20 border border-white/5 rounded-lg px-2 py-1.5 ' + (isUnlocked ? '' : 'opacity-40') + '">';
+        badgeHtml += '<span class="text-sm">' + def.icon + '</span>';
+        badgeHtml += '<span class="text-[10px] font-semibold text-gray-300 truncate max-w-[80px]">' + _t(def.nameKey) + '</span>';
+        badgeHtml += '</div>';
+      }
+      badgeGridEl.innerHTML = badgeHtml;
+      if (badgeCountEl) badgeCountEl.textContent = unlocked + '/' + BADGE_DEFS.length;
+    }
+
+    // ── PRO challenges ──
+    var proList = document.getElementById('proChallengeList');
+    if (proList) {
+      if (isProUser) {
+        var proHtml = '';
+        PRO_DEFS.forEach(function(def) {
+          var progress = (state.weekly && state.weekly[def.id]) || { current: 0 };
+          proHtml += _renderChallengeRow(def, progress, true);
+        });
+        proList.innerHTML = proHtml;
+      } else {
+        proList.innerHTML =
+          '<div class="text-center py-5">' +
+            '<span class="text-3xl block mb-2">👑</span>' +
+            '<p class="text-xs text-gray-300 mb-3 px-4 break-words">' + _t('ch_pro_locked_desc') + '</p>' +
+            '<button class="inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-500 to-purple-500 text-white text-xs font-bold py-2.5 px-5 rounded-full hover:scale-[1.03] transition-transform shadow-lg shadow-brand-500/30" onclick="window._goPro && window._goPro()">👑 ' + _t('ch_pro_cta') + '</button>' +
+          '</div>';
+      }
+    }
+  }
+
+  // ── Auto-track a challenge (NO manual clicking, driven by scan results) ──
+  // challengeId: the def.id
+  // increment: how much to add (default 1)
+  // Returns true if the challenge was JUST completed (for toast)
+  function _autoTrackChallenge(challengeId, increment) {
+    if (!increment) increment = 1;
+    var state = _getWeeklyProgress();
+    var def = null;
+    var isDaily = false;
+
+    // Find the challenge definition
+    DAILY_DEFS.forEach(function(d) { if (d.id === challengeId) { def = d; isDaily = true; } });
+    if (!def) WEEKLY_DEFS.forEach(function(d) { if (d.id === challengeId) { def = d; } });
+    if (!def) PRO_DEFS.forEach(function(d) { if (d.id === challengeId) { def = d; } });
+    if (!def) return false;
+
+    var bucket = isDaily ? 'daily' : 'weekly';
+    if (!state[bucket]) state[bucket] = {};
+    if (!state[bucket][challengeId]) state[bucket][challengeId] = { current: 0 };
+
+    var progress = state[bucket][challengeId];
+    if (progress.current >= def.target) return false; // already completed
+
+    var wasIncomplete = progress.current < def.target;
+    progress.current = Math.min(progress.current + increment, def.target);
+    _writeChallengeState(CHALLENGE_KEY, state);
+
+    // Award points if just completed
+    if (wasIncomplete && progress.current >= def.target) {
+      try {
+        var bonusPts = parseInt(localStorage.getItem('datescan.bonusPoints') || '0', 10);
+        bonusPts += def.pts;
+        localStorage.setItem('datescan.bonusPoints', String(bonusPts));
+      } catch(e) {}
+
+      if (typeof window.dsPrivacy !== 'undefined' && typeof window.dsPrivacy.showToast === 'function') {
+        window.dsPrivacy.showToast(def.icon + ' ' + t(def.nameKey) + ' \u2014 +' + def.pts + ' PTS', 3500);
+      }
+      renderChallenges();
+      return true;
+    }
+    renderChallenges();
+    return false;
+  }
+
+  // Expose for scan hooks
+  window._autoTrackChallenge = _autoTrackChallenge;
+
+  // ── Go PRO button handler ──
+  window._goPro = function() {
+    // Navigate to upgrade page
+    var lang = (typeof window.getLang === 'function') ? window.getLang() : 'en';
+    window.location.href = '/upgrade.html?lang=' + lang;
+  };
+
+  // ── Streak modal ──
+  window._openStreakModal = function() {
+    var modal = document.getElementById('streakModal');
+    var sheet = document.getElementById('streakSheet');
+    if (!modal || !sheet) return;
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.classList.add('opacity-100', 'pointer-events-auto');
+    // Force reflow
+    void sheet.offsetWidth;
+    sheet.style.transform = 'translateY(0)';
+    document.body.style.overflow = 'hidden';
+  };
+
+  window._closeStreakModal = function() {
+    var modal = document.getElementById('streakModal');
+    var sheet = document.getElementById('streakSheet');
+    if (!modal || !sheet) return;
+    sheet.style.transform = 'translateY(100%)';
+    setTimeout(function() {
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = '';
+    }, 300);
+  };
+
+  // ── Auto-track ALL challenges after scan (no manual clicking needed) ──
+  // Hook into existing scan completion to detect colors, scores, scan count, etc.
+  var _origShowResult = window.showResult;
+  if (typeof _origShowResult === 'function') {
+    window.showResult = function() {
+      var result = _origShowResult.apply(this, arguments);
+      try {
+        // ── 1) Scan count challenges ──
+        _autoTrackChallenge('d_scan3', 1);   // daily: scan 3 outfits
+        _autoTrackChallenge('w_10scans', 1);  // weekly: 10 scans
+
+        // ── 2) Color-based challenges ──
+        // Read the detected outfit color from the store
+        var lastColor = null;
+        try { lastColor = store.get().lastColor; } catch(e) {}
+        if (lastColor && lastColor.id) {
+          // Daily: wear something green
+          if (lastColor.id === 'green' || lastColor.id === 'earth') {
+            _autoTrackChallenge('d_green', 1);
+          }
+          // Daily: mix patterns (any color detected = outfit scanned, count it)
+          // We detect "pattern mixing" by checking if the scan found multiple style categories
+          _autoTrackChallenge('d_pattern', 1);
+        }
+
+        // ── 3) Accessory challenge ──
+        // If the scan detected style items (accessories, etc.), track it
+        var lastItems = null;
+        try { lastItems = store.get().lastItems; } catch(e) {}
+        if (lastItems && lastItems.length > 0) {
+          _autoTrackChallenge('d_accessory', 1);
+        }
+
+        // ── 4) Score-based challenges ──
+        var lastScore = 0;
+        try { lastScore = store.get().lastScore || 0; } catch(e) {}
+        if (lastScore >= 80) {
+          _autoTrackChallenge('w_avg80', 1);  // weekly: avg 80+ score
+        }
+
+        // ── 5) Style variety challenge ──
+        // Track unique outfit colors as proxy for "different styles"
+        if (lastColor && lastColor.id) {
+          var styleKey = 'datescan.styleColors';
+          var styleColors = {};
+          try { styleColors = JSON.parse(localStorage.getItem(styleKey) || '{}'); } catch(e) {}
+          var weekKey = _getWeekKey();
+          if (!styleColors[weekKey]) styleColors[weekKey] = [];
+          if (styleColors[weekKey].indexOf(lastColor.id) === -1) {
+            styleColors[weekKey].push(lastColor.id);
+          }
+          try { localStorage.setItem(styleKey, JSON.stringify(styleColors)); } catch(e) {}
+          // Set progress to current number of unique colors this week
+          var uniqueColorCount = styleColors[weekKey].length;
+          var wState5 = _getWeeklyProgress();
+          if (!wState5.weekly['w_5styles'] || wState5.weekly['w_5styles'].current < uniqueColorCount) {
+            _autoTrackChallenge('w_5styles', uniqueColorCount - ((wState5.weekly['w_5styles'] && wState5.weekly['w_5styles'].current) || 0));
+          }
+        }
+
+        // ── 6) Streak-based PRO challenges ──
+        var streakData = {};
+        try { streakData = JSON.parse(localStorage.getItem('datescan.scanStreak') || '{}'); } catch(e) {}
+        var streakCount = streakData.count || 0;
+        if (streakCount >= 7) {
+          _autoTrackChallenge('p_marathon', 7);  // PRO: 7-day streak
+        } else if (streakCount > 0) {
+          _autoTrackChallenge('p_marathon', streakCount);
+        }
+
+        // ── 7) Monochrome challenge (PRO) ──
+        // Track when user scans same color family repeatedly
+        if (lastColor && lastColor.id) {
+          var monoKey = 'datescan.monoColors';
+          var monoColors = {};
+          try { monoColors = JSON.parse(localStorage.getItem(monoKey) || '{}'); } catch(e) {}
+          var mWeekKey = _getWeekKey();
+          if (!monoColors[mWeekKey]) monoColors[mWeekKey] = {};
+          monoColors[mWeekKey][lastColor.id] = (monoColors[mWeekKey][lastColor.id] || 0) + 1;
+          try { localStorage.setItem(monoKey, JSON.stringify(monoColors)); } catch(e) {}
+          // Count how many times user scanned the same dominant color
+          var maxSame = 0;
+          for (var cid in monoColors[mWeekKey]) {
+            if (monoColors[mWeekKey][cid] > maxSame) maxSame = monoColors[mWeekKey][cid];
+          }
+          if (maxSame >= 5) {
+            _autoTrackChallenge('p_monochrome', 5);
+          } else {
+            _autoTrackChallenge('p_monochrome', maxSame);
+          }
+        }
+
+        // ── 8) Seasonal scans challenge (PRO) ──
+        // Auto-track based on total weekly scans
+        var wState = _getWeeklyProgress();
+        var totalWeeklyScans = 0;
+        if (wState.weekly && wState.weekly['w_10scans']) {
+          totalWeeklyScans = wState.weekly['w_10scans'].current || 0;
+        }
+        // Use weekly scan count as proxy (14 scans = 14 seasonal scans across 2 weeks)
+        var seasonalKey = 'datescan.seasonalScans';
+        var seasonalData = {};
+        try { seasonalData = JSON.parse(localStorage.getItem(seasonalKey) || '{}'); } catch(e) {}
+        var today = _getDayKey();
+        seasonalData[today] = (seasonalData[today] || 0) + 1;
+        // Count total unique days with scans
+        var totalDays = Object.keys(seasonalData).length;
+        try { localStorage.setItem(seasonalKey, JSON.stringify(seasonalData)); } catch(e) {}
+        if (totalDays >= 14) {
+          _autoTrackChallenge('p_seasonal', 14);
+        } else {
+          _autoTrackChallenge('p_seasonal', totalDays);
+        }
+
+        // Delay re-render to avoid conflicts with scan UI
+        setTimeout(renderChallenges, 1000);
+      } catch(e) {}
+      return result;
+    };
+  }
+
+  // ── Re-render on language change ──
+  window.addEventListener('langchange', function() {
+    setTimeout(renderChallenges, 100);
+  });
+
+  // ── Initial render ──
+  renderChallenges();
+  // Re-render when view becomes visible
+  if (typeof window.toggleView === 'function') {
+    var _origToggleView = window.toggleView;
+    window.toggleView = function(view) {
+      var result = _origToggleView.apply(this, arguments);
+      if (view === 'scan' || view === 'home') {
+        setTimeout(renderChallenges, 200);
+      }
+      return result;
+    };
+  }
 })();
 
 // --- INIT ---
